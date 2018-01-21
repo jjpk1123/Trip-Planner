@@ -1,5 +1,4 @@
-# t17 - We still need a team name!!! 
-*Let's come up with some ideas on Slack for a team name*
+# t17 - The Quixotic Quetzals
 
 *  Julien Pecquet, jjpk, jjpk1123
 *  Ezra Huston, ehuston, ezzz49
