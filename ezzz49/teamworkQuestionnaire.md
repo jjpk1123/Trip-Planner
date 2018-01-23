@@ -1,4 +1,4 @@
-# Teamwork Questionnaire for _yournamehere_
+# Teamwork Questionnaire for Ezra Huston
 
 1. __What is your personality type?__
    * INFP. "The mediator". 
