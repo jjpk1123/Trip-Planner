@@ -1,4 +1,4 @@
-# Teamwork Questionnaire for _yournamehere_
+# Teamwork Questionnaire for _Alex Garrett_
 
 1. __What is your personality type?__
    * ISFP, or "The Adventurer"
