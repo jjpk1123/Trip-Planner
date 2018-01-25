@@ -7,7 +7,7 @@ class Header extends React.Component{
      <section>
         <div className="container">
       <h1 className="display-4">Ezra Huston</h1>
-        <p>I'm a Computer Science major at Colorado State University in Fort Collins, Colorado! Learn more about me, my hobbies, and my skills below!
+        <p>I am a Computer Science major at Colorado State University in Fort Collins, Colorado! Learn more about me, my hobbies, and my skills below!
           <br>
           </br>
             <strong>Contact Information</strong>
