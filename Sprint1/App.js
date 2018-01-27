@@ -54,7 +54,7 @@ class Calculator extends React.Component {
        <br></br> doesn't work. StackOverflow says document.write("\n"); */
     return (
       <div>
-        <small>TODO: it's just a button for now</small>
+        <small>TODO: its just a button for now</small>
         <div className="row">
           <h4 className="">Options</h4>
           <div className="btn-group btn-group-toggle" data-toggle="buttons">
