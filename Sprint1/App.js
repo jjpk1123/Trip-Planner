@@ -22,65 +22,71 @@ class Calculator extends React.Component {
     this.state = { 
       output: "",
       source: "", 
-      destin: ""
+      destination: "",
+      unit: "miles"
     };
-    /* must bind all functions in constructor */
     this.calc = this.calc.bind(this);
     this.updateSource = this.updateSource.bind(this);
-    this.updateDestin = this.updateDestin.bind(this);
+    this.updateDestination = this.updateDestination.bind(this);
+    this.unitConvert = this.unitConvert.bind(this);
   }
 
-  updateSource(event) {
-    /* update the value of srce.  needs validation */
+  updateSource(event) { /* updates the value of source */
     this.setState({source : event.target.value});
-    this.setState({output : Number(event.target.value) + Number(this.state.destin) })
+    this.setState({output : Number(event.target.value) + Number(this.state.destination) });
   }
 
-  updateDestin(event) {
-    /* update the value of destination.  needs validation */
-    this.setState({destin : event.target.value});
-    this.setState({output : Number(event.target.value) + Number(this.state.source) })
- }
+  updateDestination(event) { /* updates the value of destination */
+    this.setState({destination : event.target.value});
+    this.setState({output : Number(event.target.value) + Number(this.state.source) });
+  }
 
+  unitConvert(event) { /* gets called when the select box's value is changed */
+    /* currUnit = value of unit select box located ~line 86 */
+    var currUnit = document.getElementById("unitSelect").value; 
+    if(currUnit == "kilometers") { // m -> k
+      //alert("m2k");
+      this.setState({unit : "kilometers"}); /* Changes "unit" from miles to kilos*/
+      this.setState({output : Number(this.state.output) * 1.609344}); /* converts "output" to kilometers */
+    }
+    else if(currUnit == "miles"){ // k -> m
+      //alert("k2m");
+      this.setState({unit : "miles"}); /* Changes "unit" from kilos to miles*/
+      this.setState({output : Number(this.state.output) / 1.609344}); /* converts "output" to miles */
+    }
+  }
+  
   calc(event) {
-    /* Coordinates are text.  Must convert to add rather than concatenate. */
-    this.setState({output : Number(this.state.source) + Number(this.state.destin) })
-    event.preventDefault();
+    /* Coordinates are text.  Must use GCD chord formula */
+    this.setState({output : /* just adds the two for now */Number(this.state.source) + Number(this.state.destination)}); 
   }
 
-  render() {
-    /* a simple form with text input and a submit button  */
-    /* how do I make a line break between Src & Dest input? 
-       <br></br> doesn't work. StackOverflow says document.write("\n"); */
+  render() { /* 2 x 3 table containing source, destination, and output rows*/
     return (
-      <div>
-        <small>TODO: its just a button for now</small>
-        <div className="row">
-          <h4 className="">Options</h4>
-          <div className="btn-group btn-group-toggle" data-toggle="buttons">
-            <label className="btn btn-secondary active">
-              Miles<input type="radio" name="options" id="option1" autocomplete="off" checked/>
-            </label>
-            <label className="btn btn-secondary">
-              Kilometers<input type="radio" name="options" id="option2" autocomplete="off"/>
-            </label>
-        </div>
-          
-      </div>
-        <br/>
-        <form onSubmit={this.calc}>
-          <div className="">
-            Source:<input type="text" name="source" className="text-left" size="33"
-              value={this.state.source} onChange={this.updateSource}/> 
-            <br/>
-            Destination:<input type="text" name="destination" className="text-left" size="33"
-              value={this.state.destin} onChange={this.updateDestin}/> 
-            <br/>
-            Output:<input type="text" className="text-left" 
-              value={this.state.output} disabled/>
-          </div>
-        </form>
-      </div>
+      <table>
+        <tr>
+          <td><b> Source: </b></td>
+          <td><input type="text" className="text-left" size="33" 
+                value={this.state.source} onChange={this.updateSource}/> 
+          </td>
+        </tr>
+        <tr>
+          <td><b> Destination: </b></td>
+          <td><input type="text" className="text-left" size="33" 
+                value={this.state.destination} onChange={this.updateDestination}/> 
+          </td>
+        </tr>
+        <tr>
+          <td><b> Output: </b></td>
+          <td>
+            <input size="33" value={this.state.output} disabled/>
+          </td>
+          <select id="unitSelect" value={this.state.unit} onChange={this.unitConvert}>
+            <option value="miles">     Miles</option>
+            <option value="kilometers">Kilometers</option>
+          </select>
+        </tr>
+      </table>
     )
   } 
 }
