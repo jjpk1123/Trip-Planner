@@ -2,8 +2,9 @@ class Header extends React.Component {
   render() {
     return (
       <div>
-        <h1>Quixotic Quetzals <small>Distance Calculator</small></h1> 
-        Input your source and desintation coordinates in one of the following formats:
+        <h1>Distance Calculator <small>Quixotic Quetzals </small> </h1> 
+        <div>Input your source and desintation coordinates in one of the following formats:
+        </div>
         <ul>
           <li>40° 26′ 46″ N 79° 58′ 56″ W</li>
           <li>40° 26.767′ N 79° 58.933′ W</li>
@@ -21,13 +22,9 @@ class Calculator extends React.Component {
     /* state variables */
     this.state = { 
       output: "",
-      sourceLa: "",
-      sourceLo: "",
-      destinationLa: "",
-      destinationLo: "",
-      unit: "miles",
-      rkm: 6371.0088, //Earth radius in kilometers
-      rmi: 3958.7613  //Earth radius in miles
+      source: "", 
+      destination: "",
+      unit: "miles"
     };
     this.calc = this.calc.bind(this);
     this.updateSource = this.updateSource.bind(this);
@@ -36,160 +33,31 @@ class Calculator extends React.Component {
   }
 
   updateSource(event) { /* updates the value of source */
-    var st = event.target.value;
-    var start = event.target.value.split(" ");
-    var numLa = 0;
-    var numLo = 0;
-    if(st.includes("\"")){
-         if(st.includes("N")){
-            numLa += Number(start[2].substring(0, start[2].slice(0, -1))) / 3600;
-            numLa += Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
-            numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
-         }
-         else if(st.includes("S")){
-            numLa -= Number(start[2].substring(0, start[2].slice(0, -1))) / 3600;
-            numLa -= Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
-            numLa -= Number(start[0].substring(0, start[0].slice(0, -1)));
-         }
-  
-         if(st.includes("E")){
-            numLa += Number(start[6].substring(0, start[6].slice(0, -1))) / 3600;
-            numLa += Number(start[5].substring(0, start[5].slice(0, -1))) / 60;
-            numLa += Number(start[4].substring(0, start[4].slice(0, -1)));
-         }
-         else if(st.includes("W")){
-            numLa -= Number(start[6].substring(0, start[6].slice(0, -1))) / 3600;
-            numLa -= Number(start[5].substring(0, start[5].slice(0, -1))) / 60;
-            numLa -= Number(start[4].substring(0, start[4].slice(0, -1)));
-         }
-     
-    } else if(st.includes("\'")){
-             if(st.includes("N")){
-                numLa += Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
-                numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
-               }
-              else if(st.includes("S")){
-                numLa -= Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
-                numLa -= Number(start[0].substring(0, start[0].slice(0, -1))); 
-              }
-              if(st.includes("E")){
-                numLa += Number(start[4].substring(0, start[4].slice(0, -1))) / 60;
-                numLa += Number(start[3].substring(0, start[3].slice(0, -1)));
-              }
-              else if(st.includes("W")){
-                numLa -= Number(start[4].substring(0, start[4].slice(0, -1))) / 60;
-                numLa -= Number(start[3].substring(0, start[3].slice(0, -1)));
-         }
-    }
-    else if(st.includes("°")){
-         if(st.includes("N")){ 
-           numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
-         }
-         else if(st.includes("S")){
-           numLa -= Number(start[0].substring(0, start[0].slice(0, -1)));
-         } 
-         if(st.includes("E")){
-           numLa += Number(start[2].substring(0, start[2].slice(0, -1)));
-         }
-         else if(st.includes("W")){
-           numLa -= Number(start[2].substring(0, start[2].slice(0, -1)));
-         }
-    }
-    else{
-     numLa += Number(start[0]);
-     numLo += Number(start[1]);
-    }
-    this.setState({sourceLa : numLa});
-    this.setState({sourceLo : numLo});
+    this.setState({source : event.target.value});
     this.setState({output : Number(event.target.value) + Number(this.state.destination) });
   }
 
   updateDestination(event) { /* updates the value of destination */
-    var st = event.target.value;
-    var start = event.target.value.split(" ");
-    var numLa = 0;
-    var numLo = 0;
-    if(st.includes("\"")){
-         if(st.includes("N")){
-            numLa += Number(start[2].substring(0, start[2].slice(0, -1))) / 3600;
-            numLa += Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
-            numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
-         }
-         else if(st.includes("S")){
-            numLa -= Number(start[2].substring(0, start[2].slice(0, -1))) / 3600;
-            numLa -= Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
-            numLa -= Number(start[0].substring(0, start[0].slice(0, -1)));
-         }
-  
-         if(st.includes("E")){
-            numLa += Number(start[6].substring(0, start[6].slice(0, -1))) / 3600;
-            numLa += Number(start[5].substring(0, start[5].slice(0, -1))) / 60;
-            numLa += Number(start[4].substring(0, start[4].slice(0, -1)));
-         }
-         else if(st.includes("W")){
-            numLa -= Number(start[6].substring(0, start[6].slice(0, -1))) / 3600;
-            numLa -= Number(start[5].substring(0, start[5].slice(0, -1))) / 60;
-            numLa -= Number(start[4].substring(0, start[4].slice(0, -1)));
-         }
-     
-    } else if(st.includes("\'")){
-             if(st.includes("N")){
-                numLa += Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
-                numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
-               }
-              else if(st.includes("S")){
-                numLa -= Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
-                numLa -= Number(start[0].substring(0, start[0].slice(0, -1))); 
-              }
-              if(st.includes("E")){
-                numLa += Number(start[4].substring(0, start[4].slice(0, -1))) / 60;
-                numLa += Number(start[3].substring(0, start[3].slice(0, -1)));
-              }
-              else if(st.includes("W")){
-                numLa -= Number(start[4].substring(0, start[4].slice(0, -1))) / 60;
-                numLa -= Number(start[3].substring(0, start[3].slice(0, -1)));
-         }
-    }
-    else if(st.includes("°")){
-         if(st.includes("N")){ 
-           numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
-         }
-         else if(st.includes("S")){
-           numLa -= Number(start[0].substring(0, start[0].slice(0, -1)));
-         } 
-         if(st.includes("E")){
-           numLa += Number(start[2].substring(0, start[2].slice(0, -1)));
-         }
-         else if(st.includes("W")){
-           numLa -= Number(start[2].substring(0, start[2].slice(0, -1)));
-         }
-    }
-    else{
-     numLa += Number(start[0]);
-     numLo += Number(start[1]);
-    }
-    this.setState({destinationLa : numLa});
-    this.setState({destinationLo : numLo});
+    this.setState({destination : event.target.value});
     this.setState({output : Number(event.target.value) + Number(this.state.source) });
   }
 
   unitConvert(event) { /* gets called when the select box's value is changed */
-    /* currUnit = value of unit select box located ~line 86 */
+    /* currUnit = value of select box located ~line 86 */
     var currUnit = document.getElementById("unitSelect").value; 
     if(currUnit == "kilometers") { // m -> k
       //alert("m2k");
       this.setState({unit : "kilometers"}); /* Changes "unit" from miles to kilos*/
-      this.setState({output : Number(this.state.output) * 1.609344}); /* converts "output" to kilometers */
+      this.setState({output : Number(this.state.output) * 1.609344}); /* sets "output" to kilometers */
     }
     else if(currUnit == "miles"){ // k -> m
       //alert("k2m");
       this.setState({unit : "miles"}); /* Changes "unit" from kilos to miles*/
-      this.setState({output : Number(this.state.output) / 1.609344}); /* converts "output" to miles */
+      this.setState({output : Number(this.state.output) / 1.609344}); /* sets "output" to miles */
     }
   }
   
-
-  //Great Circle Distance
+    //Great Circle Distance
   //Takes long1, lat1 (source) and long2, lat2 (destination) as floating point
   GCD(long1, lat1, long2, lat2){
     //0. Convert to radians
@@ -218,12 +86,11 @@ class Calculator extends React.Component {
     
     //5. Return the distance *phew*
     return d;
-  }
+}
   
   calc(event) {
     /* Coordinates are text.  Must use GCD chord formula */
-    this.setState({output : Number((this.state.source).split(" ")) + Number(this.state.destination)}); 
-
+    this.setState({output : /* just adds the two for now */Number(this.state.source) + Number(this.state.destination)}); 
   }
 
   render() { /* 2 x 3 table containing source, destination, and output rows*/
@@ -255,9 +122,23 @@ class Calculator extends React.Component {
     )
   } 
 }
+/* my failed attempt at coming up with two buttons; used "select/option" instead of "form/label" because it won't call: onChange={this.unitConvert}
+      <td>
+          <form id="unitsRadioButton" data-toggle="buttons" 
+                className="btn-group btn-group-toggle p-3" onChange={this.unitConvert}>
+              <label className="btn btn-outline-secondary active">
+                Miles <input type="radio" value="miles"/>
+              </label>
+              <label className="btn btn-outline-secondary">
+                Kilometers <input type="radio" value="kilometers"/>
+              </label>
+          </form>
+          </td>
+*/
 
 class Application extends React.Component {
   render() {
+
     /* separate the page layout from the calculator function */
     return (
       <div className="jumbotron">
@@ -269,4 +150,4 @@ class Application extends React.Component {
   }
 }
 
-ReactDOM.render(<Application  />, document.getElementById("dist_app"));
+ReactDOM.render(<Application  />, document.getElementById("distance"));
