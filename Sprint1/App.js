@@ -23,9 +23,11 @@ class Calculator extends React.Component {
       output: "",
       source: "", 
       destination: "",
+
       unit: "miles",
       rkm: 6371.0088, //Earth radius in kilometers
       rmi: 3958.7613  //Earth radius in miles
+
     };
     this.calc = this.calc.bind(this);
     this.updateSource = this.updateSource.bind(this);
@@ -58,6 +60,7 @@ class Calculator extends React.Component {
     }
   }
   
+
   //Great Circle Distance
   //Takes long1, lat1 (source) and long2, lat2 (destination) as floating point
   GCD(long1, lat1, long2, lat2){
@@ -92,6 +95,7 @@ class Calculator extends React.Component {
   calc(event) {
     /* Coordinates are text.  Must use GCD chord formula */
     this.setState({output : Number((this.state.source).split(" ")) + Number(this.state.destination)}); 
+
   }
 
   render() { /* 2 x 3 table containing source, destination, and output rows*/
