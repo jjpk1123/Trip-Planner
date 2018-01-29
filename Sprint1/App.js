@@ -21,8 +21,10 @@ class Calculator extends React.Component {
     /* state variables */
     this.state = { 
       output: "",
-      source: "", 
-      destination: "",
+      sourceLa: "",
+      sourceLo: "",
+      destinationLa: "",
+      destinationLo: "",
       unit: "miles"
     };
     this.calc = this.calc.bind(this);
@@ -32,12 +34,132 @@ class Calculator extends React.Component {
   }
 
   updateSource(event) { /* updates the value of source */
-    this.setState({source : event.target.value});
+    var st = event.target.value;
+    var start = event.target.value.split(" ");
+    var numLa = 0;
+    var numLo = 0;
+    if(st.includes("\"")){
+         if(st.includes("N")){
+            numLa += Number(start[2].substring(0, start[2].slice(0, -1))) / 3600;
+            numLa += Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
+            numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
+         }
+         else if(st.includes("S")){
+            numLa -= Number(start[2].substring(0, start[2].slice(0, -1))) / 3600;
+            numLa -= Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
+            numLa -= Number(start[0].substring(0, start[0].slice(0, -1)));
+         }
+  
+         if(st.includes("E")){
+            numLa += Number(start[6].substring(0, start[6].slice(0, -1))) / 3600;
+            numLa += Number(start[5].substring(0, start[5].slice(0, -1))) / 60;
+            numLa += Number(start[4].substring(0, start[4].slice(0, -1)));
+         }
+         else if(st.includes("W")){
+            numLa -= Number(start[6].substring(0, start[6].slice(0, -1))) / 3600;
+            numLa -= Number(start[5].substring(0, start[5].slice(0, -1))) / 60;
+            numLa -= Number(start[4].substring(0, start[4].slice(0, -1)));
+         }
+     
+    } else if(st.includes("\'")){
+             if(st.includes("N")){
+                numLa += Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
+                numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
+               }
+              else if(st.includes("S")){
+                numLa -= Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
+                numLa -= Number(start[0].substring(0, start[0].slice(0, -1))); 
+              }
+              if(st.includes("E")){
+                numLa += Number(start[4].substring(0, start[4].slice(0, -1))) / 60;
+                numLa += Number(start[3].substring(0, start[3].slice(0, -1)));
+              }
+              else if(st.includes("W")){
+                numLa -= Number(start[4].substring(0, start[4].slice(0, -1))) / 60;
+                numLa -= Number(start[3].substring(0, start[3].slice(0, -1)));
+         }
+    }
+    else if(st.includes("°")){
+         if(st.includes("N")){ 
+           numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
+         }
+         else if(st.includes("S")){
+           numLa -= Number(start[0].substring(0, start[0].slice(0, -1)));
+         } 
+         if(st.includes("E")){
+           numLa += Number(start[2].substring(0, start[2].slice(0, -1)));
+         }
+         else if(st.includes("W")){
+           numLa -= Number(start[2].substring(0, start[2].slice(0, -1)));
+         }
+    }    
+    this.setState({sourceLa : numLa});
+    this.setState({sourceLo : numLo});
     this.setState({output : Number(event.target.value) + Number(this.state.destination) });
   }
 
   updateDestination(event) { /* updates the value of destination */
-    this.setState({destination : event.target.value});
+    var st = event.target.value;
+    var start = event.target.value.split(" ");
+    var numLa = 0;
+    var numLo = 0;
+    if(st.includes("\"")){
+         if(st.includes("N")){
+            numLa += Number(start[2].substring(0, start[2].slice(0, -1))) / 3600;
+            numLa += Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
+            numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
+         }
+         else if(st.includes("S")){
+            numLa -= Number(start[2].substring(0, start[2].slice(0, -1))) / 3600;
+            numLa -= Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
+            numLa -= Number(start[0].substring(0, start[0].slice(0, -1)));
+         }
+  
+         if(st.includes("E")){
+            numLa += Number(start[6].substring(0, start[6].slice(0, -1))) / 3600;
+            numLa += Number(start[5].substring(0, start[5].slice(0, -1))) / 60;
+            numLa += Number(start[4].substring(0, start[4].slice(0, -1)));
+         }
+         else if(st.includes("W")){
+            numLa -= Number(start[6].substring(0, start[6].slice(0, -1))) / 3600;
+            numLa -= Number(start[5].substring(0, start[5].slice(0, -1))) / 60;
+            numLa -= Number(start[4].substring(0, start[4].slice(0, -1)));
+         }
+     
+    } else if(st.includes("\'")){
+             if(st.includes("N")){
+                numLa += Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
+                numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
+               }
+              else if(st.includes("S")){
+                numLa -= Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
+                numLa -= Number(start[0].substring(0, start[0].slice(0, -1))); 
+              }
+              if(st.includes("E")){
+                numLa += Number(start[4].substring(0, start[4].slice(0, -1))) / 60;
+                numLa += Number(start[3].substring(0, start[3].slice(0, -1)));
+              }
+              else if(st.includes("W")){
+                numLa -= Number(start[4].substring(0, start[4].slice(0, -1))) / 60;
+                numLa -= Number(start[3].substring(0, start[3].slice(0, -1)));
+         }
+    }
+    else if(st.includes("°")){
+         if(st.includes("N")){ 
+           numLa += Number(start[0].substring(0, start[0].slice(0, -1)));
+         }
+         else if(st.includes("S")){
+           numLa -= Number(start[0].substring(0, start[0].slice(0, -1)));
+         } 
+         if(st.includes("E")){
+           numLa += Number(start[2].substring(0, start[2].slice(0, -1)));
+         }
+         else if(st.includes("W")){
+           numLa -= Number(start[2].substring(0, start[2].slice(0, -1)));
+         }
+    }  
+    this.setState({destinationLa : numLa});
+    this.setState({destinationLo : numLo});
     this.setState({output : Number(event.target.value) + Number(this.state.source) });
   }
 
