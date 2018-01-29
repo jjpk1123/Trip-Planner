@@ -92,7 +92,11 @@ class Calculator extends React.Component {
          else if(st.includes("W")){
            numLa -= Number(start[2].substring(0, start[2].slice(0, -1)));
          }
-    }    
+    }
+    else{
+     numLa += Number(start[0]);
+     numLo += Number(start[1]);
+    }
     this.setState({sourceLa : numLa});
     this.setState({sourceLo : numLo});
     this.setState({output : Number(event.target.value) + Number(this.state.destination) });
@@ -157,7 +161,11 @@ class Calculator extends React.Component {
          else if(st.includes("W")){
            numLa -= Number(start[2].substring(0, start[2].slice(0, -1)));
          }
-    }  
+    }
+    else{
+     numLa += Number(start[0]);
+     numLo += Number(start[1]);
+    }
     this.setState({destinationLa : numLa});
     this.setState({destinationLo : numLo});
     this.setState({output : Number(event.target.value) + Number(this.state.source) });
