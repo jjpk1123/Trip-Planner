@@ -23,7 +23,11 @@ class Calculator extends React.Component {
       output: "",
       source: "", 
       destination: "",
-      unit: "miles"
+
+      unit: "miles",
+      rkm: 6371.0088, //Earth radius in kilometers
+      rmi: 3958.7613  //Earth radius in miles
+
     };
     this.calc = this.calc.bind(this);
     this.updateSource = this.updateSource.bind(this);
@@ -56,9 +60,42 @@ class Calculator extends React.Component {
     }
   }
   
+
+  //Great Circle Distance
+  //Takes long1, lat1 (source) and long2, lat2 (destination) as floating point
+  GCD(long1, lat1, long2, lat2){
+    //0. Convert to radians
+    a1 = long1.toRadians;
+    b1 = lat1.toRadians;
+    a2 = long2.toRadians;
+    b2 = lat2.toRadians;
+    
+    //1. Compute X, Y, Z
+    x = Math.cos(b2)*Math.cos(a2) - Math.cos(a1)*Math.cos(b1);
+    y = Math.cos(b2)*Math.sin(a2) - Math.cos(b1)*Math.sin(b1);
+    z = Math.sin(b2) - Math.sin(b1);
+    
+    //2. Compute chord length
+    c = Math.sqrt((x*x) + (y*y) + (z*z));
+    
+    //3. Compute central angle
+    o = 2*Math.arcsin(c/2);
+    
+    //TODO: Find a way to live update this final step, as it depends on the unit chosen
+    //My implementation might work, but could use some polish I believe
+    //4. Find GCD
+    d = 0;
+    if (unit == "miles"){ d = rmi*o;} //Miles earth radius
+    else{ d = rkm*o;}                 //Kilometer earth radius
+    
+    //5. Return the distance *phew*
+    return d;
+  }
+  
   calc(event) {
     /* Coordinates are text.  Must use GCD chord formula */
-    this.setState({output : /* just adds the two for now */Number(this.state.source) + Number(this.state.destination)}); 
+    this.setState({output : Number((this.state.source).split(" ")) + Number(this.state.destination)}); 
+
   }
 
   render() { /* 2 x 3 table containing source, destination, and output rows*/
