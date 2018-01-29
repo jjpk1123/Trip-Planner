@@ -96,7 +96,7 @@ class Calculator extends React.Component {
       }
     }
     else if(st.includes("°")){
-      alert("s = DDD.###° N DDD.###° W");
+      //alert("s = DDD.###° N DDD.###° W");
       if(st.includes("N")){ 
         //alert("degrees + N");
         numLa = Number(start[0].substring(0, start[0].slice(0, -1)));
@@ -115,7 +115,7 @@ class Calculator extends React.Component {
       }
     }
     else{
-      alert("s = DDD.### DDD.###");
+      //alert("s = DDD.### DDD.###");
       numLa = Number(start[0]);
       numLo = Number(start[1]);
     }
@@ -132,7 +132,7 @@ class Calculator extends React.Component {
     var numLa = 0;
     var numLo = 0;
     if(st.includes("\"") || st.includes("\″")){
-      alert("d = DDD° MM′ SS″ N DDD° MM′ SS″ W");
+      //alert("d = DDD° MM′ SS″ N DDD° MM′ SS″ W");
       if(st.includes("N")){
         numLa += Number(start[2].substring(0, start[2].slice(0, -1))) / 3600;
         numLa += Number(start[1].substring(0, start[1].slice(0, -1))) / 60;
@@ -157,7 +157,7 @@ class Calculator extends React.Component {
 
     } 
     else if(st.includes("\'") || st.includes("\′")){
-      alert("d = DDD° MM.###′ N DDD° MM.###′ W");
+      //alert("d = DDD° MM.###′ N DDD° MM.###′ W");
       if(st.includes("N")){
         numLa = Number(start[1]) / 60;
         numLa += Number(start[0]);
@@ -176,7 +176,7 @@ class Calculator extends React.Component {
       }
     }
     else if(st.includes("°")){
-      alert("d = DDD.###° N DDD.###° W");
+      //alert("d = DDD.###° N DDD.###° W");
       if(st.includes("N")){ 
         numLa = Number(start[0].substring(0, start[0].slice(0, -1)));
       } 
@@ -191,7 +191,7 @@ class Calculator extends React.Component {
       }
     }
     else{
-      alert("d = DDD.### DDD.###");
+      //alert("d = DDD.### DDD.###");
       numLa = Number(start[0]);
       numLo = Number(start[1]);
     }
