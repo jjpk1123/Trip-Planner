@@ -8,8 +8,8 @@ class Header extends React.Component {
         <div>Input your source and desintation coordinates in one of the following formats:
         </div>
         <ul>
-          <li>38° 54\′ 02\″ N 107° 55\′ 33\″ W</li>
-          <li>11° 22.123\′ N 99° 88.987\′ W</li>
+          <li>38° 54′ 02″ N 107° 55′ 33″ W</li>
+          <li>11° 22.123′ N 99° 88.987′ W</li>
           <li>40.446° N 79.982° W</li>
           <li>40.445 -79.982</li>
         </ul>
