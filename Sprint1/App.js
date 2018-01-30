@@ -52,7 +52,7 @@ class Calculator extends React.Component {
     this.setState({sourceLa: this.degreesToDecimal(split[0])});
     //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
     this.setState({sourceLo: this.degreesToDecimal(split[1].substring(1, split[1].length))});
-    
+
     //Call the GCD method from here when ready.
     /*
     this.setState({output : this.GCD((this.state.sourceLo), 
@@ -77,7 +77,7 @@ class Calculator extends React.Component {
     this.setState({destinationLa: this.degreesToDecimal(split[0])});
     //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
     this.setState({destinationLo: this.degreesToDecimal(split[1].substring(1, split[1].length))});
-    
+
     //Call the GCD method from here when ready.
     /*
     this.setState({output : this.GCD(this.state.sourceLo, 
@@ -86,12 +86,12 @@ class Calculator extends React.Component {
                                      this.state.destinationLa)});
     */
   }
-  
+
   //Convert degrees to decimals
   degreesToDecimal(degrees){
     var inp = degrees.split(" ");
     var ret = 0;
-    
+
     if(degrees.includes("°")){
       ret += Number(inp[0].slice(0, -1));
     } else{
@@ -110,12 +110,12 @@ class Calculator extends React.Component {
       ret *= -1;
     }
     return ret;
-    
+
   }
   radians(degrees){
     return degrees * (Math.PI / 180);
   }  
-  
+
   //Great Circle Distance
   //Takes long1, lat1 (source) and long2, lat2 (destination) as degrees
   GCD(event){
@@ -124,18 +124,18 @@ class Calculator extends React.Component {
     var b1 = this.radians(this.state.sourceLa);
     var a2 = this.radians(this.state.destinationLo);
     var b2 = this.radians(this.state.destinationLa);
-    
+
     //1. Compute X, Y, Z
     var x = Math.cos(b2)*Math.cos(a2) - Math.cos(b1)*Math.cos(a1);
     var y = Math.cos(b2)*Math.sin(a2) - Math.cos(b1)*Math.sin(a1);
     var z = Math.sin(b2) - Math.sin(b1);
-    
+
     //2. Compute chord length
     var c = Math.sqrt((x*x) + (y*y) + (z*z));
-    
+
     //3. Compute central angle
     var o = 2*(Math.asin(c/2));
-    
+
     //4. Find GCD
     var d = 0;
     if (document.getElementById("unitSelect").value == "miles"){
@@ -150,9 +150,9 @@ class Calculator extends React.Component {
       this.setState({unit: "select"});
       d = 0; //Maybe return string "Select a unit! -->"
     }
-    this.setState({output : ""+Math.floor(d)});
+    this.setState({output : ""+Math.floor(d)})
 }
-  
+
   render() { /* 3 x 2 table containing source, destination, and output rows*/
     return (
       <table>
