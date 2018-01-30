@@ -30,10 +30,10 @@ class Calculator extends React.Component {
       destinationLo: 0,
       unit: "miles"
     };
-    this.calc = this.calc.bind(this);
-    this.updateSource = this.updateSource.bind(this);
-    this.updateDestination = this.updateDestination.bind(this);
-    this.unitConvert = this.unitConvert.bind(this);
+    this.GCD                = this.GCD.bind(this);
+    this.updateSource       = this.updateSource.bind(this);
+    this.updateDestination  = this.updateDestination.bind(this);
+    this.unitConvert        = this.unitConvert.bind(this);
   }
 
   updateSource(event) { /* updates the value of source */
@@ -54,7 +54,11 @@ class Calculator extends React.Component {
     this.setState({sourceLo: this.degreesToDecimal(split[1].substring(1, split[1].length))});
     
     //Call the GCD method from here when ready.
-    this.setState({output: "TODO"});
+    this.setState({output : this.GCD((this.state.sourceLo), 
+                                     (this.state.sourceLa), 
+                                     (this.state.destinationLo), 
+                                     (this.state.destinationLa))});
+  }
 
   updateDestination(event) { /* updates the value of destination */
     this.setState({destination : event.target.value});
@@ -74,7 +78,10 @@ class Calculator extends React.Component {
     this.setState({destinationLo: this.degreesToDecimal(split[1].substring(1, split[1].length))});
     
     //Call the GCD method from here when ready.
-    this.setState({output: "TODO"});
+    this.setState({output : this.GCD(this.state.sourceLo, 
+                                     this.state.sourceLa, 
+                                     this.state.destinationLo, 
+                                     this.state.destinationLa)});
   }
 
   unitConvert(event) { /* gets called when the select box's value is changed */
@@ -117,42 +124,46 @@ class Calculator extends React.Component {
     return ret;
     
   }
-    //Great Circle Distance
-  //Takes long1, lat1 (source) and long2, lat2 (destination) as floating point
-  GCD(long1, lat1, long2, lat2){
-    //0. Convert to radians
-    a1 = long1.toRadians;
-    b1 = lat1.toRadians;
-    a2 = long2.toRadians;
-    b2 = lat2.toRadians;
+  radians(degrees){
+    return degrees * (Math.PI / 180);
+  }  
+  
+  //Great Circle Distance
+  //Takes long1, lat1 (source) and long2, lat2 (destination) as degrees
+  GCD(event){
+    //0. Convert to radians    
+    var a1 = this.radians(this.state.sourceLo);
+    var b1 = this.radians(this.state.sourceLa);
+    var a2 = this.radians(this.state.destinationLo);
+    var b2 = this.radians(this.state.destinationLa);
     
     //1. Compute X, Y, Z
-    x = Math.cos(b2)*Math.cos(a2) - Math.cos(a1)*Math.cos(b1);
-    y = Math.cos(b2)*Math.sin(a2) - Math.cos(b1)*Math.sin(b1);
-    z = Math.sin(b2) - Math.sin(b1);
+    var x = Math.cos(b2)*Math.cos(a2) - Math.cos(b1)*Math.cos(a1);
+    var y = Math.cos(b2)*Math.sin(a2) - Math.cos(b1)*Math.sin(a1);
+    var z = Math.sin(b2) - Math.sin(b1);
     
     //2. Compute chord length
-    c = Math.sqrt((x*x) + (y*y) + (z*z));
+    var c = Math.sqrt((x*x) + (y*y) + (z*z));
     
     //3. Compute central angle
-    o = 2*Math.asin(c/2);
+    var o = 2*(Math.asin(c/2));
     
-    //TODO: Find a way to live update this final step, as it depends on the unit chosen
-    //My implementation might work, but could use some polish I believe
     //4. Find GCD
-    d = 0;
-    if (unit == "miles"){ d = rmi*o;} //Miles earth radius
-    else{ d = rkm*o;}                 //Kilometer earth radius
-    
-    //5. Return the distance *phew*
-    return d;
+    if (document.getElementById("unitSelect").value == "miles"){
+      this.setState({unit : "miles"});
+      d = o * 3958.7613; //Miles earth radius
+    }
+    else if (document.getElementById("unitSelect").value == "kilometers"){ 
+      this.setState({unit : "kilometers"});
+      d = o * 6371.0088; //Kilometer earth radius
+    }
+    else{ // wipes old units from output box
+      this.setState({unit: "select"});
+      d = 0; //Maybe return string "Select a unit! -->"
+    }
+    this.setState({output : Math.floor(d)});
 }
   
-  calc(event) {
-    /* Coordinates are text.  Must use GCD chord formula */
-    this.setState({output : /* just adds the two for now */Number(this.state.source) + Number(this.state.destination)}); 
-  }
-
   render() { /* 2 x 3 table containing source, destination, and output rows*/
     return (
       <table>
