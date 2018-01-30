@@ -55,7 +55,6 @@ class Calculator extends React.Component {
     
     //Call the GCD method from here when ready.
     this.setState({output: "TODO"});
-  }
 
   updateDestination(event) { /* updates the value of destination */
     this.setState({destination : event.target.value});
@@ -76,7 +75,6 @@ class Calculator extends React.Component {
     
     //Call the GCD method from here when ready.
     this.setState({output: "TODO"});
-    //this.setState({output : Number(event.target.value) + Number(this.state.source) });
   }
 
   unitConvert(event) { /* gets called when the select box's value is changed */
@@ -137,7 +135,7 @@ class Calculator extends React.Component {
     c = Math.sqrt((x*x) + (y*y) + (z*z));
     
     //3. Compute central angle
-    o = 2*Math.arcsin(c/2);
+    o = 2*Math.asin(c/2);
     
     //TODO: Find a way to live update this final step, as it depends on the unit chosen
     //My implementation might work, but could use some polish I believe
