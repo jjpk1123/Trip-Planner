@@ -28,8 +28,6 @@ class Calculator extends React.Component {
       destination: "",
       destinationLa: 0,
       destinationLo: 0,
-      rkm: 6371.0088, //Earth radius in kilometers
-      rmi: 3958.7613,  //Earth radius in miles
       unit: "select"
     };
     this.updateSource = this.updateSource.bind(this);
