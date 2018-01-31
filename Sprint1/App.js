@@ -136,20 +136,21 @@ class Calculator extends React.Component {
 
     //4. Find GCD
     var d = 0;
+    if (document.getElementById("unitSelect").value == "select"){
+      this.setState({unit: "select"});
+      this.setState({output : ""}); // wipes old units from output box
+      return; // will not continue with proceeding code
+    }
     if (document.getElementById("unitSelect").value == "miles"){
       this.setState({unit : "miles"});
       d = o * 3958.7613; //Miles earth radius
     }
-    else if (document.getElementById("unitSelect").value == "kilometers"){ 
+    else{ // "kilometers" is selected 
       this.setState({unit : "kilometers"});
       d = o * 6371.0088; //Kilometer earth radius
     }
-    else{ // wipes old units from output box
-      this.setState({unit: "select"});
-      d = 0; //Maybe return string "Select a unit! -->"
-    }
-    this.setState({output : ""+Math.floor(d)})
-}
+    this.setState({output : ""+Math.round(d)})
+  }
 
   render() { /* 3 x 2 table containing source, destination, and output rows*/
     return (
