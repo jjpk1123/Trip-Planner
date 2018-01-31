@@ -156,23 +156,24 @@ class Calculator extends React.Component {
     return (
       <table>
         <tr>
-          <td><b> Source: </b></td>
-          <td><input type="text" className="text-left" size="33" id="sourceIn"
-                value={this.state.source} onChange={this.updateSource}/> 
-          </td>
-        </tr>
-        <tr>
-          <td><b> Destination: </b></td>
-          <td><input type="text" className="text-left" size="33" id="destinationIn"
-                value={this.state.destination} onChange={this.updateDestination}/> 
-          </td>
-        </tr>
-        <tr>
-          <td><b> Output: </b></td>
           <td>
-            <input size="33" id="outputOut" value={this.state.output} disabled/>
+          <input type="text" className="form-control form-control-lg" placeholder="Source"
+            id="sourceIn" value={this.state.source} onChange={this.updateSource}/> 
           </td>
-          <select id="unitSelect" value={this.state.unit} onChange={this.GCD}>
+        </tr>
+        <tr>
+          <td>
+          <input type="text" className="form-control form-control-lg"  placeholder="Destination"
+             id="destinationIn" value={this.state.destination} onChange={this.updateDestination}/> 
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input className="form-control form-control-lg" placeholder="Output" 
+              id="outputOut" value={this.state.output} disabled/>
+          </td>
+          <select className="form-control form-control-lg" 
+            id="unitSelect" value={this.state.unit} onChange={this.GCD}>
             <option value="select">    Select Units</option>
             <option value="miles">     Miles</option>
             <option value="kilometers">Kilometers</option>
