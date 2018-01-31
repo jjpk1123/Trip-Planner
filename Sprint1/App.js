@@ -28,7 +28,9 @@ class Calculator extends React.Component {
       destination: "",
       destinationLa: 0,
       destinationLo: 0,
-      unit: "select"
+      unit: "select",
+      //If you want to debug, set debug to 1! 
+      debug: 0
     };
     this.updateSource = this.updateSource.bind(this);
     this.updateDestination = this.updateDestination.bind(this);
@@ -40,24 +42,25 @@ class Calculator extends React.Component {
     var split = "";
     if(event.target.value.includes("N")){
       split = event.target.value.split("N");
-      split[0] += "N";
+      split[0] = this.degreesToDecimal((split[0] + "N"));
+      //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
+      split[1] = this.degreesToDecimal(split[1].substring(1, split[1].length))
+      
     }else if(event.target.value.includes("S")){
       split = event.target.value.split("S");
-      split[0] += "S";
+      split[0] = this.degreesToDecimal((split[0] + "S"));
+      //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
+      split[1] = this.degreesToDecimal(split[1].substring(1, split[1].length))
+       
     } else{
       split = event.target.value.split(" ");
     }
-    this.setState({sourceLa: this.degreesToDecimal(split[0])});
-    //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
-    this.setState({sourceLo: this.degreesToDecimal(split[1].substring(1, split[1].length))});
-
-    //Call the GCD method from here when ready.
-    /*
-    this.setState({output : this.GCD((this.state.sourceLo), 
-                                     (this.state.sourceLa), 
-                                     (this.state.destinationLo), 
-                                     (this.state.destinationLa))});
-    */
+   /* if (this.state.debug == 1){
+      alert("split = " + split)
+    }*/
+    
+      this.setState({sourceLa: split[0]});
+      this.setState({sourceLo: split[1]});
   }
 
   updateDestination(event) { /* updates the value of destination */
@@ -65,24 +68,25 @@ class Calculator extends React.Component {
     var split = "";
     if(event.target.value.includes("N")){
       split = event.target.value.split("N");
-      split[0] += "N";
+      split[0] = this.degreesToDecimal((split[0] + "N"));
+      //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
+      split[1] = this.degreesToDecimal(split[1].substring(1, split[1].length))
+      
     }else if(event.target.value.includes("S")){
       split = event.target.value.split("S");
-      split[0] += "S";
+      split[0] = this.degreesToDecimal((split[0] + "S"));
+      //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
+      split[1] = this.degreesToDecimal(split[1].substring(1, split[1].length))
+       
     } else{
       split = event.target.value.split(" ");
     }
-    this.setState({destinationLa: this.degreesToDecimal(split[0])});
+    /*if (this.state.debug == 1){
+      alert("split = " + split)
+    }*/
+    this.setState({destinationLa: split[0]});
     //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
-    this.setState({destinationLo: this.degreesToDecimal(split[1].substring(1, split[1].length))});
-
-    //Call the GCD method from here when ready.
-    /*
-    this.setState({output : this.GCD(this.state.sourceLo, 
-                                     this.state.sourceLa, 
-                                     this.state.destinationLo, 
-                                     this.state.destinationLa)});
-    */
+    this.setState({destinationLo: split[1]});
   }
 
   //Convert degrees to decimals
@@ -93,7 +97,11 @@ class Calculator extends React.Component {
     if(degrees.includes("°")){
       ret += Number(inp[0].slice(0, -1));
     } else{
+       /*if (this.state.debug == 1){
+         alert("no °, returns: " + Number(degrees))
+       }*/
       return Number(degrees);
+     
     }   
     //minutes divided by 60
     if(degrees.includes("\'") || degrees.includes("\′")){
@@ -118,11 +126,11 @@ class Calculator extends React.Component {
   //Takes long1, lat1 (source) and long2, lat2 (destination) as degrees
   GCD(event){
     //0. Convert to radians    
-    var a1 = this.radians(this.state.sourceLo);
-    var b1 = this.radians(this.state.sourceLa);
-    var a2 = this.radians(this.state.destinationLo);
-    var b2 = this.radians(this.state.destinationLa);
-
+    var a1 = this.radians(this.state.sourceLa);
+    var b1 = this.radians(this.state.sourceLo);
+    var a2 = this.radians(this.state.destinationLa);
+    var b2 = this.radians(this.state.destinationLo);
+          
     //1. Compute X, Y, Z
     var x = Math.cos(b2)*Math.cos(a2) - Math.cos(b1)*Math.cos(a1);
     var y = Math.cos(b2)*Math.sin(a2) - Math.cos(b1)*Math.sin(a1);
@@ -149,6 +157,11 @@ class Calculator extends React.Component {
       this.setState({unit : "kilometers"});
       d = o * 6371.0088; //Kilometer earth radius
     }
+    if (this.state.debug == 1){
+    alert("a1 = " + a1 + "\nb1 = " + b1 +
+          "\na2 = " + a2 + "\nb2 = " + b2 + 
+          "\nx = " + x + "\ny = " + y + "\nz = " + z + 
+          "\nc = " + c + "\no = " + o + "\nd = " + d)}
     this.setState({output : ""+Math.round(d)})
   }
 
