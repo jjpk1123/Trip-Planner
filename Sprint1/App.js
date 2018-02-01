@@ -2,15 +2,17 @@ class Header extends React.Component {
   render() {
     return (
       <div>
-        <h1>Distance Calculator <small>Quixotic Quetzals </small> </h1> 
-        <div>Input your source and desintation coordinates in one of the following formats:
+      <center>  
+      <h1>Distance Calculator <br></br> <small>Quixotic Quetzals</small> </h1> 
+        <div>Input your source and destination coordinates in one of the following formats:
         </div>
-        <ul>
-          <li>40° 26′ 46″ N 79° 58′ 56″ W</li>
-          <li>40° 26.767′ N 79° 58.933′ W</li>
-          <li>40.446° N 79.982° W</li>
-          <li>40.445 -79.982</li>
-        </ul>
+      </center>
+      <center>
+        <li>40° 26′ 46″ N 79° 58′ 56″ W</li>
+        <li>40° 26.767′ N 79° 58.933′ W</li>
+        <li>40.446° N 79.982° W</li>
+        <li>40.445 -79.982</li>
+      </center>
       </div>
     )
   }
@@ -184,33 +186,43 @@ class Calculator extends React.Component {
 
   render() { /* 3 x 2 table containing source, destination, and output rows*/
     return (
-      <table>
-        <tr>
-          <td>
-          <input type="text" className="form-control form-control-lg" placeholder="Source"
+      <div className = "container">
+        <div className = "row no-gutters">
+          <div className="col-md-2">
+          </div>
+	        <div className="col-md-4">
+            <input type="text" className="form-control form-control-lg" placeholder="Source"
             id="sourceIn" value={this.state.source} onChange={this.updateSource}/> 
-          </td>
-        </tr>
-        <tr>
-          <td>
-          <input type="text" className="form-control form-control-lg"  placeholder="Destination"
+          </div>
+          <div className="col-md-4">
+            <input type="text" className="form-control form-control-lg"  placeholder="Destination"
              id="destinationIn" value={this.state.destination} onChange={this.updateDestination}/> 
-          </td>
-          <input className="btn btn-secondary btn-lg" type="submit" value="Calculate" 
-            onClick={this.Calculate}/>
-        </tr>
-        <tr>
-          <td>
-            <input className="form-control form-control-lg" placeholder="Output" 
-              id="outputOut" value={this.state.output} disabled/>
-          </td>
-          <select className="form-control form-control-lg" 
+          </div>
+        </div>
+        <div className = "row no-gutters">
+          <div className="col-md-2">
+          </div>
+          <div className="col-md-4">
+            <select className="form-control form-control-lg" 
             id="unitSelect" onChange={this.setUnit}>
             <option value="miles">     Miles</option>
             <option value="kilometers">Kilometers</option>
-          </select>
-        </tr>
-      </table>
+            </select>
+          </div>
+          <div className="col-md-4">
+           <input className="btn btn-secondary btn-lg btn-block" type="submit" value="Calculate" 
+              onClick={this.Calculate}/>
+          </div>
+        </div>
+        <div className = "row no-gutters">
+          <div className="col-md-2">
+          </div>
+          <div className="col-md-8">
+            <input className="form-control form-control-lg text-center" placeholder="Output" 
+              id="outputOut" value={this.state.output} disabled/>
+          </div>
+        </div>
+      </div>
     )
   } 
 }
