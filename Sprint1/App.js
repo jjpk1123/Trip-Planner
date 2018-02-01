@@ -4,7 +4,7 @@ class Header extends React.Component {
       <div>
       <center>  
       <h1>Distance Calculator <br></br> <small>Quixotic Quetzals</small> </h1> 
-        <div>Input your source and desintation coordinates in one of the following formats:
+        <div>Input your source and destination coordinates in one of the following formats:
         </div>
       </center>
       <center>
