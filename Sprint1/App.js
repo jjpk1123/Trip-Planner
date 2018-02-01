@@ -196,7 +196,7 @@ class Calculator extends React.Component {
           <input type="text" className="form-control form-control-lg"  placeholder="Destination"
              id="destinationIn" value={this.state.destination} onChange={this.updateDestination}/> 
           </td>
-          <input className="btn btn-secondary" type="submit" value="Calculate" 
+          <input className="btn btn-secondary btn-lg" type="submit" value="Calculate" 
             onClick={this.Calculate}/>
         </tr>
         <tr>
