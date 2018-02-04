@@ -2,17 +2,16 @@ class Header extends React.Component {
   render() {
     return (
       <div>
-      <center>  
-      <h1>Distance Calculator <br></br> <small>Quixotic Quetzals</small> </h1> 
-        <div>Input your source and destination coordinates in one of the following formats:
-        </div>
-      </center>
-      <center>
-        <li>40° 26′ 46″ N 79° 58′ 56″ W</li>
-        <li>40° 26.767′ N 79° 58.933′ W</li>
-        <li>40.446° N 79.982° W</li>
-        <li>40.445 -79.982</li>
-      </center>
+        <center>  
+          <h1>Distance Calculator<br/> <small>Quixotic Quetzals</small> </h1> 
+          <div>Input your source and destination coordinates in one of the following formats:</div>
+        </center>
+        <center> 
+          <li>40° 26′ 46″ N 79° 58′ 56″ W</li>
+          <li>40° 26.767′ N 79° 58.933′ W</li>
+          <li>40.446° N 79.982° W</li>
+          <li>40.445 -79.982</li>
+        </center> 
       </div>
     )
   }
@@ -24,13 +23,13 @@ class Calculator extends React.Component {
     this.state = { // state variables 
       output : "",
       source : "",
-      sourceLa : 0,
-      sourceLo : 0,
+      sourceLa : "",
+      sourceLo : "",
       destination : "",
-      destinationLa : 0,
-      destinationLo : 0,
+      destinationLa : "",
+      destinationLo : "",
       unit : "miles",
-      debug : 0 // If you want to debug, set debug to 1! 
+      debug : false // set debug to true for live alerts! 
     }
     this.updateSource = this.updateSource.bind(this);
     this.updateDestination = this.updateDestination.bind(this);
@@ -39,10 +38,12 @@ class Calculator extends React.Component {
     this.Calculate = this.Calculate.bind(this);
   }
 
-  updateSource(event) { /* updates the value of source */
-    var split = "";
-    
-    this.setState({source : event.target.value});
+  // updates the value of {source, sourceLo, sourceLa}
+  // called live whenever Source gets changed
+  updateSource(event) { 
+    this.setState({output : ""}); // clears the previous calculation from output
+    this.setState({source : event.target.value}); // source input gets stored into a state
+
     if (event.target.value.includes("N")) {
       split = event.target.value.split("N");
       split[0] = this.degreesToDecimal((split[0] + "N"));
@@ -55,22 +56,22 @@ class Calculator extends React.Component {
       //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
       split[1] = this.degreesToDecimal(split[1].substring(1, split[1].length))
     } 
-    else {
+    else { // Source in format: 40.445 -79.982
       split = event.target.value.split(" ");
     }
-    if (this.state.debug == 1) {
-      alert("split = " + split)
-    }
+    if (this.state.debug) alert("sourceLat: ["+split[0]+"]\nsourceLong: ["+split[1]+"]");  // if debug is set to true
     this.setState({sourceLa : split[0]});
     this.setState({sourceLo : split[1]});
-    this.setState({output : ""});
+    //this.Calculate(event); Sadly, it's one-step-behind ]:
   }
 
-  updateDestination(event) { /* updates the value of destination */
-    var split = "";
-    
-    this.setState({destination : event.target.value});
-    if (event.target.value.includes("N")) {
+  // updates the value of {destination, destinationLo, destinationLa}
+  // called live whenever Destination gets changed
+  updateDestination(event) {
+    this.setState({output : ""});  // clears the previous calculation from output
+    this.setState({destination : event.target.value}); // destination input gets stored into the state
+
+    if (event.target.value.includes("N")) { 
       split = event.target.value.split("N");
       split[0] = this.degreesToDecimal((split[0] + "N"));
       //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
@@ -82,81 +83,82 @@ class Calculator extends React.Component {
       //The first character of split[1] is a space. Must remove it before degreesToDecimal will work.
       split[1] = this.degreesToDecimal(split[1].substring(1, split[1].length))
     } 
-    else {
+    else { // Destination in format: 40.445 -79.982
       split = event.target.value.split(" ");
     }
-    if (this.state.debug == 1) {
-      alert("split = " + split)
-    }
+    if (this.state.debug) alert("destinLat: ["+split[0]+"]\ndestinLong: ["+split[1]+"]");  // if debug is set to true
     this.setState({destinationLa : split[0]});
     this.setState({destinationLo : split[1]});
-    this.setState({output : ""});
+    //this.Calculate(event); Sadly, it's one-step-behind ]:
   }
 
-  //Convert degrees to decimals
+  //Convert input to decimals
   degreesToDecimal(degrees) {
     var inp = degrees.split(" ");
     var ret = 0;
 
-    if (degrees.includes("°")) {
+    if (degrees.includes("°")) { // if it has degrees
       ret += Number(inp[0].slice(0, -1));
     } 
-    else {
-      if (this.state.debug == 1) {
-        alert("no °, returns: " + Number(degrees))
-      }
+    else { // Input is in format: 40.445 -79.982
+      if (this.state.debug) alert("no °, ∴ returning["+Number(degrees)+"]");  // if debug is set to true
       return Number(degrees);
-    }   
-    //minutes divided by 60
-    if (degrees.includes("\'") || degrees.includes("\′")) {
-      ret += (Number(inp[1].slice(0, -1)) / 60);
     }
-    //seconds divided by 3600
-    if (degrees.includes("\"") || degrees.includes("\″")) {
-      ret += (Number(inp[2].slice(0,-1)) / 3600);
+    if (degrees.includes("\'") || degrees.includes("\′")) { // if it has minutes
+      ret += (Number(inp[1].slice(0, -1)) / 60); // += minutes divided by 60
     }
-    //If negative
-    if (degrees.includes("S") || degrees.includes("W")) {
-      ret *= -1;
+    if (degrees.includes("\"") || degrees.includes("\″")) { // if it has seconds
+      ret += (Number(inp[2].slice(0,-1)) / 3600); // += seconds divided by 3600
     }
+    if (degrees.includes("S") || degrees.includes("W")) { // if it is South or West, 
+      ret *= -1; // makes the return value negative
+    }
+    if (this.state.debug) alert("Converted ["+Number(degrees)+"] to: ["+ret+"]"); // if debug is set to true
     return ret;
   }
-  
-  radians(degrees) {
-    return degrees * (Math.PI / 180);
-  }  
-  
+
+  // Checks to make sure all 4 fields are populated, and calls GCD
   Calculate(event) {
-    // var valid = this.ValidateInputs(event);
-    if (this.state.source == "" || this.state.destination == "") {
-      this.setState({output : "Please enter both inputs"});
-      return;
+    if (this.state.source == "" || this.state.sourceLo == "" || this.state.sourceLa == "" || 
+        this.state.destination == "" || this.state.destinationLo == "" || this.state.destinationLa == "") {
+      this.setState({output : "Please enter both inputs"}); // Displays message through output
+      return; // does NOT call GCD
     }
-    this.GCD(event);
+    this.GCD(event); // all 4 inputs are populated
   }
-  
+
   //Great Circle Distance
-  //Takes long1, lat1 (source) and long2, lat2 (destination) as degrees
   GCD(event) {
     //0. Convert to radians    
     var a1 = this.radians(this.state.sourceLa);
     var b1 = this.radians(this.state.sourceLo);
     var a2 = this.radians(this.state.destinationLa);
     var b2 = this.radians(this.state.destinationLo);
-          
-    //1. Compute X, Y, Z
+
+    //1. Test validity of inputs
+    var rtnNum = this.inputValid([a1,b1,a2,b2]); // returns -1 if all 4 inputs are valid
+    if (rtnNum != -1) {
+      var input_error = "Not Calculatable";
+      if      (rtnNum == 0) inp_error = "Source Latitude";
+      else if (rtnNum == 1) inp_error = "Source Longitude";
+      else if (rtnNum == 2) inp_error = "Destination Latitude";
+      else if (rtnNum == 3) inp_error = "Destination Longitude";
+      this.setState({output : "Input Failed with: " + inp_error});
+      return;
+    }
+
+    //2. Compute X, Y, Z
     var x = Math.cos(b2)*Math.cos(a2) - Math.cos(b1)*Math.cos(a1);
     var y = Math.cos(b2)*Math.sin(a2) - Math.cos(b1)*Math.sin(a1);
     var z = Math.sin(b2) - Math.sin(b1);
 
-    //2. Compute chord length
+    //3. Compute chord length
     var c = Math.sqrt((x*x) + (y*y) + (z*z));
 
-    //3. Compute central angle
+    //4. Compute central angle
     var o = 2*(Math.asin(c/2));
 
-    //4. Find GCD
-    var d = 0;
+    //5. Find GCD
     if (document.getElementById("unitSelect").value == "miles") {
       this.setState({unit : "miles"});
       d = o * 3958.7613; // Miles earth radius
@@ -165,23 +167,36 @@ class Calculator extends React.Component {
       this.setState({unit : "kilometers"});
       d = o * 6371.0088; // Kilometer earth radius
     }
-    if (this.state.debug == 1) {
+    if (this.state.debug) {  // if debug is set to true
       alert("a1 = " + a1 + "\nb1 = " + b1 +
-          "\na2 = " + a2 + "\nb2 = " + b2 + 
-          "\nx = " + x + "\ny = " + y + "\nz = " + z + 
-          "\nc = " + c + "\no = " + o + "\nd = " + d)
+            "\na2 = " + a2 + "\nb2 = " + b2 +
+            "\nx = " + x + "\ny = " + y + "\nz = " + z +
+            "\nc = " + c + "\no = " + o + "\nd = " + d);
     }
-    this.setState({output : ""+Math.round(d)})
+    this.setState({output : Math.round(d)}); // updates output box to distance (without decimals)
   }
-  
+
+  radians(degrees) {
+    return degrees * (Math.PI / 180);
+  }
+
+  // Tests to see if "Not a Number" on all 4 inputs once they are in decimal format
+  inputValid(array) {
+    for (i = 0; i < array.length; ++i)
+      if (isNaN(array[i])) // if input is Not a Number (ex: "String")
+        return i; // returns the input that is incorrect
+    return -1; // All inputs are valid 
+  }
+
+  // Provides functionality to id="unitSelect" dropdown box
   setUnit(event) {
-    if (event.target.value == "miles") {
-      this.setState({unit : event.target.value});
+    if (event.target.value == "miles") { // if switched to miles
+      this.setState({unit : event.target.value}); // changes unit to miles
     }
-    else if (event.target.value == "kilometers") {
-      this.setState({unit : event.target.value});
+    else if (event.target.value == "kilometers") { // if switched to kilos
+      this.setState({unit : event.target.value}); // changes unit to kilos
     }
-    this.Calculate(event);
+    this.Calculate(event); // update output box (with new units)
   }
 
   render() { /* 3 x 2 table containing source, destination, and output rows*/
@@ -190,27 +205,26 @@ class Calculator extends React.Component {
         <div className = "row no-gutters">
           <div className="col-md-2">
           </div>
-	        <div className="col-md-4">
+          <div className="col-md-4">
             <input type="text" className="form-control form-control-lg" placeholder="Source"
-            id="sourceIn" value={this.state.source} onChange={this.updateSource}/> 
+              value={this.state.source} onChange={this.updateSource}/> 
           </div>
           <div className="col-md-4">
             <input type="text" className="form-control form-control-lg"  placeholder="Destination"
-             id="destinationIn" value={this.state.destination} onChange={this.updateDestination}/> 
+              value={this.state.destination} onChange={this.updateDestination}/> 
           </div>
         </div>
         <div className = "row no-gutters">
           <div className="col-md-2">
           </div>
           <div className="col-md-4">
-            <select className="form-control form-control-lg" 
-            id="unitSelect" onChange={this.setUnit}>
-            <option value="miles">     Miles</option>
-            <option value="kilometers">Kilometers</option>
+            <select className="form-control form-control-lg" id="unitSelect" onChange={this.setUnit}>
+              <option value="miles">     Miles</option>
+              <option value="kilometers">Kilometers</option>
             </select>
           </div>
           <div className="col-md-4">
-           <input className="btn btn-secondary btn-lg btn-block" type="submit" value="Calculate" 
+            <input className="btn btn-secondary btn-lg btn-block" type="submit" value="Calculate" 
               onClick={this.Calculate}/>
           </div>
         </div>
