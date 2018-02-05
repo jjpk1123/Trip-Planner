@@ -3,7 +3,7 @@
 ## Goal
 
 ### A mobile, responsive map and itinerary!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: Julien Pecquet
 
 ## Definition of Done
 
@@ -12,7 +12,6 @@
 * Product Increment release `v2.0` created on GitHub with appropriate version number and name, a description based on the Release Notes template, and the arhived files.
 * Version in pom.xml should be `<version>2.0.0</version>`.
 * Javadoc and unit tests for public methods.
-* ~~Coverage at least 50% overall and for each class.~~
 
 ## Policies
 
@@ -30,17 +29,41 @@
 
 Epics planned for this release.
 
-* *## title*
-*
+* Plan trips in the state of Colorado
+* Load button
+* Save button
+* Display map
+* Show itinerary
+* Adjust itinerary
+* Adjust trip order
 
 *Include a discussion of planning decisions made based on your velocity from previous sprints.*
+* We left some things which were less important so we can focus on team building and organization in the required tasks. Our primary issue has been communications, and learning new technology. This should set us up for a polished demo, and for good growth as a team.
 
 ## Metrics
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  *value*   | *value* 
-Story Points |  *value*  | *value* 
+Load button | 2/4/2018 | 
+Validate TFFI and JSON format | 2/4/2018 | 
+Display loaded info to user | 2/4/2018 | 
+Parse loaded file | 2/4/2018 | 
+Create adaptive itinerary | 2/4/2018 | 
+Populate itinerary | 2/4/2018 | 
+Make start point same as final | 2/4/2018 | 
+Calculate distances from each point | 2/4/2018 | 
+Sum distances | 2/4/2018 | 
+Draw map on server | 2/4/2018 | 
+Send map to website | 2/4/2018 | 
+Display SVG | 2/4/2018 | 
+Dynamic structure adding next trip to end | 2/4/2018 | 
+Save button | 2/4/2018 | 
+Store file on server | 2/4/2018 | 
+Translate data to TFFI JSON | 2/4/2018 | 
+Modify itinerary | 2/4/2018 | 
+On/off buttons for itinerary fields | 2/4/2018 | 
+Update itinerary when changing start | 2/4/2018 | 
+Change start point | 2/4/2018 | 
 
 ## Daily Scrums
 
