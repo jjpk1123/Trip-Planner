@@ -44,33 +44,14 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Load button | 2/4/2018 | 
-Validate TFFI and JSON format | 2/4/2018 | 
-Display loaded info to user | 2/4/2018 | 
-Parse loaded file | 2/4/2018 | 
-Create adaptive itinerary | 2/4/2018 | 
-Populate itinerary | 2/4/2018 | 
-Make start point same as final | 2/4/2018 | 
-Calculate distances from each point | 2/4/2018 | 
-Sum distances | 2/4/2018 | 
-Draw map on server | 2/4/2018 | 
-Send map to website | 2/4/2018 | 
-Display SVG | 2/4/2018 | 
-Dynamic structure adding next trip to end | 2/4/2018 | 
-Save button | 2/4/2018 | 
-Store file on server | 2/4/2018 | 
-Translate data to TFFI JSON | 2/4/2018 | 
-Modify itinerary | 2/4/2018 | 
-On/off buttons for itinerary fields | 2/4/2018 | 
-Update itinerary when changing start | 2/4/2018 | 
-Change start point | 2/4/2018 | 
+Tasks | 20 | 0
+Storypoints | 43 | 0
 
 ## Daily Scrums
 
 Date | Tasks done  | Tasks in progress | Impediments 
 :--- | :--- | :--- | :--- 
-*date* | *@task only* | *@task only* | none
- | | | 
+2/6/2018|start point|nothing yet :)|nothing yet :) 
  
 
 ## Review
