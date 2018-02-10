@@ -16,6 +16,7 @@ class Application extends Component {
         options : {distance: "miles"},
         places: [],
         distances: [],
+          // TODO: possibly change map's default svg image
         map: "<svg width=\"1920\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><g></g></svg>"
       }
     }
@@ -32,6 +33,7 @@ class Application extends Component {
   updateOptions(options){
     console.log(options);
     // update the options in the trip.
+    // TODO: something like {options(:||.)distance : options}
   }
 
   render() {

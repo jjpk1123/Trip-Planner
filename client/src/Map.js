@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-
+//  TODO: figure out what this file does and how to make it do what we want
 /* Map obtains and renders the map for the trip.
  * Might be an SVG or KML contained in the server response.
  */

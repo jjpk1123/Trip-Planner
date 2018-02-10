@@ -15,6 +15,7 @@ class Destinations extends Component {
 
   loadTFFI(event) {
     console.log(event.target.files[0].name);
+    // TODO: read next 3 lines
     // now you need to read the file and create a JSON.
     // then you need to set the trip property
     // this.props.updateTrip(??);
@@ -22,6 +23,7 @@ class Destinations extends Component {
 
   render() {
     // need to clean up the button
+    // TODO: count how many destinations there are
     const count = 99; // need to count the number in the trip
     return (
         <div id="destinations" className="card">
