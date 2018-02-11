@@ -17,7 +17,7 @@ class Options extends Component{
   }
 
   render() {
-    // @todo need to update the options when a button is pressed
+    // @todo need to update the options when a button is pressed. Maybe onChange={this.changeOptions} ?
     return(
         <div id="options" className="card">
           <div className="card-header bg-info text-white">

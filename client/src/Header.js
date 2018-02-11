@@ -7,7 +7,7 @@ class Header extends Component{
     super(props);
   }
 
-  render() {
+  render() { // TODO: maybe add a t17-specific message in there? (So Dave knows we've got this)   B]
     return(
         <div id="header" className="jumbotron">
           {this.title()}
