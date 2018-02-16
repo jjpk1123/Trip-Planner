@@ -13,17 +13,30 @@ class Destinations extends Component {
     this.loadTFFI = this.loadTFFI.bind(this);
   }
 
+  //Load a file from "browse" button
   loadTFFI(event) {
-    console.log(event.target.files[0].name);
-    // TODO: read next 3 lines
-    // now you need to read the file and create a JSON.
-    // then you need to set the trip property
-    // this.props.updateTrip(??);
+    //Read the file
+    let file = event.target.files[0];
+    let reader = new FileReader();
+
+    //When we call readAsText() below, it'll read as text and then call this function
+    reader.onload = function(){
+
+        //Parse what the reader read from the file reference
+        let myObj = JSON.parse(reader.result);
+
+        //Update the trip
+        this.props.updateTrip(myObj); //Check Application.updateTrip, there's another
+        console.log("loadTFFI, myObj: " + JSON.stringify(myObj));   //Sanity check, check console for JSON string
+        alert(file.name + " is loaded");                            //You did it!
+    }.bind(this); //<-- Piazza made me feel this may have been necessary... we'll see
+
+    //Read the data into the FileReader object
+    reader.readAsText(file);
   }
 
   render() {
     // need to clean up the button
-    // TODO: count how many destinations there are
     const count = 99; // need to count the number in the trip
     return (
         <div id="destinations" className="card">

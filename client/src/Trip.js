@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import Map from './Map';
 import Itinerary from './Itinerary';
 
-// TODO: get to know everything about this file
-/* Trip computes the map an intinerary based on a set of destinations and options.
+/* Trip computes the map and intinerary based on a set of destinations and options.
  * The destinations and options reside in the parent object so they may be set by
  * the Destinations and Options classes.
  * The map and itinerary reside in this object so they can be passed to the Map and Itinerary classes.
@@ -22,22 +21,8 @@ class Trip extends Component {
    */
   fetchResponse(){
     // need to get the request body from the trip in state object.
-    let requestBody = {
-        "type"    : "trip",
-        "title"   : "PLANNING",
-        "options" : { 
-          "distance":"miles",
-          "optimization":"none"
-        },
-        "places"  : [
-          {"id":"dnvr", "name":"Denver", "latitude": "", "longitude": ""},
-          {"id":"bldr", "name":"Boulder", "latitude": "", "longitude": ""},
-          {"id":"foco", "name":"Fort Collins", "latitude": "", "longitude": ""},
-          {"id":"grly", "name":"Greeley", "latitude": "", "longitude": ""},
-          {"id":"fomo", "name":"Fort Morgan", "latitude": "", "longitude": ""},
-          {"id":"frst", "name":"Firestone", "latitude": "", "longitude": ""}
-          ]
-      };
+    let requestBody = this.props.trip;
+    console.log("from fetchResponse: " + this.props.trip);
 
     console.log(process.env.SERVICE_URL);
     console.log(requestBody);
