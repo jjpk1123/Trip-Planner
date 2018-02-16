@@ -27,8 +27,8 @@ class Destinations extends Component {
 
         //Update the trip
         this.props.updateTrip(myObj); //Check Application.updateTrip, there's another
-        console.log("loadTFFI, myObj: " + JSON.stringify(myObj));   //Sanity check, check console for JSON string
-        alert(file.name + " is loaded");                            //You did it!
+        //console.log("loadTFFI, myObj: " + JSON.stringify(myObj));   //Sanity check, check console for JSON string
+        //alert(file.name + " is loaded");                            //You did it!
     }.bind(this); //<-- Piazza made me feel this may have been necessary... we'll see
 
     //Read the data into the FileReader object

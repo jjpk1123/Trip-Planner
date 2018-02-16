@@ -25,7 +25,7 @@ class Application extends Component {
 
   updateTrip(tffi){
     this.setState({trip:tffi});
-    console.log("updateTrip : " + JSON.stringify(this.state.trip)); //Sanity check, the trip is updated!
+    //console.log("updateTrip : " + JSON.stringify(this.state.trip)); //Sanity check, the trip is updated!
   }
 
   updateOptions(options){

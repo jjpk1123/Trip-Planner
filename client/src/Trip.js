@@ -35,11 +35,14 @@ class Trip extends Component {
 
   async plan(){
     try {
+      console.log("Awaiting response from server");
       let serverResponse = await this.fetchResponse();
       let tffi = await serverResponse.json();
       console.log(tffi);
       this.props.updateTrip(tffi);
+      console.log("Async Plan(): fetchReponse is done");
     } catch(err) {
+      console.error("You hit an error in async plan()");
       console.error(err);
     }
   }

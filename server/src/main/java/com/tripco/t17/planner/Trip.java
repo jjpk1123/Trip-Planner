@@ -48,7 +48,7 @@ public class Trip {
   private ArrayList<Integer> legDistances() {
 
     ArrayList<Integer> dist = new ArrayList<Integer>();
-
+    System.out.println("Hello from Trip.java!");
     // TODO change hardcoded to real distances:
     // for(blah=0; blah < blah-1; ++blah)
     // { dist.add(helperDistanceMethod(place[a], place[a+1])) }
