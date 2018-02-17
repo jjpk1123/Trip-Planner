@@ -38,5 +38,14 @@ public class TestTrip {
     assertEquals(expectedDistances, trip.distances);
   }
 
+  /*@Test
+  public void testGCD(){
+    int expected = 12;
+    ArrayList<Integer> expectedDistances = new ArrayList<Integer>();
+    Collections.addAll(expectedDistances, 12, 23);
+    int actual = trip.GCD();
+    assertEquals(expected, actual);
+  }*/
+
 
 }
