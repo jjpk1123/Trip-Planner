@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.tripco.t17.server.HTTP;
 import spark.Request;
+
+import java.net.SocketPermission;
 import java.util.ArrayList;
 import java.lang.Math;
 
@@ -48,7 +50,8 @@ public class Trip {
    */
   private ArrayList<Integer> legDistances() {
     ArrayList<Integer> dist = new ArrayList<Integer>();
-    System.out.println("Hello from Trip.java!");
+    //System.out.println("Hello from Trip.java!");
+    //String unit = this.options.distance; //Pass this to GCD
     // for(blah=0; blah < blah-1; ++blah)
     // { dist.add(helperDistanceMethod(place[a], place[a+1])) }
     // hardcoded example
@@ -71,13 +74,102 @@ public class Trip {
     return dist;
   }
 
-  //Calculates the Greatest Circle Distance for one leg at a time
-  public int GCD(double sourceLat, double sourceLong, double destLat, double destLong){
-      //Math.toRadians();
-      //Math.round();
+  /**
+   * @param DMS:    Something in one of the following forms:
+   *                12.182
+   *                49° 14' 46.6512" N
+   *                174° 46' E
+   *                69° W
+   *        **Note: This takes lat OR long, not both
+   * @return
+   */
+  //TODO: Deal with invalid input
+  public double DmsToDegrees(String DMS){
+    double degrees = 0.0;
+    //5° 30' N
+    //Check for °, main validator
+    if (DMS.contains("°")){
+      String[] result = DMS.split("°");
+      //[5, 30' N]
+      degrees = Double.parseDouble(result[0].trim());
+      //Check for '
+      if (result[1].contains("'")){
+        result = result[1].split("'");
+        double minutes = Double.parseDouble(result[0].trim());
+        degrees += (minutes/60);
 
+        //Check for "
+        if (result[1].contains("\"")) {
+          result = result[1].split("\"");
+          double seconds = Double.parseDouble(result[0].trim());
+          degrees += (seconds / 3600);
+        }
+      }
 
-      return 12;
+      //Set the sign at the very end
+      if (result[1].trim().equals("N")){
+      }
+      else if (result[1].trim().equals("E")){
+      }
+      else if (result[1].trim().equals("S")){
+        degrees *= -1;
+      }
+      else if (result[1].trim().equals("W")){
+        degrees *= -1;
+      } else {
+        //TODO: Incorrect input, what do we do!?
+
+      }
+    } else { //Already in degrees, or another invalid input like "klajsdf"
+      try{
+        degrees = Double.parseDouble(DMS);
+      } catch (Exception e){
+        //TODO: Set degrees to error code, maybe 9999999 or something?
+        //Perhaps we can make a new method for error handling which stops legDistances?
+      }
+    }
+
+    return degrees;
+  }
+
+  /**
+   * @param source: starting point, contains lat/long
+   * @param dest:   ending point, contains lat/long
+   * @param unit:   calculation of radius, km or miles
+   * @return
+   */
+  public int GCD(Place source, Place dest, String unit){
+    //Source (a1,b1)
+    double a1 = Math.toRadians(this.DmsToDegrees(source.latitude));
+    double b1 = Math.toRadians(this.DmsToDegrees(source.longitude));
+
+    //Dest (a2,b2)
+    double a2 = Math.toRadians(this.DmsToDegrees(dest.latitude));
+    double b2 = Math.toRadians(this.DmsToDegrees(dest.longitude));
+
+    //Compute X,Y,Z
+    double x = Math.cos(a2)*Math.cos(b2) - Math.cos(a1)*Math.cos(b1);
+    double y = Math.cos(a2)*Math.sin(b2) - Math.cos(a1)*Math.sin(b1);
+    double z = Math.sin(a2) - Math.sin(a1);
+
+    //Compute chord length
+    double c = Math.sqrt((x*x)+(y*y)+(z*z));
+
+    //Compute central angle
+    double o = 2*(Math.asin(c/2));
+
+    //Find greatest circle distance depending on unit
+    double d;
+    if (unit.equals("miles")){
+      d = o * 3958.7613;
+    }else{ //Kilometers
+      d = o * 6371.0088;
+    }
+
+    //Do some Math magic
+    int result = Math.toIntExact(Math.round(d));
+
+    return result;
   }
 
 }
