@@ -44,15 +44,20 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks | 20 | 0
-Storypoints | 43 | 0
+Tasks | 17 | 9
+Storypoints | 42 | 22
 
 ## Daily Scrums
 
 Date | Tasks done  | Tasks in progress | Impediments 
 :--- | :--- | :--- | :--- 
-2/6/2018|start point|nothing yet :)|nothing yet :) 
- 
+2/6/2018|start point|nothing|nothing
+2/8/2018|nothing, This task took a week for everyone go get completed, the first real and productive scrum is 2/17/2018|setting up productive work space|Windows giving us a lot of grief
+2/10/2018|nothing, we are almost set up for real|Tasks within Epic #73: Load button implementation. Tasks within Epic #75: Tackling the SVG|Mike: Merging a clone into master in IntelliJ in a good way. Alex: Windows, and trying to get the SSH set up to the labs. Ezra: Working with IntelliJ, git, doing commits and things of that nature. Julien: Setting up my virtual machine. It is very slow and was a bit of a trouble setting it up.
+2/13/2018|nothing|#73, #75|nothing new
+2/15/2018|nothing, but we are finally ready with our dual boots/mac set ups so it gets better from here|#83, #105, #84, #106, #108, #89, #82| Getting everyone to work on Zenhub and communicate effectively. Getting ahold of how the server works with our load button.
+2/17/2018|#84, #105, #83|#106, #108, #82, #91, #89 first. Later on: #109, #88, #87, #92, #107|Ezra: Other classes, still learning IntelliJ. Learning how everything is working. Alex: Keeping numbers straight while working with SVG. Still messed up with workspace, probably heading towards a dual boot set up. Life. Julien: Feeling lonely on the team. Not getting much help internally. We're working on it but it's been a struggle.
+
 
 ## Review
 
