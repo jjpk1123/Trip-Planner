@@ -76,13 +76,14 @@ public class Trip {
 
   /**
    * @param DMS:    Something in one of the following forms:
+   *                12.182
    *                49° 14' 46.6512" N
    *                174° 46' E
    *                69° W
    *        **Note: This takes lat OR long, not both
    * @return
    */
-
+  //TODO: Deal with invalid input
   public double DmsToDegrees(String DMS){
     double degrees = 0.0;
     //5° 30' N
@@ -118,6 +119,13 @@ public class Trip {
       } else {
         //TODO: Incorrect input, what do we do!?
 
+      }
+    } else { //Already in degrees, or another invalid input like "klajsdf"
+      try{
+        degrees = Double.parseDouble(DMS);
+      } catch (Exception e){
+        //TODO: Set degrees to error code, maybe 9999999 or something?
+        //Perhaps we can make a new method for error handling which stops legDistances?
       }
     }
 
@@ -159,7 +167,6 @@ public class Trip {
     }
 
     //Do some Math magic
-    d = Math.round(d);
     int result = Math.toIntExact(Math.round(d));
 
     return result;
