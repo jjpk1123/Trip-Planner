@@ -13,10 +13,9 @@ class Application extends Component {
       trip: { // default TFFI
         type: "trip",
         title: "",
-        options : {distance: "miles"},
+        options : {distance: "kilometers"},
         places: [],
         distances: [],
-          // TODO: possibly change map's default svg image
         map: "<svg width=\"1920\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><g></g></svg>"
       }
     }
@@ -25,9 +24,8 @@ class Application extends Component {
   }
 
   updateTrip(tffi){
-    console.log("updateTrip");
-    console.log(tffi);
     this.setState({trip:tffi});
+    //console.log("updateTrip : " + JSON.stringify(this.state.trip)); //Sanity check, the trip is updated!
   }
 
   updateOptions(options){

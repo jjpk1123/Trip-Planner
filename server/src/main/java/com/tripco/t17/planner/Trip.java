@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.tripco.t17.server.HTTP;
 import spark.Request;
 import java.util.ArrayList;
+import java.lang.Math;
 
 /**
  * The Trip class supports TFFI so it can easily be converted to/from Json by Gson.
@@ -25,7 +26,6 @@ public class Trip {
    * It might need to reorder the places in the future.
    */
   public void plan() {
-
     this.map = svg();
     this.distances = legDistances();
 
@@ -47,13 +47,20 @@ public class Trip {
    * @return
    */
   private ArrayList<Integer> legDistances() {
-
     ArrayList<Integer> dist = new ArrayList<Integer>();
-
-    // TODO change hardcoded to real distances:
+    System.out.println("Hello from Trip.java!");
     // for(blah=0; blah < blah-1; ++blah)
     // { dist.add(helperDistanceMethod(place[a], place[a+1])) }
     // hardcoded example
+      //Call trip.GCD() for each i and i+1 places from 0 to n, and then n and 0
+    //We are going to do something like this
+    /*for (int i = 0 ; i < this.places.size() ; i++) {
+      dist.add(this.GCD(
+              this.places.get(i).latitude.toDegrees(),
+              this.places.get(i).longitude.toDegrees(),
+              this.places.get((i + 1) % this.places.size()).latitude.toDegrees(),
+              this.places.get((i + 1) % this.places.size()).longitude.toDegrees()));
+    }*/
     dist.add(12);
     dist.add(23);
     dist.add(34);
@@ -62,6 +69,15 @@ public class Trip {
     dist.add(19);
 
     return dist;
+  }
+
+  //Calculates the Greatest Circle Distance for one leg at a time
+  public int GCD(double sourceLat, double sourceLong, double destLat, double destLong){
+      //Math.toRadians();
+      //Math.round();
+
+
+      return 12;
   }
 
 }

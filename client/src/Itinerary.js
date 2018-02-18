@@ -8,13 +8,13 @@ class Itinerary extends Component {
   }
 
   createTable () {
-    // TODO: implement distance by Sigma(dests.dists)
     let distance = 0;  // need to sum this from real the trip
     let units = this.props.trip.options.distance;
-    let dests = this.props.trip.places.map((item) => <td>{item.name}</td>); //TODO: is this a for loop?
-    let dists = this.props.trip.distances.map((item) => <td>{item}</td>);
+    let dests = this.props.trip.places.map((item) => <td key = {item.id}>{item.name}</td>);
+    let dists = this.props.trip.distances.map((item) => <td key = {this.props.trip.distances.indexOf(item)}>{item}</td>);
 
-    console.log(this.props.trip);
+    //console.log("Hello from Itinerary.createTable()! :)");
+    //console.log(this.props.trip);
 
     return {distance, units, dests, dists};
   }
