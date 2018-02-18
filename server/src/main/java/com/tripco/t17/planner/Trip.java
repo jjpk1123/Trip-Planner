@@ -54,8 +54,7 @@ public class Trip {
     //String unit = this.options.distance; //Pass this to GCD
     // for(blah=0; blah < blah-1; ++blah)
     // { dist.add(helperDistanceMethod(place[a], place[a+1])) }
-    // hardcoded example
-      //Call trip.GCD() for each i and i+1 places from 0 to n, and then n and 0
+    //Call trip.GCD() for each i and i+1 places from 0 to n, and then n and 0
     //We are going to do something like this
     /*for (int i = 0 ; i < this.places.size() ; i++) {
       dist.add(this.GCD(
@@ -92,6 +91,7 @@ public class Trip {
       String[] result = DMS.split("°");
       //[5, 30' N]
       degrees = Double.parseDouble(result[0].trim());
+
       //Check for '
       if (result[1].contains("'")){
         result = result[1].split("'");
@@ -107,14 +107,9 @@ public class Trip {
       }
 
       //Set the sign at the very end
-      if (result[1].trim().equals("N")){
-      }
-      else if (result[1].trim().equals("E")){
-      }
-      else if (result[1].trim().equals("S")){
-        degrees *= -1;
-      }
-      else if (result[1].trim().equals("W")){
+      if (result[1].trim().equals("N") || (result[1].trim().equals("E"))) {
+        // do nothing
+      } else if (result[1].trim().equals("S") || (result[1].trim().equals("W"))) {
         degrees *= -1;
       } else {
         //TODO: Incorrect input, what do we do!?
