@@ -39,7 +39,7 @@ public class Plan {
     trip.plan();
 
     // log something.
-    System.out.println("Plan constructor says: " + trip.title);
+    System.out.println(trip.title);
   }
 
   /** Handles the response for a Trip object.
