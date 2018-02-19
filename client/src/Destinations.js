@@ -36,8 +36,7 @@ class Destinations extends Component {
     }
 
     render() {
-        // need to clean up the button
-        const count = this.props.getCount(); // need to count the number in the trip
+        // getCount() returns the number of places in the trip file
         return (
             <div id="destinations" className="card">
                 <div className="card-header bg-info text-white">
@@ -48,7 +47,7 @@ class Destinations extends Component {
                     <div className="form-group" role="group">
                         <input type="file" className="form-control-file" onChange={this.loadTFFI} id="tffifile" />
                     </div>
-                    <h5>There are {count} destinations. </h5>
+                    <h5>There are {this.props.getCount()} destinations. </h5>
                 </div>
             </div>
         )
