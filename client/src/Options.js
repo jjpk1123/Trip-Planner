@@ -22,34 +22,40 @@ class Options extends Component{
     changeUnit(event) { // Changes the parent's (Application.js) options
         //console.log("[Options] changeUnit Start");
         if (event.target.value === "kilometers") { // m2k
-            console.log("miles -> Kilos!");
+            //console.log("miles -> Kilos!");
+            //sets "kilometers" to the active state
             this.setState({k_btn :
                     <label className="btn btn-outline-dark active">
                         <input type="radio" value="kilometers" name="distance"/> Kilometers
                     </label>});
+            //sets "miles" to inactive
             this.setState({m_btn :
                     <label className="btn btn-outline-dark">
                         <input type="radio" value="miles"      name="distance"/> Miles
                     </label>});
         }
         else { // k2m
-            console.log("kilos -> Miles!");
+            //console.log("kilos -> Miles!");
+            //sets "miles" to active state
             this.setState({m_btn :
                     <label className="btn btn-outline-dark active">
                         <input type="radio" value="miles"      name="distance"/> Miles
                     </label>});
+            //sets "kilometers" to inactive
             this.setState({k_btn :
                     <label className="btn btn-outline-dark">
                         <input type="radio" value="kilometers" name="distance"/> Kilometers
                     </label>});
         }
-        let tempTrip = this.props.trip;
-        tempTrip.options.distance = event.target.value;
-        this.props.updateTrip(tempTrip);
+        let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
+        tempTrip.options.distance = event.target.value; //alters the distance field to reflect the newly-selected unit
+        this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
         //console.log("[Options] changeUnit Complete");
     }
 
-    //changeOptimization(event) {}
+    // TODO: Once we have options to display, namely clickable "Show Me These" checkboxes and optimization,
+    // someone will need to mimic the unitButtons to re-render.
+    // changeOptimization(event) {}
 
     render() {
         return(

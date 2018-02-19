@@ -29,7 +29,7 @@ class Application extends Component {
 
     updateTrip(tffi) {
         this.setState({trip:tffi});
-        console.log("Distance is: " + tffi.options.distance); // Correctly implements unit Button
+        //console.log("Distance is: " + tffi.options.distance); // Correctly implements unitButton
         //console.log("updateTrip : " + JSON.stringify(this.state.trip)); // Sanity check, the trip is updated!
     }
 
@@ -41,12 +41,12 @@ class Application extends Component {
                         <Options trip={this.state.trip}
                                  distance={this.state.trip.options.distance}
                                  optimization={this.state.trip.options.optimization}
-                                 updateTrip={this.updateTrip}/>
+                                 updateTrip={this.updateTrip} />
                     </div>
                     <div className="col-12">
                         <Destinations trip={this.state.trip}
                                       getCount={this.getCount}
-                                      updateTrip={this.updateTrip}/>
+                                      updateTrip={this.updateTrip} />
                     </div>
                     <div className="col-12">
                         <Trip trip={this.state.trip}
