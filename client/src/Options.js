@@ -8,22 +8,45 @@ import React, {Component} from 'react';
 class Options extends Component{
     constructor(props) {
         super(props);
+        this.state = {
+            m_btn : <label className="btn btn-outline-dark active">
+                        <input type="radio" value="miles"      name="distance"/> Miles
+                    </label>,
+            k_btn : <label className="btn btn-outline-dark">
+                        <input type="radio" value="kilometers" name="distance"/> Kilometers
+                    </label>
+        };
         this.changeUnit = this.changeUnit.bind(this);
     }
 
-    changeUnit(event) { // *should* Change the parent's (Application.js) options
-        //console.log("Options: changeUnit Begin");
-        if (event.target.value === "kilometers") { //m2k
-            this.setState({distance: "kilometers"});
-            console.log("changing Miles to Kilometers");
+    changeUnit(event) { // Changes the parent's (Application.js) options
+        //console.log("[Options] changeUnit Start");
+        if (event.target.value === "kilometers") { // m2k
+            console.log("miles -> Kilos!");
+            this.setState({k_btn :
+                    <label className="btn btn-outline-dark active">
+                        <input type="radio" value="kilometers" name="distance"/> Kilometers
+                    </label>});
+            this.setState({m_btn :
+                    <label className="btn btn-outline-dark">
+                        <input type="radio" value="miles"      name="distance"/> Miles
+                    </label>});
         }
-        else { //k2m
-            this.setState({distance: "miles"});
-            console.log("changing Kilometers to Miles");
+        else { // k2m
+            console.log("kilos -> Miles!");
+            this.setState({m_btn :
+                    <label className="btn btn-outline-dark active">
+                        <input type="radio" value="miles"      name="distance"/> Miles
+                    </label>});
+            this.setState({k_btn :
+                    <label className="btn btn-outline-dark">
+                        <input type="radio" value="kilometers" name="distance"/> Kilometers
+                    </label>});
         }
-        //this.props.updateOptions(event);
-        //console.log("Options: changeUnit Complete");
-        console.log("[After] options.distance: " + this.props.distance);
+        let tempTrip = this.props.trip;
+        tempTrip.options.distance = event.target.value;
+        this.props.updateTrip(tempTrip);
+        //console.log("[Options] changeUnit Complete");
     }
 
     //changeOptimization(event) {}
@@ -37,12 +60,8 @@ class Options extends Component{
                 <div className="card-body">
                     <p>Highlight the options you wish to use.</p>
                     <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
-                        <label className="btn btn-outline-dark active">
-                            <input type="radio" value="miles" name="distance" defaultChecked/> Miles
-                        </label>
-                        <label className="btn btn-outline-dark">
-                            <input type="radio" value="kilometers" name="distance"/> Kilometers
-                        </label>
+                        {this.state.m_btn}
+                        {this.state.k_btn}
                     </div>
                 </div>
             </div>

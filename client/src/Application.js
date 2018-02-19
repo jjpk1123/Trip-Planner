@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-//import update from 'react-addons-update';
 import Options from './Options';
 import Destinations from './Destinations';
 import Trip from './Trip';
@@ -21,7 +20,6 @@ class Application extends Component {
             }
         };
         this.updateTrip = this.updateTrip.bind(this);
-        //this.updateOptions = this.updateOptions.bind(this);
         this.getCount = this.getCount.bind(this);
     }
 
@@ -31,35 +29,28 @@ class Application extends Component {
 
     updateTrip(tffi) {
         this.setState({trip:tffi});
-        //console.log("updateTrip : " + JSON.stringify(this.state.trip)); //Sanity check, the trip is updated!
+        console.log("Distance is: " + tffi.options.distance); // Correctly implements unit Button
+        //console.log("updateTrip : " + JSON.stringify(this.state.trip)); // Sanity check, the trip is updated!
     }
-
-   /* updateOptions(event) { following belongs in <Options /> below: updateOptions={this.updateOptions}
-        //console.log("Application: updateOptions Begin");
-        const newUnit = event.target.value;
-        //this.setState({trip.options.distance : newUnit}); //Of course it's not this easy
-        if (newUnit === "miles") { // miles to kilometers
-            this.setState({trip: {...this.state.trip, options: {...this.state.trip.options, distance : "miles"}}});
-        }
-        else { // kilometers to miles
-            this.setState({trip: {...this.state.trip, options: {...this.state.trip.options, distance : "kilometers"}}});
-
-        }
-        //console.log("Application: updateOptions Complete " + this.state.trip.options.distance);
-    }*/
 
     render() {
         return(
             <div id="application" className="container">
                 <div className="row">
                     <div className="col-12">
-                        <Options distance={this.state.trip.options.distance} optimization={this.state.trip.options.optimization} />
+                        <Options trip={this.state.trip}
+                                 distance={this.state.trip.options.distance}
+                                 optimization={this.state.trip.options.optimization}
+                                 updateTrip={this.updateTrip}/>
                     </div>
                     <div className="col-12">
-                        <Destinations trip={this.state.trip} getCount={this.getCount} updateTrip={this.updateTrip}/>
+                        <Destinations trip={this.state.trip}
+                                      getCount={this.getCount}
+                                      updateTrip={this.updateTrip}/>
                     </div>
                     <div className="col-12">
-                        <Trip trip={this.state.trip} updateTrip={this.updateTrip} />
+                        <Trip trip={this.state.trip}
+                              updateTrip={this.updateTrip} />
                     </div>
                 </div>
             </div>
