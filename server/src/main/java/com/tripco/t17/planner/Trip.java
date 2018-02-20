@@ -120,8 +120,8 @@ public class Trip {
         double longToSVG = (1030.0 - 36.0)/(109.0 - 102.0);
         double x, y;
         //So, some scaling and translation and such.
-        y = (109.0 - Math.abs(lon)) * longToSVG + 37;
-        x = (41.0 - Math.abs(lat)) * latToSVG + 36;
+        x = (109.0 - Math.abs(lon)) * longToSVG + 37;
+        y = (41.0 - Math.abs(lat)) * latToSVG + 36;
 
         return new double[]{x, y};
     }
