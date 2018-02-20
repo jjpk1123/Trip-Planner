@@ -242,13 +242,23 @@ public class TestTrip {
   /**
    * legDistances Test Block
    */
-  @Test
-  public void testLegDistances() {
+  /*@Test
+  public void testLegDistancesMilesOnePlace() {
+    Place A = new Place();
+    A.id = "a";
+    A.name = "A";
+    A.latitude = "35° N";
+    A.longitude = "35° E";
+    System.out.println("Hello: " + A.latitude);
+
+    trip.places = new ArrayList<Place>();
+    trip.places.add(A);
+
+
     trip.plan();
     ArrayList<Integer> expectedDistances = new ArrayList<Integer>();
-    Collections.addAll(expectedDistances, 12, 23, 34, 45, 65, 19);
-    // Call the equals() method of the first object on the second object.
+    Collections.addAll(expectedDistances, 0);
     assertEquals(expectedDistances, trip.distances);
-  }
+  }*/
 
 }

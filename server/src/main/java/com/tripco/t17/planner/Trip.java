@@ -87,14 +87,17 @@ public class Trip {
      */
     private String svgLine(int from, int to){
         String ln = "";
+        try{
+            double[] coord1 = svgHelper(this.DmsToDegrees(this.places.get(from).latitude), this.DmsToDegrees(this.places.get(from).longitude));
+            double[] coord2 = svgHelper(this.DmsToDegrees(this.places.get(to).latitude), this.DmsToDegrees(this.places.get(to).longitude));
 
-        double[] coord1 = svgHelper(Double.parseDouble(this.places.get(from).latitude), Double.parseDouble(this.places.get(from).longitude));
-        double[] coord2 = svgHelper(Double.parseDouble(this.places.get(to).latitude), Double.parseDouble(this.places.get(to).longitude));
+            ln = "\n<line x1=\"" + Double.toString(coord1[0]) + "\" y1=\"" + Double.toString(coord1[1]) + "\"";
+            ln +=       " x2=\"" + Double.toString(coord2[0]) + "\" y2=\"" + Double.toString(coord2[1]) + "\"";
+            ln += " style=\"stroke:rgb(255,0,0);stroke-width:3\" />";
 
-        ln = "\n<line x1=\"" + Double.toString(coord1[0]) + "\" y1=\"" + Double.toString(coord1[1]) + "\"";
-        ln +=       " x2=\"" + Double.toString(coord2[0]) + "\" y2=\"" + Double.toString(coord2[1]) + "\"";
-        ln += " style=\"stroke:rgb(255,0,0);stroke-width:3\" />";
+        } catch (Exception e){
 
+        }
         return ln;
     }
 
@@ -131,27 +134,25 @@ public class Trip {
      */
     private ArrayList<Integer> legDistances() {
         ArrayList<Integer> dist = new ArrayList<Integer>();
-        //System.out.println("Hello from Trip.java!");
-        //String unit = this.options.distance; //Pass this to GCD
-        // for(blah=0; blah < blah-1; ++blah)
-        // { dist.add(helperDistanceMethod(place[a], place[a+1])) }
-        // hardcoded example
-        //Call trip.GCD() for each i and i+1 places from 0 to n, and then n and 0
-        //We are going to do something like this
-    /*for (int i = 0 ; i < this.places.size() ; i++) {
-      dist.add(this.GCD(
-              this.places.get(i).latitude.toDegrees(),
-              this.places.get(i).longitude.toDegrees(),
-              this.places.get((i + 1) % this.places.size()).latitude.toDegrees(),
-              this.places.get((i + 1) % this.places.size()).longitude.toDegrees()));
-    }*/
-        dist.add(12);
-        dist.add(23);
-        dist.add(34);
-        dist.add(45);
-        dist.add(65);
-        dist.add(19);
+        //If 0 Places
+        if (this.places.size() < 1){
+            return dist;
+        }
 
+        //If 1 or more places
+        for (int i = 0 ; i < this.places.size() ; i++) {
+            int toAdd = this.GCD(this.places.get(i), this.places.get((i+1)%this.places.size()),this.options.distance);
+            //If -1, source has bad lat or long strings
+            if (toAdd == -1){
+                this.places.remove(i);
+            }
+            else if (toAdd == -2){
+                this.places.remove((i+1)%this.places.size());
+            }
+            else {
+                dist.add(toAdd);
+            }
+        }
         return dist;
     }
 
@@ -164,7 +165,6 @@ public class Trip {
      *             **Note: This takes lat OR long, not both
      * @return
      */
-    //TODO: Deal with invalid input
     public double DmsToDegrees(String DMS) {
         double degrees = 0.0;
         //5° 30' N
@@ -195,15 +195,15 @@ public class Trip {
             } else if (result[1].trim().equals("W")) {
                 degrees *= -1;
             } else {
-                //TODO: Incorrect input, what do we do!?
 
             }
         } else { //Already in degrees, or another invalid input like "klajsdf"
             try {
                 degrees = Double.parseDouble(DMS);
             } catch (Exception e) {
-                //TODO: Set degrees to error code, maybe 9999999 or something?
                 //Perhaps we can make a new method for error handling which stops legDistances?
+                System.err.println(e);
+                throw e;
             }
         }
 
@@ -218,13 +218,23 @@ public class Trip {
      */
     public int GCD(Place source, Place dest, String unit) {
         //Source (a1,b1)
-        double a1 = Math.toRadians(this.DmsToDegrees(source.latitude));
-        double b1 = Math.toRadians(this.DmsToDegrees(source.longitude));
+        double a1, a2, b1, b2 = 0;
+        try {
+            a1 = Math.toRadians(this.DmsToDegrees(source.latitude));
+            b1 = Math.toRadians(this.DmsToDegrees(source.longitude));
+        } catch (Exception e){
+            System.err.println(e);
+            return -1; //bad source
+        }
 
         //Dest (a2,b2)
-        double a2 = Math.toRadians(this.DmsToDegrees(dest.latitude));
-        double b2 = Math.toRadians(this.DmsToDegrees(dest.longitude));
-
+        try{
+            a2 = Math.toRadians(this.DmsToDegrees(dest.latitude));
+            b2 = Math.toRadians(this.DmsToDegrees(dest.longitude));
+        } catch (Exception e){
+            System.err.println(e);
+            return -2; //Bad dest
+        }
         //Compute X,Y,Z
         double x = Math.cos(a2) * Math.cos(b2) - Math.cos(a1) * Math.cos(b1);
         double y = Math.cos(a2) * Math.sin(b2) - Math.cos(a1) * Math.sin(b1);
