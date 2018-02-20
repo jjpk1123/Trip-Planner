@@ -17,7 +17,7 @@ class Destinations extends Component {
     loadTFFI(event) {
         //Read the file
         let file = event.target.files[0];
-        let reader = new FileReader(); //Hi
+        let reader = new FileReader(); //Hi heellloooo
 
         //When we call readAsText() below, it'll read as text and then call this function
         reader.onload = function(){
