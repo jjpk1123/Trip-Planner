@@ -242,7 +242,7 @@ public class TestTrip {
   /**
    * legDistances Test Block
    */
-  /*@Test
+  @Test
   public void testLegDistancesMilesOnePlace() {
     Place A = new Place();
     A.id = "a";
@@ -251,14 +251,17 @@ public class TestTrip {
     A.longitude = "35° E";
     System.out.println("Hello: " + A.latitude);
 
-    trip.places = new ArrayList<Place>();
+    trip.places = new ArrayList<>();
     trip.places.add(A);
+
+    trip.options = new Option();
+    trip.options.distance = "miles";
 
 
     trip.plan();
     ArrayList<Integer> expectedDistances = new ArrayList<Integer>();
     Collections.addAll(expectedDistances, 0);
     assertEquals(expectedDistances, trip.distances);
-  }*/
+  }
 
 }

@@ -133,7 +133,7 @@ public class Trip {
      * @return
      */
     private ArrayList<Integer> legDistances() {
-        ArrayList<Integer> dist = new ArrayList<Integer>();
+        ArrayList<Integer> dist = new ArrayList<>();
         //If 0 Places
         if (this.places.size() < 1){
             return dist;
