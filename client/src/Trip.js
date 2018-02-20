@@ -57,28 +57,25 @@ class Trip extends Component {
     let name = this.props.title + ".json";
     console.log("Saving trip as: " + name);
 
-    let jsonBlob = new Blob([jsonData], {type:"text/plain"});
+    let jsonBlob = new Blob([jsonData], {type: "text/plain;charset=utf-8"});
     var textToSaveAsUrl = window.URL.createObjectURL(jsonBlob);
 
     let downloadLink = document.createElement("a");
     downloadLink.download = name;
     downloadLink.innerHTML = "Download File";
     downloadLink.href = textToSaveAsUrl;
-    //downloadLink.onClick = this.destroyDownloadElement();
     downloadLink.style.display = "none";
     document.body.appendChild(downloadLink);
 
     downloadLink.click();
   }
 
-  //destroyDownloadElement(event) {
-  //  document.body.removeChild(event.target);
-  //}
-
+  /**
+   * Updates the trip.title field as the user is typing "live"
+   */
   updateTitle(event) {
     console.log("Name: " + event.target.value);
     this.props.updateTitle(event.target.value);
-//    this.setState({title : });
   }
 
   /* Renders the buttons, map, and itinerary.
