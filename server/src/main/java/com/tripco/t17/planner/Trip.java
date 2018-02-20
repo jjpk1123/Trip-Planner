@@ -5,8 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.tripco.t17.server.HTTP;
 import spark.Request;
-
-import java.net.SocketPermission;
 import java.util.ArrayList;
 import java.lang.Math;
 
