@@ -11,6 +11,7 @@ class Destinations extends Component {
     constructor(props) {
         super(props);
         this.loadTFFI = this.loadTFFI.bind(this);
+        this.myObj = "";
     }
 
     //Load a file from "browse" button
@@ -23,11 +24,17 @@ class Destinations extends Component {
         reader.onload = function(){
 
             //Parse what the reader read from the file reference
-            let myObj = JSON.parse(reader.result);
+            try{
+                this.myObj = JSON.parse(reader.result);
+            }catch(e){
+                console.log("There was an error reading the JSON file!")
+            }
+
+
 
             //Update the trip
-            this.props.updateTrip(myObj); //Check Application.updateTrip, there's another
-            //console.log("loadTFFI, myObj: " + JSON.stringify(myObj));   //Sanity check, check console for JSON string
+            this.props.updateTrip(this.myObj); //Check Application.updateTrip, there's another
+            console.log("loadTFFI, myObj: " + JSON.stringify(this.myObj));   //Sanity check, check console for JSON string
             //alert(file.name + " is loaded");                            //You did it!
         }.bind(this); //<-- Piazza made me feel this may have been necessary... we'll see
 
