@@ -27,7 +27,7 @@ class Destinations extends Component {
             try{
                 this.myObj = JSON.parse(reader.result);
             }catch(e){
-                console.log("There was an error reading the JSON file!")
+                console.log("There was an error reading the JSON file!");
             }
 
 
