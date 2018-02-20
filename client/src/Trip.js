@@ -73,7 +73,7 @@ class Trip extends Component {
             </span>
             </div>
             <Map trip={this.props.trip} />
-            <Itinerary trip={this.props.trip} roundTripDist={this.props.getRoundTripDistance}/>
+            <Itinerary trip={this.props.trip} getRoundTripDistance={this.props.getRoundTripDistance} />
           </div>
         </div>
     )
