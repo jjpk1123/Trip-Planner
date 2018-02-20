@@ -12,7 +12,7 @@ class Application extends Component {
     this.state = {
       trip: { // default TFFI
         type: "trip",
-        title: "",
+        title: "myTrip",
         options: {
           distance: "miles",
           optimization: "none"
@@ -22,8 +22,9 @@ class Application extends Component {
         map: "<svg width=\"1920\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><g></g></svg>"
       }
     };
-    this.updateTrip = this.updateTrip.bind(this);
     this.getCount = this.getCount.bind(this);
+    this.updateTrip = this.updateTrip.bind(this);
+    this.updateTitle = this.updateTitle.bind(this);
     this.getRoundTripDistance = this.getRoundTripDistance.bind(this);
   }
 
@@ -47,6 +48,18 @@ class Application extends Component {
     //console.log("Distance is: " + tffi.options.distance); // Correctly implements unitButton
     //console.log("updateTrip : " + JSON.stringify(this.state.trip)); // Sanity check, the trip is updated!
   }
+  updateTitle(title) {
+    let trip = this.state.trip;
+    trip.title = title;
+    this.setState({trip});
+    console.log("Title:" + this.state.trip.title);
+
+    //this.setState({trip.: title})
+    //console.log("Distance is: " + tffi.options.distance); // Correctly implements unitButton
+    //console.log("updateTrip : " + JSON.stringify(this.state.trip)); // Sanity check, the trip is updated!
+  }
+
+
 
   render() {
     return (
@@ -65,7 +78,9 @@ class Application extends Component {
             </div>
             <div className="col-12">
               <Trip trip={this.state.trip}
+                    title={this.state.trip.title}
                     updateTrip={this.updateTrip}
+                    updateTitle={this.updateTitle}
                     getRoundTripDistance={this.getRoundTripDistance}/>
             </div>
           </div>
