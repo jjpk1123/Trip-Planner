@@ -27,6 +27,14 @@ class Application extends Component {
         return this.state.trip.places.length;
     }
 
+    getRoundTripDistance() {
+      let returnSum = 0;
+        for (d in distances) {
+          returnSum += d;
+        }
+      return returnSum;
+    }
+
     updateTrip(tffi) {
         this.setState({trip:tffi});
         //console.log("Distance is: " + tffi.options.distance); // Correctly implements unitButton
@@ -50,7 +58,8 @@ class Application extends Component {
                     </div>
                     <div className="col-12">
                         <Trip trip={this.state.trip}
-                              updateTrip={this.updateTrip} />
+                              updateTrip={this.updateTrip}
+                              getRoundTripDistance={this.getRoundTripDistance}/>
                     </div>
                 </div>
             </div>
