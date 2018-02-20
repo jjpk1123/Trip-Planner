@@ -43,6 +43,14 @@ public class TestTrip {
   }
 
   @Test
+  public void testDmsToDegreesNoWork(){
+    assertEquals(0.0, trip.DmsToDegrees("0"), 0.01);
+    assertEquals(0.0, trip.DmsToDegrees("0"), 0.01);
+    assertEquals(0.0, trip.DmsToDegrees("0"), 0.01);
+    assertEquals(0.0, trip.DmsToDegrees("0"), 0.01);
+  }
+
+  @Test
   public void testDmsToDegreesCardinal(){
     //Tests a simple DMS with only degrees and a cardinal direction
 
