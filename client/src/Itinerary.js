@@ -7,10 +7,12 @@ class Itinerary extends Component {
   }
 
   createTable () {
+
     let distance = 0;  // need to sum this from real the trip
     let units = this.props.trip.options.distance;
     let dests = this.props.trip.places.map((item) => <td key = {item.id}>{item.name}</td>);
     let dists = this.props.trip.distances.map((item) => <td key = {this.props.trip.distances.indexOf(item)}>{item}</td>);
+    console.log(dests);
     //console.log("Hello from Itinerary.createTable()! :)");
     //console.log(this.props.trip);
 
@@ -19,6 +21,12 @@ class Itinerary extends Component {
 
   render() {
     let table = this.createTable();
+    let unit = "";
+    if (table.units === "miles") {
+      unit = "Miles";
+    } else {
+      unit = "Kilometers";
+    }
 
     return(
         <div id="itinerary">
@@ -32,8 +40,11 @@ class Itinerary extends Component {
             </thead>
             <tbody>
             <tr>
-              <th className="table-info align-middle">{table.units}</th>
+              <th className="table-info align-middle">{unit}</th>
               {table.dists}
+            </tr>
+            <tr>
+              <th className="table-info align-middle">Cumulative</th>
             </tr>
             </tbody>
           </table>

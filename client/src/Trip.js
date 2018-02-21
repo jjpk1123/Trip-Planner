@@ -58,7 +58,7 @@ class Trip extends Component {
     console.log("Saving trip as: " + name);
 
     let jsonBlob = new Blob([jsonData], {type: "text/plain;charset=utf-8"});
-    var textToSaveAsUrl = window.URL.createObjectURL(jsonBlob);
+    let textToSaveAsUrl = window.URL.createObjectURL(jsonBlob);
 
     let downloadLink = document.createElement("a");
     downloadLink.download = name;
