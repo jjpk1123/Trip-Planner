@@ -116,12 +116,12 @@ public class Trip {
         // Colorado East border = 37 W
         // Colorado North border = 102 N
         // Colorado South border = 109 S
-        double latToSVG = (1030.0 - 36.0)/(41.0 - 37.0);
-        double longToSVG = (747.0 - 37.0)/(109.0 - 102.0);
+        double latToSVG = (747.0 - 37.0)/(41.0 - 37.0);
+        double longToSVG = (1030.0 - 36.0)/(109.0 - 102.0);
         double x, y;
         //So, some scaling and translation and such.
-        y = (109.0 - Math.abs(lon)) * longToSVG + 37;
-        x = (41.0 - Math.abs(lat)) * latToSVG + 36;
+        x = (109.0 - Math.abs(lon)) * longToSVG + 37;
+        y = (41.0 - Math.abs(lat)) * latToSVG + 36;
 
         return new double[]{x, y};
     }
