@@ -54,6 +54,7 @@ class Destinations extends Component {
                 alert("Sorry, it looks like you need some places in your TFFI file.");
                 return;
             }
+            
             //Update the trip
             this.props.updateTrip(this.myObj); //Check Application.updateTrip, there's another
 
