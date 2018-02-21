@@ -4,6 +4,7 @@ class Itinerary extends Component {
   constructor(props) {
     super(props);
     this.createTable = this.createTable.bind(this);
+    this.getRoundTripDistance = this.getRoundTripDistance.bind(this);
   }
 
   createTable () {
@@ -28,7 +29,7 @@ class Itinerary extends Component {
           lat = this.props.trip.places[(d+1)%size].latitude;
           lon = this.props.trip.places[(d+1)%size].longitude;
         }
-        alert("Cannot parse " + whichPlace + " destination with the coordinates provided:\n" +
+        alert("Cannot parse [" + whichPlace + "] destination with the coordinates provided:\n" +
                     "latitude:\t\"" + lat + "\"\n" +
                     "longitude:\t\"" + lon + "\"");
         return {units};
@@ -58,6 +59,20 @@ class Itinerary extends Component {
     return this.props.trip.distances.map((item) => <td key = {this.props.trip.distances.indexOf(item)}>{sum+=item}</td>);
   }
 
+  getRoundTripDistance() {
+    let sum = 0;
+    let howMany = this.props.trip.distances.length;
+    for (let i=0 ; i < howMany ; ++i) {
+      let distToAdd = this.props.trip.distances[i];
+      if (distToAdd < 0) {
+        return 0;
+      }
+      sum += distToAdd;
+    }
+    //console.log("Total distance: " + sum); //WooHoo!
+    return sum;
+  }
+
   render() {
     let table = this.createTable();
 
@@ -70,7 +85,7 @@ class Itinerary extends Component {
 
     return(
         <div id="itinerary">
-          <h4>Round trip distance of <b>{this.props.getRoundTripDistance()}  {table.units}. </b></h4>
+          <h4>Round trip distance of <b>{this.getRoundTripDistance()}  {table.units}. </b></h4>
           <table className="table table-responsive table-bordered">
             <thead>
             <tr className="table-info">
