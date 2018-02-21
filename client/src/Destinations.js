@@ -30,8 +30,6 @@ class Destinations extends Component {
                 console.log("There was an error reading the JSON file!");
             }
 
-
-
             //Update the trip
             this.props.updateTrip(this.myObj); //Check Application.updateTrip, there's another
             console.log("loadTFFI, myObj: " + JSON.stringify(this.myObj));   //Sanity check, check console for JSON string

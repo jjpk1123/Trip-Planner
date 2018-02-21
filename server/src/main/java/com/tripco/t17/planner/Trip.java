@@ -141,17 +141,9 @@ public class Trip {
 
         //If 1 or more places
         for (int i = 0 ; i < this.places.size() ; i++) {
-            int toAdd = this.GCD(this.places.get(i), this.places.get((i+1)%this.places.size()),this.options.distance);
-            //If -1, source has bad lat or long strings
-            if (toAdd == -1){
-                this.places.remove(i);
-            }
-            else if (toAdd == -2){
-                this.places.remove((i+1)%this.places.size());
-            }
-            else {
-                dist.add(toAdd);
-            }
+            dist.add(this.GCD(this.places.get(i),
+                    this.places.get((i+1)%this.places.size()),
+                    this.options.distance));
         }
         return dist;
     }
