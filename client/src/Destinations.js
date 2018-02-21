@@ -22,16 +22,30 @@ class Destinations extends Component {
 
         //When we call readAsText() below, it'll read as text and then call this function
         reader.onload = function(){
-
             //Parse what the reader read from the file reference
             try{
                 this.myObj = JSON.parse(reader.result);
             }catch(e){
                 console.log("There was an error reading the JSON file!");
+                alert("Sorry, that doesn't look like a valid JSON file.");
+                return;
             }
 
+
+            if(this.myObj.distances === undefined){
+                this.myObj.distances = "";
+            }
+            if(this.myObj.type === undefined){
+                alert("Sorry, it looks like you need a type in your TFFI file.");
+                return;
+            }
+            if(this.myObj.places === undefined){
+                alert("Sorry, it looks like you need some places in your TFFI file.");
+                return;
+            }
             //Update the trip
             this.props.updateTrip(this.myObj); //Check Application.updateTrip, there's another
+
             console.log("loadTFFI, myObj: " + JSON.stringify(this.myObj));   //Sanity check, check console for JSON string
             //alert(file.name + " is loaded");                            //You did it!
         }.bind(this); //<-- Piazza made me feel this may have been necessary... we'll see
