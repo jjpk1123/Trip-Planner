@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Map from './Map';
 import Itinerary from './Itinerary';
 
-/* Trip computes the map and intinerary based on a set of destinations and options.
+/* Trip computes the Map and Itinerary based on a set of destinations and options.
  * The destinations and options reside in the parent object so they may be set by
  * the Destinations and Options classes.
  * The map and itinerary reside in this object so they can be passed to the Map and Itinerary classes.
