@@ -51,13 +51,13 @@ Storypoints | 42 | 32
 
 Date | Tasks done  | Tasks in progress | Impediments 
 :--- | :--- | :--- | :--- 
-2/6/2018|start point|nothing|nothing
-2/8/2018|nothing|nothing|
-2/10/2018|nothing|#73, #75|
-2/13/2018|nothing|#73, #75|
-2/15/2018||#83, #105, #84, #106, #108, #89, #82|Familiarizing ourselves with RestAPI
+2/6/2018|start point| | 
+2/8/2018| | |
+2/10/2018| |#89, #88, #105, #83|
+2/13/2018| |#89, #88, #105, #83|
+2/15/2018| |#83, #105, #84, #106, #108, #89, #82|Familiarizing ourselves with RestAPI
 2/17/2018|#84, #105, #83|#106, #108, #82, #91, #89, #107, #109, #88, #87, #92|Learning SVG. Communicating tasks
-2/20/2018|#106, #108, #91, #113, #107, #120||Scaling/converting lat/long in SVG. Testing legDistances giving null pointers. Learning flow of state. Constraints of valid TFFI
+2/20/2018|#106, #108, #91, #113, #107, #120| |Scaling/converting lat/long in SVG. Testing legDistances giving null pointers. Learning flow of state. Constraints of valid TFFI
 
 
 ## Review
