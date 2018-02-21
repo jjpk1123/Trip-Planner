@@ -7,9 +7,33 @@ class Itinerary extends Component {
   }
 
   createTable () {
+    let size = this.props.trip.distances.length;
     let units = this.props.trip.options.distance;
-    let dests = this.props.trip.places.map((item) => <td key = {item.id}>{item.name}</td>);
     let dists = this.props.trip.distances.map((item) => <td key = {this.props.trip.distances.indexOf(item)}>{item}</td>);
+
+    //valid distance check
+    for (let d = 0; d < size; ++d) {
+      console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
+      let compare = this.props.trip.distances[d];
+      if (compare < 0) {
+        let whichCoord = "#####3rr0r#####";
+        let coordValue = "#####3rr0r#####";
+
+        if (compare === -1) {
+          whichCoord = "latitude"
+          coordValue = this.props.trip.places[d].latitude;
+        }
+        else if (compare === -2) {
+          whichCoord = "longitude"
+          coordValue = this.props.trip.places[d].longitude;
+        }
+        alert("Cannot parse the " + whichCoord + " of " + this.props.trip.places[d].name +
+              "\nwith the value of \"" + coordValue + "\".");
+        return {units};
+      }
+    }
+
+    let dests = this.props.trip.places.map((item) => <td key = {item.id}>{item.name}</td>);
     let cumul = this.getCumulative();
     //console.log("Hello from Itinerary.createTable()! :)");
 
