@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Map from './Map';
 import Itinerary from './Itinerary';
 
-/* Trip computes the map and intinerary based on a set of destinations and options.
+/* Trip computes the Map and Itinerary based on a set of destinations and options.
  * The destinations and options reside in the parent object so they may be set by
  * the Destinations and Options classes.
  * The map and itinerary reside in this object so they can be passed to the Map and Itinerary classes.
@@ -58,7 +58,7 @@ class Trip extends Component {
     console.log("Saving trip as: " + name);
 
     let jsonBlob = new Blob([jsonData], {type: "text/plain;charset=utf-8"});
-    var textToSaveAsUrl = window.URL.createObjectURL(jsonBlob);
+    let textToSaveAsUrl = window.URL.createObjectURL(jsonBlob);
 
     let downloadLink = document.createElement("a");
     downloadLink.download = name;
@@ -99,7 +99,7 @@ class Trip extends Component {
               </span>
             </div>
             <Map trip={this.props.trip} />
-            <Itinerary trip={this.props.trip} getRoundTripDistance={this.props.getRoundTripDistance} />
+            <Itinerary trip={this.props.trip} />
           </div>
         </div>
     )

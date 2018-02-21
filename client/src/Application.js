@@ -25,22 +25,10 @@ class Application extends Component {
     this.getCount = this.getCount.bind(this);
     this.updateTrip = this.updateTrip.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
-    this.getRoundTripDistance = this.getRoundTripDistance.bind(this);
   }
 
   getCount() { // "there are ?? destinations" in the user-provided TFFI file.
     return this.state.trip.places.length;
-  }
-
-  getRoundTripDistance() {
-    let sum = 0;
-    let howMany = this.state.trip.distances.length;
-    for (var i=0 ; i < howMany ; ++i) {
-      let d = this.state.trip.distances[i];
-      sum += d;
-    }
-    //console.log("Total distance: " + sum); //WooHoo!
-    return sum;
   }
 
   updateTrip(tffi) {
@@ -80,8 +68,7 @@ class Application extends Component {
               <Trip trip={this.state.trip}
                     title={this.state.trip.title}
                     updateTrip={this.updateTrip}
-                    updateTitle={this.updateTitle}
-                    getRoundTripDistance={this.getRoundTripDistance}/>
+                    updateTitle={this.updateTitle}/>
             </div>
           </div>
         </div>
