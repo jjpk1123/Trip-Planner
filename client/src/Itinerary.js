@@ -15,20 +15,22 @@ class Itinerary extends Component {
     for (let d = 0; d < size; ++d) {
       console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
       let compare = this.props.trip.distances[d];
+      let whichPlace = "########";
+      let lat = "########";
+      let lon = "########";
       if (compare < 0) {
-        let whichCoord = "#####3rr0r#####";
-        let coordValue = "#####3rr0r#####";
-
         if (compare === -1) {
-          whichCoord = "latitude"
-          coordValue = this.props.trip.places[d].latitude;
+          whichPlace = this.props.trip.places[d].name;
+          lat = this.props.trip.places[d].latitude;
+          lon = this.props.trip.places[d].longitude;
+        } else {
+          whichPlace = this.props.trip.places[(d+1)%size].name;
+          lat = this.props.trip.places[(d+1)%size].latitude;
+          lon = this.props.trip.places[(d+1)%size].longitude;
         }
-        else if (compare === -2) {
-          whichCoord = "longitude"
-          coordValue = this.props.trip.places[d].longitude;
-        }
-        alert("Cannot parse the " + whichCoord + " of " + this.props.trip.places[d].name +
-              "\nwith the value of \"" + coordValue + "\".");
+        alert("Cannot parse " + whichPlace + " destination with the coordinates provided:\n" +
+                    "latitude:\t\"" + lat + "\"\n" +
+                    "longitude:\t\"" + lon + "\"");
         return {units};
       }
     }
