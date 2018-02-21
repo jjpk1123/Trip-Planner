@@ -30,14 +30,26 @@ class Destinations extends Component {
                 alert("Sorry, that doesn't look like a valid JSON file.");
                 return;
             }
-            
+
             if(this.myObj.distances === undefined){
-                this.myObj.distances = "";
+                console.log("distances was undefined in TFFI, setting default empty distance");
+                this.myObj.distances = [];
             }
             if(this.myObj.type === undefined){
                 alert("Sorry, it looks like you need a type in your TFFI file.");
                 return;
             }
+            console.log("myObj.options" + this.myObj.options);
+            if(this.myObj.options === undefined){
+                this.myObj.options = {"distance" : "miles", "optimization" : "none"};
+            }
+            if(this.myObj.options.distance === undefined){
+                this.myObj.options.distance = "miles";
+            }
+            if(this.myObj.options.optimization === undefined){
+                this.myObj.option.optimization = "none";
+            }
+
             if(this.myObj.places === undefined){
                 alert("Sorry, it looks like you need some places in your TFFI file.");
                 return;
