@@ -30,8 +30,7 @@ class Destinations extends Component {
                 alert("Sorry, that doesn't look like a valid JSON file.");
                 return;
             }
-
-
+            
             if(this.myObj.distances === undefined){
                 this.myObj.distances = "";
             }
