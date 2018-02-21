@@ -41,7 +41,10 @@ class Itinerary extends Component {
     //console.log("Hello from Itinerary.createTable()! :)");
 
     if (dests.length !== 0) { // if there is more than one Destination
-      dests = dests.concat([dests[0]]); //Adds the starting Place to the end (round trip)
+      let start = this.props.trip.places[0].name;
+      let myArray = [start];
+      let zero = myArray.map((item) => <td key = {"asdf"}>{item}</td>);
+      dests = dests.concat(zero); //adds a zero to starting dist
     }
     if (dists.length !== 0) { // same concept, but with Distances
       let myArray = [0];
