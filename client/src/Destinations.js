@@ -32,29 +32,38 @@ class Destinations extends Component {
             }
 
             if(this.myObj.distances === undefined){
-                console.log("distances was undefined in TFFI, setting default empty distance");
+                console.log("Distances not provided; defaulting to empty array");
                 this.myObj.distances = [];
             }
-            if(this.myObj.type === undefined){
+            if(this.myObj.type === undefined) {
                 alert("Sorry, it looks like you need a type in your TFFI file.");
                 return;
             }
-            console.log("myObj.options" + this.myObj.options);
             if(this.myObj.options === undefined){
                 this.myObj.options = {"distance" : "miles", "optimization" : "none"};
+                console.log("no options provided; defaulting to units of miles, optimization of none")
             }
             if(this.myObj.options.distance === undefined){
                 this.myObj.options.distance = "miles";
+                console.log("Distance unit not provided; defaulting to miles")
             }
             if(this.myObj.options.optimization === undefined){
                 this.myObj.option.optimization = "none";
+                console.log("Optimization not provided; defaulting to none")
             }
 
-            if(this.myObj.places === undefined){
+            if(this.myObj.places === undefined) {
                 alert("Sorry, it looks like you need some places in your TFFI file.");
                 return;
             }
-            
+            for(let i = 0; i < this.myObj.places.length; i++){
+                if(this.myObj.places[i].id === undefined){
+                    alert("You seem to be missing an ID for one or more of your places!");
+                    return;
+                }
+
+            }
+
             //Update the trip
             this.props.updateTrip(this.myObj); //Check Application.updateTrip, there's another
 
