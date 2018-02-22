@@ -44,8 +44,8 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks | 15 | 12
-Storypoints | 42 | 32
+Tasks | 15 | 15
+Storypoints | 42 | 42
 
 ## Daily Scrums
 
@@ -63,26 +63,34 @@ Date | Tasks done  | Tasks in progress | Impediments
 ## Review
 
 #### Completed epics in Sprint Backlog 
-* *user story*:  *comments*
-* 
+* #72: Able to plan trips in CO
+* #73: Users can load a valid JSON file, and we will stop invalid files, letting the user know.
+* #74: We load a itinerary and show cumulative distance incrementally as well as each individual distance
+* #75: Map loads and draws correctly
+* #76: The trip always loads in the right order
+* #77: The user can save their trip as a JSON
 
 #### Incomplete epics in Sprint Backlog 
-* *user story*: *explanation...*
-*
+* #78: The user cannot customize their itinerary, besides changing unit
+* #79: The starting location is always the first in the file
 
 #### What went well
-* *something*
-*
+* Learning Junit and performing test-driven development
+* Great communication after a certain point
+* Collaboration on tasks and working thru problems as a team
+* Greatest Circle Distance calculation and all of its components including leg distances and converting dms to degrees
+* SVG rendering
 
 #### Problems encountered and resolutions
-* *something*
-*
+* We tried to develop on windows, and resolved to set up dual boots
+* Rendering starting place twice carried over to subsequent file loads resulting in rendering many more locations than the file contained. Resolved by doing these steps very explicitly and step by step in our JS code. Two lines turned into ten.
+* Load button was hard to implement and we had multiple versions which appeared to work but did not. Resolved to get much help from a TA, ultimately using onload. 
 
 ## Retrospective
 
 Topic | Teamwork | Process | Tools
 :--- | :--- | :--- | :---
-What we will change this time |  |  | 
-What we did well |  |  | 
-What we need to work on |  |  |
-What we will change next time |  |  | 
+What we will change this time | Have people accessible to talk about their code/PRs/ideas. More tests before pushing to master | Use ZenHub board to know who's doing which task | Be responsive on slack
+What we did well | Pair program or solve problems in a collaborative fashion | Prioritize tasks | Using IntelliJ and Slack better
+What we need to work on | Communicating in a timely manner, express our problems to each other | Test our code before PR | Junit, Zenhub use
+What we will change next time | Express problems to each other when we struggle with tasks | Test our code before PR | Write tests before methods in Junit, assign tasks in Zenhub and move them through pipelines
