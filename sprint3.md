@@ -13,7 +13,6 @@
 * Product Increment release `v3.0` created on GitHub with appropriate version number and name, a description based on the Release Notes template, and the arhived files.
 * Version in pom.xml should be `<version>3.0</version>`.
 * Javadoc and unit tests for public methods.
-* Coverage at least 50% overall and for each class.
 * Coverage of at least 75% total for all classes.
 * Bring and maintain code maintainability to a B (5%-10%).
 
