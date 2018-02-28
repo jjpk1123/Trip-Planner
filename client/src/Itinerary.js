@@ -10,7 +10,7 @@ class Itinerary extends Component {
   createTable () {
     let size = this.props.trip.distances.length;
     let units = this.props.trip.options.distance;
-    var i = 500;
+    var i = 0;
     let dists = this.props.trip.distances.map((item) => <td key = {i++}>{item}</td>);
 
     //valid distance check
