@@ -22,20 +22,17 @@ class Application extends Component {
         map: "<svg width=\"1920\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><g></g></svg>"
       }
     };
-    this.getCount = this.getCount.bind(this);
     this.updateTrip = this.updateTrip.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
   }
 
-  getCount() { // "there are ?? destinations" in the user-provided TFFI file.
-    return this.state.trip.places.length;
-  }
 
   updateTrip(tffi) {
     this.setState({trip: tffi});
     //console.log("Distance is: " + tffi.options.distance); // Correctly implements unitButton
     //console.log("updateTrip : " + JSON.stringify(this.state.trip)); // Sanity check, the trip is updated!
   }
+
   updateTitle(title) {
     let trip = this.state.trip;
     trip.title = title;
@@ -46,8 +43,6 @@ class Application extends Component {
     //console.log("Distance is: " + tffi.options.distance); // Correctly implements unitButton
     //console.log("updateTrip : " + JSON.stringify(this.state.trip)); // Sanity check, the trip is updated!
   }
-
-
 
   render() {
     return (
@@ -61,7 +56,7 @@ class Application extends Component {
             </div>
             <div className="col-12">
               <Destinations trip={this.state.trip}
-                            getCount={this.getCount}
+                            places={this.state.trip.places}
                             updateTrip={this.updateTrip}/>
             </div>
             <div className="col-12">

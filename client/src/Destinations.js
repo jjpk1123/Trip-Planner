@@ -24,43 +24,42 @@ class Destinations extends Component {
         reader.onload = function(){
             //Parse what the reader read from the file reference
             //If invalid JSON, let the user know in the catch statement.
-            try{
+            try {
                 this.myObj = JSON.parse(reader.result);
-            }catch(e){
+            } catch(e) {
                 console.log("There was an error reading the JSON file!");
                 alert("Sorry, that doesn't look like a valid JSON file.");
                 return;
             }
             //here we check that places have all required fields (ID, Name, Lat, Long)
-            for(let i = 0; i < this.myObj.places.length; i++){
-                if(this.myObj.places[i].id === undefined || this.myObj.places[i].id === ""){
+            for(let i = 0; i < this.myObj.places.length; i++) {
+                if(this.myObj.places[i].id === undefined || this.myObj.places[i].id === "") {
                     alert("You seem to be missing an ID for one or more of your places!");
                     return;
                 }
-                if(this.myObj.places[i].name === undefined || this.myObj.places[i].name === ""){
+                if(this.myObj.places[i].name === undefined || this.myObj.places[i].name === "") {
                     alert("You seem to be missing a name for one or more of your places!");
                     return;
                 }
-                if(this.myObj.places[i].latitude === undefined){
+                if(this.myObj.places[i].latitude === undefined) {
                     alert("You seem to be missing a latitude for one or more of your places!");
                     return;
                 }
-                if(this.myObj.places[i].longitude === undefined){
+                if(this.myObj.places[i].longitude === undefined) {
                     alert("You seem to be missing a longitude for one or more of your places!");
                     return;
                 }
-
             }
 
             //IF map is undefined by TFFI, default it to blank CO map
-            if(this.myObj.map === undefined || this.myObj.map === ""){
+            if(this.myObj.map === undefined || this.myObj.map === "") {
                 console.log("Map not provided; defaulting.");
                 this.myObj.map = "";
                 //TODO: paste entire SVG default here? Super ugly but works.
 
             }
             //If there are no distances defined, create an empty array of distances
-            if(this.myObj.distances === undefined){
+            if(this.myObj.distances === undefined) {
                 console.log("Distances not provided; defaulting to empty array");
                 this.myObj.distances = [];
             }
@@ -70,17 +69,17 @@ class Destinations extends Component {
                 return;
             }
             //if there is no options defined, set them to default
-            if(this.myObj.options === undefined){
+            if(this.myObj.options === undefined) {
                 this.myObj.options = {"distance" : "miles", "optimization" : "none"};
                 console.log("no options provided; defaulting to units of miles, optimization of none")
             }
             //if there is no distance defined in options, set it to default miles
-            if(this.myObj.options.distance === undefined){
+            if(this.myObj.options.distance === undefined) {
                 this.myObj.options.distance = "miles";
                 console.log("Distance unit not provided; defaulting to miles")
             }
             //if there is no optimization defined in options, default it to none
-            if(this.myObj.options.optimization === undefined){
+            if(this.myObj.options.optimization === undefined) {
                 this.myObj.options.optimization = "none";
                 console.log("Optimization not provided; defaulting to none")
             }
@@ -102,6 +101,10 @@ class Destinations extends Component {
         reader.readAsText(file);
     }
 
+    getCount() { // "there are ?? destinations" in the user-provided TFFI file.
+        return this.props.places.length;
+    }
+
     render() {
         // getCount() returns the number of places in the trip file
         return (
@@ -114,7 +117,7 @@ class Destinations extends Component {
                     <div className="form-group" role="group">
                         <input type="file" className="form-control-file" onChange={this.loadTFFI} id="tffifile" />
                     </div>
-                    <h5>There are {this.props.getCount()} destinations. </h5>
+                    <h5>There are {this.getCount()} destinations. </h5>
                 </div>
             </div>
         )
