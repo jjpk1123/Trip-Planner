@@ -10,7 +10,8 @@ class Itinerary extends Component {
   createTable () {
     let size = this.props.trip.distances.length;
     let units = this.props.trip.options.distance;
-    let dists = this.props.trip.distances.map((item) => <td key = {this.props.trip.distances.indexOf(item)}>{item}</td>);
+    var i = 0;
+    let dists = this.props.trip.distances.map((item) => <td key = {i++}>{item}</td>);
 
     //valid distance check
     for (let d = 0; d < size; ++d) {
@@ -59,7 +60,7 @@ class Itinerary extends Component {
 
   getCumulative() {
     let sum = 0;
-    return this.props.trip.distances.map((item) => <td key = {this.props.trip.distances.indexOf(item)}>{sum+=item}</td>);
+    return this.props.trip.distances.map((item) => <td key = {sum}>{sum+=item}</td>);
   }
 
   getRoundTripDistance() {
