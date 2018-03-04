@@ -27,10 +27,11 @@ public class Trip {
 
     /**
      * The top level method that does planning.
-     * At this point it just adds the map and distances for the places in order.
-     * It might need to reorder the places in the future.
      */
     public void plan() {
+        if (this.options.optimization == "1"){
+            this.places = Optimize.nearestNeighbor(this.places);
+        }
         try {
             this.map = svg();
         }catch(IOException e){
@@ -157,7 +158,7 @@ public class Trip {
      *             **Note: This takes lat OR long, not both
      * @return
      */
-    public double DmsToDegrees(String DMS) {
+    public static double DmsToDegrees(String DMS) {
         double degrees = 0.0;
         //5° 30' N
         //Check for °, main validator
@@ -208,12 +209,12 @@ public class Trip {
      * @param unit:   calculation of radius, km or miles
      * @return
      */
-    public int GCD(Place source, Place dest, String unit) {
+    public static int GCD(Place source, Place dest, String unit) {
         //Source (a1,b1)
         double a1, a2, b1, b2 = 0;
         try {
-            a1 = Math.toRadians(this.DmsToDegrees(source.latitude));
-            b1 = Math.toRadians(this.DmsToDegrees(source.longitude));
+            a1 = Math.toRadians(DmsToDegrees(source.latitude));
+            b1 = Math.toRadians(DmsToDegrees(source.longitude));
         } catch (Exception e){
             System.err.println(e);
             return -1; //bad source
@@ -221,8 +222,8 @@ public class Trip {
 
         //Dest (a2,b2)
         try{
-            a2 = Math.toRadians(this.DmsToDegrees(dest.latitude));
-            b2 = Math.toRadians(this.DmsToDegrees(dest.longitude));
+            a2 = Math.toRadians(DmsToDegrees(dest.latitude));
+            b2 = Math.toRadians(DmsToDegrees(dest.longitude));
         } catch (Exception e){
             System.err.println(e);
             return -2; //Bad dest
