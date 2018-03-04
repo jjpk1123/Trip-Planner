@@ -33,20 +33,176 @@ public class TestOptimize {
     assertTrue(true == true);
   }
 
- /* @Test
-  public void testNearestNeighborSanity1() {
-    Place Montreal = new Place();
-    Place NewZealand = new Place();
-    Place Tokyo = new Place();
-    trip.places.add(Montreal);
-    trip.places.add(NewZealand);
-    trip.places.add(Tokyo);
+  
+  /** nearestNeighbor test block
+   */
+  @Test
+  public void testNearestNeighborSameOrder1() {
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
 
-    ArrayList<Place> actual = Optimize.nearestNeighbor(trip.places);
+    Place B = new Place();
+    B.latitude = "1° S";
+    B.longitude = "0° E";
 
-    assertEquals(trip.places, actual);
-  }*/
+    Place C = new Place();
+    C.latitude = "2° S";
+    C.longitude = "0° E";
 
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+
+    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+  }
+
+  @Test
+  public void testNearestNeighborSameOrder2() {
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    Place B = new Place();
+    B.latitude = "1° S";
+    B.longitude = "0° E";
+
+    Place C = new Place();
+    C.latitude = "1° S";
+    C.longitude = "0° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+
+    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+  }
+
+  @Test
+  public void testNearestNeighborSameOrder3() {
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    Place B = new Place();
+    B.latitude = "1° S";
+    B.longitude = "0° E";
+
+    Place C = new Place();
+    C.latitude = "1° S";
+    C.longitude = "0° E";
+
+    Place D = new Place();
+    D.latitude = "1° S";
+    D.longitude = "0° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    places.add(D);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+    trip.places.add(D);
+
+    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+  }
+
+  @Test
+  public void testNearestNeighborReorder1() {
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    Place B = new Place();
+    B.latitude = "30° S";
+    B.longitude = "0° E";
+
+    Place C = new Place();
+    C.latitude = "1° S";
+    C.longitude = "0° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(C);
+    places.add(B);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+
+    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+  }
+
+  @Test
+  public void testNearestNeighborReorder2() {
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    Place B = new Place();
+    B.latitude = "30° S";
+    B.longitude = "0° E";
+
+    Place C = new Place();
+    C.latitude = "2° S";
+    C.longitude = "0° E";
+
+    Place D = new Place();
+    D.latitude = "40° S";
+    D.longitude = "10° E";
+
+    Place E = new Place();
+    E.latitude = "0° S";
+    E.longitude = "1° W";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(E);
+    places.add(C);
+    places.add(B);
+    places.add(D);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+    trip.places.add(D);
+    trip.places.add(E);
+
+    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+  }
+
+  @Test
+  public void testNearestNeighborOnePlace(){
+
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    trip.places.add(A);
+
+    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+  }
+
+  @Test
+  public void testNearestNeighborNoPlaces(){
+    ArrayList<Place> places = new ArrayList<>();
+    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+  }
+
+
+
+  /** nearestNeighbor helper: findNearest test block
+   */
   @Test
   public void testFindNearest1(){
     Place A = new Place();
@@ -92,7 +248,7 @@ public class TestOptimize {
   }
 
   @Test
-  public void testFindNearestFavorFirst(){
+  public void testFindNearestFavorFirst1(){
     Place A = new Place();
     A.latitude = "0° S";
     A.longitude = " 0° E";

@@ -10,15 +10,16 @@ public class Optimize {
 
         //1. Choose starting location. For now this will be the first place in places!
         //This is removed, then added, so that we will not find it again :)
-        result.add(unvisited.remove(0));
+        if (!unvisited.isEmpty()) {
+            result.add(unvisited.remove(0));
+        }
 
         //2. Find nearest city, add it to the result!
-        //Think we will use a helper here
-        do {
+        //3. If unvisited is not empty, go to step 2
+        while (!unvisited.isEmpty()) {
             int nearest = findNearest(result.get(result.size() - 1), unvisited);
             result.add(unvisited.remove(nearest));
-        } while (!unvisited.isEmpty());
-        //3. We will add until unvisited is empty :)
+        }
 
         //4. Return the arrayList! Client side takes care of round trip stuff
         return result;
