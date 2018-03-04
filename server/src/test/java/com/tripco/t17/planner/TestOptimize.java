@@ -33,7 +33,7 @@ public class TestOptimize {
     assertTrue(true == true);
   }
 
-  
+
   /** nearestNeighbor test block
    */
   @Test
@@ -199,7 +199,60 @@ public class TestOptimize {
     assertEquals(places, Optimize.nearestNeighbor(trip.places));
   }
 
+  @Test
+  public void testNearestNeighborRepeatedPlaces1() {
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
 
+    Place B = new Place();
+    B.latitude = "0° S";
+    B.longitude = "0° E";
+
+    Place C = new Place();
+    C.latitude = "2° S";
+    C.longitude = "0° E";
+
+    Place D = new Place();
+    D.latitude = "40° S";
+    D.longitude = "10° E";
+
+    Place E = new Place();
+    E.latitude = "40° S";
+    E.longitude = "10° E";
+
+    Place F = new Place();
+    F.latitude = "41° S";
+    F.longitude = "10° E";
+
+    Place G = new Place();
+    G.latitude = "41° S";
+    G.longitude = "10° E";
+
+    Place H = new Place();
+    H.latitude = "50° S";
+    H.longitude = "50° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    places.add(D);
+    places.add(E);
+    places.add(F);
+    places.add(G);
+    places.add(H);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+    trip.places.add(D);
+    trip.places.add(E);
+    trip.places.add(F);
+    trip.places.add(G);
+    trip.places.add(H);
+
+    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+  }
 
   /** nearestNeighbor helper: findNearest test block
    */
