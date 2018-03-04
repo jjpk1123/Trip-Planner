@@ -36,7 +36,7 @@ public class Optimize {
 
         //Go through places, get GCD of each, return index of shortest
         for (int i = 0 ; i < places.size() ; i++){
-            int distance = Trip.GCD(start, places.get(i), "miles");
+            int distance = Distance.GCD(start, places.get(i), "miles");
             if (distance < shortestDistance){   //If equal distance, favors previous nearest
                 shortestDistance = distance;    //New shortest distance
                 nearest = i;                    //New index to return
