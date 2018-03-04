@@ -3,9 +3,6 @@ package com.tripco.t17.planner;
 import java.util.ArrayList;
 
 public class Optimize {
-    //public String optimization; //Level of optimization. 1 = Nearest Neighbor, 0 = none
-
-
     //Returns the arraylist that is handed to it for sanity testing
     public static ArrayList<Place> nearestNeighbor(ArrayList<Place> unvisited){
         //Initialize result

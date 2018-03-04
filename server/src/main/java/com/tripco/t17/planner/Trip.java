@@ -31,7 +31,7 @@ public class Trip {
     public void plan() {
         if (this.options.optimization == "1"){
             this.places = Optimize.nearestNeighbor(this.places);
-        }
+        } //else 0 = no optimization
         try {
             this.map = svg();
         }catch(IOException e){
