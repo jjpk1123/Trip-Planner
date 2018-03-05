@@ -24,7 +24,7 @@ class Options extends Component {
 
   testActiveBtn(unit) {
     return "btn btn-outline-dark " + (this.props.distance === unit ? "active" : "");
-  }
+  } 
 
   changeOptimization(userOptimization) {
     if (userOptimization.target.value === "0") {
