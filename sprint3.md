@@ -48,8 +48,8 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  *28*   | *0* 
-Story Points |  *45*  | *0* 
+Tasks |  *21*   | *4* 
+Story Points |  *45*  | *12* 
 
 ## Daily Scrums
 
@@ -57,7 +57,7 @@ Date | Tasks done  | Tasks in progress | Impediments
 :--- | :--- | :--- | :--- 
 *2/27* | ** | ** | 
 *3/1* | *#143, #144, #145* | *#146* | 
- | | | 
+*3/4* | *#146, #147*| *#162, #163* | Waiting for pull requests, learing what code climate looks for
  
 
 ## Review
