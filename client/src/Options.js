@@ -24,7 +24,7 @@ class Options extends Component {
 
   testActiveBtn(unit) {
     return "btn btn-outline-dark " + (this.props.distance === unit ? "active" : "");
-  } 
+  }
 
   changeOptimization(userOptimization) {
     if (userOptimization.target.value === "0") {
@@ -45,38 +45,40 @@ class Options extends Component {
       <div className="card-header bg-info text-white">
         Options
       </div>
-      <h6>Select the desired:</h6>
-      <div className="row">
-        <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-        </div>
+      <div className="card-body">
+        <p>Select the desired:</p>
+        <div className="row">
+          <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+          </div>
 
-        <div className="col-xs-2 col-sm-5 col-md-4 col-lg-3 col-xl-3">
-          <div className="card">
-            <div className="card-body">
-              <h6 className="card-title">Unit of distance:</h6>
-              <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
-                <label className={this.testActiveBtn("miles")}>
-                  <input type="radio" value="miles" name="distance"/> Miles
-                </label>
-                <label className={this.testActiveBtn("kilometers")}>
-                  <input type="radio" value="kilometers" name="distance"/> Kilometers
-                </label>
+          <div className="col-xs-2 col-sm-5 col-md-4 col-lg-3 col-xl-3">
+            <div className="card">
+              <div className="card-body">
+                <h6 className="card-title">Unit of distance:</h6>
+                <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
+                  <label className={this.testActiveBtn("miles")}>
+                    <input type="radio" value="miles" name="distance"/> Miles
+                  </label>
+                  <label className={this.testActiveBtn("kilometers")}>
+                    <input type="radio" value="kilometers" name="distance"/> Kilometers
+                  </label>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-        </div>
+          <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+          </div>
 
-        <div className="col-xs-2 col-sm-5 col-md-4 col-lg-3 col-xl-3">
-          <div className="card">
-            <div className="card-body">
-              <h6 className="card-title">Round-Trip length:</h6>
-              <div>
-                <input type="range" className="slider" min="0" max="1" id="myRange"
-                       value={this.state.optim} onChange={this.changeOptimization}/>
-                <h6>Length: <b><big>{this.state.final}</big></b></h6>
+          <div className="col-xs-2 col-sm-5 col-md-4 col-lg-3 col-xl-3">
+            <div className="card">
+              <div className="card-body">
+                <h6 className="card-title">Round-Trip length:</h6>
+                <div>
+                  <input type="range" className="slider" min="0" max="1" id="myRange"
+                         value={this.state.optim} onChange={this.changeOptimization}/>
+                  <h6>Length: <b><big>{this.state.final}</big></b></h6>
+                </div>
               </div>
             </div>
           </div>
