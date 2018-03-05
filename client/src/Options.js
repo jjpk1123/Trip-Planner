@@ -48,10 +48,8 @@ class Options extends Component {
       <div className="card-body">
         <p>Select the desired:</p>
         <div className="row">
-          <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-          </div>
 
-          <div className="col-xs-2 col-sm-5 col-md-4 col-lg-3 col-xl-3">
+          <div className="col-xs-2 col-sm-6 col-md-4 col-lg-3 col-xl-3">
             <div className="card">
               <div className="card-body">
                 <h6 className="card-title">Unit of distance:</h6>
