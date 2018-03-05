@@ -3,14 +3,15 @@ package com.tripco.t17.planner;
 import java.util.ArrayList;
 
 /**
- * The Distance class is a static class.Call it like Math
+ * The Distance class is a static class. "Distance.publicMethod" within package planner.
  */
 
 public class Distance {
 
-    /**@param places arrayList of all places
-     * @param unit either kilometers or miles
-     * @return distance
+    /**
+     * @param places arrayList of all places.
+     * @param unit either kilometers or miles.
+     * @return distance.
      */
     public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit) {
         ArrayList<Integer> distance = new ArrayList<>();
@@ -29,10 +30,10 @@ public class Distance {
     }
 
     /**
-     * @param source  starting point, contains lat/long
-     * @param dest    ending point, contains lat/long
-     * @param unit    calculation of radius, km or miles
-     * @return result  the distance between source and dest represented in unit
+     * @param source  starting point, contains lat/long.
+     * @param dest    ending point, contains lat/long.
+     * @param unit    calculation of radius, km or miles.
+     * @return result  the distance between source and dest represented in unit.
      */
     public static int gcd(Place source, Place dest, String unit) {
         //0. Validate input
@@ -68,8 +69,8 @@ public class Distance {
     }
 
     /**
-     * @param place has lat and long, we need to validate these!
-     * @return whether the place's lat/long are valid or not
+     * @param place has lat and long, we need to validate these.
+     * @return whether the place's lat/long are valid or not.
      */
     private static boolean invalidPlace(Place place){
         try {
@@ -83,58 +84,58 @@ public class Distance {
     }
 
     /**
-     * @param a1 x coordinate of source
-     * @param a2 x coordinate of dest
-     * @param b1 y coordinate of source
-     * @param b2 y coordinate of dest
-     * @return xCoordinate
+     * @param a1 x coordinate of source.
+     * @param a2 x coordinate of dest.
+     * @param b1 y coordinate of source.
+     * @param b2 y coordinate of dest.
+     * @return xCoordinate.
      */
     private static double gcdX(double a1, double a2, double b1, double b2){
         return Math.cos(a2) * Math.cos(b2) - Math.cos(a1) * Math.cos(b1);
     }
 
     /**
-     * @param a1 x coordinate of source
-     * @param a2 x coordinate of dest
-     * @param b1 y coordinate of source
-     * @param b2 y coordinate of dest
-     * @return yCoordinate
+     * @param a1 x coordinate of source.
+     * @param a2 x coordinate of dest.
+     * @param b1 y coordinate of source.
+     * @param b2 y coordinate of dest.
+     * @return yCoordinate.
      */
     private static double gcdY(double a1, double a2, double b1, double b2){
         return Math.cos(a2) * Math.sin(b2) - Math.cos(a1) * Math.sin(b1);
     }
 
     /**
-     * @param a1 x coordinate of source
-     * @param a2 x coordinate of dest
-     * @return zCoordinate
+     * @param a1 x coordinate of source.
+     * @param a2 x coordinate of dest.
+     * @return zCoordinate.
      */
     private static double gcdZ(double a1, double a2){
         return Math.sin(a2) - Math.sin(a1);
     }
 
     /**
-     * @param xc x coordinate
-     * @param yc y coordinate
-     * @param zc z coordinate
-     * @return chordLength
+     * @param xc x coordinate.
+     * @param yc y coordinate.
+     * @param zc z coordinate.
+     * @return chordLength.
      */
     private static double chordLength(double xc, double yc, double zc){
         return Math.sqrt(Math.pow(xc, 2) + Math.pow(yc, 2) + Math.pow(zc, 2));
     }
 
     /**
-     * @param chordLength the length of the chord we are stretching to measure distance
-     * @return centralAngle
+     * @param chordLength the length of the chord we are stretching to measure distance.
+     * @return centralAngle.
      */
     private static double centralAngle(double chordLength){
         return 2 * (Math.asin(chordLength / 2));
     }
 
     /**
-     * @param centralAngle the angle between the two destinations
-     * @param unit either kilometers or miles
-     * @return distance based on unit
+     * @param centralAngle the angle between the two destinations.
+     * @param unit either kilometers or miles.
+     * @return distance based on unit.
      */
     private static double gcdHelper(double centralAngle, String unit){
         if (unit.equals("miles")) {
@@ -145,13 +146,13 @@ public class Distance {
     }
 
     /**
-     * @param dms  Something in one of the following forms:
+     * @param dms  Something in one of the following forms.
      *             12.182
      *             49° 14' 46.6512" N
      *             174° 46' E
      *             69° W
-     *             **Note: This takes lat OR long, not both
-     * @return degrees
+     *             **Note: This takes lat OR long, not both.
+     * @return degrees.
      */
     public static double dmsToDegrees(String dms) {
         double degrees;
@@ -159,27 +160,26 @@ public class Distance {
         if (dms.contains("°")) {
             String[] result = dms.split("°");
             degrees = Double.parseDouble(result[0].trim());
+
             //Check for '
             if (result[1].contains("'")) {
                 result = result[1].split("'");
-                double minutes = Double.parseDouble(result[0].trim());
-                degrees += (minutes / 60);
+                degrees += (Double.parseDouble(result[0].trim()) / 60);
 
                 //Check for "
                 if (result[1].contains("\"")) {
                     result = result[1].split("\"");
-                    double seconds = Double.parseDouble(result[0].trim());
-                    degrees += (seconds / 3600);
+                    degrees += (Double.parseDouble(result[0].trim()) / 3600);
                 }
             }
 
             //Set the sign at the very end
-            if (result[1].trim().equals("S")) {
-                degrees *= -1;
-            } else if (result[1].trim().equals("W")) {
+            if (result[1].trim().equals("S") || result[1].trim().equals("W")) {
                 degrees *= -1;
             }
-        } else { //Already in degrees, or another invalid input like "klajsdf"
+
+        //Already in degrees, or another invalid input like "klajsdf"
+        } else {
             try {
                 degrees = Double.parseDouble(dms);
             } catch (Exception e) {
@@ -188,7 +188,6 @@ public class Distance {
                 throw e;
             }
         }
-
         return degrees;
     }
 }
