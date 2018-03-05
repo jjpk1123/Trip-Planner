@@ -102,11 +102,11 @@ public class Trip {
             double[] coord2 = svgHelper(Distance.dmsToDegrees(this.places.get(to).latitude),
                                         Distance.dmsToDegrees(this.places.get(to).longitude));
 
-            line = "\n<line x1=\"" + Double.toString(coord1[0]) + "\" y1=\"" +
-                                   Double.toString(coord1[1]) + "\" x2=\"" +
-                                   Double.toString(coord2[0]) + "\" y2=\"" +
-                                   Double.toString(coord2[1]) + "\"" +
-                 " style=\"stroke:rgb(255,0,0);stroke-width:3\" />";
+            line = "\n<line x1=\"" + Double.toString(coord1[0]) + "\" y1=\""
+                                   + Double.toString(coord1[1]) + "\" x2=\""
+                                   + Double.toString(coord2[0]) + "\" y2=\""
+                                   + Double.toString(coord2[1]) + "\""
+                 + " style=\"stroke:rgb(255,0,0);stroke-width:3\" />";
         } catch (Exception e) {
             System.err.println(e);
             throw e;

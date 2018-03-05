@@ -2,6 +2,10 @@ package com.tripco.t17.planner;
 
 import java.util.ArrayList;
 
+/**
+ * The Distance class is somewhat of a functor. Import planner package and call Distance.publicMethod
+ */
+
 public class Distance {
 
     /**
@@ -124,7 +128,7 @@ public class Distance {
      * @param chordLength the length of the chord we are stretching to measure distance
      * @return centralAngle
      */
-    private static double centralAngle (double chordLength){
+    private static double centralAngle(double chordLength){
         return 2 * (Math.asin(chordLength / 2));
     }
 
