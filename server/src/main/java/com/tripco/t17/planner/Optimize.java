@@ -26,8 +26,8 @@ public class Optimize {
     }
 
     /**
-     * @param start: the starting city
-     * @param places: the arrayList of comparing cities
+     * @param start the starting city
+     * @param places the arrayList of comparing cities
      * @return nearest: the INDEX OF the nearest city to the one you are at
      */
     public static int findNearest(Place start, ArrayList<Place> places){

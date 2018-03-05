@@ -47,12 +47,12 @@ public class Distance {
         double b2 = Math.toRadians(dmsToDegrees(dest.longitude));
 
         //2. Compute X,Y,Z
-        double xCoordinate = gcdX(a1, a2, b1, b2);
-        double yCoordinate = gcdY(a1, a2, b1, b2);
-        double zCoordinate = gcdZ(a1, a2);
+        double xc = gcdX(a1, a2, b1, b2);
+        double yc = gcdY(a1, a2, b1, b2);
+        double zc = gcdZ(a1, a2);
 
         //3. Compute chord length
-        double chordLength = chordLength(xCoordinate, yCoordinate, zCoordinate);
+        double chordLength = chordLength(xc, yc, zc);
 
         //4. Compute central angle
         double centralAngle = centralAngle(chordLength);
@@ -111,13 +111,13 @@ public class Distance {
     }
 
     /**
-     * @param xCoordinate
-     * @param yCoordinate
-     * @param zCoordinate
+     * @param xc
+     * @param yc
+     * @param zc
      * @return chordLength
      */
-    private static double chordLength(double xCoordinate, double yCoordinate, double zCoordinate){
-        return Math.sqrt(Math.pow(xCoordinate, 2) + Math.pow(yCoordinate, 2) + Math.pow(zCoordinate, 2));
+    private static double chordLength(double xc, double yc, double zc){
+        return Math.sqrt(Math.pow(xc, 2) + Math.pow(yc, 2) + Math.pow(zc, 2));
     }
 
     /**
