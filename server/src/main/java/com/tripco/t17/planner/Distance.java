@@ -3,12 +3,13 @@ package com.tripco.t17.planner;
 import java.util.ArrayList;
 
 /**
- * The Distance class is a static class.Call it like Math
+ * The Distance class is a static class. "Distance.publicMethod" within package planner
  */
 
 public class Distance {
 
-    /**@param places arrayList of all places
+    /**
+     * @param places arrayList of all places
      * @param unit either kilometers or miles
      * @return distance
      */
@@ -159,27 +160,26 @@ public class Distance {
         if (dms.contains("°")) {
             String[] result = dms.split("°");
             degrees = Double.parseDouble(result[0].trim());
+
             //Check for '
             if (result[1].contains("'")) {
                 result = result[1].split("'");
-                double minutes = Double.parseDouble(result[0].trim());
-                degrees += (minutes / 60);
+                degrees += (Double.parseDouble(result[0].trim()) / 60);
 
                 //Check for "
                 if (result[1].contains("\"")) {
                     result = result[1].split("\"");
-                    double seconds = Double.parseDouble(result[0].trim());
-                    degrees += (seconds / 3600);
+                    degrees += (Double.parseDouble(result[0].trim()) / 3600);
                 }
             }
 
             //Set the sign at the very end
-            if (result[1].trim().equals("S")) {
-                degrees *= -1;
-            } else if (result[1].trim().equals("W")) {
+            if (result[1].trim().equals("S") || result[1].trim().equals("W")) {
                 degrees *= -1;
             }
-        } else { //Already in degrees, or another invalid input like "klajsdf"
+
+        //Already in degrees, or another invalid input like "klajsdf"
+        } else {
             try {
                 degrees = Double.parseDouble(dms);
             } catch (Exception e) {
@@ -188,7 +188,6 @@ public class Distance {
                 throw e;
             }
         }
-
         return degrees;
     }
 }
