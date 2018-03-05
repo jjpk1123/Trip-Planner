@@ -74,9 +74,9 @@ public class Distance {
             dmsToDegrees(place.longitude);
         } catch (Exception e) {
             System.err.println(e);
-            return false; //bad source
+            return true; //bad source
         }
-        return true;
+        return false;
     }
 
     /**

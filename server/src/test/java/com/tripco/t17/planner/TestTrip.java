@@ -24,6 +24,7 @@ public class TestTrip {
     trip.places = new ArrayList<>();
     trip.options = new Option();
     trip.options.distance = "miles";
+    trip.options.optimization = "0";
   }
 
   @Test
