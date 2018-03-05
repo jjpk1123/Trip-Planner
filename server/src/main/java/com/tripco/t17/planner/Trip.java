@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.tripco.t17.server.HTTP;
-import spark.Request;
 
 import java.util.ArrayList;
 import java.lang.Math;
@@ -12,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import spark.Request;
 
 /**
  * The Trip class supports TFFI so it can easily be converted to/from Json by Gson.
