@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Distance {
 
     /**
-     * @param places
-     * @param unit
+     * @param places arrayList of all places
+     * @param unit either kilometers or miles
      * @return distance
      */
     public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit) {
@@ -33,10 +33,10 @@ public class Distance {
      */
     public static int gcd(Place source, Place dest, String unit) {
         //0. Validate input
-        if (!validatePlace(source)){
+        if (invalidPlace(source)){
             return -1;
         }
-        if (!validatePlace(dest)){
+        if (invalidPlace(dest)){
             return -2;
         }
 
@@ -65,10 +65,10 @@ public class Distance {
     }
 
     /**
-     * @param place
+     * @param place has lat and long, we need to validate these!
      * @return whether the place's lat/long are valid or not
      */
-    private static boolean validatePlace(Place place){
+    private static boolean invalidPlace(Place place){
         try {
             dmsToDegrees(place.latitude);
             dmsToDegrees(place.longitude);
@@ -80,10 +80,10 @@ public class Distance {
     }
 
     /**
-     * @param a1
-     * @param a2
-     * @param b1
-     * @param b2
+     * @param a1 x coordinate of source
+     * @param a2 x coordinate of dest
+     * @param b1 y coordinate of source
+     * @param b2 y coordinate of dest
      * @return xCoordinate
      */
     private static double gcdX(double a1, double a2, double b1, double b2){
@@ -91,10 +91,10 @@ public class Distance {
     }
 
     /**
-     * @param a1
-     * @param a2
-     * @param b1
-     * @param b2
+     * @param a1 x coordinate of source
+     * @param a2 x coordinate of dest
+     * @param b1 y coordinate of source
+     * @param b2 y coordinate of dest
      * @return yCoordinate
      */
     private static double gcdY(double a1, double a2, double b1, double b2){
@@ -102,8 +102,8 @@ public class Distance {
     }
 
     /**
-     * @param a1
-     * @param a2
+     * @param a1 x coordinate of source
+     * @param a2 x coordinate of dest
      * @return zCoordinate
      */
     private static double gcdZ(double a1, double a2){
@@ -111,9 +111,9 @@ public class Distance {
     }
 
     /**
-     * @param xc
-     * @param yc
-     * @param zc
+     * @param xc x coordinate
+     * @param yc y coordinate
+     * @param zc z coordinate
      * @return chordLength
      */
     private static double chordLength(double xc, double yc, double zc){
@@ -121,7 +121,7 @@ public class Distance {
     }
 
     /**
-     * @param chordLength
+     * @param chordLength the length of the chord we are stretching to measure distance
      * @return centralAngle
      */
     private static double centralAngle (double chordLength){
@@ -129,8 +129,8 @@ public class Distance {
     }
 
     /**
-     * @param centralAngle
-     * @param unit
+     * @param centralAngle the angle between the two destinations
+     * @param unit either kilometers or miles
      * @return distance based on unit
      */
     private static double gcdHelper(double centralAngle, String unit){
@@ -151,7 +151,7 @@ public class Distance {
      * @return degrees
      */
     public static double dmsToDegrees(String dms) {
-        double degrees = 0.0;
+        double degrees;
         //Check for °, main validator
         if (dms.contains("°")) {
             String[] result = dms.split("°");
