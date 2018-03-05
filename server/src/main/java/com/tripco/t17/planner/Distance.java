@@ -142,13 +142,13 @@ public class Distance {
     }
 
     /**
-     * @param dms  Something in one of the following forms.
+     * @param dms  Something in one of the following forms:
      *             12.182
      *             49° 14' 46.6512" N
      *             174° 46' E
      *             69° W
      *             **Note: This takes lat OR long, not both
-     * @return degrees from dms.
+     * @return degrees
      */
     public static double dmsToDegrees(String dms) {
         double degrees = 0.0;
