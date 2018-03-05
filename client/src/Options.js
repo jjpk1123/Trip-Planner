@@ -35,7 +35,7 @@ class Options extends Component {
       this.setState({final: "shortest"});
     }
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
-    tempTrip.options.optimization = userOptimization; //alters the optimization field to reflect the slider's value
+    tempTrip.options.optimization = userOptimization.target.value; //alters the optimization field to reflect the slider's value
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
     console.log("Optim: " + userOptimization.target.value);
   }
