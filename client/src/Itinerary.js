@@ -60,7 +60,8 @@ class Itinerary extends Component {
 
   getCumulative() {
     let sum = 0;
-    return this.props.trip.distances.map((item) => <td key = {sum}>{sum+=item}</td>);
+    var i = 0;
+    return this.props.trip.distances.map((item) => <td key = {i++}>{sum+=item}</td>);
   }
 
   getRoundTripDistance() {
