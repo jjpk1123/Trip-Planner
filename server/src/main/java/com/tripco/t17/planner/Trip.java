@@ -31,7 +31,7 @@ public class Trip {
      */
     public void plan() {
         //1. Plan the trip
-        if (this.options.optimization == "1"){
+        if (this.options.optimization.equals("1")){
             this.places = Optimize.nearestNeighbor(this.places);
         } //else 0 = no optimization
 
