@@ -3,7 +3,7 @@ package com.tripco.t17.planner;
 import java.util.ArrayList;
 
 public class Optimize {
-    //Returns the arraylist that is handed to it for sanity testing
+    //Returns the arrayList that is handed to it for sanity testing
     public static ArrayList<Place> nearestNeighbor(ArrayList<Place> unvisited){
         //Initialize result
         ArrayList<Place> result = new ArrayList<>();
@@ -36,7 +36,7 @@ public class Optimize {
 
         //Go through places, get GCD of each, return index of shortest
         for (int i = 0 ; i < places.size() ; i++){
-            int distance = Distance.GCD(start, places.get(i), "miles");
+            int distance = Distance.gcd(start, places.get(i), "miles");
             if (distance < shortestDistance){   //If equal distance, favors previous nearest
                 shortestDistance = distance;    //New shortest distance
                 nearest = i;                    //New index to return

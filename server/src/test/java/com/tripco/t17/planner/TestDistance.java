@@ -35,28 +35,28 @@ public class TestDistance {
     public void testDmsToDegreesSanity(){
         //Test to make sure 0° = 0°
         //Specific delta as 3rd parameter, as doubles should just be "close enough"
-        assertEquals(0.0, Distance.DmsToDegrees("0° N"), 0.01);
-        assertEquals(0.0, Distance.DmsToDegrees("0° S"), 0.01);
-        assertEquals(0.0, Distance.DmsToDegrees("0° W"), 0.01);
-        assertEquals(0.0, Distance.DmsToDegrees("0° E"), 0.01);
+        assertEquals(0.0, Distance.dmsToDegrees("0° N"), 0.01);
+        assertEquals(0.0, Distance.dmsToDegrees("0° S"), 0.01);
+        assertEquals(0.0, Distance.dmsToDegrees("0° W"), 0.01);
+        assertEquals(0.0, Distance.dmsToDegrees("0° E"), 0.01);
     }
 
     @Test
     public void testDmsToDegreesNoWork(){
-        assertEquals(0.0, Distance.DmsToDegrees("0"), 0.01);
-        assertEquals(0.0, Distance.DmsToDegrees("0"), 0.01);
-        assertEquals(0.0, Distance.DmsToDegrees("0"), 0.01);
-        assertEquals(0.0, Distance.DmsToDegrees("0"), 0.01);
+        assertEquals(0.0, Distance.dmsToDegrees("0"), 0.01);
+        assertEquals(0.0, Distance.dmsToDegrees("0"), 0.01);
+        assertEquals(0.0, Distance.dmsToDegrees("0"), 0.01);
+        assertEquals(0.0, Distance.dmsToDegrees("0"), 0.01);
     }
 
     @Test
     public void testDmsToDegreesCardinal(){
         //Tests a simple DMS with only degrees and a cardinal direction
 
-        assertEquals(5.0, Distance.DmsToDegrees("5° N"), 0.01);
-        assertEquals(-5.0, Distance.DmsToDegrees("5° S"), 0.01);
-        assertEquals(5.0, Distance.DmsToDegrees("5° E"), 0.01);
-        assertEquals(-5.0, Distance.DmsToDegrees("5° W"), 0.01);
+        assertEquals(5.0, Distance.dmsToDegrees("5° N"), 0.01);
+        assertEquals(-5.0, Distance.dmsToDegrees("5° S"), 0.01);
+        assertEquals(5.0, Distance.dmsToDegrees("5° E"), 0.01);
+        assertEquals(-5.0, Distance.dmsToDegrees("5° W"), 0.01);
 
     }
 
@@ -64,10 +64,10 @@ public class TestDistance {
     public void testDmsToDegreesMinutes1(){
         //Tests a simple DMS with degrees, minutes and a cardinal direction
 
-        assertEquals(5.5, Distance.DmsToDegrees("5° 30' N"), 0.01);
-        assertEquals(-5.5, Distance.DmsToDegrees("5° 30' S"), 0.01);
-        assertEquals(5.5, Distance.DmsToDegrees("5° 30' E"), 0.01);
-        assertEquals(-5.5, Distance.DmsToDegrees("5° 30' W"), 0.01);
+        assertEquals(5.5, Distance.dmsToDegrees("5° 30' N"), 0.01);
+        assertEquals(-5.5, Distance.dmsToDegrees("5° 30' S"), 0.01);
+        assertEquals(5.5, Distance.dmsToDegrees("5° 30' E"), 0.01);
+        assertEquals(-5.5, Distance.dmsToDegrees("5° 30' W"), 0.01);
 
     }
 
@@ -78,8 +78,8 @@ public class TestDistance {
         //    NewZealand.latitude = "41° 19' S";
         //    NewZealand.longitude = "174° 46' E";
         //
-        assertEquals(-41.3166, Distance.DmsToDegrees("41° 19' S"), 0.01);
-        assertEquals(174.7666, Distance.DmsToDegrees("174° 46' E"), 0.01);
+        assertEquals(-41.3166, Distance.dmsToDegrees("41° 19' S"), 0.01);
+        assertEquals(174.7666, Distance.dmsToDegrees("174° 46' E"), 0.01);
     }
 
     @Test
@@ -89,27 +89,27 @@ public class TestDistance {
         //    Chile.latitude = "33° 24' S";
         //    Chile.longitude = " 70° 40' W";
         //
-        assertEquals(-33.4, Distance.DmsToDegrees("33° 24' S"), 0.01);
-        assertEquals(-70.6666, Distance.DmsToDegrees("70° 40' W"), 0.01);
+        assertEquals(-33.4, Distance.dmsToDegrees("33° 24' S"), 0.01);
+        assertEquals(-70.6666, Distance.dmsToDegrees("70° 40' W"), 0.01);
     }
 
     @Test
     public void testDmsToDegreesMinutesSeconds0(){
         //Sanity check input
-        assertEquals(0.0, Distance.DmsToDegrees("0° 0' 0.0\" N"), 0.1);
-        assertEquals(0.0, Distance.DmsToDegrees("0° 0' 0.0\" S"), 0.1);
-        assertEquals(0.0, Distance.DmsToDegrees("0° 0' 0.0\" E"), 0.1);
-        assertEquals(0.0, Distance.DmsToDegrees("0° 0' 0.0\" W"), 0.1);
+        assertEquals(0.0, Distance.dmsToDegrees("0° 0' 0.0\" N"), 0.1);
+        assertEquals(0.0, Distance.dmsToDegrees("0° 0' 0.0\" S"), 0.1);
+        assertEquals(0.0, Distance.dmsToDegrees("0° 0' 0.0\" E"), 0.1);
+        assertEquals(0.0, Distance.dmsToDegrees("0° 0' 0.0\" W"), 0.1);
     }
 
     @Test
     public void testDmsToDegreesMinutesSeconds1(){
         //Full correct input test, degrees, minutes, seconds, and cardinal direction
 
-        assertEquals(5.55, Distance.DmsToDegrees("5° 30' 180\" N"), 0.01);
-        assertEquals(-5.55, Distance.DmsToDegrees("5° 30' 180\" S"), 0.01);
-        assertEquals(5.55, Distance.DmsToDegrees("5° 30' 180\" E"), 0.01);
-        assertEquals(-5.55, Distance.DmsToDegrees("5° 30' 180\" W"), 0.01);
+        assertEquals(5.55, Distance.dmsToDegrees("5° 30' 180\" N"), 0.01);
+        assertEquals(-5.55, Distance.dmsToDegrees("5° 30' 180\" S"), 0.01);
+        assertEquals(5.55, Distance.dmsToDegrees("5° 30' 180\" E"), 0.01);
+        assertEquals(-5.55, Distance.dmsToDegrees("5° 30' 180\" W"), 0.01);
     }
 
     @Test
@@ -120,8 +120,8 @@ public class TestDistance {
         //    Canada.longitude = " 123° 6' 58.4136\" S";
         //
 
-        assertEquals(49.2462, Distance.DmsToDegrees("49° 14' 46.6512\" N"), 0.0001);
-        assertEquals(-123.1162, Distance.DmsToDegrees("123° 6' 58.41368\" S"), 0.0001);
+        assertEquals(49.2462, Distance.dmsToDegrees("49° 14' 46.6512\" N"), 0.0001);
+        assertEquals(-123.1162, Distance.dmsToDegrees("123° 6' 58.41368\" S"), 0.0001);
     }
 
     @Test
@@ -132,8 +132,8 @@ public class TestDistance {
         //    Japan.longitude = "139° 50' 22.1209\" E";
         //
 
-        assertEquals(35.6528, Distance.DmsToDegrees("35° 39' 10.1952\" N"), 0.0001);
-        assertEquals(139.8394, Distance.DmsToDegrees("139° 50' 22.1209\" E"), 0.0001);
+        assertEquals(35.6528, Distance.dmsToDegrees("35° 39' 10.1952\" N"), 0.0001);
+        assertEquals(139.8394, Distance.dmsToDegrees("139° 50' 22.1209\" E"), 0.0001);
     }
 
     @Test
@@ -146,8 +146,8 @@ public class TestDistance {
         //    Japan.longitude = "139° 50' 22.1209\" E";
         //
 
-        assertEquals(35.6528, Distance.DmsToDegrees("    35   °    39   '   10.1952   \"   N     "), 0.01);
-        assertEquals(139.8394, Distance.DmsToDegrees("       139    °      50     '     22.1209      \"    E     "), 0.01);
+        assertEquals(35.6528, Distance.dmsToDegrees("    35   °    39   '   10.1952   \"   N     "), 0.01);
+        assertEquals(139.8394, Distance.dmsToDegrees("       139    °      50     '     22.1209      \"    E     "), 0.01);
     }
 
     @Test
@@ -160,8 +160,8 @@ public class TestDistance {
         //    Japan.longitude = "139° 50' 22.1209\" E";
         //
 
-        assertEquals(35.6528, Distance.DmsToDegrees("35°39'10.1952\"N"), 0.01);
-        assertEquals(139.8394, Distance.DmsToDegrees("139°50'22.1209\"E"), 0.01);
+        assertEquals(35.6528, Distance.dmsToDegrees("35°39'10.1952\"N"), 0.01);
+        assertEquals(139.8394, Distance.dmsToDegrees("139°50'22.1209\"E"), 0.01);
     }
 
 
@@ -180,10 +180,10 @@ public class TestDistance {
         NewZealand.longitude = "0° E";
 
         //Miles
-        assertEquals(0, Distance.GCD(Canada, NewZealand, "miles"));
+        assertEquals(0, Distance.gcd(Canada, NewZealand, "miles"));
 
         //Kilometers
-        assertEquals(0, Distance.GCD(Canada, NewZealand, "kilometers"));
+        assertEquals(0, Distance.gcd(Canada, NewZealand, "kilometers"));
     }
 
 
@@ -199,10 +199,10 @@ public class TestDistance {
         NewZealand.longitude = "174° 46' E";
 
         //Miles
-        assertEquals(7304, Distance.GCD(Canada, NewZealand, "miles"));
+        assertEquals(7304, Distance.gcd(Canada, NewZealand, "miles"));
 
         //Kilometers
-        assertEquals(11755, Distance.GCD(Canada, NewZealand, "kilometers"));
+        assertEquals(11755, Distance.gcd(Canada, NewZealand, "kilometers"));
     }
 
 
@@ -219,16 +219,13 @@ public class TestDistance {
 
         //Miles
         int expectedMiles = 10700;
-        int actualMiles = Distance.GCD(Chile, Japan, "miles");
+        int actualMiles = Distance.gcd(Chile, Japan, "miles");
         assertEquals(expectedMiles, actualMiles);
 
         //Kilometers
         int expectedKilometers = 17220;
-        int actualKilometers = Distance.GCD(Chile, Japan, "kilometers");
+        int actualKilometers = Distance.gcd(Chile, Japan, "kilometers");
         assertEquals(expectedKilometers, actualKilometers);
     }
-
-
-
 
 }

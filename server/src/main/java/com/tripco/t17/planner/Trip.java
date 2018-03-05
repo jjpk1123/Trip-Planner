@@ -49,7 +49,7 @@ public class Trip {
     /**
      * Returns an SVG containing the background and the legs of the trip.
      *
-     * @return
+     * @return map with lines on it.
      */
     private String svg() throws IOException {
         //SVG formatting. Not the prettiest, but it works.
@@ -62,13 +62,15 @@ public class Trip {
 
         //If the map isn't found, we've got trouble down here in River City.
         try {
-            while (br.ready())
+            while (br.ready()) {
                 map += br.readLine() + "\n";
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         br.close();
-        //Error checking, just in case this gets called before places has anything. Would it be better to print a message about no input data?
+        //Error checking, just in case this gets called before places has anything.
+        //Would it be better to print a message about no input data?
         if (this.places == null || this.places.size() == 0) {
             return map + "</svg></svg>";
         }
@@ -86,29 +88,33 @@ public class Trip {
     }
 
     /**
-     * Returns a String for a single line in SVG format
+     * Returns a String for a single line in SVG format.
      * @param from
      * @param to
-     * @return
+     * @return line between one place to another.
      */
     private String svgLine(int from, int to){
-        String ln = "";
+        String line = "";
         try{
-            double[] coord1 = svgHelper(Distance.DmsToDegrees(this.places.get(from).latitude), Distance.DmsToDegrees(this.places.get(from).longitude));
-            double[] coord2 = svgHelper(Distance.DmsToDegrees(this.places.get(to).latitude), Distance.DmsToDegrees(this.places.get(to).longitude));
+            double[] coord1 = svgHelper(Distance.dmsToDegrees(this.places.get(from).latitude),
+                                        Distance.dmsToDegrees(this.places.get(from).longitude));
+            double[] coord2 = svgHelper(Distance.dmsToDegrees(this.places.get(to).latitude),
+                                        Distance.dmsToDegrees(this.places.get(to).longitude));
 
-            ln = "\n<line x1=\"" + Double.toString(coord1[0]) + "\" y1=\"" + Double.toString(coord1[1]) + "\"";
-            ln +=       " x2=\"" + Double.toString(coord2[0]) + "\" y2=\"" + Double.toString(coord2[1]) + "\"";
-            ln += " style=\"stroke:rgb(255,0,0);stroke-width:3\" />";
-
-        } catch (Exception e){
-
+            line = "\n<line x1=\"" + Double.toString(coord1[0]) + "\" y1=\"" +
+                                   Double.toString(coord1[1]) + "\" x2=\"" +
+                                   Double.toString(coord2[0]) + "\" y2=\"" +
+                                   Double.toString(coord2[1]) + "\"" +
+                 " style=\"stroke:rgb(255,0,0);stroke-width:3\" />";
+        } catch (Exception e) {
+            System.err.println(e);
+            throw e;
         }
-        return ln;
+        return line;
     }
 
     /**
-     * Returns SVG coordinates of a point
+     * Returns SVG coordinates of a point.
      * @param lat
      * @param lon
      * @return

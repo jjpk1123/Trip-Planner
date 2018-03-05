@@ -4,44 +4,157 @@ import java.util.ArrayList;
 
 public class Distance {
 
-
     /**
-     * @param places: arrayList of places for trip
-     * @param unit: kilometers or miles
-     * @return dist: the distances between consecutive places
+     * @param places
+     * @param unit
+     * @return distance
      */
     public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit) {
-        ArrayList<Integer> dist = new ArrayList<>();
+        ArrayList<Integer> distance = new ArrayList<>();
         //If 0 Places
         if (places.size() < 1){
-            return dist;
+            return distance;
         }
 
         //If 1 or more places
         for (int i = 0 ; i < places.size() ; i++) {
-            dist.add(GCD(places.get(i),
+            distance.add(gcd(places.get(i),
                     places.get((i+1)%places.size()),
                     unit));
         }
-        return dist;
+        return distance;
     }
 
     /**
-     * @param DMS: Something in one of the following forms:
+     * @param source  starting point, contains lat/long
+     * @param dest    ending point, contains lat/long
+     * @param unit    calculation of radius, km or miles
+     * @return result  the distance between source and dest represented in unit
+     */
+    public static int gcd(Place source, Place dest, String unit) {
+        //0. Validate input
+        if (!validatePlace(source)){
+            return -1;
+        }
+        if (!validatePlace(dest)){
+            return -2;
+        }
+
+        //1. Initialize coordinates
+        double a1 = Math.toRadians(dmsToDegrees(source.latitude));
+        double b1 = Math.toRadians(dmsToDegrees(source.longitude));
+        double a2 = Math.toRadians(dmsToDegrees(dest.latitude));
+        double b2 = Math.toRadians(dmsToDegrees(dest.longitude));
+
+        //2. Compute X,Y,Z
+        double xCoordinate = gcdX(a1, a2, b1, b2);
+        double yCoordinate = gcdY(a1, a2, b1, b2);
+        double zCoordinate = gcdZ(a1, a2);
+
+        //3. Compute chord length
+        double chordLength = chordLength(xCoordinate, yCoordinate, zCoordinate);
+
+        //4. Compute central angle
+        double centralAngle = centralAngle(chordLength);
+
+        //5. Find greatest circle distance depending on unit
+        double distance = gcdHelper(centralAngle, unit);
+
+        //6. Round and return
+        return Math.toIntExact(Math.round(distance));
+    }
+
+    /**
+     * @param place
+     * @return whether the place's lat/long are valid or not
+     */
+    private static boolean validatePlace(Place place){
+        try {
+            dmsToDegrees(place.latitude);
+            dmsToDegrees(place.longitude);
+        } catch (Exception e) {
+            System.err.println(e);
+            return false; //bad source
+        }
+        return true;
+    }
+
+    /**
+     * @param a1
+     * @param a2
+     * @param b1
+     * @param b2
+     * @return xCoordinate
+     */
+    private static double gcdX(double a1, double a2, double b1, double b2){
+        return Math.cos(a2) * Math.cos(b2) - Math.cos(a1) * Math.cos(b1);
+    }
+
+    /**
+     * @param a1
+     * @param a2
+     * @param b1
+     * @param b2
+     * @return yCoordinate
+     */
+    private static double gcdY(double a1, double a2, double b1, double b2){
+        return Math.cos(a2) * Math.sin(b2) - Math.cos(a1) * Math.sin(b1);
+    }
+
+    /**
+     * @param a1
+     * @param a2
+     * @return zCoordinate
+     */
+    private static double gcdZ(double a1, double a2){
+        return Math.sin(a2) - Math.sin(a1);
+    }
+
+    /**
+     * @param xCoordinate
+     * @param yCoordinate
+     * @param zCoordinate
+     * @return chordLength
+     */
+    private static double chordLength(double xCoordinate, double yCoordinate, double zCoordinate){
+        return Math.sqrt(Math.pow(xCoordinate, 2) + Math.pow(yCoordinate, 2) + Math.pow(zCoordinate, 2));
+    }
+
+    /**
+     * @param chordLength
+     * @return centralAngle
+     */
+    private static double centralAngle (double chordLength){
+        return 2 * (Math.asin(chordLength / 2));
+    }
+
+    /**
+     * @param centralAngle
+     * @param unit
+     * @return distance based on unit
+     */
+    private static double gcdHelper(double centralAngle, String unit){
+        if (unit.equals("miles")) {
+            return centralAngle * 3958.7613;
+        } else { //Kilometers
+            return centralAngle * 6371.0088;
+        }
+    }
+
+    /**
+     * @param dms  Something in one of the following forms.
      *             12.182
      *             49° 14' 46.6512" N
      *             174° 46' E
      *             69° W
      *             **Note: This takes lat OR long, not both
-     * @return degrees: double version of DMS
+     * @return degrees from dms.
      */
-    public static double DmsToDegrees(String DMS) {
+    public static double dmsToDegrees(String dms) {
         double degrees = 0.0;
-        //5° 30' N
         //Check for °, main validator
-        if (DMS.contains("°")) {
-            String[] result = DMS.split("°");
-            //[5, 30' N]
+        if (dms.contains("°")) {
+            String[] result = dms.split("°");
             degrees = Double.parseDouble(result[0].trim());
             //Check for '
             if (result[1].contains("'")) {
@@ -65,7 +178,7 @@ public class Distance {
             }
         } else { //Already in degrees, or another invalid input like "klajsdf"
             try {
-                degrees = Double.parseDouble(DMS);
+                degrees = Double.parseDouble(dms);
             } catch (Exception e) {
                 //Perhaps we can make a new method for error handling which stops legDistances?
                 System.err.println(e);
@@ -74,55 +187,5 @@ public class Distance {
         }
 
         return degrees;
-    }
-
-    /**
-     * @param source: starting point, contains lat/long
-     * @param dest:   ending point, contains lat/long
-     * @param unit:   calculation of radius, km or miles
-     * @return result: the distance between source and dest represented in unit
-     */
-    public static int GCD(Place source, Place dest, String unit) {
-        //Source (a1,b1)
-        double a1, a2, b1, b2 = 0;
-        try {
-            a1 = Math.toRadians(DmsToDegrees(source.latitude));
-            b1 = Math.toRadians(DmsToDegrees(source.longitude));
-        } catch (Exception e){
-            System.err.println(e);
-            return -1; //bad source
-        }
-
-        //Dest (a2,b2)
-        try{
-            a2 = Math.toRadians(DmsToDegrees(dest.latitude));
-            b2 = Math.toRadians(DmsToDegrees(dest.longitude));
-        } catch (Exception e){
-            System.err.println(e);
-            return -2; //Bad dest
-        }
-        //Compute X,Y,Z
-        double x = Math.cos(a2) * Math.cos(b2) - Math.cos(a1) * Math.cos(b1);
-        double y = Math.cos(a2) * Math.sin(b2) - Math.cos(a1) * Math.sin(b1);
-        double z = Math.sin(a2) - Math.sin(a1);
-
-        //Compute chord length
-        double c = Math.sqrt((x * x) + (y * y) + (z * z));
-
-        //Compute central angle
-        double o = 2 * (Math.asin(c / 2));
-
-        //Find greatest circle distance depending on unit
-        double d;
-        if (unit.equals("miles")) {
-            d = o * 3958.7613;
-        } else { //Kilometers
-            d = o * 6371.0088;
-        }
-
-        //Do some Math magic
-        int result = Math.toIntExact(Math.round(d));
-
-        return result;
     }
 }
