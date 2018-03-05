@@ -3,13 +3,12 @@ package com.tripco.t17.planner;
 import java.util.ArrayList;
 
 /**
- * The Distance class is somewhat of a functor. Import planner package and call Distance.publicMethod
+ * The Distance class is a static class.Call it like Math
  */
 
 public class Distance {
 
-    /**
-     * @param places arrayList of all places
+    /**@param places arrayList of all places
      * @param unit either kilometers or miles
      * @return distance
      */
