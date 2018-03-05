@@ -15,7 +15,7 @@ class Application extends Component {
         title: "myTrip",
         options: {
           distance: "miles",
-          optimization: "none"
+          optimization: "0",
         },
         places: [],
         distances: [],
@@ -46,27 +46,27 @@ class Application extends Component {
 
   render() {
     return (
-        <div id="application" className="container">
-          <div className="row">
-            <div className="col-12">
-              <Options trip={this.state.trip}
-                       distance={this.state.trip.options.distance}
-                       optimization={this.state.trip.options.optimization}
-                       updateTrip={this.updateTrip}/>
-            </div>
-            <div className="col-12">
-              <Destinations trip={this.state.trip}
-                            places={this.state.trip.places}
-                            updateTrip={this.updateTrip}/>
-            </div>
-            <div className="col-12">
-              <Trip trip={this.state.trip}
-                    title={this.state.trip.title}
-                    updateTrip={this.updateTrip}
-                    updateTitle={this.updateTitle}/>
-            </div>
+      <div id="application" className="container">
+        <div className="row">
+          <div className="col-12">
+            <Options trip={this.state.trip}
+                     distance={this.state.trip.options.distance}
+                     optimization={this.state.trip.options.optimization}
+                     updateTrip={this.updateTrip}/>
+          </div>
+          <div className="col-12">
+            <Destinations trip={this.state.trip}
+                          places={this.state.trip.places}
+                          updateTrip={this.updateTrip}/>
+          </div>
+          <div className="col-12">
+            <Trip trip={this.state.trip}
+                  title={this.state.trip.title}
+                  updateTrip={this.updateTrip}
+                  updateTitle={this.updateTitle}/>
           </div>
         </div>
+      </div>
     )
   }
 }
