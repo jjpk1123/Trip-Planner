@@ -9,10 +9,11 @@ class Options extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      optim: "0",
-      final: "longest",
+
     };
     this.changeUnit = this.changeUnit.bind(this);
+    this.retrieveOptim = this.retrieveOptim.bind(this);
+    this.retrieveOptimString = this.retrieveOptimString.bind(this);
     this.changeOptimization = this.changeOptimization.bind(this);
   }
 
@@ -26,14 +27,25 @@ class Options extends Component {
     return "btn btn-outline-dark " + (this.props.distance === unit ? "active" : "");
   }
 
-  changeOptimization(userOptimization) {
-    if (userOptimization.target.value === "0") {
-      this.setState({optim: "0"});
-      this.setState({final: "longest"});
-    } else if (userOptimization.target.value === "1") {
-      this.setState({optim: "1"});
-      this.setState({final: "shortest"});
+  retrieveOptim() {
+    if (this.props.optimization === "0" || this.props.optimization === "none" || this.props.optimization === undefined) {
+      return 0;
+    } else if (this.props.optimization === "1") {
+      return 1
     }
+    return 0;
+  }
+
+  retrieveOptimString() {
+    if (this.props.optimization === "0" || this.props.optimization === "none" || this.props.optimization === undefined) {
+      return "longest";
+    } else if (this.props.optimization === "1") {
+      return "shortest";
+    }
+    return "3rr0r";
+  }
+
+  changeOptimization(userOptimization) {
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
     tempTrip.options.optimization = userOptimization.target.value; //alters the optimization field to reflect the slider's value
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
@@ -74,8 +86,8 @@ class Options extends Component {
                 <h6 className="card-title">Round-Trip length:</h6>
                 <div>
                   <input type="range" className="slider" min="0" max="1" id="myRange"
-                         value={this.state.optim} onChange={this.changeOptimization}/>
-                  <h6>Length: <b><big>{this.state.final}</big></b></h6>
+                         value={this.retrieveOptim()} onChange={this.changeOptimization}/>
+                  <h6>Length: <b><big>{this.retrieveOptimString()}</big></b></h6>
                 </div>
               </div>
             </div>
