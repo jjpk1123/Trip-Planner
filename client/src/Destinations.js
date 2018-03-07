@@ -33,22 +33,7 @@ class Destinations extends Component {
       }
       //here we check that places have all required fields (ID, Name, Lat, Long)
       for (let i = 0; i < this.myObj.places.length; i++) {
-        if (this.myObj.places[i].id === undefined || this.myObj.places[i].id === "") {
-          alert("You seem to be missing an ID for one or more of your places!");
-          return;
-        }
-        if (this.myObj.places[i].name === undefined || this.myObj.places[i].name === "") {
-          alert("You seem to be missing a name for one or more of your places!");
-          return;
-        }
-        if (this.myObj.places[i].latitude === undefined) {
-          alert("You seem to be missing a latitude for one or more of your places!");
-          return;
-        }
-        if (this.myObj.places[i].longitude === undefined) {
-          alert("You seem to be missing a longitude for one or more of your places!");
-          return;
-        }
+        this.validatePlace(this.myObj.places[i]);
       }
 
       //IF map is undefined by TFFI, default it to blank CO map
@@ -101,6 +86,26 @@ class Destinations extends Component {
 
   getCount() { // "there are ?? destinations" in the user-provided TFFI file.
     return this.props.places.length;
+  }
+
+  validatePlace(place) {
+    if (place.id === undefined || place.id === "") {
+      alert("You seem to be missing an ID for one or more of your places!");
+      return false;
+    }
+    if (place.name === undefined || place.name === "") {
+      alert("You seem to be missing a name for one or more of your places!");
+      return false;
+    }
+    if (place.latitude === undefined) {
+      alert("You seem to be missing a latitude for one or more of your places!");
+      return false;
+    }
+    if (place.longitude === undefined) {
+      alert("You seem to be missing a longitude for one or more of your places!");
+      return false;
+    }
+    return true;
   }
 
   render() {
