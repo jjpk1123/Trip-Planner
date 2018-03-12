@@ -84,9 +84,9 @@ class Trip extends Component {
   render(){
     return(
         <div id="trip" className="card">
-          <div className="card-header bg-info text-white">
+          <h5 className="card-header bg-info text-white">
             Trip
-          </div>
+          </h5>
           <div className="card-body">
             <p>Give your trip a title before planning or saving.</p>
             <div className="input-group" role="group">
