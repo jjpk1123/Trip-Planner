@@ -6,24 +6,22 @@ import com.google.gson.JsonParser;
 import com.tripco.t17.server.HTTP;
 import spark.Request;
 
-import java.util.ArrayList;
-
 /**
- * This class handles to the conversions of the trip request/response,
- * converting from the Json string in the request body to a Trip object,
- * planning the Trip, and
- * converting the resulting Trip object back to a Json string
+ * This class handles to the conversions of the query request/response,
+ * converting from the Json string in the request body to a Query object,
+ * searching the DB using the Query, and
+ * converting the resulting Query object back to a Json string
  * so it may returned as the response.
  */
-public class Plan {
+public class Search {
 
-  private Trip trip;
+  private Query query;
 
   /** Handles trip planning request, creating a new trip object from the trip request.
    * Does the conversion from Json to a Java class before planning the trip.
    * @param request
    */
-  public Plan (Request request) {
+  public Search(Request request) {
     // first print the request
     System.out.println(HTTP.echoRequest(request));
 
@@ -33,20 +31,20 @@ public class Plan {
 
     // convert the body of the request to a Java class.
     Gson gson = new Gson();
-    trip = gson.fromJson(requestBody, Trip.class);
+    query = gson.fromJson(requestBody, Query.class);
 
     // plan the trip.
-    trip.plan();
+    query.searchDB();
 
     // log something.
-    System.out.println(trip.title);
+    System.out.println(query.query);
   }
 
   /** Handles the response for a Trip object.
    * Does the conversion from a Java class to a Json string.*
    */
-  public String getTrip () {
+  public String getQuery () {
     Gson gson = new Gson();
-    return gson.toJson(trip);
+    return gson.toJson(query);
   }
 }
