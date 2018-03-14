@@ -17,8 +17,8 @@ public class Search {
 
   private Query query;
 
-  /** Handles trip planning request, creating a new trip object from the trip request.
-   * Does the conversion from Json to a Java class before planning the trip.
+  /** Handles query searching request, creating a new query object from the query request.
+   * Does the conversion from Json to a Java class before searching the database.
    * @param request
    */
   public Search(Request request) {
