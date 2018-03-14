@@ -105,7 +105,7 @@ public class MicroServer {
    * @param response
    * @return
    */
-  private String query(Request request, Response response){
+    private String query(Request request, Response response){
 
     response.type("application/json");
 
