@@ -19,7 +19,7 @@ public class Search {
 
   /** Handles query searching request, creating a new query object from the query request.
    * Does the conversion from Json to a Java class before searching the database.
-   * @param request
+   * @param request to search buddddddddddddy
    */
   public Search(Request request) {
     // first print the request
@@ -34,7 +34,7 @@ public class Search {
     query = gson.fromJson(requestBody, Query.class);
 
     // plan the trip.
-    query.searchDB();
+    query.searchDatabase();
 
     // log something.
     System.out.println(query.query);
@@ -43,7 +43,7 @@ public class Search {
   /** Handles the response for a Trip object.
    * Does the conversion from a Java class to a Json string.*
    */
-  public String getQuery () {
+  public String getQuery() {
     Gson gson = new Gson();
     return gson.toJson(query);
   }

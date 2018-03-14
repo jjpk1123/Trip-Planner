@@ -11,6 +11,10 @@ public class Svg {
     private ArrayList<Place> places;
     String map;
 
+    /**
+     * Create Svg object
+     * @param places populates places for the svg() method
+     */
     public Svg(ArrayList<Place> places){
         this.places = places;
         try {
@@ -63,8 +67,8 @@ public class Svg {
 
     /**
      * Returns a String for a single line in SVG format.
-     * @param from
-     * @param to
+     * @param from starting location
+     * @param to ending location
      * @return line between one place to another.
      */
     private String svgLine(int from, int to){
@@ -89,9 +93,9 @@ public class Svg {
 
     /**
      * Returns SVG coordinates of a point.
-     * @param lat
-     * @param lon
-     * @return
+     * @param lat latitude
+     * @param lon longitude
+     * @return magic
      */
     private double[] svgHelper(double lat, double lon){
         // Colorado West X value on SVG = 1030
@@ -102,14 +106,14 @@ public class Svg {
         // Colorado East border = 37 W
         // Colorado North border = 102 N
         // Colorado South border = 109 S
-        double latToSVG = (747.0 - 37.0)/(41.0 - 37.0);
-        double longToSVG = (1030.0 - 36.0)/(109.0 - 102.0);
-        double x, y;
-        //So, some scaling and translation and such.
-        x = (109.0 - Math.abs(lon)) * longToSVG + 37;
-        y = (41.0 - Math.abs(lat)) * latToSVG + 36;
+        double latToSvg = (747.0 - 37.0)/(41.0 - 37.0);
+        double longToSvg = (1030.0 - 36.0)/(109.0 - 102.0);
 
-        return new double[]{x, y};
+        //So, some scaling and translation and such.
+        double x1 = (109.0 - Math.abs(lon)) * longToSvg + 37;
+        double y1 = (41.0 - Math.abs(lat)) * latToSvg + 36;
+
+        return new double[]{x1, y1};
     }
 
 

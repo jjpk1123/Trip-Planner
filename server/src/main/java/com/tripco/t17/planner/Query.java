@@ -18,7 +18,7 @@ public class Query {
     /**
      * The top level method that does searching.
      */
-    public void searchDB() {
+    public void searchDatabase() {
         //This will do something one day :)
     }
 
