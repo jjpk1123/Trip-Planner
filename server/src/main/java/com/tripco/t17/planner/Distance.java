@@ -157,37 +157,38 @@ public class Distance {
     public static double dmsToDegrees(String dms) {
         double degrees;
         //Check for °, main validator
-        if (dms.contains("°")) {
-            String[] result = dms.split("°");
-            degrees = Double.parseDouble(result[0].trim());
+        try {
+            if (dms.contains("°")) {
+                String[] result = dms.split("°");
+                degrees = Double.parseDouble(result[0].trim());
 
-            //Check for '
-            if (result[1].contains("'")) {
-                result = result[1].split("'");
-                degrees += (Double.parseDouble(result[0].trim()) / 60);
+                //Check for '
+                if (result[1].contains("'")) {
+                    result = result[1].split("'");
+                    degrees += (Double.parseDouble(result[0].trim()) / 60);
 
-                //Check for "
-                if (result[1].contains("\"")) {
-                    result = result[1].split("\"");
-                    degrees += (Double.parseDouble(result[0].trim()) / 3600);
+                    //Check for "
+                    if (result[1].contains("\"")) {
+                        result = result[1].split("\"");
+                        degrees += (Double.parseDouble(result[0].trim()) / 3600);
+                    }
                 }
-            }
 
-            //Set the sign at the very end
-            if (result[1].trim().equals("S") || result[1].trim().equals("W")) {
-                degrees *= -1;
-            }
+                //Set the sign at the very end
+                if (result[1].trim().equals("S") || result[1].trim().equals("W")) {
+                    degrees *= -1;
+                }
 
-        //Already in degrees, or another invalid input like "klajsdf"
-        } else {
-            try {
+                //Already in degrees, or another invalid input like "klajsdf"
+            } else {
                 degrees = Double.parseDouble(dms);
-            } catch (Exception e) {
+            }
+        } catch (Exception e) {
                 //Perhaps we can make a new method for error handling which stops legDistances?
                 System.err.println(e);
                 throw e;
-            }
         }
-        return degrees;
+    return degrees;
     }
+
 }
