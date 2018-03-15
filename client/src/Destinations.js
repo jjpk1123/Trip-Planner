@@ -112,7 +112,7 @@ class Destinations extends Component {
     console.log("Search: " + this.search);
   }
 
-  fetchQueryResponse(){
+  fetchQueryResponse(){ 
     let search = this.search;
     let requestBody = "{\n" +
       "  \"version\" : 2,\n" +
