@@ -112,6 +112,7 @@ class Destinations extends Component {
     console.log("Search: " + this.search);
   }
 
+
   fetchQueryResponse(){
     let requestBody = {
       "version" : 2,
@@ -119,6 +120,7 @@ class Destinations extends Component {
       "query"   : this.search,
       "places"  : []
     };
+
 
     console.log(process.env.SERVICE_URL);
     console.log(requestBody);
@@ -166,6 +168,7 @@ class Destinations extends Component {
             </div>
 
             <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
+
               <div className="card-body">
                 <h6 className="card-title">Search:</h6>
                 <div className="input-group" role="group">
