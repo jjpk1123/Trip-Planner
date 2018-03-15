@@ -112,14 +112,15 @@ class Destinations extends Component {
     console.log("Search: " + this.search);
   }
 
-  fetchQueryResponse(){ 
-    let search = this.search;
-    let requestBody = "{\n" +
-      "  \"version\" : 2,\n" +
-      "  \"type\"    : \"query\",\n" +
-      "  \"query\"   : " + "\"" + search + "\"" + ",\n" +
-      "  \"places\"  : []\n" +
-      "}";
+
+  fetchQueryResponse(){
+    let requestBody = {
+      "version" : 2,
+      "type"    : "query",
+      "query"   : this.search,
+      "places"  : []
+    };
+
 
     console.log(process.env.SERVICE_URL);
     console.log(requestBody);
@@ -158,23 +159,24 @@ class Destinations extends Component {
           <h6>Load destinations or search our database:</h6>
           <div className="row">
             <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                <div className="card-body">
-                  <h6 className="card-title">Load from a file:</h6>
-                    <div className="form-group" role="group">
-                      <input type="file" className="form-control-file" onChange={this.loadTFFI} id="tffifile"/>
-                    </div>
+              <div className="card-body">
+                <h6 className="card-title">Load from a file:</h6>
+                <div className="form-group" role="group">
+                  <input type="file" className="form-control-file" onChange={this.loadTFFI} id="tffifile"/>
                 </div>
+              </div>
             </div>
 
             <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
-                <div className="card-body">
-                  <h6 className="card-title">Search:</h6>
-                  <div className="input-group" role="group">
-                    <input type="text" className="form-control" placeholder="Search..." onChange={this.updateSearch}/>
+
+              <div className="card-body">
+                <h6 className="card-title">Search:</h6>
+                <div className="input-group" role="group">
+                  <input type="text" className="form-control" placeholder="Search..." onChange={this.updateSearch}/>
                   <span className="input-group-btn">
                 <button className="btn btn-primary" onClick={this.query} type="button">Search</button>
               </span>
-                  </div>
+                </div>
               </div>
             </div>
           </div>

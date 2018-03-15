@@ -20,6 +20,8 @@ public class Query {
      */
     public void searchDatabase() {
         //This will do something one day :)
+        System.out.println("YOU MADE IT TO SEARCHDATABASE");
+
     }
 
 
