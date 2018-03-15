@@ -12,6 +12,10 @@ class Destinations extends Component {
     super(props);
     this.loadTFFI = this.loadTFFI.bind(this);
     this.myObj = "";
+    this.updateSearch = this.updateSearch.bind(this);
+    this.search = "";
+    this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
+    this.query = this.query.bind(this);
   }
 
   //Load a file from "browse" button
@@ -102,6 +106,46 @@ class Destinations extends Component {
   getCount() { // "there are ?? destinations" in the user-provided TFFI file.
     return this.props.places.length;
   }
+  updateSearch(event) {
+
+    this.search = event.target.value;
+    console.log("Search: " + this.search);
+  }
+
+  fetchQueryResponse(){
+    let search = this.search;
+    let requestBody = "{\n" +
+      "  \"version\" : 2,\n" +
+      "  \"type\"    : \"query\",\n" +
+      "  \"query\"   : " + "\"" + search + "\"" + ",\n" +
+      "  \"places\"  : []\n" +
+      "}";
+
+    console.log(process.env.SERVICE_URL);
+    console.log(requestBody);
+
+    return fetch('http://' + location.host + '/query', {
+      method:"POST",
+      body: JSON.stringify(requestBody)
+    });
+  }
+
+  async query(){
+    try {
+      console.log("Awaiting response from server: Query");
+      let serverResponse = await this.fetchQueryResponse();
+
+      console.log("Async Query(): fetchResponse is done");
+    } catch(err) {
+      console.error("You hit an error in async Query()");
+      console.error(err);
+    }
+  }
+
+
+
+
+
 
   render() {
     // getCount() returns the number of places in the trip file
@@ -126,9 +170,9 @@ class Destinations extends Component {
                 <div className="card-body">
                   <h6 className="card-title">Search:</h6>
                   <div className="input-group" role="group">
-                    <input type="text" className="form-control" placeholder="Search..." />
+                    <input type="text" className="form-control" placeholder="Search..." onChange={this.updateSearch}/>
                   <span className="input-group-btn">
-                <button className="btn btn-primary" onClick={this.getCount()} type="button">Search</button>
+                <button className="btn btn-primary" onClick={this.query} type="button">Search</button>
               </span>
                   </div>
               </div>
