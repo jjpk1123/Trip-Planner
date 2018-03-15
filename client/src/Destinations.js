@@ -104,7 +104,7 @@ class Destinations extends Component {
   }
 
   render() {
-    // getCount() returns the number of places in the trip file
+    // getCount() returns the number of places in the trip file 
     return (
       <div id="destinations" className="card">
         <h5 className="card-header bg-info text-white">
