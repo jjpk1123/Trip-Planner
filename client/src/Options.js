@@ -9,9 +9,9 @@ import React, {Component} from 'react';
 class Options extends Component {
   constructor(props) {
     super(props);
-    this.optCardHeader = <div className="card-header bg-info text-white">
+    this.optCardHeader = <h5 className="card-header bg-info text-white">
         Options
-      </div>;
+      </h5>;
     this.spacer = <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
       </div>;
     this.changeUnit = this.changeUnit.bind(this);
@@ -70,7 +70,7 @@ class Options extends Component {
    * Called when the user changes the slider "live"
    */
   changeOptimization(userOptimization) {
-    let newValue = parseInt(userOptimization.target.value) / 100
+    let newValue = userOptimization.target.value / 100;
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
     tempTrip.options.optimization = "" + newValue; //alters the optimization field to reflect the slider's value
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
@@ -82,10 +82,9 @@ class Options extends Component {
     return <div id="options" className="card">
       {this.optCardHeader}
       <div className="card-body">
-        <p>Select the desired:</p>
+        <h6>Select the desired:</h6>
         <div className="row">
-          <div className="col-xs-2 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-            <div className="card">
+          <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
               <div className="card-body">
                 <h6 className="card-title">Unit of distance:</h6>
                 <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
@@ -96,12 +95,9 @@ class Options extends Component {
                     <input type="radio" value="kilometers" name="distance"/> Kilometers
                   </label>
                 </div>
-              </div>
             </div>
           </div>
-          {this.spacer}
-          <div className="col-xs-2 col-sm-5 col-md-4 col-lg-3 col-xl-3">
-            <div className="card">
+          <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
               <div className="card-body">
                 <h6 className="card-title">Round-Trip length:</h6>
                 <div>
@@ -109,7 +105,6 @@ class Options extends Component {
                          value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
                   <h6>Length: <b><big>{this.retrieveOptimizationString()}</big></b></h6>
                 </div>
-              </div>
             </div>
           </div>
         </div>

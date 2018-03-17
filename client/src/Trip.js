@@ -11,9 +11,9 @@ import Itinerary from './Itinerary';
 class Trip extends Component {
   constructor(props) {
     super(props);
-    this.tripCardHeader = <div className="card-header bg-info text-white">
-      Trip
-    </div>;
+    this.tripCardHeader = <h5 className="card-header bg-info text-white">
+        Trip
+      </h5>;
     this.buttonClassName = "input-group-btn";
 
     this.plan = this.plan.bind(this);

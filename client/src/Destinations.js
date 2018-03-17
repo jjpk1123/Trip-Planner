@@ -12,10 +12,14 @@ class Destinations extends Component {
   constructor(props) {
     super(props);
     this.myObj = "";
-    this.destCardHeader = <div className="card-header bg-info text-white">
+    this.search = "";
+    this.destCardHeader = <h5 className="card-header bg-info text-white">
         Destinations
-      </div>;
+      </h5>;
+    this.query = this.query.bind(this);
     this.loadTFFI = this.loadTFFI.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
+    this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
   }
 
   /**
@@ -218,15 +222,70 @@ class Destinations extends Component {
     }
   }
 
+
+  updateSearch(event) {
+    this.search = event.target.value;
+    console.log("Search: " + this.search);
+  }
+
+
+  fetchQueryResponse(){
+    let requestBody = {
+      "version" : 2,
+      "type"    : "query",
+      "query"   : this.search,
+      "places"  : []
+    };
+
+    console.log(process.env.SERVICE_URL);
+    console.log(requestBody);
+
+    return fetch('http://' + location.host + '/query', {
+      method:"POST",
+      body: JSON.stringify(requestBody)
+    });
+  }
+
+  async query(){
+    try {
+      console.log("Awaiting response from server: Query");
+      let serverResponse = await this.fetchQueryResponse();
+
+      console.log("Async Query(): fetchResponse is done");
+    } catch(err) {
+      console.error("You hit an error in async Query()");
+      console.error(err);
+    }
+  }
+
+
   render() {
     return <div id="destinations" className="card">
       {this.destCardHeader}
       <div className="card-body">
-        <p>Load destinations from a file:</p>
-        <div className="form-group" role="group">
-          <input type="file" className="form-control-file" onChange={this.loadTFFI} id="tffifile"/>
+        <h6>Load destinations or search our database:</h6>
+        <div className="row">
+          <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div className="card-body">
+              <h6 className="card-title">Load from a file:</h6>
+              <div className="form-group" role="group">
+                <input type="file" className="form-control-file" onChange={this.loadTFFI} id="tffifile"/>
+              </div>
+            </div>
+          </div>
+          <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
+            <div className="card-body">
+              <h6 className="card-title">Search:</h6>
+              <div className="input-group" role="group">
+                <input type="text" className="form-control" placeholder="Search..." onChange={this.updateSearch}/>
+                <span className="input-group-btn">
+                <button className="btn btn-primary" onClick={this.query} type="button">Search</button>
+              </span>
+              </div>
+            </div>
+          </div>
         </div>
-        <p>There are <big><big><b>{(this.props.places).length}</b></big></big> destinations</p>
+        <h5>There are <b>{(this.props.places).length}</b> destinations</h5>
       </div>
     </div>
   }
