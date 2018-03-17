@@ -10,7 +10,7 @@ class Application extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trip: { // default TFFI
+      trip: { // trip TFFI
         type: "trip",
         title: "myTrip",
         options: {
@@ -20,17 +20,24 @@ class Application extends Component {
         places: [],
         distances: [],
         map: "<svg width=\"1920\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><g></g></svg>"
+      },
+      query: { //query TFFI
+        type: "query",
+        query: "",
+        places: []
       }
     };
     this.updateTrip = this.updateTrip.bind(this);
+    this.updateQuery = this.updateQuery.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
   }
 
-
   updateTrip(tffi) {
     this.setState({trip: tffi});
-    //console.log("Distance is: " + tffi.options.distance); // Correctly implements unitButton
-    //console.log("updateTrip : " + JSON.stringify(this.state.trip)); // Sanity check, the trip is updated!
+  }
+
+  updateQuery(tffi) {
+    this.setState({query: tffi});
   }
 
   updateTitle(title) {
@@ -56,7 +63,9 @@ class Application extends Component {
           </div>
           <div className="col-12">
             <Destinations trip={this.state.trip}
+                          query = {this.state.query}
                           places={this.state.trip.places}
+                          updateQuery={this.updateQuery}
                           updateTrip={this.updateTrip}/>
           </div>
           <div className="col-12">

@@ -26,7 +26,7 @@ class Trip extends Component {
     console.log("from fetchResponse: " + this.props.trip);
 
     console.log(process.env.SERVICE_URL);
-    console.log("RQ::::::" + requestBody);
+    console.log("RQ:" + requestBody);
 
     return fetch('http://' + location.host + '/plan', {
       method:"POST",
@@ -47,8 +47,6 @@ class Trip extends Component {
       console.error(err);
     }
   }
-
-
 
   /**
    *  Saves the map and itinerary to the local file system.
@@ -79,7 +77,8 @@ class Trip extends Component {
     this.props.updateTitle(event.target.value);
   }
 
-  /* Renders the buttons, map, and itinerary.
+  /**
+   * Renders the buttons, map, and itinerary.
    * The title should be specified before the plan or save buttons are valid.
    */
   render(){
