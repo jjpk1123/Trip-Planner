@@ -10,12 +10,12 @@ class Itinerary extends Component {
   createTable () {
     let size = this.props.trip.distances.length;
     let units = this.props.trip.options.distance;
-    var i = 0;
+    let i = 0;
     let dists = this.props.trip.distances.map((item) => <td key = {i++}>{item}</td>);
 
     //valid distance check
     for (let d = 0; d < size; ++d) {
-      console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
+      //console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
       let compare = this.props.trip.distances[d];
       let whichPlace = "########";
       let lat = "########";
@@ -60,7 +60,7 @@ class Itinerary extends Component {
 
   getCumulative() {
     let sum = 0;
-    var i = 0;
+    let i = 0;
     return this.props.trip.distances.map((item) => <td key = {i++}>{sum+=item}</td>);
   }
 
