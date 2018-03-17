@@ -54,16 +54,16 @@ class Options extends Component {
     if (this.props.optimization === "none") {
       return "longest";
     }
+    let opt = 1.0 / 2;
     let curr = parseFloat(this.props.optimization);
     //console.log("Optimization value equals " + curr);
-    if (curr < 0.5) {
-      //console.log("(" + curr + "< 5) .'. longest");
+    if (curr < opt) {
+      //console.log("longest");
       return "longest";
-    } else if (curr >= 0.5) {
-      //console.log("{" + curr + ">= 5) .'. shortest");
+    } else if (curr >= opt) {
+      //console.log("shortest");
       return "shortest";
     }
-    return "3rr0r @ line ~64";
   }
 
   /**
@@ -75,7 +75,7 @@ class Options extends Component {
     tempTrip.options.optimization = "" + newValue; //alters the optimization field to reflect the slider's value
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
     //console.log("Optimization Selected: " + userOptimization.target.value);
-    //console.log("TFFI now equals " + newValue);
+    //console.log("trip.options.optim== " + newValue);
   }
 
   render() {

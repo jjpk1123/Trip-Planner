@@ -140,8 +140,14 @@ public class Distance {
     private static double gcdHelper(double centralAngle, String unit){
         if (unit.equals("miles")) {
             return centralAngle * 3958.7613;
-        } else { //Kilometers
+        } else if (unit.equals("kilometers")) {
             return centralAngle * 6371.0088;
+        }
+        else if (unit.equals("nautical miles")) {
+            return centralAngle * 3440.0695;
+        }
+        else {
+            return centralAngle;
         }
     }
 

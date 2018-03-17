@@ -31,16 +31,21 @@ public class Trip {
      */
     public void plan()  {
         //1. Plan the trip
-        if (this.options.optimization.equals("1")){
-            this.places = Optimize.nearestNeighbor(this.places);
-        } //else 0 = no optimization
+        if (!this.options.optimization.equals("none")) {
+            double optBreak = 1.0 / 2;
+            double numOptimization = Double.parseDouble(this.options.optimization);
+            if (numOptimization < optBreak) {
+                System.out.println("Without NearestNeighbor");
+            } else if (numOptimization >= optBreak) { // && (numOptimization <= 2*opt)
+                System.out.println("With NearestNeighbor");
+                this.places = Optimize.nearestNeighbor(this.places);
+            }
+        }
 
         //2. Draw the map of the plan
         this.map = new Svg(places).map;
 
         //3. Find distances
         this.distances = Distance.legDistances(this.places, this.options.distance);
-
     }
-
 }

@@ -78,18 +78,18 @@ class Destinations extends Component {
     }
 
     if (this.validateIndividualPlaces() === false) {
-      return false;//If not all places in TFFI contain valid fields, fail
+      return false;//If not all places in file contain valid fields, fail
     }
 
     this.validateDistances();//If distances is undefined, set distances to default -- []
 
     this.validateMap();//If map is undefined, set map to default -- ""
 
-    return true; // All TFFI fields are populated
+    return true; // All trip fields are populated
   }
 
   /**
-   * Inserts {"version": 1} if version element is not provided in TFFI file
+   * Inserts {"version": 1} if version element is not provided in file
    */
   validateVersion() {
     if (this.myObj.version === undefined) {
@@ -105,7 +105,7 @@ class Destinations extends Component {
   }
 
   /**
-   * Inserts {"title": "myTrip"} if the title element is (not provided | "") in TFFI file
+   * Inserts {"title": "myTrip"} if the title element is (not provided | "") in file
    */
   validateTitle() {
     if ((this.myObj.title === undefined) || (this.myObj.title === "")) {
@@ -115,7 +115,7 @@ class Destinations extends Component {
   }
 
   /**
-   * Returns true if the type element is provided in TFFI file
+   * Returns true if the type element is provided in file
    */
   validateType() {
     if (this.myObj.type === undefined) {
@@ -127,41 +127,52 @@ class Destinations extends Component {
 
   /**
    * Inserts {"distance": "miles", "optimization": "none"}
-   * if options element not provided in TFFI file
+   * if options element not provided in file
    */
   validateOptions() {
     if (this.myObj.options === undefined) {
-      //if options element does not exist, default it to {miles, 0}
       console.log("options field not provided");
-      console.log("defaulting to {\"distance\": \"miles\", \"optimization\": \"0\"}")
+      console.log("defaulting to {\"distance\": \"miles\", \"optimization\": \"0\"}");
       this.myObj.options = (this.myObj.version === 1) ?
           {"distance": "miles", "optimization": "none"}   //if v1: "none"
           : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
     } else if (this.myObj.options.distance === undefined) {
-      //if there is no distance defined in options, default it to {miles}
       console.log("options.distance not provided; defaulting to \"miles\"");
       this.myObj.options.distance = "miles";
     } else if (this.myObj.options.optimization === undefined) {
-      //if there is no optimization defined in options, default it to {none|0.0}
-      console.log("options.optimization not provided; defaulting to \"0\"");
-      this.myObj.options.optimization = (this.myObj.version === 1) ? "none" : "0.0";
+      this.changeOptimization("0.0", "options.optimization not provided; defaulting to \"none|0\"");
+    } else if (isNaN(parseFloat(this.myObj.options.optimization))) {
+      this.changeOptimization("0.0", "options.optimization string== NaN; defaulting to \"none|0\"");
+    } else if (parseFloat(this.myObj.options.optimization) < 0.0) {
+      this.changeOptimization("0.0", "options.optimization string < 0.0; defaulting to \"none|0\"");
+    } else if (parseFloat(this.myObj.options.optimization) > 1.0) {
+      this.changeOptimization("1.0", "options.optimization string > 1.0; defaulting to \"none|1\"");
     }
   }
 
   /**
-   * Return true if there are 1 or more places provided in TFFI file
+   * Logs the optimization error message associated with the change
+   * Changes the value of trip.options.optimization based on trip.version
+   */
+  changeOptimization(ver2Value, errorMsg) {
+    console.log(errorMsg);
+    this.myObj.options.optimization = (this.myObj.version === 1) ? "none" : ver2Value;
+  }
+
+  /**
+   * Return true if there are 1 or more places provided in file
    */
   validatePlaces() {
-    //If places is not provided, let the user know their TFFI file is invalid
+    //If places is not provided, let the user know their file is invalid
     if (this.myObj.places === undefined) {
       console.log("places field does not exist; Quitting...");
-      alert("You need to define some places in your TFFI file.");
+      alert("You need to define some places in your file.");
       return false;
     }
-    //If there are 0 places provided in TFFI, fail
+    //If there are 0 places provided in file, fail
     if ((this.myObj.places).length === 0) {
       console.log("places field does not contain any places; Quitting...");
-      alert("Your TFFI file needs at least 1 place in order to make a trip");
+      alert("Your file needs at least 1 place in order to make a trip");
       return false;
     }
     return true;
@@ -203,7 +214,7 @@ class Destinations extends Component {
   }
 
   /**
-   * Inserts {"distances": []} if distances element is not provided in TFFI file
+   * Inserts {"distances": []} if distances element is not provided in file
    */
   validateDistances() {
     if (this.myObj.distances === undefined) {
@@ -213,7 +224,7 @@ class Destinations extends Component {
   }
 
   /**
-   * Inserts {"map": ""} if map element is not provided in TFFI file
+   * Inserts {"map": ""} if map element is not provided in file
    */
   validateMap() {
     if (this.myObj.map === undefined) {
