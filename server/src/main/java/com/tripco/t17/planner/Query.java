@@ -11,7 +11,6 @@ import java.util.ArrayList;
  */
 public class Query {
     // The variables in this class should reflect TFFI.
-    public String version;
     public String type;
     public String query;
     public ArrayList<Place> places;
@@ -21,7 +20,8 @@ public class Query {
      */
     public void searchDatabase() {
         //This will do something one day :)
-      System.out.println("YOU MADE IT TO SEARCHDATABASE");
+        System.out.println("YOU MADE IT TO SEARCHDATABASE");
+
     }
 
 
