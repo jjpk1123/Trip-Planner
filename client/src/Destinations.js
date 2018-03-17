@@ -103,23 +103,22 @@ class Destinations extends Component {
     reader.readAsText(file);
   }
 
-  getCount() { // "there are ?? destinations" in the user-provided TFFI file.
+  getCount() { // "there are ?? destinations" in the user-provided trip TFFI file.
     return this.props.places.length;
   }
-  updateSearch(event) {
 
+  updateSearch(event) {
     this.search = event.target.value;
     console.log("Search: " + this.search);
   }
 
-  fetchQueryResponse(){ 
-    let search = this.search;
-    let requestBody = "{\n" +
-      "  \"version\" : 2,\n" +
-      "  \"type\"    : \"query\",\n" +
-      "  \"query\"   : " + "\"" + search + "\"" + ",\n" +
-      "  \"places\"  : []\n" +
-      "}";
+  fetchQueryResponse(){
+    let requestBody = {
+      "version" : 2,
+      "type"    : "query",
+      "query"   : this.search,
+      "places"  : []
+      };
 
     console.log(process.env.SERVICE_URL);
     console.log(requestBody);
@@ -134,7 +133,9 @@ class Destinations extends Component {
     try {
       console.log("Awaiting response from server: Query");
       let serverResponse = await this.fetchQueryResponse();
-
+      let queryResult = await serverResponse;
+      console.log(queryResult);
+      //update it HERE -->
       console.log("Async Query(): fetchResponse is done");
     } catch(err) {
       console.error("You hit an error in async Query()");

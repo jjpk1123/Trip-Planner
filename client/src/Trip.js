@@ -26,7 +26,7 @@ class Trip extends Component {
     console.log("from fetchResponse: " + this.props.trip);
 
     console.log(process.env.SERVICE_URL);
-    console.log(requestBody);
+    console.log("RQ::::::" + requestBody);
 
     return fetch('http://' + location.host + '/plan', {
       method:"POST",
