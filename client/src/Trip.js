@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import Map from './Map';
 import Itinerary from './Itinerary';
 
-/* Trip computes the Map and Itinerary based on a set of destinations and options.
+/**
+ * Trip computes the Map and Itinerary based on a set of destinations and options.
  * The destinations and options reside in the parent object so they may be set by
  * the Destinations and Options classes.
  * The map and itinerary reside in this object so they can be passed to the Map and Itinerary classes.
@@ -10,39 +11,42 @@ import Itinerary from './Itinerary';
 class Trip extends Component {
   constructor(props) {
     super(props);
+    this.tripCardHeader = <div className="card-header bg-info text-white">
+      Trip
+    </div>;
+    this.buttonClassName = "input-group-btn";
 
     this.plan = this.plan.bind(this);
     this.saveTFFI = this.saveTFFI.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
   }
 
-  /* Sends a request to the server with the destinations and options.
+  /**
+   * Sends a request to the server with the destinations and options.
    * Receives a response containing the map and itinerary to update the
    * state for this object.
    */
-  fetchResponse(){
-    // need to get the request body from the trip in state object.
+  fetchResponse() {
     let requestBody = this.props.trip;
-    console.log("from fetchResponse: " + this.props.trip);
-
-    console.log(process.env.SERVICE_URL);
-    console.log(requestBody);
+    //console.log("from fetchResponse: " + this.props.trip);
+    //console.log(process.env.SERVICE_URL);
+    //console.log(requestBody);
 
     return fetch('http://' + location.host + '/plan', {
-      method:"POST",
+      method: "POST",
       body: JSON.stringify(requestBody)
     });
   }
 
-  async plan(){
+  async plan() {
     try {
-      console.log("Awaiting response from server");
+      //console.log("Awaiting response from server");
       let serverResponse = await this.fetchResponse();
       let tffi = await serverResponse.json();
-      console.log(tffi);
+      //console.log(tffi);
       this.props.updateTrip(tffi);
-      console.log("Async Plan(): fetchResponse is done");
-    } catch(err) {
+      //console.log("Async Plan(): fetchResponse is done");
+    } catch (err) {
       console.error("You hit an error in async plan()");
       console.error(err);
     }
@@ -50,9 +54,9 @@ class Trip extends Component {
 
 
   /**
-   *  Saves the map and itinerary to the local file system.
+   * Saves the map and itinerary to the local file system.
    */
-  saveTFFI(){
+  saveTFFI() {
     let jsonData = JSON.stringify(this.props.trip);
     let name = this.props.title + ".json";
     console.log("Saving trip as: " + name);
@@ -78,31 +82,28 @@ class Trip extends Component {
     this.props.updateTitle(event.target.value);
   }
 
-  /* Renders the buttons, map, and itinerary.
+  /**
+   * Renders the buttons, map, and itinerary.
    * The title should be specified before the plan or save buttons are valid.
    */
-  render(){
-    return(
-        <div id="trip" className="card">
-          <div className="card-header bg-info text-white">
-            Trip
-          </div>
-          <div className="card-body">
-            <p>Give your trip a title before planning or saving.</p>
-            <div className="input-group" role="group">
-              <span className="input-group-btn">
-                <button className="btn btn-primary" onClick={this.plan} type="button">Plan</button>
-              </span>
-              <input type="text" className="form-control" placeholder="Name your Trip here" onChange={this.updateTitle} />
-              <span className="input-group-btn">
-                <button className="btn btn-primary" onClick={this.saveTFFI} type="button">Save</button>
-              </span>
-            </div>
-            <Map trip={this.props.trip} />
-            <Itinerary trip={this.props.trip} />
-          </div>
+  render() {
+    return <div id="trip" className="card">
+      {this.tripCardHeader}
+      <div className="card-body">
+        <p>Give your trip a title before planning or saving.</p>
+        <div className="input-group" role="group">
+                  <span className={this.buttonClassName}>
+                    <button className="btn btn-primary" onClick={this.plan} type="button">Plan</button>
+                  </span>
+          <input type="text" className="form-control" placeholder="Name your Trip here" onChange={this.updateTitle}/>
+          <span className={this.buttonClassName}>
+                    <button className="btn btn-primary" onClick={this.saveTFFI} type="button">Save</button>
+                  </span>
         </div>
-    )
+        <Map trip={this.props.trip}/>
+        <Itinerary trip={this.props.trip}/>
+      </div>
+    </div>
   }
 }
 
