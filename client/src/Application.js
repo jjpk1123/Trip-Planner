@@ -38,6 +38,8 @@ class Application extends Component {
     trip.title = title;
     this.setState({trip});
     console.log("Title:" + this.state.trip.title);
+
+    //this.setState({trip.: title})
     //console.log("Distance is: " + tffi.options.distance); // Correctly implements unitButton
     //console.log("updateTrip : " + JSON.stringify(this.state.trip)); // Sanity check, the trip is updated!
   }
@@ -50,18 +52,18 @@ class Application extends Component {
             <Options trip={this.state.trip}
                      distance={this.state.trip.options.distance}
                      optimization={this.state.trip.options.optimization}
-                     updateTrip={this.updateTrip} />
+                     updateTrip={this.updateTrip}/>
           </div>
           <div className="col-12">
             <Destinations trip={this.state.trip}
                           places={this.state.trip.places}
-                          updateTrip={this.updateTrip} />
+                          updateTrip={this.updateTrip}/>
           </div>
           <div className="col-12">
             <Trip trip={this.state.trip}
                   title={this.state.trip.title}
                   updateTrip={this.updateTrip}
-                  updateTitle={this.updateTitle} />
+                  updateTitle={this.updateTitle}/>
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
-/**
- * Options allows the user to change the parameters for planning
+/* Options allows the user to change the parameters for planning
  * and rendering the trip map and itinerary.
  * The options reside in the parent object so they may be shared with the Trip object.
  * Allows the user to set the options used by the application via a set of buttons.
@@ -9,16 +8,13 @@ import React, {Component} from 'react';
 class Options extends Component {
   constructor(props) {
     super(props);
-    this.optCardHeader = <div className="card-header bg-info text-white">
-                          Options
-                        </div>;
-    this.spacer = <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-                  </div>;
+    this.state = {
 
+    };
     this.changeUnit = this.changeUnit.bind(this);
-    this.retrieveOptimizationValue = this.retrieveOptimizationValue.bind(this);
+    this.retrieveOptim = this.retrieveOptim.bind(this);
+    this.retrieveOptimString = this.retrieveOptimString.bind(this);
     this.changeOptimization = this.changeOptimization.bind(this);
-    this.retrieveOptimizationString = this.retrieveOptimizationString.bind(this);
   }
 
   changeUnit(userUnit) { // Changes the parent's (Application.js) options
@@ -31,24 +27,22 @@ class Options extends Component {
     return "btn btn-outline-dark " + (this.props.distance === unit ? "active" : "");
   }
 
-  retrieveOptimizationValue() {
-    if (this.props.optimization === "none") {
+  retrieveOptim() {
+    if (this.props.optimization === "0" || this.props.optimization === "none" || this.props.optimization === undefined) {
       return 0;
+    } else if (this.props.optimization === "1") {
+      return 1
     }
-    return 100 * parseInt(this.props.optimization);
+    return 0;
   }
 
-  retrieveOptimizationString() {
-    if (this.props.optimization === "none") {
+  retrieveOptimString() {
+    if (this.props.optimization === "0" || this.props.optimization === "none" || this.props.optimization === undefined) {
       return "longest";
-    }
-    let curr = parseInt(this.props.optimization);
-    if (curr < 0.5) {
-      return "longest";
-    } else if (curr > 0.5) {
+    } else if (this.props.optimization === "1") {
       return "shortest";
     }
-    return "3rr0r @ line ~64";
+    return "3rr0r";
   }
 
   changeOptimization(userOptimization) {
@@ -60,10 +54,13 @@ class Options extends Component {
 
   render() {
     return <div id="options" className="card">
-      {this.optCardHeader}
+      <div className="card-header bg-info text-white">
+        Options
+      </div>
       <div className="card-body">
         <p>Select the desired:</p>
         <div className="row">
+
           <div className="col-xs-2 col-sm-6 col-md-4 col-lg-3 col-xl-3">
             <div className="card">
               <div className="card-body">
@@ -79,15 +76,18 @@ class Options extends Component {
               </div>
             </div>
           </div>
-          {this.spacer}
+
+          <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+          </div>
+
           <div className="col-xs-2 col-sm-5 col-md-4 col-lg-3 col-xl-3">
             <div className="card">
               <div className="card-body">
                 <h6 className="card-title">Round-Trip length:</h6>
                 <div>
                   <input type="range" className="slider" min="0" max="1" id="myRange"
-                         value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
-                  <h6>Length: <b><big>{this.retrieveOptimizationString()}</big></b></h6>
+                         value={this.retrieveOptim()} onChange={this.changeOptimization}/>
+                  <h6>Length: <b><big>{this.retrieveOptimString()}</big></b></h6>
                 </div>
               </div>
             </div>
