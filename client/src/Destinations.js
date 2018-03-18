@@ -126,28 +126,33 @@ class Destinations extends Component {
   }
 
   /**
-   * Inserts {"distance": "miles", "optimization": "none"}
-   * if options element not provided in file
+   * Inserts "distance" and "optimization" to trip if non-existent
    */
   validateOptions() {
     if (this.myObj.options === undefined) {
-      console.log("options field not provided");
-      console.log("defaulting to {\"distance\": \"miles\", \"optimization\": \"0\"}");
-      this.myObj.options = (this.myObj.version === 1) ?
-          {"distance": "miles", "optimization": "none"}   //if v1: "none"
-          : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
-    } else if (this.myObj.options.distance === undefined) {
+      this.insertOptions();
+    }
+    else if (this.myObj.options.distance === undefined) {
       console.log("options.distance not provided; defaulting to \"miles\"");
       this.myObj.options.distance = "miles";
-    } else if (this.myObj.options.optimization === undefined) {
-      this.changeOptimization("0.0", "options.optimization not provided; defaulting to \"none|0\"");
-    } else if (isNaN(parseFloat(this.myObj.options.optimization))) {
-      this.changeOptimization("0.0", "options.optimization string== NaN; defaulting to \"none|0\"");
-    } else if (parseFloat(this.myObj.options.optimization) < 0.0) {
-      this.changeOptimization("0.0", "options.optimization string < 0.0; defaulting to \"none|0\"");
-    } else if (parseFloat(this.myObj.options.optimization) > 1.0) {
-      this.changeOptimization("1.0", "options.optimization string > 1.0; defaulting to \"none|1\"");
     }
+    else if (this.myObj.options.optimization === undefined) {
+      this.changeOptimization("0.0", "options.optimization not provided; defaulting to \"none|0\"");
+    }
+    else {
+      this.checkOptimizationValidity();
+    }
+  }
+
+  /**
+   * Called when the trip file does not have options field
+   */
+  insertOptions() {
+    console.log("options field not provided");
+    console.log("defaulting to {\"distance\": \"miles\", \"optimization\": \"0\"}");
+    this.myObj.options = (this.myObj.version === 1) ?
+        {"distance": "miles", "optimization": "none"}   //if v1: "none"
+        : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
   }
 
   /**
@@ -157,6 +162,21 @@ class Destinations extends Component {
   changeOptimization(ver2Value, errorMsg) {
     console.log(errorMsg);
     this.myObj.options.optimization = (this.myObj.version === 1) ? "none" : ver2Value;
+  }
+
+  /**
+   * Checks validity of trip.options.optimization
+   */
+  checkOptimizationValidity() {
+    if (isNaN(parseFloat(this.myObj.options.optimization))) {
+      this.changeOptimization("0.0", "options.optimization string== NaN; defaulting to \"none|0\"");
+    }
+    else if (parseFloat(this.myObj.options.optimization) < 0.0) {
+      this.changeOptimization("0.0", "options.optimization string < 0.0; defaulting to \"none|0\"");
+    }
+    else if (parseFloat(this.myObj.options.optimization) > 1.0) {
+      this.changeOptimization("1.0", "options.optimization string > 1.0; defaulting to \"none|1\"");
+    }
   }
 
   /**
@@ -183,32 +203,40 @@ class Destinations extends Component {
    */
   validateIndividualPlaces() {
     for (let i = 0; i < (this.myObj.places).length; i++) {
-      let place = this.myObj.places[i];
+      if (this.undefinedOrEmpty(this.myObj.places[i]) === false) {
+        return false;//a field in a place was not defined
+      }
+    }
+    return true;//all places have fields, and able to be rendered
+  }
 
-      // ID check
-      if ((place.id === undefined) || (place.id === "")) {
-        console.log("places[" + (i + 1) + "] does not contain an id; Quitting...");
-        alert("You seem to be missing an ID for one or more of your places!");
-        return false;
-      }
-      // Name check
-      if (place.name === undefined || place.name === "") {
-        console.log("places[" + (i + 1) + "] does not contain a name; Quitting...");
-        alert("You seem to be missing a name for one or more of your places!");
-        return false;
-      }
-      // Latitude check
-      if (place.latitude === undefined) {
-        console.log("places[" + (i + 1) + "] does not contain a latitude; Quitting...");
-        alert("You seem to be missing a latitude for one or more of your places!");
-        return false;
-      }
-      //Longitude check
-      if (place.longitude === undefined) {
-        console.log("places[" + (i + 1) + "] does not contain a longitude; Quitting...");
-        alert("You seem to be missing a longitude for one or more of your places!");
-        return false;
-      }
+  /**
+   * Called from validateIndividualPlaces.
+   * If a place does not have the 4 fields,
+   */
+  undefinedOrEmpty(place) {
+    if ((place.id === undefined) || (place.id === "")) {
+      console.log("places[" + (i + 1) + "] does not contain an id; Quitting...");
+      alert("You seem to be missing an ID for one or more of your places!");
+      return false;
+    }
+    // Name check
+    if (place.name === undefined || place.name === "") {
+      console.log("places[" + (i + 1) + "] does not contain a name; Quitting...");
+      alert("You seem to be missing a name for one or more of your places!");
+      return false;
+    }
+    // Latitude check
+    if (place.latitude === undefined) {
+      console.log("places[" + (i + 1) + "] does not contain a latitude; Quitting...");
+      alert("You seem to be missing a latitude for one or more of your places!");
+      return false;
+    }
+    //Longitude check
+    if (place.longitude === undefined) {
+      console.log("places[" + (i + 1) + "] does not contain a longitude; Quitting...");
+      alert("You seem to be missing a longitude for one or more of your places!");
+      return false;
     }
     return true;
   }
