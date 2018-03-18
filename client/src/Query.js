@@ -4,10 +4,10 @@ class Query extends Component {
   constructor(props) {
     super(props);
     this.search = "";
-    this.updateSearch = this.updateSearch.bind(this);
-    this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
     this.query = this.query.bind(this);
     this.createTable = this.createTable.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
+    this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
   }
 
   updateSearch(event) {
@@ -15,7 +15,7 @@ class Query extends Component {
     console.log("Search: " + this.search);
   }
 
-  fetchQueryResponse(){
+  fetchQueryResponse() {
     let requestBody = {
       "version" : 2,
       "type"    : "query",
@@ -31,20 +31,21 @@ class Query extends Component {
     });
   }
 
-  async query(){
+  async query() {
     try {
       console.log("Awaiting response from server: Query");
       let serverResponse = await this.fetchQueryResponse();
       let tffi = await serverResponse.json();
       console.log(tffi);
       this.props.updateQuery(tffi);
-      console.log("Async Query(): fetchResponse is done");
+      console.log("async query(): fetchResponse is done");
     } catch(err) {
-      console.error("You hit an error in async Query()");
+      console.error("You hit an error in async query()");
       console.error(err);
     }
   }
-  createTable () {
+
+  createTable() {
     let i = 0;
     let queryResults = this.props.query.places.map((item) => <td key = {i++}>{item.name}</td>);
     return {queryResults};
@@ -53,8 +54,7 @@ class Query extends Component {
   render() {
     let table = this.createTable();
 
-    return(
-    <div id = "query">
+    return <div id="query">
       <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
         <div className="card-body">
           <h6 className="card-title">Search:</h6>
@@ -75,11 +75,9 @@ class Query extends Component {
               </tbody>
             </table>
           </div>
-
         </div>
       </div>
     </div>
-    )
   }
 }
 

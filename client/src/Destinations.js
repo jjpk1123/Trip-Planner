@@ -297,7 +297,6 @@ class Destinations extends Component {
     }
   }
 
-
   render() {
     return <div id="destinations" className="card">
       {this.destCardHeader}
@@ -317,7 +316,7 @@ class Destinations extends Component {
                    updateQuery={this.props.updateQuery}/>
           </div>
         </div>
-        <h5>There are <b>{this.getCount()}</b> destinations</h5>
+        <h5>There are <b>{(this.props.places).length}</b> destinations</h5>
       </div>
     </div>
   }
