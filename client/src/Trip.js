@@ -14,8 +14,6 @@ class Trip extends Component {
     this.tripCardHeader = <h5 className="card-header bg-info text-white">
         Trip
       </h5>;
-    this.buttonClassName = "input-group-btn";
-
     this.plan = this.plan.bind(this);
     this.saveTFFI = this.saveTFFI.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
@@ -92,13 +90,15 @@ class Trip extends Component {
       <div className="card-body">
         <p>Give your trip a title before planning or saving.</p>
         <div className="input-group" role="group">
-                  <span className={this.buttonClassName}>
-                    <button className="btn btn-primary" onClick={this.plan} type="button">Plan</button>
-                  </span>
+          <span className="input-group-btn">
+            <button className="btn btn-primary" onClick={this.plan} type="button">Plan</button>
+          </span>
+
           <input type="text" className="form-control" placeholder="Name your Trip here" onChange={this.updateTitle}/>
-          <span className={this.buttonClassName}>
-                    <button className="btn btn-primary" onClick={this.saveTFFI} type="button">Save</button>
-                  </span>
+
+          <span className="input-group-btn">
+            <button className="btn btn-primary" onClick={this.saveTFFI} type="button">Save</button>
+          </span>
         </div>
         <Map trip={this.props.trip}/>
         <Itinerary trip={this.props.trip}/>

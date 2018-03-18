@@ -55,29 +55,40 @@ class Itinerary extends Component {
    */
   validateDistance(numPlaces) {
     for (let d = 0; d < numPlaces; ++d) {
-      //console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
+      console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
       let compare = this.props.trip.distances[d];
       if (compare < 0) {//Incorrect Latitude/Longitude
-        let plc = ""; //which place
-        let lat = ""; //what's the lat
-        let lon = ""; //what's the long
-        if (compare === -1) {
-          plc = this.props.trip.places[d].name;
-          lat = this.props.trip.places[d].latitude;
-          lon = this.props.trip.places[d].longitude;
-        } else if (compare === -2) {
-          plc = this.props.trip.places[(d + 1) % numPlaces].name;
-          lat = this.props.trip.places[(d + 1) % numPlaces].latitude;
-          lon = this.props.trip.places[(d + 1) % numPlaces].longitude;
-        }
-        console.log("Bad lat/long; Quitting...");
-        alert("Cannot parse [" + plc + "] destination with the coordinates provided:\n" +
-            "latitude:\t\"" + lat + "\"\n" +
-            "longitude:\t\"" + lon + "\"");
+        this.invalidDistance(compare, d, numPlaces);
         return false;
       }
     }
     return true;
+  }
+
+  /**
+   * Called from validateDistance() when there
+   * is an invalid distance between two places
+   * @param compare value either -1(this dest) or -2(the next dest)
+   * @param d = which Dest is currently invalid
+   * @param numPlaces = how many Destinations there are
+   */
+  invalidDistance(compare, d, numPlaces) {
+    let plc = ""; //which place
+    let lat = ""; //what's the lat
+    let lon = ""; //what's the long
+    if (compare === -1) {
+      plc = this.props.trip.places[d].name;
+      lat = this.props.trip.places[d].latitude;
+      lon = this.props.trip.places[d].longitude;
+    } else if (compare === -2) {
+      plc = this.props.trip.places[(d + 1) % numPlaces].name;
+      lat = this.props.trip.places[(d + 1) % numPlaces].latitude;
+      lon = this.props.trip.places[(d + 1) % numPlaces].longitude;
+    }
+    console.log("Bad lat/long; Quitting...");
+    alert("Cannot parse [" + plc + "] destination with the coordinates provided:\n" +
+        "latitude:\t\"" + lat + "\"\n" +
+        "longitude:\t\"" + lon + "\"");
   }
 
   /**

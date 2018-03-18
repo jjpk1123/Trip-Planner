@@ -74,6 +74,7 @@ class Destinations extends Component {
     this.validateOptions();//If options is undefined, set options to default -- "miles", "none"
 
     if (this.validatePlaces() === false) {
+      console.log("Dests.js @ ln77");
       return false;//If places (doesn't exist|length<1), fail
     }
 
@@ -215,30 +216,31 @@ class Destinations extends Component {
    * If a place does not have the 4 fields,
    */
   undefinedOrEmpty(place) {
+    let retVal = true;
     if ((place.id === undefined) || (place.id === "")) {
       console.log("places[" + (i + 1) + "] does not contain an id; Quitting...");
       alert("You seem to be missing an ID for one or more of your places!");
-      return false;
+      retVal = false;
     }
     // Name check
     if (place.name === undefined || place.name === "") {
       console.log("places[" + (i + 1) + "] does not contain a name; Quitting...");
       alert("You seem to be missing a name for one or more of your places!");
-      return false;
+      retVal = false;
     }
     // Latitude check
     if (place.latitude === undefined) {
       console.log("places[" + (i + 1) + "] does not contain a latitude; Quitting...");
       alert("You seem to be missing a latitude for one or more of your places!");
-      return false;
+      retVal = false;
     }
     //Longitude check
     if (place.longitude === undefined) {
       console.log("places[" + (i + 1) + "] does not contain a longitude; Quitting...");
       alert("You seem to be missing a longitude for one or more of your places!");
-      return false;
+      retVal = false;
     }
-    return true;
+    return retVal;
   }
 
   /**

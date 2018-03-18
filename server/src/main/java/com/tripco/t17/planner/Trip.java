@@ -19,6 +19,7 @@ import spark.Request;
  */
 public class Trip {
     // The variables in this class should reflect TFFI.
+    public int version;
     public String type;
     public String title;
     public Option options;
@@ -34,10 +35,11 @@ public class Trip {
         if (!this.options.optimization.equals("none")) {
             double optBreak = 1.0 / 2;
             double numOptimization = Double.parseDouble(this.options.optimization);
-            if (numOptimization < optBreak) {
-                System.out.println("Without NearestNeighbor");
-            } else if (numOptimization >= optBreak) { // && (numOptimization <= 2*opt)
-                System.out.println("With NearestNeighbor");
+            //if (numOptimization < optBreak) {
+            //    System.out.println("Without NearestNeighbor");
+            //}
+            if (numOptimization >= optBreak) { // && (numOptimization <= 2*opt)
+                //System.out.println("With NearestNeighbor");
                 this.places = Optimize.nearestNeighbor(this.places);
             }
         }

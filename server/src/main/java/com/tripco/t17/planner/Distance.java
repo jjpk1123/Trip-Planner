@@ -38,9 +38,11 @@ public class Distance {
     public static int gcd(Place source, Place dest, String unit) {
         //0. Validate input
         if (invalidPlace(source)){
+            System.out.println("Bad source");
             return -1;
         }
         if (invalidPlace(dest)){
+            System.out.println("Bad dest");
             return -2;
         }
 
@@ -78,7 +80,7 @@ public class Distance {
             dmsToDegrees(place.longitude);
         } catch (Exception e) {
             System.err.println(e);
-            return true; //bad source
+            return true; //bad place
         }
         return false;
     }
@@ -190,9 +192,8 @@ public class Distance {
                 degrees = Double.parseDouble(dms);
             }
         } catch (Exception e) {
-                //Perhaps we can make a new method for error handling which stops legDistances?
-                System.err.println(e);
-                throw e;
+            //Perhaps we can make a new method for error handling which stops legDistances?
+            throw e;
         }
     return degrees;
     }
