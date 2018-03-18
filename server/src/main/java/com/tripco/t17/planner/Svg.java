@@ -12,7 +12,7 @@ public class Svg {
     String map;
 
     /**
-     * Create Svg object
+     * Create Svg object.
      * @param places populates places for the svg() method
      */
     public Svg(ArrayList<Place> places){
