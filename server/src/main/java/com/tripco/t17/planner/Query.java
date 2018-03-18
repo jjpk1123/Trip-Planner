@@ -22,9 +22,14 @@ public class Query {
         //This will do something one day :)
         System.out.println("YOU MADE IT TO SEARCHDATABASE");
 
+        //At some point we'll receive places, so then we'll have to update our places array!
+        //Hard coded example to make sure it goes through
+        Place a = new Place();
+        a.name = "a";
+        a.latitude = "123";
+        a.longitude = "321";
+        a.id = "ay";
+
+        places.add(a);
     }
-
-
-
-
 }

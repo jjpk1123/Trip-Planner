@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Query from './Query';
 
 /**
  * Destinations reside in the parent object so they may be shared
@@ -16,10 +17,7 @@ class Destinations extends Component {
     this.destCardHeader = <h5 className="card-header bg-info text-white">
         Destinations
       </h5>;
-    this.query = this.query.bind(this);
     this.loadTFFI = this.loadTFFI.bind(this);
-    this.updateSearch = this.updateSearch.bind(this);
-    this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
   }
 
   /**
@@ -310,23 +308,16 @@ class Destinations extends Component {
             <div className="card-body">
               <h6 className="card-title">Load from a file:</h6>
               <div className="form-group" role="group">
-                <input type="file" className="form-control-file" onChange={this.loadTFFI} id="tffifile"/>
+                <input type="file" className="form-control-file" onChange={this.loadTFFI}/>
               </div>
             </div>
           </div>
           <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
-            <div className="card-body">
-              <h6 className="card-title">Search:</h6>
-              <div className="input-group" role="group">
-                <input type="text" className="form-control" placeholder="Search..." onChange={this.updateSearch}/>
-                <span className="input-group-btn">
-                <button className="btn btn-primary" onClick={this.query} type="button">Search</button>
-              </span>
-              </div>
-            </div>
+            <Query query={this.props.query}
+                   updateQuery={this.props.updateQuery}/>
           </div>
         </div>
-        <h5>There are <b>{(this.props.places).length}</b> destinations</h5>
+        <h5>There are <b>{this.getCount()}</b> destinations</h5>
       </div>
     </div>
   }

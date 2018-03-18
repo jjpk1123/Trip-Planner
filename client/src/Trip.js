@@ -26,9 +26,9 @@ class Trip extends Component {
    */
   fetchResponse() {
     let requestBody = this.props.trip;
-    //console.log("from fetchResponse: " + this.props.trip);
-    //console.log(process.env.SERVICE_URL);
-    //console.log(requestBody);
+    console.log("from fetchResponse: " + this.props.trip);
+    console.log(process.env.SERVICE_URL);
+    console.log("RQ:" + requestBody);
 
     return fetch('http://' + location.host + '/plan', {
       method: "POST",
@@ -49,7 +49,6 @@ class Trip extends Component {
       console.error(err);
     }
   }
-
 
   /**
    * Saves the map and itinerary to the local file system.
