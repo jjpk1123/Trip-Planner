@@ -20,22 +20,8 @@ class Trip extends Component {
   }
 
   /**
-   * Sends a request to the server with the destinations and options.
-   * Receives a response containing the map and itinerary to update the
-   * state for this object.
+   *
    */
-  fetchResponse() {
-    let requestBody = this.props.trip;
-    console.log("from fetchResponse: " + this.props.trip);
-    console.log(process.env.SERVICE_URL);
-    //console.log("RQ:" + requestBody);
-
-    return fetch('http://' + location.host + '/plan', {
-      method: "POST",
-      body: JSON.stringify(requestBody)
-    });
-  }
-
   async plan() {
     try {
       //console.log("Awaiting response from server");
@@ -43,11 +29,28 @@ class Trip extends Component {
       let tffi = await serverResponse.json();
       //console.log(tffi);
       this.props.updateTrip(tffi);
-      //console.log("Async Plan(): fetchResponse is done");
+      //console.log("async plan(): fetchResponse is done");
     } catch (err) {
       console.error("You hit an error in async plan()");
       console.error(err);
     }
+  }
+
+  /**
+   * Sends a request to the server with the destinations and options.
+   * Receives a response containing the map and itinerary to update the
+   * state for this object.
+   */
+  fetchResponse() {
+    let requestBody = this.props.trip;
+    //console.log("from fetchResponse: " + this.props.trip);
+    //console.log(process.env.SERVICE_URL);
+    //console.log("RQ:" + requestBody);
+
+    return fetch('http://' + location.host + '/plan', {
+      method: "POST",
+      body: JSON.stringify(requestBody)
+    });
   }
 
   /**

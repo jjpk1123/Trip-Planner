@@ -55,7 +55,7 @@ class Itinerary extends Component {
    */
   validateDistance(numPlaces) {
     for (let d = 0; d < numPlaces; ++d) {
-      console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
+      //console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
       let compare = this.props.trip.distances[d];
       if (compare < 0) {//Incorrect Latitude/Longitude
         this.invalidDistance(compare, d, numPlaces);

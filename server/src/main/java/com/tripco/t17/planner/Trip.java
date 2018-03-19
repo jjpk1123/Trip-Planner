@@ -28,6 +28,45 @@ public class Trip {
     public String map;
 
     /**
+     * Finds which starting place's path is shortest
+     */
+    private ArrayList<Integer> findShortestPath() {
+        int size = this.places.size();
+        ArrayList<Integer> shortestPath = new ArrayList<>();
+        int shortestTotalDist = 9999999;
+
+        for (int i=0; i < size; ++i) {
+            ArrayList<Integer> distance = Distance.legDistances(this.places, this.options.distance);
+            int sum = 0; // this iteration's total distance
+            int curr = i;// starting Place
+            for (int j=0; j < size; ++j) {
+//                System.out.println("Dist between " + this.places.get(curr).name + " & "
+//                        + this.places.get((curr + 1) % size).name + " is " + distance.get((curr + 1) % size));
+                sum += distance.get(j);
+                curr = (curr + 1) % size;// ++curr
+            }
+            if (sum < shortestTotalDist) {
+                shortestTotalDist = sum;
+                shortestPath = distance;
+                startingPath(curr);
+            }
+//            System.out.println(); //adds a new line
+        }
+        return shortestPath;
+    }
+
+    /**
+     * Reorders this.places as to start with te shortest path's starting Place
+     * @param newStart = New starting Place
+     */
+    private void startingPath(int newStart) {
+        System.out.println("Found a shorter path: " + this.places.get(newStart));
+        for (int i = 0; i < newStart; ++i) {
+            this.places.add(this.places.remove(0));
+        }
+    }
+
+    /**
      * The top level method that does planning.
      */
     public void plan()  {
@@ -48,6 +87,6 @@ public class Trip {
         this.map = new Svg(places).map;
 
         //3. Find distances
-        this.distances = Distance.legDistances(this.places, this.options.distance);
+        this.distances = findShortestPath();
     }
 }
