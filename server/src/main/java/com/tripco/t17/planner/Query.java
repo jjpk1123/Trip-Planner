@@ -9,7 +9,10 @@ import java.util.ArrayList;
 /**
  * The Query class supports TFFI so it can easily be converted to/from Json by Gson.
  */
+
 public class Query {
+    private final static String myDriver = "com.mysql.jdbc.Driver";
+    private final static String myUrl = "jdbc:mysql://faure.cs.colostate.edu/cs314";
     // The variables in this class should reflect TFFI.
     public String type;
     public String query;
@@ -20,7 +23,7 @@ public class Query {
      */
     public void searchDatabase() {
         //This will do something one day :)
-        System.out.println("YOU MADE IT TO SEARCHDATABASE");
+        System.out.println("YOU MADE IT TO SEARCHDATABASE: " + query);
 
     }
 
