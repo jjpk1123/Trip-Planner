@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
-/* Renders a text footer below the application with copyright
+/**
+ * Renders a text footer below the application with copyright
  * and other useful information.
  */
 class Footer extends Component {
@@ -9,11 +10,9 @@ class Footer extends Component {
   }
 
   render() {
-    return (
-        <div id="footer" className="jumbotron">
-          <h4>© TripCo t{this.props.number} {this.props.name} 2018</h4>
-        </div>
-    )
+    return <div id="footer" className="jumbotron">
+      <h4>© TripCo t{this.props.number} {this.props.name} 2018</h4>
+    </div>
   }
 }
 

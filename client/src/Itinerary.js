@@ -3,73 +3,131 @@ import React, {Component} from 'react';
 class Itinerary extends Component {
   constructor(props) {
     super(props);
+    this.unitsString = "";
     this.createTable = this.createTable.bind(this);
     this.getRoundTripDistance = this.getRoundTripDistance.bind(this);
   }
 
-  createTable () {
-    let size = this.props.trip.distances.length;
+  /**
+   * Returns the values to be placed in the render() block
+   */
+  createTable() {
+    let numPlaces = this.props.trip.distances.length;
     let units = this.props.trip.options.distance;
-    var i = 0;
-    let dists = this.props.trip.distances.map((item) => <td key = {i++}>{item}</td>);
+    this.setUnitsString(units);
+    let distKey = 0;
+    let dists = this.props.trip.distances.map((item) => <td key={distKey++}>{item}</td>);
 
-    //valid distance check
-    for (let d = 0; d < size; ++d) {
-      console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
-      let compare = this.props.trip.distances[d];
-      let whichPlace = "########";
-      let lat = "########";
-      let lon = "########";
-      if (compare < 0) {
-        if (compare === -1) {
-          whichPlace = this.props.trip.places[d].name;
-          lat = this.props.trip.places[d].latitude;
-          lon = this.props.trip.places[d].longitude;
-        } else {
-          whichPlace = this.props.trip.places[(d+1)%size].name;
-          lat = this.props.trip.places[(d+1)%size].latitude;
-          lon = this.props.trip.places[(d+1)%size].longitude;
-        }
-        alert("Cannot parse [" + whichPlace + "] destination with the coordinates provided:\n" +
-                    "latitude:\t\"" + lat + "\"\n" +
-                    "longitude:\t\"" + lon + "\"");
-        return {units};
-      }
+    if (this.validateDistance(numPlaces) === false) {
+      return {units};//not all places have valid distances
     }
 
-    let dests = this.props.trip.places.map((item) => <td key = {item.id}>{item.name}</td>);
+    let dests = this.props.trip.places.map((item) => <td key={item.id}>{item.name}</td>);
     let cumul = this.getCumulative();
-    //console.log("Hello from Itinerary.createTable()! :)");
 
-    if (dests.length !== 0) { // if there is more than one Destination
-      let start = this.props.trip.places[0].name;
-      let myArray = [start];
-      let zero = myArray.map((item) => <td key = {"asdf"}>{item}</td>);
-      dests = dests.concat(zero); //adds a zero to starting dist
+    if (dests.length !== 0) {//if there are >1 Destination
+      dests = this.destsConcatFinal(dests);//appends the final dest=start place
     }
-    if (dists.length !== 0) { // same concept, but with Distances
-      let myArray = [0];
-      let zero = myArray.map((item) => <td key = {"banana"}>{item}</td>);
-      dists = zero.concat(dists); //adds a zero to starting dist
-      cumul = zero.concat(cumul); //adds a zero to starting cumulative dist
+    if (dists.length !== 0) {//if there are >1 Distances
+      dists = this.distsConcatZero(dists, 0);//appends a 0 to distances
+      cumul = this.distsConcatZero(cumul, 1);//appends a 0 to cumulative
     }
-
-    // returns can be accessed through table.unit, table.dests, etc.
     return {units, dests, dists, cumul};
   }
 
-  getCumulative() {
-    let sum = 0;
-    var i = 0;
-    return this.props.trip.distances.map((item) => <td key = {i++}>{sum+=item}</td>);
+  /**
+   * Capitalizes the units for the row in table, unless user-defined
+   */
+  setUnitsString(units) {
+    if (units === "miles") {
+      this.unitsString = "Miles";
+    } else if (units === "kilometers") {
+      this.unitsString = "Kilometers";
+    } else if (units === "nautical miles") {
+      this.unitsString = "Nautical Miles";
+    } else { //user-defined
+      this.unitsString = units;
+    }
   }
 
+  /**
+   * Return true if all Latitude/Longitude are >= 0
+   */
+  validateDistance(numPlaces) {
+    for (let d = 0; d < numPlaces; ++d) {
+      console.log(this.props.trip.places[d].name + " " + this.props.trip.distances[d]);
+      let compare = this.props.trip.distances[d];
+      if (compare < 0) {//Incorrect Latitude/Longitude
+        this.invalidDistance(compare, d, numPlaces);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Called from validateDistance() when there
+   * is an invalid distance between two places
+   * @param compare value either -1(this dest) or -2(the next dest)
+   * @param d = which Dest is currently invalid
+   * @param numPlaces = how many Destinations there are
+   */
+  invalidDistance(compare, d, numPlaces) {
+    let plc = ""; //which place
+    let lat = ""; //what's the lat
+    let lon = ""; //what's the long
+    if (compare === -1) {
+      plc = this.props.trip.places[d].name;
+      lat = this.props.trip.places[d].latitude;
+      lon = this.props.trip.places[d].longitude;
+    } else if (compare === -2) {
+      plc = this.props.trip.places[(d + 1) % numPlaces].name;
+      lat = this.props.trip.places[(d + 1) % numPlaces].latitude;
+      lon = this.props.trip.places[(d + 1) % numPlaces].longitude;
+    }
+    console.log("Bad lat/long; Quitting...");
+    alert("Cannot parse [" + plc + "] destination with the coordinates provided:\n" +
+        "latitude:\t\"" + lat + "\"\n" +
+        "longitude:\t\"" + lon + "\"");
+  }
+
+  /**
+   * Appends the starting place as the final destination (round-trip)
+   */
+  destsConcatFinal(dests) {
+    let start = this.props.trip.places[0].name;
+    let myArray = [start];
+    let endingCol = myArray.map((item) => <td key={"dest_n"}>{item}</td>);
+    return dests.concat(endingCol);//adds to the end of dests row
+  }
+
+  /**
+   * Concatenates a zero to the beginning of dists/cumul rows
+   */
+  distsConcatZero(row, unique) {
+    let myArray = [0];
+    let zero = myArray.map((item) => <td key={"key_" + unique}>{item}</td>);
+    return zero.concat(row);//adds a zero to the beginning of row
+  }
+
+  /**
+   * Returns the "Cumulative" row in the table render() block
+   */
+  getCumulative() {
+    let sum = 0;
+    let unique = 0;
+    return this.props.trip.distances.map((item) => <td key={"place_" + unique++}>{sum += item}</td>);
+  }
+
+  /**
+   * Returns the total distance for the trip
+   */
   getRoundTripDistance() {
     let sum = 0;
-    let howMany = this.props.trip.distances.length;
-    for (let i=0 ; i < howMany ; ++i) {
+    for (let i = 0; i < this.props.trip.distances.length; ++i) {
       let distToAdd = this.props.trip.distances[i];
       if (distToAdd < 0) {
+        console.log("Itinerary.getRoundTripDistance() failed @ place #" + i);
         return 0;
       }
       sum += distToAdd;
@@ -78,39 +136,33 @@ class Itinerary extends Component {
     return sum;
   }
 
+  /**
+   * Renders the table block located under the <Map>
+   */
   render() {
     let table = this.createTable();
 
-    let unit = ""; //capitalizes the Units rendered in table B]
-    if (table.units === "miles") {
-      unit = "Miles";
-    } else {
-      unit = "Kilometers";
-    }
-
-    return(
-        <div id="itinerary">
-          <h4>Round trip distance of <b>{this.getRoundTripDistance()} {table.units}. </b></h4>
-          <table className="table table-responsive table-bordered">
-            <thead>
-            <tr className="table-info">
-              <th className="align-middle">Destination</th>
-              {table.dests}
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th className="table-info align-middle">{unit}</th>
-              {table.dists}
-            </tr>
-            <tr>
-              <th className="table-info align-middle">Cumulative</th>
-              {table.cumul}
-            </tr>
-            </tbody>
-          </table>
-        </div>
-    )
+    return <div id="itinerary">
+      <h4>Round-trip distance of <b>{this.getRoundTripDistance()} {table.units}. </b></h4>
+      <table className="table table-responsive table-bordered">
+        <thead>
+        <tr className="table-info">
+          <th className="align-middle">Destinations</th>
+          {table.dests}
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th className="table-info align-middle">{this.unitsString}</th>
+          {table.dists}
+        </tr>
+        <tr>
+          <th className="table-info align-middle">Cumulative</th>
+          {table.cumul}
+        </tr>
+        </tbody>
+      </table>
+    </div>
   }
 }
 

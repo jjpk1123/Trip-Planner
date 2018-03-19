@@ -35,10 +35,10 @@ public class TestDistance {
     public void testDmsToDegreesSanity(){
         //Test to make sure 0° = 0°
         //Specific delta as 3rd parameter, as doubles should just be "close enough"
-        assertEquals(0.0, Distance.dmsToDegrees("0° N"), 0.01);
-        assertEquals(0.0, Distance.dmsToDegrees("0° S"), 0.01);
-        assertEquals(0.0, Distance.dmsToDegrees("0° W"), 0.01);
-        assertEquals(0.0, Distance.dmsToDegrees("0° E"), 0.01);
+        assertEquals("testDmsToDegreesSanity: 0° N", 0.0, Distance.dmsToDegrees("0° N"), 0.01);
+        assertEquals("testDmsToDegreesSanity: 0° S", 0.0, Distance.dmsToDegrees("0° S"), 0.01);
+        assertEquals("testDmsToDegreesSanity: 0° W", 0.0, Distance.dmsToDegrees("0° W"), 0.01);
+        assertEquals("testDmsToDegreesSanity: 0° E", 0.0, Distance.dmsToDegrees("0° E"), 0.01);
     }
 
     @Test

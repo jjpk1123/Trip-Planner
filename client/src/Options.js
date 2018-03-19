@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
-/* Options allows the user to change the parameters for planning
+/**
+ * Options allows the user to change the parameters for planning
  * and rendering the trip map and itinerary.
  * The options reside in the parent object so they may be shared with the Trip object.
  * Allows the user to set the options used by the application via a set of buttons.
@@ -8,47 +9,81 @@ import React, {Component} from 'react';
 class Options extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      optim: "0",
-      final: "longest",
-    };
+    this.optCardHeader = <h5 className="card-header bg-info text-white">
+        Options
+      </h5>;
+    this.spacer = <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+      </div>;
     this.changeUnit = this.changeUnit.bind(this);
+    this.retrieveOptimizationValue = this.retrieveOptimizationValue.bind(this);
     this.changeOptimization = this.changeOptimization.bind(this);
+    this.retrieveOptimizationString = this.retrieveOptimizationString.bind(this);
   }
 
+  /**
+   * Called when user clicks on the unit_of_measurement button.
+   * Changes the value in Application.js
+   */
   changeUnit(userUnit) { // Changes the parent's (Application.js) options
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
     tempTrip.options.distance = userUnit.target.value; //alters the distance field to reflect the newly-selected unit
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
   }
 
+  /**
+   * Highlights the correct unit_of_measurement Button "live"
+   */
   testActiveBtn(unit) {
     return "btn btn-outline-dark " + (this.props.distance === unit ? "active" : "");
   }
 
-  changeOptimization(userOptimization) {
-    if (userOptimization.target.value === "0") {
-      this.setState({optim: "0"});
-      this.setState({final: "longest"});
-    } else if (userOptimization.target.value === "1") {
-      this.setState({optim: "1"});
-      this.setState({final: "shortest"});
+  /**
+   * Returns a value between 0 and 100 for the slider to render.
+   */
+  retrieveOptimizationValue() {
+    if (this.props.optimization === "none") {
+      return 0;
     }
+    return (100 * parseFloat(this.props.optimization));
+  }
+
+  /**
+   * Returns which optimization level the slider is currently at
+   */
+  retrieveOptimizationString() {
+    if (this.props.optimization === "none") {
+      return "longest";
+    }
+    let opt = 1.0 / 2;
+    let curr = parseFloat(this.props.optimization);
+    //console.log("Optimization value equals " + curr);
+    if (curr < opt) {
+      //console.log("longest");
+      return "longest";
+    } else if (curr >= opt) {
+      //console.log("shortest");
+      return "shortest";
+    }
+  }
+
+  /**
+   * Called when the user changes the slider "live"
+   */
+  changeOptimization(userOptimization) {
+    let newValue = userOptimization.target.value / 100;
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
-    tempTrip.options.optimization = userOptimization.target.value; //alters the optimization field to reflect the slider's value
+    tempTrip.options.optimization = "" + newValue; //alters the optimization field to reflect the slider's value
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
-    console.log("Optim: " + userOptimization.target.value);
+    //console.log("Optimization Selected: " + userOptimization.target.value);
+    //console.log("trip.options.optim== " + newValue);
   }
 
   render() {
     return <div id="options" className="card">
-      <h5 className="card-header bg-info text-white">
-        Options
-      </h5>
+      {this.optCardHeader}
       <div className="card-body">
         <h6>Select the desired:</h6>
         <div className="row">
-
           <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
               <div className="card-body">
                 <h6 className="card-title">Unit of distance:</h6>
@@ -62,14 +97,13 @@ class Options extends Component {
                 </div>
             </div>
           </div>
-
           <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
               <div className="card-body">
                 <h6 className="card-title">Round-Trip length:</h6>
                 <div>
-                  <input type="range" className="slider" min="0" max="1" id="myRange"
-                         value={this.state.optim} onChange={this.changeOptimization}/>
-                  <h6>Length: <b>{this.state.final}</b></h6>
+                  <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
+                         value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
+                  <h6>Length: <b><big>{this.retrieveOptimizationString()}</big></b></h6>
                 </div>
             </div>
           </div>
