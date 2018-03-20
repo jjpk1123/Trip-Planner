@@ -9,4 +9,24 @@ public class Option {
   public String distance;
   public String optimization;
 
+    /**
+     * Returns true if the slider is greater than "longest"
+     * @param optStr = trip.options.optimization
+     * @return false = do not optimize path
+     */
+  public static boolean optimizeCheck(String optStr) {
+      if (optStr.equals("none")) {
+          return false; //longest path
+      }
+
+      double optDbl = Double.parseDouble(optStr);
+      double optBreak = (1.0 / 2);
+
+      if (optDbl < optBreak) {
+          return false; //longest path
+      } else { //if (optDbl >= optBreak) {
+          return true; //shortest path
+      }
+  }
+
 }

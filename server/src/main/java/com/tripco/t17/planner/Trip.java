@@ -16,6 +16,7 @@ import spark.Request;
 
 /**
  * The Trip class supports TFFI so it can easily be converted to/from Json by Gson.
+ * Equivalent to Application.js
  */
 public class Trip {
     // The variables in this class should reflect TFFI.
@@ -28,42 +29,54 @@ public class Trip {
     public String map;
 
     /**
-     * Finds which starting place's path is shortest
+     * Finds which starting place's path is shortest.
+     *
      */
-    private ArrayList<Integer> findShortestPath() {
+    private void findShortestPath() {
         int size = this.places.size();
-        ArrayList<Integer> shortestPath = new ArrayList<>();
-        int shortestTotalDist = 9999999;
+        ArrayList<Integer> shortestPathDists = new ArrayList<>();//list of distances of the shortest path
+        ArrayList<Place> shortestPathPlaces = new ArrayList<>(); //list of places of the shortest path
+        int shortestPathTotalDist = retrieveSum(this.distances, size);
 
         for (int i=0; i < size; ++i) {
-            ArrayList<Integer> distance = Distance.legDistances(this.places, this.options.distance);
-            int sum = 0; // this iteration's total distance
-            int curr = i;// starting Place
-            for (int j=0; j < size; ++j) {
-//                System.out.println("Dist between " + this.places.get(curr).name + " & "
-//                        + this.places.get((curr + 1) % size).name + " is " + distance.get((curr + 1) % size));
-                sum += distance.get(j);
-                curr = (curr + 1) % size;// ++curr
+            ArrayList<Place> iterPlaces = Optimize.nextStart(i, this.places, size);//startingPlace++
+            ArrayList<Integer> iterDists = Distance.legDistances(iterPlaces, this.options.distance);
+
+            int sum = retrieveSum(iterDists, size); // this iteration's total distance
+            if (sum < shortestPathTotalDist) {
+                shortestPathTotalDist = sum;
+                shortestPathDists = iterDists;
+                shortestPathPlaces = foundShorterPath(i, iterPlaces);
             }
-            if (sum < shortestTotalDist) {
-                shortestTotalDist = sum;
-                shortestPath = distance;
-                startingPath(curr);
-            }
-//            System.out.println(); //adds a new line
+            System.out.println(); //adds a new line
         }
-        return shortestPath;
+        this.distances = shortestPathDists;
+        this.places = shortestPathPlaces;
     }
 
     /**
-     * Reorders this.places as to start with te shortest path's starting Place
-     * @param newStart = New starting Place
+     * Computes sum of distances
      */
-    private void startingPath(int newStart) {
-        System.out.println("Found a shorter path: " + this.places.get(newStart));
-        for (int i = 0; i < newStart; ++i) {
-            this.places.add(this.places.remove(0));
+    public int retrieveSum(ArrayList<Integer> dists, int size) {
+        int sum = 0;
+        for (int i = 0; i < size; ++i) {
+            sum += dists.get(i);
         }
+        return sum;
+    }
+
+    /**
+     * Reorders this.places as to start with the shortest path's starting Place
+     * @param newStart = New starting Place
+     * @param iterPlaces = the current iteration's list of Places in order
+     */
+    private ArrayList<Place> foundShorterPath(int newStart, ArrayList<Place> iterPlaces) {
+        System.out.println("Found a shorter path starting with " + this.places.get(newStart).name);
+        for (int i = 0; i < newStart; ++i) {
+            System.out.println("Moving " + this.places.get(0).name + " to the end of the list");
+            iterPlaces.add(iterPlaces.remove(0));
+        }
+        return iterPlaces;
     }
 
     /**
@@ -72,12 +85,10 @@ public class Trip {
     public void plan()  {
         //1. Plan the trip
         if (!this.options.optimization.equals("none")) {
-            double optBreak = 1.0 / 2;
-            double numOptimization = Double.parseDouble(this.options.optimization);
-            //if (numOptimization < optBreak) {
+            //if (!Option.optimizeCheck(this.options.optimization)) {
             //    System.out.println("Without NearestNeighbor");
             //}
-            if (numOptimization >= optBreak) { // && (numOptimization <= 2*opt)
+            if (Option.optimizeCheck(this.options.optimization)) { // && (numOptimization <= 2*opt)
                 //System.out.println("With NearestNeighbor");
                 this.places = Optimize.nearestNeighbor(this.places);
             }
@@ -87,6 +98,9 @@ public class Trip {
         this.map = new Svg(places).map;
 
         //3. Find distances
-        this.distances = findShortestPath();
+        this.distances = Distance.legDistances(this.places, this.options.distance);
+        if (Option.optimizeCheck(this.options.optimization)) {
+            findShortestPath();
+        }
     }
 }
