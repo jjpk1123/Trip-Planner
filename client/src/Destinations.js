@@ -109,7 +109,6 @@ class Destinations extends Component {
   updateSearch(event) {
 
     this.search = event.target.value;
-    console.log("Search: " + this.search);
   }
 
 
@@ -123,19 +122,19 @@ class Destinations extends Component {
 
 
     console.log(process.env.SERVICE_URL);
-    console.log(requestBody);
 
     return fetch('http://' + location.host + '/query', {
       method:"POST",
       body: JSON.stringify(requestBody)
+
     });
+
   }
 
   async query(){
     try {
       console.log("Awaiting response from server: Query");
       let serverResponse = await this.fetchQueryResponse();
-
       console.log("Async Query(): fetchResponse is done");
     } catch(err) {
       console.error("You hit an error in async Query()");
