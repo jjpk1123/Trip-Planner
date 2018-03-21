@@ -69,6 +69,7 @@ public class Query{
                 System.out.printf("\n");
             else
                 System.out.printf(",\n");
+            
         }
     }
 
