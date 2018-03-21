@@ -355,6 +355,162 @@ public class TestOptimize {
 
     assertEquals(0, Optimize.findNearest(start, unvisited));
   }
+
+  /**
+   * changeStart test block
+   */
+  @Test
+  public void testChangeStartNormalCase1(){
+    Place A = new Place();
+    A.latitude = "1° S";
+    A.longitude = " 3° E";
+
+    Place B = new Place();
+    B.latitude = "1° S";
+    B.longitude = "2° E";
+
+    Place C = new Place();
+    C.latitude = "2° S";
+    C.longitude = "1° E";
+
+    Place D = new Place();
+    D.latitude = "1° S";
+    D.longitude = "0° E";
+
+    Place E = new Place();
+    E.latitude = "0° S";
+    E.longitude = "1° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(B);
+    places.add(C);
+    places.add(D);
+    places.add(E);
+    places.add(A);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+    trip.places.add(D);
+    trip.places.add(E);
+
+    assertEquals(places, Optimize.changeStart(trip.places, 1));
+
+  }
+
+  @Test
+  public void testChangeStartNoChange1(){
+    Place A = new Place();
+    A.latitude = "1° S";
+    A.longitude = " 3° E";
+
+    Place B = new Place();
+    B.latitude = "1° S";
+    B.longitude = "2° E";
+
+    Place C = new Place();
+    C.latitude = "2° S";
+    C.longitude = "1° E";
+
+    Place D = new Place();
+    D.latitude = "1° S";
+    D.longitude = "0° E";
+
+    Place E = new Place();
+    E.latitude = "0° S";
+    E.longitude = "1° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    places.add(D);
+    places.add(E);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+    trip.places.add(D);
+    trip.places.add(E);
+
+    assertEquals(places, Optimize.changeStart(trip.places, 0));
+
+  }
+
+  @Test
+  public void testChangeStartEdgeCase1(){
+    Place A = new Place();
+    A.latitude = "1° S";
+    A.longitude = " 3° E";
+
+    Place B = new Place();
+    B.latitude = "1° S";
+    B.longitude = "2° E";
+
+    Place C = new Place();
+    C.latitude = "2° S";
+    C.longitude = "1° E";
+
+    Place D = new Place();
+    D.latitude = "1° S";
+    D.longitude = "0° E";
+
+    Place E = new Place();
+    E.latitude = "0° S";
+    E.longitude = "1° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(E);
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    places.add(D);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+    trip.places.add(D);
+    trip.places.add(E);
+
+    assertEquals(places, Optimize.changeStart(trip.places, 4));
+
+  }
+
+  @Test
+  public void testChangeStartBadCase1(){
+    Place A = new Place();
+    A.latitude = "1° S";
+    A.longitude = " 3° E";
+
+    Place B = new Place();
+    B.latitude = "1° S";
+    B.longitude = "2° E";
+
+    Place C = new Place();
+    C.latitude = "2° S";
+    C.longitude = "1° E";
+
+    Place D = new Place();
+    D.latitude = "1° S";
+    D.longitude = "0° E";
+
+    Place E = new Place();
+    E.latitude = "0° S";
+    E.longitude = "1° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    places.add(D);
+    places.add(E);
+    trip.places.add(A);
+    trip.places.add(B);
+    trip.places.add(C);
+    trip.places.add(D);
+    trip.places.add(E);
+
+    assertEquals(places, Optimize.changeStart(trip.places, 7));
+    assertEquals(places, Optimize.changeStart(trip.places, -1));
+
+  }
 }
 
 

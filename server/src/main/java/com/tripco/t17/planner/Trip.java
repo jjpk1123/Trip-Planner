@@ -40,7 +40,10 @@ public class Trip {
             //}
             if (numOptimization >= optBreak) { // && (numOptimization <= 2*opt)
                 //System.out.println("With NearestNeighbor");
+                Place start = this.places.get(0);
+
                 this.places = Optimize.nearestNeighbor(this.places);
+                this.places = Optimize.changeStart(this.places, this.places.indexOf(start));
             }
         }
 
