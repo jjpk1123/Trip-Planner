@@ -14,16 +14,12 @@ public class Distance {
      * @return distance.
      */
     public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit) {
+        int size = places.size();
         ArrayList<Integer> distance = new ArrayList<>();
-        //If 0 Places
-        if (places.size() < 1){
-            return distance;
-        }
 
-        //If 1 or more places
-        for (int i = 0 ; i < places.size() ; i++) {
+        for (int i=0; i < size; ++i) {
             distance.add(gcd(places.get(i),
-                    places.get((i+1)%places.size()),
+                    places.get((i + 1) % size),
                     unit));
         }
         return distance;
@@ -195,7 +191,7 @@ public class Distance {
             //Perhaps we can make a new method for error handling which stops legDistances?
             throw e;
         }
-    return degrees;
+        return degrees;
     }
 
 }

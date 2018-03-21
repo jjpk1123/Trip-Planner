@@ -61,8 +61,8 @@ class Query extends Component {
           <div className="input-group" role="group">
             <input type="text" className="form-control" placeholder="Search..." onChange={this.updateSearch}/>
             <span className="input-group-btn">
-                  <button className="btn btn-primary" onClick={this.query} type="button">Search</button>
-                </span>
+              <button className="btn btn-primary" onClick={this.query} type="button">Search</button>
+            </span>
           </div>
 
           <div id="queryResults">

@@ -26,8 +26,8 @@ class Trip extends Component {
    */
   fetchResponse() {
     let requestBody = this.props.trip;
-    console.log("from fetchResponse: " + this.props.trip);
-    console.log(process.env.SERVICE_URL);
+    //console.log("from fetchResponse: " + this.props.trip);
+    //console.log(process.env.SERVICE_URL);
     //console.log("RQ:" + requestBody);
 
     return fetch('http://' + location.host + '/plan', {
@@ -43,7 +43,7 @@ class Trip extends Component {
       let tffi = await serverResponse.json();
       //console.log(tffi);
       this.props.updateTrip(tffi);
-      //console.log("Async Plan(): fetchResponse is done");
+      //console.log("async plan(): fetchResponse is done");
     } catch (err) {
       console.error("You hit an error in async plan()");
       console.error(err);
