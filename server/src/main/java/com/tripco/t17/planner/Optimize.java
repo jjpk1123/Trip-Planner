@@ -13,7 +13,7 @@ public class Optimize {
         ArrayList<Place> result = new ArrayList<>();
         int shortestDistance = 9999999;
 
-        //1. Choose starting location. We do this for each place in places
+        //1. Choose starting location. We do this for each place in places hi
         //This is removed, then added, so that we will not find it again :)
         for (int i = 0 ; i < places.size() ; i++) {
             ArrayList<Place> unvisited = new ArrayList<>();
