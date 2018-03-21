@@ -31,7 +31,7 @@ public class Query{
     public void searchDatabase() {
         //This will do something one day :)
         count = "select count(*) from airports where name like '%" + query + "%' or municipality like '%" + query + "%';";
-        searchName = "select id,name,latitude,longitude from airports where name like '%" + query + "%' or municipality like '%" + query + "%' ;";
+        searchName = "select id,name,latitude,longitude from airports where name like '%" + query + "%' or municipality like '%" + query + "%' order by name;";
         try {
             Class.forName(myDriver);
             // connect to the database and query
@@ -50,15 +50,12 @@ public class Query{
     }
 
     private void printJSON(ResultSet count, ResultSet query1) throws SQLException {
-        System.out.printf("\n{\n");
-        System.out.printf("\"type\": \"find\",\n");
-        System.out.printf("\"title\": \"%s\",\n",query1);
-        System.out.printf("\"places\": [\n");
+
         Place a = new Place();
-// determine the number of results that match the query
+        // determine the number of results that match the query
         count.next();
         int results = count.getInt(1);
-// iterate through query results and print out the airport codes
+        // iterate through query results and print out the airport codes
         while (query1.next()) {
             a.name = query1.getString("name");
             a.id = query1.getString("id");
@@ -73,7 +70,6 @@ public class Query{
             else
                 System.out.printf(",\n");
         }
-        System.out.printf(" ]\n}\n");
     }
 
 
