@@ -3,25 +3,43 @@ package com.tripco.t17.planner;
 import java.util.ArrayList;
 
 public class Optimize {
-    //Returns the arrayList that is handed to it for sanity testing
-    public static ArrayList<Place> nearestNeighbor(ArrayList<Place> unvisited){
+
+    /**
+     * @param places a list of every place in the trip.
+     * @return the places in the order which is the shortest travel distance from start.
+     */
+    public static ArrayList<Place> nearestNeighbor(ArrayList<Place> places){
         //Initialize result
         ArrayList<Place> result = new ArrayList<>();
+        int shortestDistance = 9999999;
 
-        //1. Choose starting location. For now this will be the first place in places!
+        //1. Choose starting location. We do this for each place in places
         //This is removed, then added, so that we will not find it again :)
-        if (!unvisited.isEmpty()) {
-            result.add(unvisited.remove(0));
+        for (int i = 0 ; i < places.size() ; i++) {
+            ArrayList<Place> unvisited = new ArrayList<>();
+            unvisited.addAll(places);
+            ArrayList<Place> temp = new ArrayList<>();
+            int distance = 0;
+
+            if (!unvisited.isEmpty()) {
+                temp.add(unvisited.remove(i));
+            }
+
+            //2. Find nearest city, add it to the result!
+            //3. If unvisited is not empty, go to step 2
+            while (!unvisited.isEmpty()) {
+                int nearestIndex = findNearest(temp.get(temp.size() - 1), unvisited);
+                distance += Distance.gcd(temp.get(temp.size() - 1), unvisited.get(nearestIndex) ,"miles");
+                temp.add(unvisited.remove(nearestIndex));
+            }
+            //4. If new plan is shortest, keep it!
+            if (distance < shortestDistance){
+                result = temp;
+                shortestDistance = distance;
+            }
         }
 
-        //2. Find nearest city, add it to the result!
-        //3. If unvisited is not empty, go to step 2
-        while (!unvisited.isEmpty()) {
-            int nearest = findNearest(result.get(result.size() - 1), unvisited);
-            result.add(unvisited.remove(nearest));
-        }
-
-        //4. Return the arrayList! Client side takes care of round trip stuff
+        //5. Return the arrayList! Client side takes care of round trip stuff
         return result;
     }
 
