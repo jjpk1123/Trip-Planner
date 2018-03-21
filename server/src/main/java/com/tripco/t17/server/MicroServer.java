@@ -1,8 +1,8 @@
 package com.tripco.t17.server;
 
+import com.tripco.t17.planner.ConfigHelper;
 import com.tripco.t17.planner.Plan;
 import com.tripco.t17.planner.Search;
-import com.tripco.t17.planner.ConfigHelper;
 
 import spark.Request;
 import spark.Response;
@@ -113,8 +113,7 @@ public class MicroServer {
     return (new Search(request)).getQuery();
   }
 
-    /**A REST API that informs the client about which
-     * version/optimization levels it supports
+    /**A REST API that informs the client about which version & opt levels it supports.
      * @param request
      * @param response
      * @return config

@@ -29,6 +29,10 @@ public class Config {
         //optimization of 3 == [Nothing, NN, 2-opt, 3-opt]
     }
 
+    /**
+     * Returns many Optimization levels are available to choose from "normalized"
+     * @return optLevel +1
+     */
     public static int getOptimizationLevels() {
         return (1) + 1;         // This value will change over time
         // CS students start at 0

@@ -15,7 +15,7 @@ public class ConfigHelper {
     private Config config;
 
     /**
-     * Preps the config fields with  before sending the Json to the client
+     * Preps the config fields with  before sending the Json to the client.
      * @param request = the client's json
      */
     public ConfigHelper(Request request) {
@@ -34,7 +34,8 @@ public class ConfigHelper {
         config.retrieveValues();
 
         // log something
-        System.out.println("[Config] Server version: " + config.version + ". \toptimization levels: " + config.optimization);
+        System.out.println("[Config] responded with " +
+                "{v" + config.version + ", opt:" + config.optimization + "}");
     }
 
     /**

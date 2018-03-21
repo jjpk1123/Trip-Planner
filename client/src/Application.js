@@ -85,13 +85,13 @@ class Application extends Component {
    */
   async doTheConfig() {
     try {
-      console.log("Awaiting response from server: Config");
+      //console.log("Awaiting response from server: Config");
       let serverResponse = await this.fetchConfigResponse();
       let configTFFI = await serverResponse.json();
 
-      console.log(configTFFI);
+      //console.log(configTFFI);
       this.updateConfig(configTFFI);
-      console.log("Application.js::async doTheConfig(): fetchConfigResponse is done");
+      //console.log("Application.js::async doTheConfig(): fetchConfigResponse is done");
     } catch(err) {
       console.error("You hit an error in Application.js::async doTheConfig()");
       console.error(err);
