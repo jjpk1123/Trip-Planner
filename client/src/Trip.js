@@ -18,24 +18,7 @@ class Trip extends Component {
     this.saveTFFI = this.saveTFFI.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
   }
-
-  /**
-   *
-   */
-  async plan() {
-    try {
-      //console.log("Awaiting response from server");
-      let serverResponse = await this.fetchResponse();
-      let tffi = await serverResponse.json();
-      //console.log(tffi);
-      this.props.updateTrip(tffi);
-      //console.log("async plan(): fetchResponse is done");
-    } catch (err) {
-      console.error("You hit an error in async plan()");
-      console.error(err);
-    }
-  }
-
+  
   /**
    * Sends a request to the server with the destinations and options.
    * Receives a response containing the map and itinerary to update the
@@ -51,6 +34,20 @@ class Trip extends Component {
       method: "POST",
       body: JSON.stringify(requestBody)
     });
+  }
+
+  async plan() {
+    try {
+      //console.log("Awaiting response from server");
+      let serverResponse = await this.fetchResponse();
+      let tffi = await serverResponse.json();
+      //console.log(tffi);
+      this.props.updateTrip(tffi);
+      //console.log("async plan(): fetchResponse is done");
+    } catch (err) {
+      console.error("You hit an error in async plan()");
+      console.error(err);
+    }
   }
 
   /**
