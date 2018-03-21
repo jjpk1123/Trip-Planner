@@ -3,25 +3,7 @@ package com.tripco.t17.planner;
 import java.util.ArrayList;
 
 public class Optimize {
-
-    /**
-     *
-     * @param startPoint
-     * @param original
-     * @param size = how many places
-     * @return
-     */
-    public static ArrayList<Place> nextStart(int startPoint, ArrayList<Place> original, int size) {
-        ArrayList<Place> temp = new ArrayList<>();
-        for (int i =0; i < size; ++i) {
-
-        }
-        return temp;
-    }
-
-    /**
-     * Returns the arrayList that is handed to it for sanity testing
-     */
+    //Returns the arrayList that is handed to it for sanity testing
     public static ArrayList<Place> nearestNeighbor(ArrayList<Place> unvisited){
         //Initialize result
         ArrayList<Place> result = new ArrayList<>();
@@ -63,7 +45,6 @@ public class Optimize {
         return nearest;
     }
 }
-
 
 
 

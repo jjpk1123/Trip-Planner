@@ -191,7 +191,7 @@ public class Distance {
             //Perhaps we can make a new method for error handling which stops legDistances?
             throw e;
         }
-    return degrees;
+        return degrees;
     }
 
 }
