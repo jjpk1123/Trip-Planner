@@ -18,7 +18,7 @@ class Trip extends Component {
     this.saveTFFI = this.saveTFFI.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
   }
-  
+
   /**
    * Sends a request to the server with the destinations and options.
    * Receives a response containing the map and itinerary to update the

@@ -11,7 +11,6 @@ public class Option {
 
     /**
      * Returns true if the slider is greater than "longest"
-     *
      * @param optStr = trip.options.optimization
      * @return false = do not optimize path
      */

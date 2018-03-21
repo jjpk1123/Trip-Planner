@@ -36,7 +36,8 @@ public class Trip {
             double optBreak = 1.0 / 2; // @TODO: ******Config Change******
             double numOptimization = Double.parseDouble(this.options.optimization);
 
-            if (numOptimization >= optBreak) { // if ((numOptimization >= optBreak) && (numOptimization < 2*optBreak)
+            if (numOptimization >= optBreak) {
+            //  if ((numOptimization >= optBreak) && (numOptimization < 2*optBreak)
             //  System.out.println("Computing NearestNeighbor");
                 this.places = Optimize.nearestNeighbor(this.places);
             }
