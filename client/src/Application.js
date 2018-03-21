@@ -11,13 +11,13 @@ class Application extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trip: {//default TFFI
+      trip: { //trip TFFI
         version: 1,
         type: "trip",
         title: "My Trip",
         options: {
           distance: "miles",
-          optimization: "none",
+          optimization: "none"
         },
         places: [],
         distances: [],
@@ -27,25 +27,38 @@ class Application extends Component {
         type: "query",
         query: "",
         places: []
+      },
+      config: {
+        type: "config",
+        version: 2,
+        optimization: 2
       }
     };
     this.updateTrip = this.updateTrip.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
+    this.updateConfig = this.updateConfig.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
   }
 
   /**
    * Updates the trip state
    */
-  updateTrip(tffi) {
-    this.setState({trip: tffi});
+  updateTrip(trip) {
+    this.setState({trip});
   }
 
   /**
    * Updates the query state
    */
-  updateQuery(tffi) {
-    this.setState({query: tffi});
+  updateQuery(query) {
+    this.setState({query});
+  }
+
+  /**
+   * Updates the config state
+   */
+  updateConfig(config) {
+    this.setState({config});
   }
 
   /**
@@ -56,8 +69,6 @@ class Application extends Component {
     trip.title = title;
     this.setState({trip});
     console.log("Title:" + this.state.trip.title);
-    //console.log("Distance is: " + trip.options.distance);//Correctly implements unitButton
-    //console.log("updateTrip: " + JSON.stringify(this.state.trip));//Sanity check
   }
 
   render() {
@@ -73,8 +84,8 @@ class Application extends Component {
           <Destinations trip={this.state.trip}
                         query={this.state.query}
                         places={this.state.trip.places}
-                        updateQuery={this.updateQuery}
-                        updateTrip={this.updateTrip}/>
+                        updateTrip={this.updateTrip}
+                        updateQuery={this.updateQuery}/>
         </div>
         <div className="col-12">
           <Trip trip={this.state.trip}

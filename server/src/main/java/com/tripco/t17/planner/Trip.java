@@ -5,12 +5,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.tripco.t17.server.HTTP;
 
-import java.util.ArrayList;
-import java.lang.Math;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.Math;
+import java.util.ArrayList;
 
 import spark.Request;
 
@@ -32,16 +32,23 @@ public class Trip {
      */
     public void plan()  {
         //1. Plan the trip
-        if (!this.options.optimization.equals("none")) {
-            double optBreak = 1.0 / 2;
+        if (Option.optimizeCheck(this.options.optimization)) { //greater than minimum (0.0|none)
+            double optBreak = 1.0 / 2; // @TODO: ******Config Change******
             double numOptimization = Double.parseDouble(this.options.optimization);
-            //if (numOptimization < optBreak) {
-            //    System.out.println("Without NearestNeighbor");
-            //}
-            if (numOptimization >= optBreak) { // && (numOptimization <= 2*opt)
-                //System.out.println("With NearestNeighbor");
+
+            if (numOptimization >= optBreak) {
+            //  if ((numOptimization >= optBreak) && (numOptimization < 2*optBreak)
+            //  System.out.println("Computing NearestNeighbor");
                 this.places = Optimize.nearestNeighbor(this.places);
             }
+            //else if ((numOptimization >= 2*optBreak) && (numOptimization < 3*optBreak)) {
+            //  System.out.println("Computing 2-opt");
+            //  this.places = Optimize.twoOpt(this.places)
+            //}
+            //else if ((numOptimization >= 3*optBreak) && (numOptimization <= 4*optBreak)) {
+            //  System.out.println("Computing 3-opt");
+            //  this.places = Optimize.threeOpt(this.places)
+            //}
         }
 
         //2. Draw the map of the plan

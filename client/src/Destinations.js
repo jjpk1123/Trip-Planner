@@ -276,8 +276,8 @@ class Destinations extends Component {
             </div>
           </div>
           <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
-            <Query query={this.props.query}
-                   updateQuery={this.props.updateQuery}/>
+            <Query  query={this.props.query}
+                    updateQuery={this.props.updateQuery}/>
           </div>
         </div>
         <h5>There are <b>{(this.props.places).length}</b> destinations</h5>
