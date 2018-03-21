@@ -29,9 +29,9 @@ class Application extends Component {
         places: []
       },
       config: {
-        "type": "config",
-        "version": 2,
-        "optimization": 2
+        type: "config",
+        version: 2,
+        optimization: 2
       }
     };
     this.updateTrip = this.updateTrip.bind(this);
