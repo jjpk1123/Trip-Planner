@@ -32,8 +32,8 @@ public class Trip {
      */
     public void plan()  {
         //1. Plan the trip
-        if (Option.optimizeCheck(this.options.optimization)) { //greater than minimum (0.0|none)
-            double optBreak = 1.0 / 2; // @TODO: ******Config Change******
+        if (Option.optimizeCheck(this.options.optimization)) { //greater than ("none" || "0.0")
+            double optBreak = 1.0 / Config.getOptimizationLevels();
             double numOptimization = Double.parseDouble(this.options.optimization);
 
             if (numOptimization >= optBreak) {
