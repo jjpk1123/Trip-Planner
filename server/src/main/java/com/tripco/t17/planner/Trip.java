@@ -39,7 +39,9 @@ public class Trip {
             if (numOptimization >= optBreak) {
             //  if ((numOptimization >= optBreak) && (numOptimization < 2*optBreak)
             //  System.out.println("Computing NearestNeighbor");
+                Place start = this.places.get(0);
                 this.places = Optimize.nearestNeighbor(this.places);
+                this.places = Optimize.changeStart(this.places, this.places.indexOf(start));
             }
             //else if ((numOptimization >= 2*optBreak) && (numOptimization < 3*optBreak)) {
             //  System.out.println("Computing 2-opt");
