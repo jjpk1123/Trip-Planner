@@ -39,13 +39,14 @@ class Itinerary extends Component {
    * Capitalizes the units for the row in table, unless user-defined
    */
   setUnitsString(units) {
+    units = units.toLowerCase();
     if (units === "miles") {
       this.unitsString = "Miles";
     } else if (units === "kilometers") {
       this.unitsString = "Kilometers";
     } else if (units === "nautical miles") {
       this.unitsString = "Nautical Miles";
-    } else { //user-defined
+    } else if (units === "user defined") { //user-defined
       this.unitsString = units;
     }
   }

@@ -13,7 +13,6 @@ class Destinations extends Component {
   constructor(props) {
     super(props);
     this.myObj = "";
-    this.search = "";
     this.destCardHeader = <h5 className="card-header bg-info text-white">
 
         Destinations
@@ -26,6 +25,7 @@ class Destinations extends Component {
    * If a some fields do not exist, it creates default values for those fields.
    */
   loadTFFI(event) {
+    this.props.doTheConfig();
     //Read the file
     let file = event.target.files[0];
     let reader = new FileReader();
@@ -73,8 +73,7 @@ class Destinations extends Component {
     this.validateOptions();//If options is undefined, set options to default -- "miles", "none"
 
     if (this.validatePlaces() === false) {
-      console.log("Dests.js @ ln77");
-      return false;//If places (doesn't exist|length<1), fail
+      return false;//If places (doesn't exist || length<1), fail
     }
 
     if (this.validateIndividualPlaces() === false) {

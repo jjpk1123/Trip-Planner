@@ -32,14 +32,16 @@ public class Trip {
      */
     public void plan()  {
         //1. Plan the trip
-        if (Option.optimizeCheck(this.options.optimization)) { //greater than minimum (0.0|none)
-            double optBreak = 1.0 / 2; // @TODO: ******Config Change******
+        if (Option.optimizeCheck(this.options.optimization)) { //greater than ("none" || "0.0")
+            double optBreak = 1.0 / Config.getOptimizationLevels();
             double numOptimization = Double.parseDouble(this.options.optimization);
 
             if (numOptimization >= optBreak) {
             //  if ((numOptimization >= optBreak) && (numOptimization < 2*optBreak)
             //  System.out.println("Computing NearestNeighbor");
+                Place start = this.places.get(0);
                 this.places = Optimize.nearestNeighbor(this.places);
+                this.places = Optimize.changeStart(this.places, this.places.indexOf(start));
             }
             //else if ((numOptimization >= 2*optBreak) && (numOptimization < 3*optBreak)) {
             //  System.out.println("Computing 2-opt");

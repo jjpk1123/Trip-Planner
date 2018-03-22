@@ -3,6 +3,27 @@ package com.tripco.t17.planner;
 import java.util.ArrayList;
 
 public class Optimize {
+    /**
+     *
+     * @param places a list of places to visit, in a specific order.
+     * @param start the starting location index
+     * @return same ordered ArrayList, but starting at a different location.
+     */
+    public static ArrayList<Place> changeStart(ArrayList<Place> places, int start){
+        ArrayList<Place> result = new ArrayList<>();
+
+        //Check bounds of start, right now if it's out of bounds return places
+        if (start >= places.size() || start < 0){
+            return places;
+        }
+
+        //Go through the ArrayList places, and add the places to result
+        for (int i = 0 ; i < places.size() ; i++){
+            result.add(places.get((i + start) % places.size()));
+        }
+
+        return result;
+    }
 
     /**
      * @param places a list of every place in the trip.
