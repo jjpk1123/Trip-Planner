@@ -80,7 +80,6 @@ class Query extends Component {
     let table = this.createTable();
 
     return <div id="query">
-      <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
         <div className="card-body">
           <h6 className="card-title">Search:</h6>
           <div className="input-group" role="group">
@@ -102,7 +101,6 @@ class Query extends Component {
           </div>
         </div>
       </div>
-    </div>
   }
 }
 
