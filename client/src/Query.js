@@ -4,7 +4,9 @@ class Query extends Component {
   constructor(props) {
     super(props);
     this.search = "";
+    this.queryResults;
     this.query = this.query.bind(this);
+    this.addToTrip = this.addToTrip.bind(this);
     this.createTable = this.createTable.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
     this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
@@ -45,10 +47,17 @@ class Query extends Component {
     }
   }
 
+  addToTrip(event) {
+    console.log("WE MADE IT");
+    //this.props.updateTrip(this.props.places.add());
+  }
+
   createTable() {
     let i = 0;
+    let unique = 0;
     let queryResults = this.props.query.places.map((item) => <td key = {i++}>{item.name}</td>);
-    return {queryResults};
+    let checkBoxes = this.props.query.places.map((item) => <td key = {unique++}><input type="checkbox" onClick={this.addToTrip}/></td>);
+    return {queryResults, checkBoxes};
   }
 
   render() {
@@ -68,6 +77,10 @@ class Query extends Component {
           <div id="queryResults">
             <table className="table table-responsive table-bordered">
               <tbody>
+              <tr>
+                <th className="table-info align-middle">Click to add:</th>
+                {table.checkBoxes}
+              </tr>
               <tr>
                 <th className="table-info align-middle">Places:</th>
                 {table.queryResults}
