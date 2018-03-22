@@ -49,6 +49,7 @@ class Query extends Component {
 
   addToTrip(event) {
     if (event.target.checked) {
+      //Where is this going?
       console.log("WE MADE IT [" + event + "]");
       //this.props.updateTrip(this.props.places.add());
     }
