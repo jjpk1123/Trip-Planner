@@ -23,15 +23,13 @@ public class Query{
     public String count = "";
     public String searchName = "";
 
-
-
     /**
      * The top level method that does searching.
      */
     public void searchDatabase() {
         //This will do something one day :)
-        count = "select count(*) from airports where name like '%" + query + "%' or municipality like '%" + query + "%';";
-        searchName = "select id,name,latitude,longitude from airports where name like '%" + query + "%' or municipality like '%" + query + "%' order by name;";
+        count = "select count(*) from airports where name like '%" + query + "%' or municipality like '%" + query + "%' or id  = '" + query + "';";
+        searchName = "select id,name,latitude,longitude from airports where name like '%" + query + "%' or municipality like '%" + query + "%' or id = '" + query + "' order by name;";
         try {
             Class.forName(myDriver);
             // connect to the database and query
@@ -51,12 +49,12 @@ public class Query{
 
     private void printJSON(ResultSet count, ResultSet query1) throws SQLException {
 
-        Place a = new Place();
         // determine the number of results that match the query
         count.next();
         int results = count.getInt(1);
         // iterate through query results and print out the airport codes
         while (query1.next()) {
+            Place a = new Place();
             a.name = query1.getString("name");
             a.id = query1.getString("id");
             a.latitude = query1.getString("latitude");
@@ -69,7 +67,6 @@ public class Query{
                 System.out.printf("\n");
             else
                 System.out.printf(",\n");
-            
         }
     }
 
