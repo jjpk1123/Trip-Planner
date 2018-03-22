@@ -1,5 +1,6 @@
 package com.tripco.t17.server;
 
+import com.tripco.t17.planner.ConfigHelper;
 import com.tripco.t17.planner.Plan;
 import com.tripco.t17.planner.Search;
 
@@ -19,7 +20,6 @@ public class MicroServer {
   private String path = "/public";
 
   /** Creates a micro-server to load static files and provide REST APIs.
-   *
    * @param port
    * @param name
    */
@@ -42,6 +42,7 @@ public class MicroServer {
     // client is sending data, so a HTTP POST is used instead of a GET
     post("/plan", this::plan);
     post("/query", this::query);
+    post("/config", this::config);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -90,7 +91,7 @@ public class MicroServer {
    *
    * @param request
    * @param response
-   * @return
+   * @return trip
    */
   private String plan(Request request, Response response) {
 
@@ -103,13 +104,25 @@ public class MicroServer {
    *
    * @param request
    * @param response
-   * @return
+   * @return query
    */
     private String query(Request request, Response response){
 
     response.type("application/json");
 
     return (new Search(request)).getQuery();
+  }
+
+    /**A REST API that informs the client about which version & opt levels it supports.
+     * @param request
+     * @param response
+     * @return config
+     */
+    private String config(Request request, Response response) {
+
+    response.type("application/json");
+
+    return (new ConfigHelper(request)).getConfig();
   }
 
   /** A REST API that returns the team information associated with the server.

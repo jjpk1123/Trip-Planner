@@ -8,6 +8,9 @@ public class Option {
 
     public String distance;
     public String optimization;
+    // Version 2 additional variables if distance = "user defined"
+    public String userUnit;
+    public String userRadius;
 
     /**
      * Returns true if the slider is greater than "longest".
@@ -20,12 +23,12 @@ public class Option {
         }
 
         double optDbl = Double.parseDouble(optStr);
-        double optBreak = (1.0 / 2); // @TODO: ******Config Change******
+        double optBreak = (1.0 / Config.getOptimizationLevels());
 
         if (optDbl < optBreak) {
             return false; //longest path
-        } else { //if (optDbl >= optBreak) {
-            return true; //shortest path
+        } else { //else if (optDbl >= optBreak) {
+            return true; //optimize the path
         }
     }
 }
