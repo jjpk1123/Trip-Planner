@@ -37,7 +37,6 @@ public class Query{
                  Statement stCount = conn.createStatement();
                  Statement stQuery = conn.createStatement();
                  ResultSet rsCount = stCount.executeQuery(count);
-
                  ResultSet rsQuery = stQuery.executeQuery(searchName)
             ) {
                 printJSON(rsCount, rsQuery);
@@ -69,6 +68,7 @@ public class Query{
                 System.out.printf(",\n");
         }
     }
+
 
 
 }

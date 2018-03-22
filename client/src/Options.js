@@ -10,10 +10,12 @@ class Options extends Component {
   constructor(props) {
     super(props);
     this.optCardHeader = <h5 className="card-header bg-info text-white">
-      Options
-    </h5>;
+
+        Options
+      </h5>;
     this.spacer = <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-    </div>;
+      </div>;
+
     this.changeUnit = this.changeUnit.bind(this);
     this.retrieveOptimizationValue = this.retrieveOptimizationValue.bind(this);
     this.changeOptimization = this.changeOptimization.bind(this);
@@ -98,13 +100,13 @@ class Options extends Component {
             </div>
           </div>
           <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
-            <div className="card-body">
-              <h6 className="card-title">Round-Trip length:</h6>
-              <div>
-                <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
-                       value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
-                <h6>Length: <b><big>{this.retrieveOptimizationString()}</big></b></h6>
-              </div>
+              <div className="card-body">
+                <h6 className="card-title">Round-Trip length:</h6>
+                <div>
+                  <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
+                         value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
+                  <h6>Length: <b><big>{this.retrieveOptimizationString()}</big></b></h6>
+                </div>
             </div>
           </div>
         </div>

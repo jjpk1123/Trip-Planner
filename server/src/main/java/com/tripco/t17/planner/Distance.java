@@ -14,16 +14,12 @@ public class Distance {
      * @return distance.
      */
     public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit) {
+        int size = places.size();
         ArrayList<Integer> distance = new ArrayList<>();
-        //If 0 Places
-        if (places.size() < 1){
-            return distance;
-        }
 
-        //If 1 or more places
-        for (int i = 0 ; i < places.size() ; i++) {
+        for (int i=0; i < size; ++i) {
             distance.add(gcd(places.get(i),
-                    places.get((i+1)%places.size()),
+                    places.get((i + 1) % size),
                     unit));
         }
         return distance;
@@ -38,9 +34,11 @@ public class Distance {
     public static int gcd(Place source, Place dest, String unit) {
         //0. Validate input
         if (invalidPlace(source)){
+            System.out.println("Bad source");
             return -1;
         }
         if (invalidPlace(dest)){
+            System.out.println("Bad dest");
             return -2;
         }
 
@@ -78,7 +76,7 @@ public class Distance {
             dmsToDegrees(place.longitude);
         } catch (Exception e) {
             System.err.println(e);
-            return true; //bad source
+            return true; //bad place
         }
         return false;
     }
@@ -140,8 +138,14 @@ public class Distance {
     private static double gcdHelper(double centralAngle, String unit){
         if (unit.equals("miles")) {
             return centralAngle * 3958.7613;
-        } else { //Kilometers
+        } else if (unit.equals("kilometers")) {
             return centralAngle * 6371.0088;
+        }
+        else if (unit.equals("nautical miles")) {
+            return centralAngle * 3440.0695;
+        }
+        else {
+            return centralAngle;
         }
     }
 
@@ -184,11 +188,10 @@ public class Distance {
                 degrees = Double.parseDouble(dms);
             }
         } catch (Exception e) {
-                //Perhaps we can make a new method for error handling which stops legDistances?
-                System.err.println(e);
-                throw e;
+            //Perhaps we can make a new method for error handling which stops legDistances?
+            throw e;
         }
-    return degrees;
+        return degrees;
     }
 
 }

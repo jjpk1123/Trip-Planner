@@ -15,8 +15,9 @@ class Destinations extends Component {
     this.myObj = "";
     this.search = "";
     this.destCardHeader = <h5 className="card-header bg-info text-white">
-      Destinations
-    </h5>;
+
+        Destinations
+      </h5>;
     this.loadTFFI = this.loadTFFI.bind(this);
   }
 
@@ -150,8 +151,10 @@ class Destinations extends Component {
     console.log("options field not provided");
     console.log("defaulting to {\"distance\": \"miles\", \"optimization\": \"0\"}");
     this.myObj.options = (this.myObj.version === 1) ?
-      {"distance": "miles", "optimization": "none"}   //if v1: "none"
-      : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
+
+        {"distance": "miles", "optimization": "none"}   //if v1: "none"
+        : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
+    
   }
 
   /**
