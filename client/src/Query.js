@@ -4,7 +4,6 @@ class Query extends Component {
   constructor(props) {
     super(props);
     this.search = "";
-    this.queryArray;
     this.query = this.query.bind(this);
     this.addToTrip = this.addToTrip.bind(this);
     this.createTable = this.createTable.bind(this);
@@ -49,21 +48,30 @@ class Query extends Component {
 
   addToTrip(event) {
     if (event.target.checked) {
-
       console.log("Appending [" + event.target.value + "] to end of trip");
-      console.log("Well.. not yet");
-      //this.props.updateTrip(this.props.places.add());
+
+      for (let i = 0; i < this.props.query.places.length; ++i) {
+        console.log(this.props.query.places[i].id);
+        if ((this.props.query.places[i].id) === (event.target.value)) {
+          let tempTrip = this.props.trip;
+          let tempArray = tempTrip.places;
+          let newPlace = this.props.query.places[i];
+          tempArray.push(newPlace);
+
+          tempTrip.places = tempArray;
+          this.props.updateTrip(tempTrip);
+          return;
+        }
+      }
     }
+    //else remove? (because they unchecked it
   }
 
   createTable() {
     let i = 0;
     let queryResults = this.props.query.places.map((item) => <td key = {i++}><input type="checkbox" value={item.id} onClick={this.addToTrip}/>{item.name}</td>);
-    //let unique = 0;
-    //let checkBoxes = this.props.query.places.map((item) => <td key = {unique++}><input type="button" onClick={this.addToTrip}/></td>);
-    //return {queryResults, checkBoxes};
-    this.queryArray = queryResults;
-    console.log(this.queryArray);
+
+    //console.log(this.queryArray);
     return {queryResults};
 
   }
