@@ -107,10 +107,3 @@ class Query extends Component {
 }
 
 export default Query;
-
-/*
-              <tr>
-                <th className="table-info align-middle">Click to add:</th>
-                {table.checkBoxes}
-              </tr>
- */
