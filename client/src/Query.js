@@ -4,7 +4,7 @@ class Query extends Component {
   constructor(props) {
     super(props);
     this.search = "";
-    this.queryResults;
+    this.queryArray;
     this.query = this.query.bind(this);
     this.addToTrip = this.addToTrip.bind(this);
     this.createTable = this.createTable.bind(this);
@@ -49,18 +49,21 @@ class Query extends Component {
 
   addToTrip(event) {
     if (event.target.checked) {
-      //Where is this going?
-      console.log("WE MADE IT [" + event + "]");
+
+      console.log("Appending [" + event.target.value + "] to end of trip");
+      console.log("Well.. not yet");
       //this.props.updateTrip(this.props.places.add());
     }
   }
 
   createTable() {
     let i = 0;
-    let unique = 0;
-    let queryResults = this.props.query.places.map((item) => <td key = {i++}><input type="checkbox" onClick={this.addToTrip}/>{item.name}</td>);
+    let queryResults = this.props.query.places.map((item) => <td key = {i++}><input type="checkbox" value={item.id} onClick={this.addToTrip}/>{item.name}</td>);
+    //let unique = 0;
     //let checkBoxes = this.props.query.places.map((item) => <td key = {unique++}><input type="button" onClick={this.addToTrip}/></td>);
-    // return {queryResults, checkBoxes};
+    //return {queryResults, checkBoxes};
+    this.queryArray = queryResults;
+    console.log(this.queryArray);
     return {queryResults};
 
   }
