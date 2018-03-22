@@ -48,16 +48,20 @@ class Query extends Component {
   }
 
   addToTrip(event) {
-    console.log("WE MADE IT");
-    //this.props.updateTrip(this.props.places.add());
+    if (event.target.checked) {
+      console.log("WE MADE IT [" + event + "]");
+      //this.props.updateTrip(this.props.places.add());
+    }
   }
 
   createTable() {
     let i = 0;
     let unique = 0;
-    let queryResults = this.props.query.places.map((item) => <td key = {i++}>{item.name}</td>);
-    let checkBoxes = this.props.query.places.map((item) => <td key = {unique++}><input type="checkbox" onClick={this.addToTrip}/></td>);
-    return {queryResults, checkBoxes};
+    let queryResults = this.props.query.places.map((item) => <td key = {i++}><input type="checkbox" onClick={this.addToTrip}/>{item.name}</td>);
+    //let checkBoxes = this.props.query.places.map((item) => <td key = {unique++}><input type="button" onClick={this.addToTrip}/></td>);
+    // return {queryResults, checkBoxes};
+    return {queryResults};
+
   }
 
   render() {
@@ -78,10 +82,6 @@ class Query extends Component {
             <table className="table table-responsive table-bordered">
               <tbody>
               <tr>
-                <th className="table-info align-middle">Click to add:</th>
-                {table.checkBoxes}
-              </tr>
-              <tr>
                 <th className="table-info align-middle">Places:</th>
                 {table.queryResults}
               </tr>
@@ -96,3 +96,9 @@ class Query extends Component {
 
 export default Query;
 
+/*
+              <tr>
+                <th className="table-info align-middle">Click to add:</th>
+                {table.checkBoxes}
+              </tr>
+ */
