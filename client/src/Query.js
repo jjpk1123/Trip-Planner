@@ -47,19 +47,9 @@ class Query extends Component {
     }
   }
 
-  addToTrip(event) {
-    if (event.target.checked) {
-      console.log("WE MADE IT [" + event + "]");
-      //this.props.updateTrip(this.props.places.add());
-    }
-  }
-
   createTable() {
     let i = 0;
-    let unique = 0;
-    let queryResults = this.props.query.places.map((item) => <td key = {i++}><input type="checkbox" onClick={this.addToTrip}/>{item.name}</td>);
-    //let checkBoxes = this.props.query.places.map((item) => <td key = {unique++}><input type="button" onClick={this.addToTrip}/></td>);
-    // return {queryResults, checkBoxes};
+    let queryResults = this.props.query.places.map((item) => <td key = {i++}><input type="checkbox" onClick={}/>{item.name}</td>);
     return {queryResults};
 
   }
@@ -95,10 +85,3 @@ class Query extends Component {
 }
 
 export default Query;
-
-/*
-              <tr>
-                <th className="table-info align-middle">Click to add:</th>
-                {table.checkBoxes}
-              </tr>
- */
