@@ -10,6 +10,7 @@ class Options extends Component {
   constructor(props) {
     super(props);
     this.optCardHeader = <h5 className="card-header bg-info text-white">
+
         Options
       </h5>;
     this.changeUnit = this.changeUnit.bind(this);
@@ -84,16 +85,16 @@ class Options extends Component {
         <h6>Select the desired:</h6>
         <div className="row">
           <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-              <div className="card-body">
-                <h6 className="card-title">Unit of distance:</h6>
-                <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
-                  <label className={this.testActiveBtn("miles")}>
-                    <input type="radio" value="miles" name="distance"/> Miles
-                  </label>
-                  <label className={this.testActiveBtn("kilometers")}>
-                    <input type="radio" value="kilometers" name="distance"/> Kilometers
-                  </label>
-                </div>
+            <div className="card-body">
+              <h6 className="card-title">Unit of distance:</h6>
+              <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
+                <label className={this.testActiveBtn("miles")}>
+                  <input type="radio" value="miles" name="distance"/> Miles
+                </label>
+                <label className={this.testActiveBtn("kilometers")}>
+                  <input type="radio" value="kilometers" name="distance"/> Kilometers
+                </label>
+              </div>
             </div>
           </div>
           <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">

@@ -12,6 +12,7 @@ class Trip extends Component {
   constructor(props) {
     super(props);
     this.tripCardHeader = <h5 className="card-header bg-info text-white">
+
         Trip
       </h5>;
     this.plan = this.plan.bind(this);
