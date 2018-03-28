@@ -9,18 +9,19 @@ import java.util.ArrayList;
 public class Distance {
 
     /**
-     * @param places arrayList of all places.
+     * @param plc = "places" = arrayList of all places.
      * @param unit either kilometers or miles.
+     * @param rad = "radius" = if user defines a unit, this is the radius
      * @return distance.
      */
-    public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit, String r) {
-        int size = places.size();
+    public static ArrayList<Integer> legDistances(ArrayList<Place> plc, String unit, String rad){
+        int size = plc.size();
         ArrayList<Integer> distance = new ArrayList<>();
 
         for (int i=0; i < size; ++i) {
-            distance.add(gcd(places.get(i),
-                    places.get((i + 1) % size),
-                    unit, r));
+            distance.add(gcd(plc.get(i),
+                    plc.get((i + 1) % size),
+                    unit, rad));
         }
         return distance;
     }

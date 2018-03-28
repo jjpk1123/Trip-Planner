@@ -14,7 +14,6 @@ class Destinations extends Component {
     super(props);
     this.myObj = "";
     this.destCardHeader = <h5 className="card-header bg-info text-white">
-
         Destinations
       </h5>;
     this.loadTFFI = this.loadTFFI.bind(this);
@@ -62,6 +61,7 @@ class Destinations extends Component {
    * Return true if all required fields are able to be rendered
    */
   validateTFFI() {
+    let rtnBool = true;
     this.validateVersion();//If version is undefined, set version to default -- 1
 
     if (this.validateType() === false) {
@@ -71,20 +71,20 @@ class Destinations extends Component {
     this.validateTitle();//If title is undefined, set title to default -- "My Trip"
 
     if (this.validateOptions() === false) {//If options is undefined, set options to default -- "miles", "none"
-      return false;//User failed to include a usable userRadius
+      rtnBool = false;//User failed to include a usable userRadius
     }
     if (this.validatePlaces() === false) {
-      return false;//If places (doesn't exist || length<1), fail
+      rtnBool = false;//If places (doesn't exist || length<1), fail
     }
     if (this.validateIndividualPlaces() === false) {
-      return false;//If not all places in file contain valid fields, fail
+      rtnBool = false;//If not all places in file contain valid fields, fail
     }
 
     this.validateDistances();//If distances is undefined, set distances to default -- []
 
     this.validateMap();//If map is undefined, set map to default -- ""
 
-    return true; // All trip fields are populated
+    return rtnBool; // All trip fields are populated
   }
 
   /**
