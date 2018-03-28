@@ -10,7 +10,6 @@ class Options extends Component {
   constructor(props) {
     super(props);
     this.optCardHeader = <h5 className="card-header bg-info text-white">
-
         Options
       </h5>;
     this.changeUnit = this.changeUnit.bind(this);
@@ -50,10 +49,13 @@ class Options extends Component {
    * Returns which optimization level the slider is currently at
    */
   retrieveOptimizationString() {
+    //@TODO Options.checkOptimize
     if (this.props.optimization === "none") {
       return "longest";
     }
-    let opt = 1.0 / 2; //@TODO Options.checkOptimize
+    console.log(this.props.configOptimizations);
+    let conOpt = parseFloat(this.props.configOptimizations);
+    let opt = 1.0 / conOpt;
     let curr = parseFloat(this.props.optimization);
     //console.log("Optimization value equals " + curr);
     if (curr < opt) {
@@ -69,7 +71,7 @@ class Options extends Component {
    * Called when the user changes the slider "live"
    */
   changeOptimization(userOptimization) {
-    this.props.doTheConfig();
+    //this.props.doTheConfig();
     let newValue = userOptimization.target.value / 100;
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
     tempTrip.options.optimization = "" + newValue; //alters the optimization field to reflect the slider's value

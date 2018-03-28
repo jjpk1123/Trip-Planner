@@ -24,7 +24,7 @@ class Destinations extends Component {
    * If a some fields do not exist, it creates default values for those fields.
    */
   loadTFFI(event) {
-    this.props.doTheConfig();
+    //this.props.doTheConfig();
     //Read the file
     let file = event.target.files[0];
     let reader = new FileReader();
@@ -252,31 +252,32 @@ class Destinations extends Component {
    * If a place does not have the 4 fields,
    */
   undefinedOrEmpty(place) {
-    let retVal = true;
+    let retBool = true;
+
     if ((place.id === undefined) || (place.id === "")) {
       console.log("places[" + (i + 1) + "] does not contain an id; Quitting...");
       alert("You seem to be missing an ID for one or more of your places!");
-      retVal = false;
+      retBool = false;
     }
     // Name check
     if (place.name === undefined || place.name === "") {
       console.log("places[" + (i + 1) + "] does not contain a name; Quitting...");
       alert("You seem to be missing a name for one or more of your places!");
-      retVal = false;
+      retBool = false;
     }
     // Latitude check
     if (place.latitude === undefined) {
       console.log("places[" + (i + 1) + "] does not contain a latitude; Quitting...");
       alert("You seem to be missing a latitude for one or more of your places!");
-      retVal = false;
+      retBool = false;
     }
     //Longitude check
     if (place.longitude === undefined) {
       console.log("places[" + (i + 1) + "] does not contain a longitude; Quitting...");
       alert("You seem to be missing a longitude for one or more of your places!");
-      retVal = false;
+      retBool = false;
     }
-    return retVal;
+    return retBool;
   }
 
   /**

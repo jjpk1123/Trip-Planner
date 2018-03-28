@@ -38,9 +38,7 @@ class Application extends Component {
     };
     this.updateTrip = this.updateTrip.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
-    this.updateConfig = this.updateConfig.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
-    this.doTheConfig = this.doTheConfig.bind(this);
   }
 
   /**
@@ -59,32 +57,27 @@ class Application extends Component {
 
   /**
    * Updates the config state
-   */
+   *
   updateConfig(config) {
     this.setState({config});
   }
 
   /**
    * Sends a request file to server.
-   */
+   *
   fetchConfigResponse() {
-    let requestBody = {
-      "type": "config",
-      "version": 0,
-      "optimization": 0
-    };
+
     //console.log(process.env.SERVICE_URL);
     //console.log(requestBody);
 
     return fetch('http://' + location.host + '/config', {
-      method: "POST",
-      body: JSON.stringify(requestBody)
+      method: "GET"
     });
   }
 
   /**
    * Initiates the process of calling the server (waiting) and updating config's state
-   */
+   *
   async doTheConfig() {
     try {
       //console.log("Awaiting response from server: Config");
@@ -98,7 +91,7 @@ class Application extends Component {
       console.error("You hit an error in Application.js::async doTheConfig()");
       console.error(err);
     }
-  }
+  } */
 
   /**
    * Updates trip.title
@@ -117,16 +110,15 @@ class Application extends Component {
           <Options trip={this.state.trip}
                    distance={this.state.trip.options.distance}
                    optimization={this.state.trip.options.optimization}
-                   updateTrip={this.updateTrip}
-                   doTheConfig={this.doTheConfig}/>
+                   configOptimizations={this.state.config.optimization}
+                   updateTrip={this.updateTrip}/>
         </div>
         <div className="col-12">
           <Destinations trip={this.state.trip}
                         query={this.state.query}
                         places={this.state.trip.places}
                         updateTrip={this.updateTrip}
-                        updateQuery={this.updateQuery}
-                        doTheConfig={this.doTheConfig}/>
+                        updateQuery={this.updateQuery}/>
         </div>
         <div className="col-12">
           <Trip trip={this.state.trip}
