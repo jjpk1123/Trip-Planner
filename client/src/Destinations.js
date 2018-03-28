@@ -12,12 +12,11 @@ import Query from './Query';
 class Destinations extends Component {
   constructor(props) {
     super(props);
+    this.loadTFFI = this.loadTFFI.bind(this);
     this.myObj = "";
     this.destCardHeader = <h5 className="card-header bg-info text-white">
-
-        Destinations
-      </h5>;
-    this.loadTFFI = this.loadTFFI.bind(this);
+      Destinations
+    </h5>;
   }
 
   /**
@@ -269,7 +268,7 @@ class Destinations extends Component {
       <div className="card-body">
         <h6>Load destinations or search our database:</h6>
         <div className="row">
-          <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+          <div className="col-xl-4">
             <div className="card-body">
               <h6 className="card-title">Load from a file:</h6>
               <div className="form-group" role="group">
@@ -277,7 +276,7 @@ class Destinations extends Component {
               </div>
             </div>
           </div>
-          <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+          <div className="col-xl-8">
             <Query  trip={this.props.trip}
                     query={this.props.query}
                     updateTrip={this.props.updateTrip}

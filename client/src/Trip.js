@@ -100,8 +100,8 @@ class Trip extends Component {
             <button className="btn btn-primary" onClick={this.saveTFFI} type="button">Save</button>
           </span>
         </div>
-        <Map trip={this.props.trip}/>
         <Itinerary trip={this.props.trip}/>
+        <Map trip={this.props.trip}/>
       </div>
     </div>
   }

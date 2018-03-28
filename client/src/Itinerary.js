@@ -144,7 +144,6 @@ class Itinerary extends Component {
     let table = this.createTable();
 
     return <div id="itinerary">
-      <h4>Round-trip distance of <b>{this.getRoundTripDistance()} {table.units}. </b></h4>
       <table className="table table-responsive table-bordered">
         <thead>
         <tr className="table-info">
@@ -163,6 +162,7 @@ class Itinerary extends Component {
         </tr>
         </tbody>
       </table>
+      <h4>Round-trip distance of <b>{this.getRoundTripDistance()} {table.units}. </b></h4>
     </div>
   }
 }

@@ -82,8 +82,9 @@ class Options extends Component {
       {this.optCardHeader}
       <div className="card-body">
         <h6>Select the desired:</h6>
+
         <div className="row">
-          <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+          <div className="col">
             <div className="card-body">
               <h6 className="card-title">Unit of distance:</h6>
               <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
@@ -99,9 +100,10 @@ class Options extends Component {
               </div>
             </div>
           </div>
-          <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
-              <div className="card-body">
-                <h6 className="card-title">Round-Trip length:</h6>
+
+          <div className="col">
+            <div className="card-body">
+              <h6 className="card-title">Round-Trip length:</h6>
                 <div>
                   <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
                          value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
@@ -109,7 +111,9 @@ class Options extends Component {
                 </div>
             </div>
           </div>
+
         </div>
+
       </div>
     </div>
   }
