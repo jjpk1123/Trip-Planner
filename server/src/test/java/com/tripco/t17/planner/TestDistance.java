@@ -30,7 +30,6 @@ public class TestDistance {
     /**
      * DmsToDegrees Test Block
      */
-
     @Test
     public void testDmsToDegreesSanity(){
         //Test to make sure 0° = 0°

@@ -91,7 +91,7 @@ class Destinations extends Component {
    * Inserts {"version": 1} if version element is not provided in file
    */
   validateVersion() {
-    if (this.myObj.version === undefined) {
+    if (!this.checkIfStringExists(this.myObj.version)) {
       console.log("version element not provided; defaulting to 1");
       this.myObj.version = 1;
     } else if (this.myObj.version < 1) {
@@ -107,7 +107,7 @@ class Destinations extends Component {
    * Inserts {"title": "myTrip"} if the title element is (not provided | "") in file
    */
   validateTitle() {
-    if ((this.myObj.title === undefined) || (this.myObj.title === "")) {
+    if (!this.checkIfStringExists(this.myObj.title)) {
       console.log("title element not provided; defaulting to \"myTrip\"");
       this.myObj.title = "myTrip";
     }
@@ -117,7 +117,7 @@ class Destinations extends Component {
    * Returns true if the type element is provided in file
    */
   validateType() {
-    if (this.myObj.type === undefined) {
+    if (!this.checkIfStringExists(this.myObj.type)) {
       alert("type element not provided; Quitting...");
       return false;
     }
@@ -128,14 +128,14 @@ class Destinations extends Component {
    * Inserts "distance" and "optimization" to trip if non-existent
    */
   validateOptions() {
-    if (this.myObj.options === undefined) {
+    if (!this.checkIfStringExists(this.myObj.options)) {
       this.insertOptions();
     }
-    else if (this.myObj.options.distance === undefined) {
+    else if (!this.checkIfStringExists(this.myObj.options.distance)) {
       console.log("options.distance not provided; defaulting to \"miles\"");
       this.myObj.options.distance = "miles";
     }
-    else if (this.myObj.options.optimization === undefined) {
+    else if (!this.checkIfStringExists(this.myObj.options.optimization)) {
       this.changeOptimization("0.0", "options.optimization not provided; defaulting to \"none|0\"");
     }
     else {
@@ -193,11 +193,11 @@ class Destinations extends Component {
     let rtnBool = true;
 
     if (this.myObj.options.distance === "user defined") {
-      if (this.myObj.options.userUnit === "" || this.myObj.options.userUnit === undefined) {
+      if (!this.checkIfStringExists(this.myObj.options.userUnit)) {
         console.log("No Unit name provided; defaulting to 'My Custom Unit'");
         this.myObj.options.userUnit = "My Custom Unit";
       }
-      if (this.myObj.options.userRadius === "" || this.myObj.options.userRadius === undefined) {
+      if (!this.checkIfStringExists(this.myObj.options.userRadius)) {
         console.log("User-defined radius not provided; Failure.");
         alert("You need to include a radius if you're going to measure by user-defined unit!");
         rtnBool = false;
@@ -221,7 +221,7 @@ class Destinations extends Component {
    */
   validatePlaces() {
     //If places is not provided, let the user know their file is invalid
-    if (this.myObj.places === undefined) {
+    if (!this.checkIfStringExists(this.myObj.places)) {
       console.log("places field does not exist; Quitting...");
       alert("You need to define some places in your file.");
       return false;
@@ -254,25 +254,25 @@ class Destinations extends Component {
   undefinedOrEmpty(place) {
     let retBool = true;
 
-    if ((place.id === undefined) || (place.id === "")) {
+    if (!this.checkIfStringExists(place.id)) {
       console.log("places[" + (i + 1) + "] does not contain an id; Quitting...");
       alert("You seem to be missing an ID for one or more of your places!");
       retBool = false;
     }
     // Name check
-    if (place.name === undefined || place.name === "") {
+    if (!this.checkIfStringExists(place.name)) {
       console.log("places[" + (i + 1) + "] does not contain a name; Quitting...");
       alert("You seem to be missing a name for one or more of your places!");
       retBool = false;
     }
     // Latitude check
-    if (place.latitude === undefined) {
+    if (!this.checkIfStringExists(place.latitude)) {
       console.log("places[" + (i + 1) + "] does not contain a latitude; Quitting...");
       alert("You seem to be missing a latitude for one or more of your places!");
       retBool = false;
     }
     //Longitude check
-    if (place.longitude === undefined) {
+    if (!this.checkIfStringExists(place.longitude)) {
       console.log("places[" + (i + 1) + "] does not contain a longitude; Quitting...");
       alert("You seem to be missing a longitude for one or more of your places!");
       retBool = false;
@@ -280,11 +280,13 @@ class Destinations extends Component {
     return retBool;
   }
 
+
+
   /**
    * Inserts {"distances": []} if distances element is not provided in file
    */
   validateDistances() {
-    if (this.myObj.distances === undefined) {
+    if (!this.checkIfStringExists(this.myObj.distances)) {
       console.log("distances not provided; defaulting to empty array");
       this.myObj.distances = [];
     }
@@ -294,12 +296,27 @@ class Destinations extends Component {
    * Inserts {"map": ""} if map element is not provided in file
    */
   validateMap() {
-    if (this.myObj.map === undefined) {
+    if (!this.checkIfStringExists(this.myObj.map)) {
       console.log("map not provided; defaulting to blank CO map");
       this.myObj.map = "";
     }
   }
 
+  /**
+   * If the field exists, and is populated, returns true
+   * @param item
+   * @return false = the String was not defined or empty string in loaded file
+   */
+  checkIfStringExists(item) {
+    if (item === undefined || item === "") {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Renders the Options card on the client
+   */
   render() {
     return <div id="destinations" className="card">
       {this.destCardHeader}
