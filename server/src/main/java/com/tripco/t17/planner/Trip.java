@@ -57,6 +57,7 @@ public class Trip {
         this.map = new Svg(places).map;
 
         //3. Find distances
-        this.distances = Distance.legDistances(this.places, this.options.distance, this.options.userRadius);
+        this.distances = Distance.legDistances(this.places,
+                this.options.distance, this.options.userRadius);
     }
 }

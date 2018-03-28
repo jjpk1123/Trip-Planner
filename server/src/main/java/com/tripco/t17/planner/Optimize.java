@@ -50,7 +50,8 @@ public class Optimize {
             //3. If unvisited is not empty, go to step 2
             while (!unvisited.isEmpty()) {
                 int nearestIndex = findNearest(temp.get(temp.size() - 1), unvisited);
-                distance += Distance.gcd(temp.get(temp.size() - 1), unvisited.get(nearestIndex) ,"miles", "");
+                distance += Distance.gcd(temp.get(temp.size() - 1),
+                        unvisited.get(nearestIndex) ,"miles", "");
                 temp.add(unvisited.remove(nearestIndex));
             }
             //4. If new plan is shortest, keep it!

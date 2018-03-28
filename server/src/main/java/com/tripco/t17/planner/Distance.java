@@ -13,14 +13,14 @@ public class Distance {
      * @param unit either kilometers or miles.
      * @return distance.
      */
-    public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit, String userRadius) {
+    public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit, String r) {
         int size = places.size();
         ArrayList<Integer> distance = new ArrayList<>();
 
         for (int i=0; i < size; ++i) {
             distance.add(gcd(places.get(i),
                     places.get((i + 1) % size),
-                    unit, userRadius));
+                    unit, r));
         }
         return distance;
     }

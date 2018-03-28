@@ -190,30 +190,30 @@ class Destinations extends Component {
    */
   validateOptionsDistance() {
     this.myObj.options.distance = (this.myObj.options.distance).toLowerCase();
+    let rtnBool = true;
 
     if (this.myObj.options.distance === "user defined") {
       if (this.myObj.options.userUnit === "" || this.myObj.options.userUnit === undefined) {
-        //console.log("Custom unit selected, but user did not identify a name for the unit");
         console.log("No Unit name provided; defaulting to 'My Custom Unit'");
         this.myObj.options.userUnit = "My Custom Unit";
       }
       if (this.myObj.options.userRadius === "" || this.myObj.options.userRadius === undefined) {
         console.log("User-defined radius not provided; Failure.");
         alert("You need to include a radius if you're going to measure by user-defined unit!");
-        return false;
+        rtnBool = false;
       }
       if (isNaN(Number(this.myObj.options.userRadius))) {
         console.log("User-defined radius is not a number; Failure.");
         alert("You need to include a valid user radius number if you're going to measure by user-defined unit!");
-        return false;
+        rtnBool = false;
       }
       if (Number(this.myObj.options.userRadius) <= 0) {
         console.log("User-defined radius is <= 0; Failure.");
         alert("You need to include a Non-Negative & Non-Zero user radius number if you're going to measure by user-defined unit!");
-        return false;
+        rtnBool = false;
       }
     }
-    return true;
+    return rtnBool;
   }
 
   /**
