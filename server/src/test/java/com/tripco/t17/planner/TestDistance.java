@@ -172,18 +172,18 @@ public class TestDistance {
     @Test
     public void testGcdSanity(){
         Place Canada = new Place();
-        Canada.latitude = "0° N";
-        Canada.longitude = " 0° W";
+        Canada.latitude  = "0° N";
+        Canada.longitude = "0° W";
 
         Place NewZealand = new Place();
-        NewZealand.latitude = "0° S";
+        NewZealand.latitude  = "0° S";
         NewZealand.longitude = "0° E";
 
         //Miles
-        assertEquals(0, Distance.gcd(Canada, NewZealand, "miles"));
+        assertEquals(0, Distance.gcd(Canada, NewZealand, "miles", ""));
 
         //Kilometers
-        assertEquals(0, Distance.gcd(Canada, NewZealand, "kilometers"));
+        assertEquals(0, Distance.gcd(Canada, NewZealand, "kilometers", ""));
     }
 
 
@@ -191,18 +191,18 @@ public class TestDistance {
     @Test
     public void testGcdSprint1Demo1(){
         Place Canada = new Place();
-        Canada.latitude = "49° 14' 46.6512\" N";
-        Canada.longitude = " 123° 6' 58.4136\" W";
+        Canada.latitude  = "49°  14' 46.6512\" N";
+        Canada.longitude = "123°  6' 58.4136\" W";
 
         Place NewZealand = new Place();
-        NewZealand.latitude = "41° 19' S";
+        NewZealand.latitude  = "41°  19' S";
         NewZealand.longitude = "174° 46' E";
 
         //Miles
-        assertEquals(7304, Distance.gcd(Canada, NewZealand, "miles"));
+        assertEquals(7304, Distance.gcd(Canada, NewZealand, "miles", ""));
 
         //Kilometers
-        assertEquals(11755, Distance.gcd(Canada, NewZealand, "kilometers"));
+        assertEquals(11755, Distance.gcd(Canada, NewZealand, "kilometers", ""));
     }
 
 
@@ -210,22 +210,52 @@ public class TestDistance {
     @Test
     public void testGcdSprint1Demo2(){
         Place Chile = new Place();
-        Chile.latitude = "33° 24' S";
-        Chile.longitude = " 70° 40' W";
+        Chile.latitude  = "33° 24' S";
+        Chile.longitude = "70° 40' W";
 
         Place Japan = new Place();
-        Japan.latitude = "35° 39' 10.1952\" N";
+        Japan.latitude  = " 35° 39' 10.1952\" N";
         Japan.longitude = "139° 50' 22.1209\" E";
 
         //Miles
         int expectedMiles = 10700;
-        int actualMiles = Distance.gcd(Chile, Japan, "miles");
+        int actualMiles = Distance.gcd(Chile, Japan, "miles", "");
         assertEquals(expectedMiles, actualMiles);
 
         //Kilometers
         int expectedKilometers = 17220;
-        int actualKilometers = Distance.gcd(Chile, Japan, "kilometers");
+        int actualKilometers = Distance.gcd(Chile, Japan, "kilometers", "");
         assertEquals(expectedKilometers, actualKilometers);
+    }
+
+    @Test
+    public void testUserDefinedDistance_Feet() {
+        Place Budapest = new Place();
+        Budapest.latitude  = "47° 29' 52\" N";
+        Budapest.longitude = "19°  2' 23\" E";
+
+        Place Istanbul = new Place();
+        Istanbul.latitude  = "41°  0' 54\" N";
+        Istanbul.longitude = "28° 58' 46\" E";
+
+        int expectedFeet = 3511411;
+        int actualFeet = Distance.gcd(Budapest, Istanbul, "user defined", "20925721.7847");
+        assertEquals(expectedFeet, actualFeet);
+    }
+
+    @Test
+    public void testUserDefinedDistance_Inches() {
+        Place Budapest = new Place();
+        Budapest.latitude  = "47° 29' 52\" N";
+        Budapest.longitude = "19°  2' 23\" E";
+
+        Place Istanbul = new Place();
+        Istanbul.latitude  = "41°  0' 54\" N";
+        Istanbul.longitude = "28° 58' 46\" E";
+
+        int expectedInches = 42136929;
+        int actualFeet = Distance.gcd(Budapest, Istanbul, "user defined", "251108661.4219");
+        assertEquals(expectedInches, actualFeet);
     }
 
 }

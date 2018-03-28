@@ -17,7 +17,9 @@ class Application extends Component {
         title: "My Trip",
         options: {
           distance: "miles",
-          optimization: "none"
+          optimization: "none",
+          userUnit: "",
+          userRadius: ""
         },
         places: [],
         distances: [],
