@@ -16,18 +16,6 @@ class Options extends Component {
     this.optCardHeader = <h5 className="card-header bg-info text-white">
       Options
     </h5>;
-    this.unitsButtons =
-      <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
-        <label className={this.testActiveBtn("miles")}>
-          <input type="radio" value="miles" name="distance"/> Miles
-        </label>
-        <label className={this.testActiveBtn("kilometers")}>
-          <input type="radio" value="kilometers" name="distance"/> Kilometers
-        </label>
-        <label className={this.testActiveBtn("nautical miles")}>
-          <input type="radio" value="nautical miles" name="distance"/> Nautical Miles
-        </label>
-      </div>;
   }
 
   /**
@@ -98,7 +86,17 @@ class Options extends Component {
           <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
             <div className="card-body">
               <h6 className="card-title">Unit of distance:</h6>
-              {this.unitsButtons}
+              <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
+                <label className={this.testActiveBtn("miles")}>
+                  <input type="radio" value="miles" name="distance"/> Miles
+                </label>
+                <label className={this.testActiveBtn("kilometers")}>
+                  <input type="radio" value="kilometers" name="distance"/> Kilometers
+                </label>
+                <label className={this.testActiveBtn("nautical miles")}>
+                  <input type="radio" value="nautical miles" name="distance"/> Nautical Miles
+                </label>
+              </div>
             </div>
           </div>
           <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
