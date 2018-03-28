@@ -14,8 +14,8 @@ class Options extends Component {
     this.changeOptimization = this.changeOptimization.bind(this);
     this.retrieveOptimizationString = this.retrieveOptimizationString.bind(this);
     this.optCardHeader = <h5 className="card-header bg-info text-white">
-      Options
-    </h5>;
+        Options
+      </h5>;
   }
 
   /**
@@ -69,7 +69,6 @@ class Options extends Component {
     //   console.log("3-opt");
     //   return "shortest";
     // }
-
   }
 
   /**
