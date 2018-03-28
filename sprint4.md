@@ -52,7 +52,7 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  *40*   | *0* 
+Tasks |  *17*   | *0* 
 Story Points |  *39*  | *0* 
 
 ## Daily Scrums
