@@ -14,6 +14,7 @@ class Itinerary extends Component {
   createTable() {
     let numPlaces = this.props.trip.distances.length;
     let units = this.props.trip.options.distance;
+    if (units === "user defined") units = this.props.trip.options.userUnit;
     this.setUnitsString(units);
     let distKey = 0;
     let dists = this.props.trip.distances.map((item) => <td key={distKey++}>{item}</td>);
@@ -40,14 +41,15 @@ class Itinerary extends Component {
    */
   setUnitsString(units) {
     units = units.toLowerCase();
+
     if (units === "miles") {
       this.unitsString = "Miles";
     } else if (units === "kilometers") {
       this.unitsString = "Kilometers";
     } else if (units === "nautical miles") {
       this.unitsString = "Nautical Miles";
-    } else if (units === "user defined") { //user-defined
-      this.unitsString = units;
+    } else { // user-defined
+      this.unitsString = this.props.trip.options.userUnit;
     }
   }
 

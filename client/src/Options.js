@@ -49,6 +49,7 @@ class Options extends Component {
    * Returns which optimization level the slider is currently at
    */
   retrieveOptimizationString() {
+
     if (!this.checkOptimize()) {
       //console.log("No-opt");
       return "longest";

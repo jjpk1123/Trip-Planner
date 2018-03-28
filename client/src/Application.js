@@ -58,14 +58,14 @@ class Application extends Component {
 
   /**
    * Updates the config state
-   */
+   *
   updateConfig(config) {
     this.setState({config});
   }
 
   /**
    * Sends a request file to server.
-   */
+   *
   fetchConfigResponse() {
 
     //console.log(process.env.SERVICE_URL);
@@ -78,7 +78,7 @@ class Application extends Component {
 
   /**
    * Initiates the process of calling the server (waiting) and updating config's state
-   */
+   *
   async doTheConfig() {
     try {
       //console.log("Awaiting response from server: Config");
@@ -93,7 +93,7 @@ class Application extends Component {
       console.error("You hit an error in Application.js::async doTheConfig()");
       console.error(err);
     }
-  }
+  } */
 
   /**
    * Updates trip.title
