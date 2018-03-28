@@ -14,7 +14,7 @@
 * Javadoc and unit tests for public methods.
 * Tests for database and REST APIs.
 * Coverage at least (60%) overall and for each class.
-* Keep code maintainability at an (A) average
+* Keep code maintainability at an (A) average, which means keep every individual at an (A)
 
 ## Policies
 
@@ -52,14 +52,14 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  *28*   | *0* 
-Story Points |  *36*  | *0* 
+Tasks |  *17*   | *0* 
+Story Points |  *39*  | *0* 
 
 ## Daily Scrums
 
 Date | Tasks done  | Tasks in progress | Impediments 
 :--- | :--- | :--- | :--- 
-*date* | *@task only* | *@task only* | none
+*3/27* | none | *#216 #217 #223* | none
  | | | 
  
 
