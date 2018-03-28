@@ -4,7 +4,7 @@ import Application from './Application';
 import Footer from './Footer';
 
 class App extends Component {
-  constructor (props){
+  constructor(props) {
     super(props);
     this.state = {
       number: "17",
@@ -13,13 +13,11 @@ class App extends Component {
   }
 
   render() {
-    return(
-        <div id="tripco">
-            <Header number={this.state.number} name={this.state.name}/>
-            <Application />
-            <Footer number={this.state.number} name={this.state.name}/>
-        </div>
-    );
+    return <div id="tripco">
+      <Header number={this.state.number} name={this.state.name}/>
+      <Application/>
+      <Footer number={this.state.number} name={this.state.name}/>
+    </div>
   }
 }
 

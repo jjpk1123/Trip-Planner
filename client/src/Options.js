@@ -14,8 +14,8 @@ class Options extends Component {
     this.changeOptimization = this.changeOptimization.bind(this);
     this.retrieveOptimizationString = this.retrieveOptimizationString.bind(this);
     this.optCardHeader = <h5 className="card-header bg-info text-white">
-      Options
-    </h5>;
+        Options
+      </h5>;
   }
 
   /**
@@ -49,26 +49,47 @@ class Options extends Component {
    * Returns which optimization level the slider is currently at
    */
   retrieveOptimizationString() {
-    if (this.props.optimization === "none") {
+    if (!this.checkOptimize()) {
+      //console.log("No-opt");
       return "longest";
     }
-    let opt = 1.0 / 2; //@TODO Options.checkOptimize
+    //console.log("(" + this.props.configOptimizations + ") + 1");
+    let conOpt = parseFloat(this.props.configOptimizations);
+    let opt = 1.0 / (conOpt + 1);
     let curr = parseFloat(this.props.optimization);
-    //console.log("Optimization value equals " + curr);
-    if (curr < opt) {
-      //console.log("longest");
-      return "longest";
-    } else if (curr >= opt) {
-      //console.log("shortest");
-      return "shortest";
+    if (curr >= opt) { // if (curr >= opt && curr < 2*opt) {
+      //console.log("NearestNeighbor");
+      return "shortest"; // "short"
     }
+    // else if (curr >= 2*opt && curr < 3*opt) { // when we run 2-opt, make sure to less than or ***EQUAL*** 3*opt
+    //   console.log("2-opt");
+    //   return "shorter";
+    // }
+    // else if (curr >= 3*opt && curr <= 4*opt) {
+    //   console.log("3-opt");
+    //   return "shortest";
+    // }
+  }
+
+  /**
+   * Returns true if the slider is greater than "longest".
+   * @return false = do not optimize path
+   */
+  checkOptimize() {
+    if (this.props.optimization === "none") {
+      return false;
+    }
+    let conOpt = parseFloat(this.props.configOptimizations);
+    let opt = 1.0 / (conOpt + 1);
+    let curr = parseFloat(this.props.optimization);
+    return (curr >= opt);
   }
 
   /**
    * Called when the user changes the slider "live"
    */
   changeOptimization(userOptimization) {
-    this.props.doTheConfig();
+    //this.props.doTheConfig();
     let newValue = userOptimization.target.value / 100;
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
     tempTrip.options.optimization = "" + newValue; //alters the optimization field to reflect the slider's value
