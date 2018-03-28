@@ -9,13 +9,13 @@ import React, {Component} from 'react';
 class Options extends Component {
   constructor(props) {
     super(props);
-    this.optCardHeader = <h5 className="card-header bg-info text-white">
-        Options
-      </h5>;
     this.changeUnit = this.changeUnit.bind(this);
     this.retrieveOptimizationValue = this.retrieveOptimizationValue.bind(this);
     this.changeOptimization = this.changeOptimization.bind(this);
     this.retrieveOptimizationString = this.retrieveOptimizationString.bind(this);
+    this.optCardHeader = <h5 className="card-header bg-info text-white">
+      Options
+    </h5>;
   }
 
   /**
@@ -114,6 +114,9 @@ class Options extends Component {
                 </label>
                 <label className={this.testActiveBtn("kilometers")}>
                   <input type="radio" value="kilometers" name="distance"/> Kilometers
+                </label>
+                <label className={this.testActiveBtn("nautical miles")}>
+                  <input type="radio" value="nautical miles" name="distance"/> Nautical Miles
                 </label>
               </div>
             </div>
