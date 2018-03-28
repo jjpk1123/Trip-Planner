@@ -49,22 +49,41 @@ class Options extends Component {
    * Returns which optimization level the slider is currently at
    */
   retrieveOptimizationString() {
-    //@TODO Options.checkOptimize
-    if (this.props.optimization === "none") {
+    if (!this.checkOptimize()) {
+      //console.log("No-opt");
       return "longest";
     }
-    console.log(this.props.configOptimizations);
+    //console.log("(" + this.props.configOptimizations + ") + 1");
     let conOpt = parseFloat(this.props.configOptimizations);
-    let opt = 1.0 / conOpt;
+    let opt = 1.0 / (conOpt + 1);
     let curr = parseFloat(this.props.optimization);
-    //console.log("Optimization value equals " + curr);
-    if (curr < opt) {
-      //console.log("longest");
-      return "longest";
-    } else if (curr >= opt) {
-      //console.log("shortest");
-      return "shortest";
+    if (curr >= opt) { // if (curr >= opt && curr < 2*opt) {
+      //console.log("NearestNeighbor");
+      return "shortest"; // "short"
     }
+    // else if (curr >= 2*opt && curr < 3*opt) { // when we run 2-opt, make sure to less than or ***EQUAL*** 3*opt
+    //   console.log("2-opt");
+    //   return "shorter";
+    // }
+    // else if (curr >= 3*opt && curr <= 4*opt) {
+    //   console.log("3-opt");
+    //   return "shortest";
+    // }
+
+  }
+
+  /**
+   * Returns true if the slider is greater than "longest".
+   * @return false = do not optimize path
+   */
+  checkOptimize() {
+    if (this.props.optimization === "none") {
+      return false;
+    }
+    let conOpt = parseFloat(this.props.configOptimizations);
+    let opt = 1.0 / (conOpt + 1);
+    let curr = parseFloat(this.props.optimization);
+    return (curr >= opt);
   }
 
   /**
@@ -105,7 +124,7 @@ class Options extends Component {
                 <div>
                   <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
                          value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
-                  <h6>Length: <b><big>{this.retrieveOptimizationString()}</big></b></h6>
+                  <h6>Length: <b>{this.retrieveOptimizationString()}</b></h6>
                 </div>
             </div>
           </div>
