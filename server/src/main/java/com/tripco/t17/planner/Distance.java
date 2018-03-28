@@ -13,14 +13,14 @@ public class Distance {
      * @param unit either kilometers or miles.
      * @return distance.
      */
-    public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit) {
+    public static ArrayList<Integer> legDistances(ArrayList<Place> places, String unit, String userRadius) {
         int size = places.size();
         ArrayList<Integer> distance = new ArrayList<>();
 
         for (int i=0; i < size; ++i) {
             distance.add(gcd(places.get(i),
                     places.get((i + 1) % size),
-                    unit));
+                    unit, userRadius));
         }
         return distance;
     }
@@ -31,7 +31,7 @@ public class Distance {
      * @param unit    calculation of radius, km or miles.
      * @return result  the distance between source and dest represented in unit.
      */
-    public static int gcd(Place source, Place dest, String unit) {
+    public static int gcd(Place source, Place dest, String unit, String userRadius) {
         //0. Validate input
         if (invalidPlace(source)){
             System.out.println("Bad source");
@@ -60,7 +60,7 @@ public class Distance {
         double centralAngle = centralAngle(chordLength);
 
         //5. Find greatest circle distance depending on unit
-        double distance = gcdHelper(centralAngle, unit);
+        double distance = gcdHelper(centralAngle, unit, userRadius);
 
         //6. Round and return
         return Math.toIntExact(Math.round(distance));
@@ -135,18 +135,20 @@ public class Distance {
      * @param unit either kilometers or miles.
      * @return distance based on unit.
      */
-    private static double gcdHelper(double centralAngle, String unit){
+    private static double gcdHelper(double centralAngle, String unit, String userRadius){
+        double radius = 0.0;
         if (unit.equals("miles")) {
-            return centralAngle * 3958.7613;
+            radius = 3958.7613;
         } else if (unit.equals("kilometers")) {
-            return centralAngle * 6371.0088;
+            radius = 6371.0088;
         }
         else if (unit.equals("nautical miles")) {
-            return centralAngle * 3440.0695;
+            radius = 3440.0695;
         }
-        else {
-            return centralAngle;
+        else if (unit.equals("user defined")) {
+            radius = Double.parseDouble(userRadius);
         }
+        return centralAngle * radius;
     }
 
     /**

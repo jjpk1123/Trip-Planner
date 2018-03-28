@@ -70,12 +70,12 @@ class Destinations extends Component {
 
     this.validateTitle();//If title is undefined, set title to default -- "My Trip"
 
-    this.validateOptions();//If options is undefined, set options to default -- "miles", "none"
-
+    if (this.validateOptions() === false) {//If options is undefined, set options to default -- "miles", "none"
+      return false;//User failed to include a usable userRadius
+    }
     if (this.validatePlaces() === false) {
       return false;//If places (doesn't exist || length<1), fail
     }
-
     if (this.validateIndividualPlaces() === false) {
       return false;//If not all places in file contain valid fields, fail
     }
@@ -141,6 +141,10 @@ class Destinations extends Component {
     else {
       this.checkOptimizationValidity();
     }
+
+    if (this.validateOptionsDistance() === false) {
+      return false;
+    }
   }
 
   /**
@@ -150,10 +154,8 @@ class Destinations extends Component {
     console.log("options field not provided");
     console.log("defaulting to {\"distance\": \"miles\", \"optimization\": \"0\"}");
     this.myObj.options = (this.myObj.version === 1) ?
-
         {"distance": "miles", "optimization": "none"}   //if v1: "none"
         : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
-    
   }
 
   /**
@@ -178,6 +180,40 @@ class Destinations extends Component {
     else if (parseFloat(this.myObj.options.optimization) > 1.0) {
       this.changeOptimization("1.0", "options.optimization string > 1.0; defaulting to \"none|1\"");
     }
+  }
+
+  /**
+   * Makes sure the unit of distance is all lowercase.
+   * If the user selected the "user defined" unit of distance, this makes sure there is a name
+   * and a viable double for the radius.
+   * @return false = Non-parsable userRadius
+   */
+  validateOptionsDistance() {
+    this.myObj.options.distance = (this.myObj.options.distance).toLowerCase();
+
+    if (this.myObj.options.distance === "user defined") {
+      if (this.myObj.options.userUnit === "" || this.myObj.options.userUnit === undefined) {
+        //console.log("Custom unit selected, but user did not identify a name for the unit");
+        console.log("No Unit name provided; defaulting to 'My Custom Unit'");
+        this.myObj.options.userUnit = "My Custom Unit";
+      }
+      if (this.myObj.options.userRadius === "" || this.myObj.options.userRadius === undefined) {
+        console.log("User-defined radius not provided; Failure.");
+        alert("You need to include a radius if you're going to measure by user-defined unit!");
+        return false;
+      }
+      if (isNaN(Number(this.myObj.options.userRadius))) {
+        console.log("User-defined radius is not a number; Failure.");
+        alert("You need to include a valid user radius number if you're going to measure by user-defined unit!");
+        return false;
+      }
+      if (Number(this.myObj.options.userRadius) <= 0) {
+        console.log("User-defined radius is <= 0; Failure.");
+        alert("You need to include a Non-Negative & Non-Zero user radius number if you're going to measure by user-defined unit!");
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

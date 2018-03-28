@@ -50,7 +50,7 @@ public class Optimize {
             //3. If unvisited is not empty, go to step 2
             while (!unvisited.isEmpty()) {
                 int nearestIndex = findNearest(temp.get(temp.size() - 1), unvisited);
-                distance += Distance.gcd(temp.get(temp.size() - 1), unvisited.get(nearestIndex) ,"miles");
+                distance += Distance.gcd(temp.get(temp.size() - 1), unvisited.get(nearestIndex) ,"miles", "");
                 temp.add(unvisited.remove(nearestIndex));
             }
             //4. If new plan is shortest, keep it!
@@ -75,7 +75,7 @@ public class Optimize {
 
         //Go through places, get GCD of each, return index of shortest
         for (int i = 0 ; i < places.size() ; i++){
-            int distance = Distance.gcd(start, places.get(i), "miles");
+            int distance = Distance.gcd(start, places.get(i), "miles", "");
             if (distance < shortestDistance){   //If equal distance, favors previous nearest
                 shortestDistance = distance;    //New shortest distance
                 nearest = i;                    //New index to return
