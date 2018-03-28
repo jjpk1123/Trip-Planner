@@ -257,7 +257,7 @@ class Destinations extends Component {
     // Id/Name Check
     if (!Destinations.checkIfStringExists(place.longitude) || !Destinations.checkIfStringExists(place.name) ||
         !Destinations.checkIfStringExists(place.latitude)  || !Destinations.checkIfStringExists(place.id)) {
-      alert("You seem to be missing an ID for one or more of your places!");
+      alert("You seem to be missing a required field for one or more of your places!");
       retBool = false;
     }
     return retBool;

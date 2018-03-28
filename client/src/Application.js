@@ -36,6 +36,7 @@ class Application extends Component {
         optimization: 0
       }
     };
+    this.doTheConfig();
     this.updateTrip = this.updateTrip.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
@@ -86,6 +87,7 @@ class Application extends Component {
 
       //console.log(configTFFI);
       this.updateConfig(configTFFI);
+      console.log("Config: {v" + this.state.config.version + ", opt:" + this.state.config.optimization + "}");
       //console.log("Application.js::async doTheConfig(): fetchConfigResponse is done");
     } catch(err) {
       console.error("You hit an error in Application.js::async doTheConfig()");
