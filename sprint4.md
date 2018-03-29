@@ -52,14 +52,15 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  *17*   | *0* 
-Story Points |  *39*  | *0* 
+Tasks |  *17*   | *2* 
+Story Points |  *39*  | *4* 
 
 ## Daily Scrums
 
 Date | Tasks done  | Tasks in progress | Impediments 
 :--- | :--- | :--- | :--- 
 *3/27* | none | *#216 #217 #223* | none
+*3/29* | *#216 #217* | *#223 #226 #220 #221 #236* | none
  | | | 
  
 
