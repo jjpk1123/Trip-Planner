@@ -93,6 +93,7 @@ class Options extends Component {
     //   return "shortest";
     // }
   }
+
   /**
    * Returns true if the slider is greater than "longest".
    * @return false = do not optimize path

@@ -36,7 +36,7 @@ class Application extends Component {
         optimization: 0
       }
     };
-    this.doTheConfig();
+    this.doTheConfig = this.doTheConfig.bind(this);
     this.updateTrip = this.updateTrip.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
@@ -58,14 +58,14 @@ class Application extends Component {
 
   /**
    * Updates the config state
-   *
+   */
   updateConfig(config) {
     this.setState({config});
   }
 
   /**
    * Sends a request file to server.
-   *
+   */
   fetchConfigResponse() {
 
     //console.log(process.env.SERVICE_URL);
@@ -78,7 +78,7 @@ class Application extends Component {
 
   /**
    * Initiates the process of calling the server (waiting) and updating config's state
-   *
+   */
   async doTheConfig() {
     try {
       //console.log("Awaiting response from server: Config");
@@ -93,7 +93,7 @@ class Application extends Component {
       console.error("You hit an error in Application.js::async doTheConfig()");
       console.error(err);
     }
-  } */
+  }
 
   /**
    * Updates trip.title
@@ -113,7 +113,8 @@ class Application extends Component {
                         query={this.state.query}
                         places={this.state.trip.places}
                         updateTrip={this.updateTrip}
-                        updateQuery={this.updateQuery}/>
+                        updateQuery={this.updateQuery}
+                        doTheConfig={this.doTheConfig}/>
         </div>
         <div className="col-lg-5 col-xl-5">
           <Options trip={this.state.trip}

@@ -24,7 +24,7 @@ class Destinations extends Component {
    * If a some fields do not exist, it creates default values for those fields.
    */
   loadTFFI(event) {
-    //this.props.doTheConfig();
+    this.props.doTheConfig();
     //Read the file
     let file = event.target.files[0];
     let reader = new FileReader();
@@ -156,6 +156,7 @@ class Destinations extends Component {
     this.myObj.options = (this.myObj.version === 1) ?
         {"distance": "miles", "optimization": "none"}   //if v1: "none"
         : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
+
   }
 
   /**
