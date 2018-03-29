@@ -43,7 +43,8 @@ public class Trip {
                 this.places = Optimize.nearestNeighbor(this.places);
                 this.places = Optimize.changeStart(this.places, this.places.indexOf(start));
             }
-            //else if ((numOptimization >= 2*optBreak) && (numOptimization <= 3*optBreak)) { //use this one for 2 opt
+            //else if ((numOptimization >= 2*optBreak) && (numOptimization <= 3*optBreak)) {
+            // use ^^this^^ one for 2 opt, but save the bottom one for when we get to 3-opt
             //else if ((numOptimization >= 2*optBreak) && (numOptimization < 3*optBreak)) {
             //  System.out.println("Computing 2-opt");
             //  this.places = Optimize.twoOpt(this.places)
