@@ -109,6 +109,20 @@ class Options extends Component {
   }
 
   /**
+   * Returns true if the slider is greater than "longest".
+   * @return false = do not optimize path
+   */
+  checkOptimize() {
+    if (this.props.optimization === "none") {
+      return false;
+    }
+    let conOpt = parseFloat(this.props.configOptimizations);
+    let opt = 1.0 / (conOpt + 1);
+    let curr = parseFloat(this.props.optimization);
+    return (curr >= opt);
+  }
+
+  /**
    * Called when the user changes the slider "live".
    */
   changeOptimization(userOptimization) {

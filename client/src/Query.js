@@ -51,8 +51,8 @@ class Query extends Component {
       console.log("Appending [" + event.target.value + "] to end of trip");
 
       for (let i = 0; i < this.props.query.places.length; ++i) {
-        console.log(this.props.query.places[i].id);
-        if ((this.props.query.places[i].id) === (event.target.value)) {
+        console.log("Adding " + this.props.query.places[i].id + " to trip.");
+        if (this.props.query.places[i].id === event.target.value) {
           let tempTrip = this.props.trip;
           let tempArray = tempTrip.places;
           let newPlace = this.props.query.places[i];
@@ -64,7 +64,6 @@ class Query extends Component {
         }
       }
     }
-    //else remove? (because they unchecked it
   }
 
   createTable() {
