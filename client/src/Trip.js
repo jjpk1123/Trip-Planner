@@ -14,6 +14,7 @@ class Trip extends Component {
     this.plan = this.plan.bind(this);
     this.saveTFFI = this.saveTFFI.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
+    this.reverseTrip = this.reverseTrip.bind(this);
     this.tripCardHeader = <h5 className="card-header bg-info text-white">
         Trip
       </h5>;
@@ -80,6 +81,27 @@ class Trip extends Component {
   }
 
   /**
+   * Reverses the trip.places && trip.distances array on the client.
+   */
+  reverseTrip(event) {
+    let tempTrip = this.props.trip;
+    //reversePlaces
+    let tempPlaces = [];
+    for (let p = (tempTrip.places).length; p >= 0; --p) {
+      tempPlaces.push(tempTrip.places[p]);
+    }
+    tempTrip.places = tempPlaces;
+
+    //reverseDestinations
+    let tempDistances = [];
+    for (let d = (tempTrip.distances).length; d >= 0; --d) {
+      tempDistances.push(tempTrip.distances[d]);
+    }
+    tempTrip.distances = tempDistances;
+    this.props.updateTrip(tempTrip);
+  }
+
+  /**
    * Renders the buttons, map, and itinerary.
    * The title should be specified before the plan or save buttons are valid.
    */
@@ -97,6 +119,13 @@ class Trip extends Component {
 
           <span className="input-group-btn">
             <button className="btn btn-primary" onClick={this.saveTFFI} type="button">Save</button>
+          </span>
+        </div>
+      </div>
+      <div className="card-body">
+        <div className="input-group" role="group">
+          <span className="input-group-btn">
+            <button className="btn btn-primary" onClick={this.reverseTrip} type="button">Reverse Trip</button>
           </span>
         </div>
       </div>
