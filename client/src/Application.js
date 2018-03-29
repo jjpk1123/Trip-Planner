@@ -13,8 +13,8 @@ class Application extends Component {
     this.state = {
       trip: { //trip TFFI
         version: 1,
-        type: "trip",
-        title: "My Trip",
+        type: "",
+        title: "",
         options: {
           distance: "miles",
           optimization: "none",
@@ -26,7 +26,7 @@ class Application extends Component {
         map: "<svg width=\"1920\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><g></g></svg>"
       },
       query: { //query TFFI
-        type: "query",
+        type: "",
         query: "",
         places: []
       },
