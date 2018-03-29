@@ -83,18 +83,23 @@ class Trip extends Component {
   /**
    * Reverses the trip.places && trip.distances array on the client.
    */
-  reverseTrip(event) {
+  reverseTrip() {
     let tempTrip = this.props.trip;
+    let size = (this.props.trip.places).length;
     //reversePlaces
     let tempPlaces = [];
-    for (let p = (tempTrip.places).length; p >= 0; --p) {
-      tempPlaces.push(tempTrip.places[p]);
+    for (let p = (size)-1; p >= 0; --p) {
+      tempPlaces.push(this.props.trip.places[p]);
     }
+    // for (let i = 0; i < size; ++i) {
+    //   console.log(tempPlaces[i]);
+    // }
+    // console.log((tempPlaces).length);
     tempTrip.places = tempPlaces;
 
     //reverseDestinations
     let tempDistances = [];
-    for (let d = (tempTrip.distances).length; d >= 0; --d) {
+    for (let d = (size)-1; d >= 0; --d) {
       tempDistances.push(tempTrip.distances[d]);
     }
     tempTrip.distances = tempDistances;
