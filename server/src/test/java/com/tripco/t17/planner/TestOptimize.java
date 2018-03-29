@@ -28,9 +28,9 @@ public class TestOptimize {
   }
 
   @Test
-  public void testTrue() {
-    // assertTrue checks if a statement is true
-    assertTrue(true == true);
+  public void testMakeOptimize() {
+    Optimize o = new Optimize();
+    //That's it...
   }
 
 

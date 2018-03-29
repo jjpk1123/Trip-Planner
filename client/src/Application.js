@@ -76,7 +76,7 @@ class Application extends Component {
 
       //console.log(configTFFI);
       this.setState({config});
-      console.log("Config: {v" + this.state.config.version + ", opt:" + this.state.config.optimization + "}");
+      console.log("Config=={v" + this.state.config.version + ", opt:" + this.state.config.optimization + "}");
       //console.log("Application.js::async doTheConfig(): fetchConfigResponse is done");
     } catch(err) {
       console.error("You hit an error in Application.js::async doTheConfig()");
