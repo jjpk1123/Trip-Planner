@@ -105,6 +105,7 @@ class Options extends Component {
     let conOpt = parseFloat(this.props.configOptimizations);
     let opt = 1.0 / (conOpt + 1);
     let curr = parseFloat(this.props.optimization);
+    console.log(curr + " " + opt);
     return (curr >= opt);
   }
 
@@ -112,7 +113,6 @@ class Options extends Component {
    * Called when the user changes the slider "live".
    */
   changeOptimization(userOptimization) {
-    //this.props.doTheConfig();
     let newValue = userOptimization.target.value / 100;
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
     tempTrip.options.optimization = "" + newValue; //alters the optimization field to reflect the slider's value
