@@ -36,7 +36,7 @@ class Application extends Component {
         optimization: 0
       }
     };
-    this.doTheConfig();
+    this.doTheConfig = this.doTheConfig.bind(this);
     this.updateTrip = this.updateTrip.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
