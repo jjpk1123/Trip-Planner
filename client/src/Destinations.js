@@ -24,7 +24,6 @@ class Destinations extends Component {
    * If a some fields do not exist, it creates default values for those fields.
    */
   loadTFFI(event) {
-    this.props.doTheConfig();
     //Read the file
     let file = event.target.files[0];
     let reader = new FileReader();
