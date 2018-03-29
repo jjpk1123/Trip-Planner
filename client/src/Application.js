@@ -106,21 +106,21 @@ class Application extends Component {
   }
 
   render() {
-    return <div id="application" className="container">
+    return <div id="application" className="cardBody">
       <div className="row">
-        <div className="col-12">
-          <Options trip={this.state.trip}
-                   distance={this.state.trip.options.distance}
-                   optimization={this.state.trip.options.optimization}
-                   configOptimizations={this.state.config.optimization}
-                   updateTrip={this.updateTrip}/>
-        </div>
-        <div className="col-12">
+        <div className="col-lg-7 col-xl-7">
           <Destinations trip={this.state.trip}
                         query={this.state.query}
                         places={this.state.trip.places}
                         updateTrip={this.updateTrip}
                         updateQuery={this.updateQuery}/>
+        </div>
+        <div className="col-lg-5 col-xl-5">
+          <Options trip={this.state.trip}
+                   distance={this.state.trip.options.distance}
+                   optimization={this.state.trip.options.optimization}
+                   updateTrip={this.updateTrip}
+                   doTheConfig={this.doTheConfig}/>
         </div>
         <div className="col-12">
           <Trip trip={this.state.trip}

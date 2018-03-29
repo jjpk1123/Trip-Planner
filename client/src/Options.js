@@ -6,6 +6,27 @@ import React, {Component} from 'react';
  * The options reside in the parent object so they may be shared with the Trip object.
  * Allows the user to set the options used by the application via a set of buttons.
  */
+
+function CustomUnits(props){
+  const usingCustomUnits = props.customUnits;
+  if (usingCustomUnits){
+    return <p>true</p>;
+  }
+  else{
+    return <p>false</p>;
+
+  }
+}
+
+
+function UseCustom(props){
+  props.customUnits = true;
+}
+
+function CustomUnitForm(props){
+
+}
+
 class Options extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +34,7 @@ class Options extends Component {
     this.retrieveOptimizationValue = this.retrieveOptimizationValue.bind(this);
     this.changeOptimization = this.changeOptimization.bind(this);
     this.retrieveOptimizationString = this.retrieveOptimizationString.bind(this);
+    this.customUnits = false;
     this.optCardHeader = <h5 className="card-header bg-info text-white">
         Options
       </h5>;
@@ -24,6 +46,7 @@ class Options extends Component {
    */
   changeUnit(userUnit) { // Changes the parent's (Application.js) options
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
+    //if(userUnit.target.value == "custom"){ this.customUnits = true;}
     tempTrip.options.distance = userUnit.target.value; //alters the distance field to reflect the newly-selected unit
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
   }
@@ -49,7 +72,6 @@ class Options extends Component {
    * Returns which optimization level the slider is currently at
    */
   retrieveOptimizationString() {
-
     if (!this.checkOptimize()) {
       //console.log("No-opt");
       return "longest";
@@ -71,7 +93,6 @@ class Options extends Component {
     //   return "shortest";
     // }
   }
-
   /**
    * Returns true if the slider is greater than "longest".
    * @return false = do not optimize path
@@ -87,7 +108,7 @@ class Options extends Component {
   }
 
   /**
-   * Called when the user changes the slider "live"
+   * Called when the user changes the slider "live".
    */
   changeOptimization(userOptimization) {
     //this.props.doTheConfig();
@@ -104,8 +125,9 @@ class Options extends Component {
       {this.optCardHeader}
       <div className="card-body">
         <h6>Select the desired:</h6>
+
         <div className="row">
-          <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+          <div className="col">
             <div className="card-body">
               <h6 className="card-title">Unit of distance:</h6>
               <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
@@ -118,12 +140,19 @@ class Options extends Component {
                 <label className={this.testActiveBtn("nautical miles")}>
                   <input type="radio" value="nautical miles" name="distance"/> Nautical Miles
                 </label>
+              <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={UseCustom}>
+                <label className={this.testActiveBtn("custom")}>
+                  <input type="radio" value="custom" name="distance"/> Custom
+                </label>
               </div>
+              </div>
+              <CustomUnits/>
             </div>
           </div>
-          <div className="col-xs-2 col-sm-6 col-md-8 col-lg-8 col-xl-8">
-              <div className="card-body">
-                <h6 className="card-title">Round-Trip length:</h6>
+
+          <div className="col">
+            <div className="card-body">
+              <h6 className="card-title">Round-Trip length:</h6>
                 <div>
                   <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
                          value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
@@ -131,7 +160,9 @@ class Options extends Component {
                 </div>
             </div>
           </div>
+
         </div>
+
       </div>
     </div>
   }
