@@ -16,19 +16,9 @@ public class ConfigHelper {
 
     /**
      * Preps the config fields with  before sending the Json to the client.
-     * @param request = the client's json
      */
-    public ConfigHelper(Request request) {
-        // first print the request
-        //System.out.println(HTTP.echoRequest(request));
-
-        // extract the information from the body of the request.
-        JsonParser jsonParser = new JsonParser();
-        JsonElement requestBody = jsonParser.parse(request.body());
-
-        // convert the body of the request to a Java class.
-        Gson gson = new Gson();
-        config = gson.fromJson(requestBody, Config.class);
+    public ConfigHelper() {
+        config = new Config();
 
         // retrieve version and optimization
         config.retrieveValues();

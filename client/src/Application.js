@@ -17,7 +17,9 @@ class Application extends Component {
         title: "My Trip",
         options: {
           distance: "miles",
-          optimization: "none"
+          optimization: "none",
+          userUnit: "",
+          userRadius: ""
         },
         places: [],
         distances: [],
@@ -109,9 +111,9 @@ class Application extends Component {
   }
 
   render() {
-    return <div id="application" className = "card-body">
+    return <div id="application" className="cardBody">
       <div className="row">
-        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-8">
+        <div className="col-lg-7 col-xl-7">
           <Destinations trip={this.state.trip}
                         query={this.state.query}
                         places={this.state.trip.places}
@@ -119,7 +121,7 @@ class Application extends Component {
                         updateQuery={this.updateQuery}
                         doTheConfig={this.doTheConfig}/>
         </div>
-        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-4">
+        <div className="col-lg-5 col-xl-5">
           <Options trip={this.state.trip}
                    distance={this.state.trip.options.distance}
                    optimization={this.state.trip.options.optimization}
