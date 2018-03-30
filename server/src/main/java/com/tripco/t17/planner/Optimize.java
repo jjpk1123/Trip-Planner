@@ -54,32 +54,32 @@ public class Optimize {
      * @return the TOTAL DISTANCE of the best trip.
      */
     public static int nearestNeighborHelper(int start, int [] placesArray, int [][] distanceTable){
-        //1. Swap the start position to the beginning of placesArray.
+        //1. Swap the start value to the beginning of placesArray.
         int startIndex = indexOf(placesArray, start);
         swap(placesArray, 0, startIndex);
         int distance = 0;
 
         //2. Find the nearest in the subArray[start+1, length].
         for (int i = 0 ; i < placesArray.length ; i++){
-            int smallest = 9999999;
+            int nearest = 9999999;
             int swapper = i+1;
+
             //Find the nearest unvisited place.
             for (int j = i+1 ; j < placesArray.length ; j++){
                 int temp = distanceTable[placesArray[i]][placesArray[j]];
-                if (temp < smallest){
-                    smallest = temp;
+                if (temp < nearest){
+                    nearest = temp;
                     swapper = j;
                 }
             }
 
-
             //If we are at the end of the line
             if (i == placesArray.length - 1) {
-                smallest = distanceTable[placesArray[i]][start];
+                nearest = distanceTable[placesArray[i]][start];
             } else if (swapper < placesArray.length){
                 swap(placesArray, i+1, swapper);
             }
-            distance += smallest;
+            distance += nearest;
         }
 
         return distance;
@@ -150,10 +150,6 @@ public class Optimize {
         }
 
         return distanceTable;
-    }
-
-    public static int [] buildDistanceTableHelper(ArrayList<Place> places, int currentIndex){
-        return new int [1];
     }
 
     /**
