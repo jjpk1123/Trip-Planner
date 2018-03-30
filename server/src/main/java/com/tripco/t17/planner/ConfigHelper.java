@@ -24,8 +24,8 @@ public class ConfigHelper {
         config.retrieveValues();
 
         // log something
-        //System.out.println("[Config] responded with "
-        //        + "{v" + config.version + ", opt:" + config.optimization + "}");
+        System.out.println("[Config] responded with "
+                + "{v" + config.version + ", opt:" + config.optimization + "}");
     }
 
     /**
