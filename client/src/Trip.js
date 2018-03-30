@@ -92,9 +92,6 @@ class Trip extends Component {
     for (let p = (size)-1; p >= 0; --p) {
       tempPlaces.push(this.props.trip.places[p]);
     }
-    for (let i = 0; i < size; ++i) {
-      console.log(tempPlaces[i]);
-    }
     tempTrip.places = tempPlaces;
 
     //reverseDestinations
@@ -103,9 +100,6 @@ class Trip extends Component {
       tempDistances.push(tempTrip.distances[d]);
     }
     tempDistances.push(tempTrip.distances[size-1]);
-    for (let i = 0; i < size; ++i) {
-      console.log(tempDistances[i]);
-    }
     tempTrip.distances = tempDistances;
     this.props.updateTrip(tempTrip);
   }
