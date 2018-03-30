@@ -105,7 +105,7 @@ class Options extends Component {
     let conOpt = parseFloat(this.props.configOptimizations);
     let opt = 1.0 / (conOpt + 1);
     let curr = parseFloat(this.props.optimization);
-    console.log(curr + " " + opt);
+    //console.log(curr + " " + opt); // debug the string
     return (curr >= opt);
   }
 

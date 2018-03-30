@@ -13,10 +13,10 @@ class Destinations extends Component {
   constructor(props) {
     super(props);
     this.myObj = "";
+    this.loadTFFI = this.loadTFFI.bind(this);
     this.destCardHeader = <h5 className="card-header bg-info text-white">
         Destinations
       </h5>;
-    this.loadTFFI = this.loadTFFI.bind(this);
   }
 
   /**

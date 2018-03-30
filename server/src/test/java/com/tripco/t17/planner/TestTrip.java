@@ -27,12 +27,6 @@ public class TestTrip {
     trip.options.optimization = "0";
   }
 
-  @Test
-  public void testTrue() {
-    // assertTrue checks if a statement is true
-    assertTrue(true == true);
-  }
-
   /**
    * legDistances Test Block
    */
@@ -156,6 +150,43 @@ public class TestTrip {
     Collections.addAll(expectedDistances, 39, 65, 94);
     trip.plan();
     assertEquals(expectedDistances, trip.distances);
+  }
+
+  @Test
+  public void testOptimizeOfTrip() {
+      Place Telluride = new Place();
+      Telluride.latitude    = "37°  56' 11 N";
+      Telluride.longitude   = "108° 50' 46 W";
+
+      Place Monarch = new Place();
+      Monarch.latitude      = "38 ° 30' 48 N";
+      Monarch.longitude     = "105° 19' 57 W";
+
+      Place Silverton = new Place();
+      Silverton.latitude    = "39°  53' 1  N";
+      Silverton.longitude   = "107° 40' 2  W";
+
+      Place Purgatory = new Place();
+      Purgatory.latitude    = "37°  37' 49 N";
+      Purgatory.longitude   = "107° 48' 52 W";
+
+      trip.places.add(Telluride);
+      trip.places.add(Monarch);
+      trip.places.add(Silverton);
+      trip.places.add(Purgatory);
+
+      // No opt
+      ArrayList<Integer> expectedDistances = new ArrayList<>();
+      Collections.addAll(expectedDistances, 195, 158, 157, 61);
+      trip.plan();
+      assertEquals(expectedDistances, trip.distances);
+
+      // With NN
+      trip.options.optimization = "0.5";
+      ArrayList<Integer> expectedOptimizedDistances = new ArrayList<>();
+      Collections.addAll(expectedOptimizedDistances, 149, 158, 148, 61);
+      trip.plan();
+      assertEquals(expectedOptimizedDistances, trip.distances);
   }
 
 

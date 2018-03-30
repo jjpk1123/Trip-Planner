@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,11 +22,10 @@ public class TestDistance {
     }
 
     @Test
-    public void testTrue() {
-        // assertTrue checks if a statement is true
-        assertTrue(true == true);
+    public void testInitDistance() {
+        Distance d = new Distance();
+        //That's it...
     }
-
 
     /**
      * DmsToDegrees Test Block
@@ -253,8 +253,69 @@ public class TestDistance {
         Istanbul.longitude = "28° 58' 46\" E";
 
         int expectedInches = 42136929;
-        int actualFeet = Distance.gcd(Budapest, Istanbul, "user defined", "251108661.4219");
-        assertEquals(expectedInches, actualFeet);
+        int actualInches = Distance.gcd(Budapest, Istanbul, "user defined", "251108661.4219");
+        assertEquals(expectedInches, actualInches);
     }
 
+    @Test
+    public void testInvalidPlace() {
+        Place Incorrect = new Place();
+        Incorrect.latitude  = "Bad Source";
+        Incorrect.longitude = "0° 0' 0\" E";
+
+        Place Correct = new Place();
+        Correct.latitude  = "2° 3' 4\" N";
+        Correct.longitude = "2° 3' 4\" E";
+
+        Place Compare = new Place();
+        Compare.latitude  = "10° 3' 4\" N";
+        Compare.longitude = "10° 3' 4\" N";
+
+        int negOne = Distance.gcd(Incorrect, Correct, "miles", "");
+        assertEquals(-1, negOne);
+
+        Incorrect.latitude = "Bad Dest";
+        int negTwo = Distance.gcd(Correct, Incorrect, "miles", "");
+        assertEquals(-2, negTwo);
+
+        int expectedNM = 677;
+        int actualNM = Distance.gcd(Correct, Compare, "nautical miles", "");
+        assertEquals(expectedNM, actualNM);
+
+        actualNM = Distance.gcd(Correct, Compare, "nautical miles", "");
+
+        assertEquals(expectedNM, actualNM);
+    }
+
+    @Test
+    public void testLegDistances() {
+        Place Telluride = new Place();
+        Telluride.latitude    = "37°  56' 11 N";
+        Telluride.longitude   = "108° 50' 46 W";
+
+        Place Monarch = new Place();
+        Monarch.latitude      = "38 ° 30' 48 N";
+        Monarch.longitude     = "105° 19' 57 W";
+
+        Place Silverton = new Place();
+        Silverton.latitude    = "39°  53' 1  N";
+        Silverton.longitude   = "107° 40' 2  W";
+
+        Place Purgatory = new Place();
+        Purgatory.latitude    = "37°  37' 49 N";
+        Purgatory.longitude   = "107° 48' 52 W";
+
+        trip.places.add(Telluride);
+        trip.places.add(Monarch);
+        trip.places.add(Silverton);
+        trip.places.add(Purgatory);
+
+        trip.options.optimization= "0.5";
+        trip.plan();
+
+        ArrayList<Integer> expectedDistances = new ArrayList<>();
+        Collections.addAll(expectedDistances, 149, 158, 148, 61);
+        ArrayList<Integer> actualDistances = Distance.legDistances(trip.places, trip.options.distance, "");
+        assertEquals(expectedDistances, actualDistances);
+    }
 }
