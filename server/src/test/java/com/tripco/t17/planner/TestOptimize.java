@@ -117,7 +117,6 @@ public class TestOptimize {
     assertEquals(places, Optimize.nearestNeighbor(trip.places));
   }
 
-  /*
   @Test
   public void testNearestNeighborReorder1() {
     Place A = new Place();
@@ -187,7 +186,6 @@ public class TestOptimize {
 
     assertEquals(places, Optimize.nearestNeighbor(trip.places));
   }
-  */
 
   @Test
   public void testNearestNeighborOnePlace(){
@@ -426,7 +424,7 @@ public class TestOptimize {
 
   @Test
   public void testBuildPlacesArrayNormalUse(){
-    int hello [] = Optimize.buildPlacesArray(5);
+    int [] hello = Optimize.buildPlacesArray(5);
     for (int i = 0 ; i < hello.length ; i++){
       assertEquals(i, hello[i]);
 
@@ -461,7 +459,7 @@ public class TestOptimize {
     places.add(C);
     places.add(D);
 
-    int actual [][] = Optimize.buildDistanceTable(places);
+    int [][] actual = Optimize.buildDistanceTable(places);
     for (int i = 0 ; i < places.size() ; i++){
       assertEquals(0, actual[i][i]);
     }
@@ -476,7 +474,7 @@ public class TestOptimize {
     ArrayList<Place> places = new ArrayList<>();
     places.add(A);
 
-    int actual [][] = Optimize.buildDistanceTable(places);
+    int [][] actual = Optimize.buildDistanceTable(places);
     assertEquals(0, actual[0][0]);
   }
 
@@ -504,7 +502,7 @@ public class TestOptimize {
     places.add(C);
     places.add(D);
 
-    int actual [][] = Optimize.buildDistanceTable(places);
+    int [][] actual = Optimize.buildDistanceTable(places);
     for (int i = 0 ; i < places.size() ; i++){
       for (int j = 0 ; j < places.size() ; j++) {
         assertEquals(actual[i][j], actual[j][i]);
@@ -526,7 +524,7 @@ public class TestOptimize {
     places.add(A);
     places.add(B);
 
-    int actual [][] = Optimize.buildDistanceTable(places);
+    int [][] actual = Optimize.buildDistanceTable(places);
     assertEquals(Distance.gcd(A, B, "miles", ""), actual[0][1]);
     assertEquals(Distance.gcd(A, B, "miles", ""), actual[1][0]);
     assertEquals(Distance.gcd(B, A, "miles", ""), actual[0][1]);
@@ -566,7 +564,7 @@ public class TestOptimize {
    */
   @Test
   public void testSwapSimple(){
-    int myArray [] = new int [2];
+    int [] myArray = new int [2];
     myArray[0] = 3;
     myArray[1] = 5;
     Optimize.swap(myArray, 0, 1);
@@ -588,11 +586,11 @@ public class TestOptimize {
     int start = 0;
 
     // [0, 1]
-    int placesArray [] = Optimize.buildPlacesArray(2);
+    int [] placesArray = Optimize.buildPlacesArray(2);
 
     /* [0, 1]
        [1, 0] */
-    int distanceTable [][] = new int [2][2];
+    int [][] distanceTable = new int [2][2];
 
     //Diagonal
     distanceTable[0][0] = 0;
@@ -610,12 +608,12 @@ public class TestOptimize {
     int start = 0;
 
     // [0, 1, 2, 3]
-    int placesArray [] = Optimize.buildPlacesArray(3);
+    int [] placesArray = Optimize.buildPlacesArray(3);
 
     /* [0, 3, 4]
        [3, 0, 5]
        [4, 5, 0] */
-    int distanceTable [][] = new int [3][3];
+    int [][] distanceTable = new int [3][3];
 
     //Diagonal
     distanceTable[0][0] = 0;
@@ -640,13 +638,13 @@ public class TestOptimize {
     int start = 0;
 
     // [0, 1, 2, 3]
-    int placesArray [] = Optimize.buildPlacesArray(4);
+    int [] placesArray = Optimize.buildPlacesArray(4);
 
     /* [0, 3, 2, 1]
        [3, 0, 1, 5]
        [2, 1, 0, 4]
        [1, 5, 4, 0] */
-    int distanceTable [][] = new int [4][4];
+    int [][] distanceTable = new int [4][4];
 
     //Diagonal
     distanceTable[0][0] = 0;
@@ -681,7 +679,7 @@ public class TestOptimize {
     int start = 0;
 
     // [0, 1, 2, 3, 4]
-    int placesArray [] = Optimize.buildPlacesArray(5);
+    int [] placesArray = Optimize.buildPlacesArray(5);
 
     /* [0, 6, 5, 1, 6]
        [6, 0, 4, 6, 3]
@@ -689,7 +687,7 @@ public class TestOptimize {
        [1, 6, 6, 0, 2]
        [6, 3, 6, 2, 0]
      */
-    int distanceTable [][] = new int [5][5];
+    int [][] distanceTable = new int [5][5];
 
     //Diagonal
     distanceTable[0][0] = 0;

@@ -11,10 +11,10 @@ public class Optimize {
      */
     public static ArrayList<Place> nearestNeighbor(ArrayList<Place> places){
         //Initialize some good stuff
-        int placesArray [] = buildPlacesArray(places.size());
-        int distanceTable [][] = buildDistanceTable(places);
+        int [] placesArray = buildPlacesArray(places.size());
+        int [][] distanceTable = buildDistanceTable(places);
         int shortestDistance = startingTripDistance(distanceTable);
-        int resultArray [] = new int [placesArray.length]; //Assume it's already in the best order (yeah right).
+        int [] resultArray = new int [placesArray.length]; //Assume it's already in the best order (yeah right).
         System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
 
@@ -39,8 +39,10 @@ public class Optimize {
     }
 
     /**
-     * This method takes a starting point < n, an array of (n) indices, and a SQUARE distance table of size (nxn).
-     * With this information it will reorder the indices in a ordering which is a more optimized trip.
+     * This method takes a starting point < n, an array of (n) indices,
+     *  and a SQUARE distance table of size (nxn).
+     * With this information it will reorder the indices in a ordering
+     *  which is a more optimized trip.
      * @param start the current starting location.
      * @param placesArray the current ordering of places.
      * @param distanceTable the lookup table for distances.
@@ -81,22 +83,23 @@ public class Optimize {
     /**
      * This method simply swaps two entries, given an array and two indices.
      * @param array the array we're swapping indices in.
-     * @param x one index.
-     * @param y the other index.
+     * @param swapper1 one index.
+     * @param swapper2 the other index.
      */
-    public static void swap (int [] array, int x, int y){
-        int temp = array[x];
-        array[x] = array[y];
-        array[y] = temp;
+    public static void swap(int [] array, int swapper1, int swapper2){
+        int temp = array[swapper1];
+        array[swapper1] = array[swapper2];
+        array[swapper2] = temp;
     }
 
     /**
-     * I made a method for arrays to find indexOf, much like an ArrayList finds indexOf, but only for integers.
+     * This method works much like an ArrayList finds indexOf, but only for integers.
+     * Maybe we can put it elsewhere and turn it into a template method?
      * @param array an array to look for the value.
      * @param value a value to search for in the array.
      * @return the index where it finds the value, or -1 if it doesn't exist.
      */
-    private static int indexOf (int [] array, int value){
+    private static int indexOf(int [] array, int value){
         for (int i = 0 ; i < array.length ; i++){
             if (array[i] == value){
                 return i;
@@ -120,7 +123,8 @@ public class Optimize {
     }
 
     /**
-     * This method takes an ArrayList<Place> and builds a table where the following properties hold.
+     * This method takes an ArrayList type Place,
+     *  and builds a table where the following properties hold.
      * 1. Symmetrical: distanceTable[i][j] == [distanceTable[j][i].
      * 2. Diagonal is always 0.
      * 3. Every entry is distance from places.get(i) to places.get(j) where i is row, j is column.
@@ -132,21 +136,19 @@ public class Optimize {
 
         for (int i = 0 ; i < distanceTable.length ; i++){
             for (int j = i ; j < distanceTable[i].length ; j++){
+                //Calculate the distance, from a to a is 0 along the diagonal.
+                distanceTable[i][j] = Distance.gcd(places.get(i), places.get(j), "miles", "");;
 
-                //The diagonal is all 0's
-                if (i == j){
-                    distanceTable[i][j] = 0;
-                } else {
-                    //Calculate distance from a to b
-                    distanceTable [i][j] = Distance.gcd(places.get(i), places.get(j), "miles", "");
-
-                    //Table is symmetrical about the diagonal, table[i][j] always equals table[j][i]
-                    distanceTable [j][i] = distanceTable[i][j];
-                }
+                //Table is symmetrical about the diagonal, table[i][j] always equals table[j][i].
+                distanceTable [j][i] = distanceTable[i][j];
             }
         }
 
         return distanceTable;
+    }
+
+    public static int [] buildDistanceTableHelper(ArrayList<Place> places, int currentIndex){
+        return new int [1];
     }
 
     /**
@@ -178,8 +180,8 @@ public class Optimize {
    */
     private static int startingTripDistance(int [][] distanceTable){
       int distance = 0;
-      for (int i = 0 ; i < distanceTable.length - 1 ; i++){
-        distance += distanceTable[i][i+1];
+      for (int i = 0 ; i < distanceTable.length ; i++){
+        distance += distanceTable[i][(i + 1) % distanceTable.length];
       }
       return distance;
     }
