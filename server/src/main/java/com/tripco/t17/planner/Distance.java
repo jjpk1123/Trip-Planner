@@ -35,11 +35,11 @@ public class Distance {
     public static int gcd(Place source, Place dest, String unit, String userRadius) {
         //0. Validate input
         if (invalidPlace(source)){
-            System.out.println("Bad source");
+            //System.out.println("Bad source");
             return -1;
         }
         if (invalidPlace(dest)){
-            System.out.println("Bad dest");
+            //System.out.println("Bad dest");
             return -2;
         }
 
@@ -76,7 +76,7 @@ public class Distance {
             dmsToDegrees(place.latitude);
             dmsToDegrees(place.longitude);
         } catch (Exception e) {
-            System.err.println(e);
+            //System.err.println(e);
             return true; //bad place
         }
         return false;

@@ -14,6 +14,7 @@ class Trip extends Component {
     this.plan = this.plan.bind(this);
     this.saveTFFI = this.saveTFFI.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
+    this.reverseTrip = this.reverseTrip.bind(this);
     this.tripCardHeader = <h5 className="card-header bg-info text-white">
         Trip
       </h5>;
@@ -80,6 +81,29 @@ class Trip extends Component {
   }
 
   /**
+   * Reverses the trip.places && trip.distances array on the client.
+   */
+  reverseTrip() {
+    if ((this.props.trip.places).length === 0) return;
+    console.log("Reversing Trip");
+    let tempTrip = this.props.trip;
+    let size = (this.props.trip.places).length;
+    let tempPlaces = [];
+    let tempDistances = [];
+
+    tempPlaces.push(tempTrip.places[0]);
+    for (let i = (size-1); i > 0; --i) {
+      tempPlaces.push(tempTrip.places[i]);
+      tempDistances.push(tempTrip.distances[i]);
+    }
+    tempDistances.push(tempTrip.distances[0]);
+    tempTrip.places = tempPlaces;
+    tempTrip.distances = tempDistances;
+
+    this.props.updateTrip(tempTrip);
+  }
+
+  /**
    * Renders the buttons, map, and itinerary.
    * The title should be specified before the plan or save buttons are valid.
    */
@@ -92,11 +116,16 @@ class Trip extends Component {
           <span className="input-group-btn">
             <button className="btn btn-primary" onClick={this.plan} type="button">Plan</button>
           </span>
-
           <input type="text" className="form-control" placeholder="Name your Trip here" onChange={this.updateTitle}/>
-
           <span className="input-group-btn">
             <button className="btn btn-primary" onClick={this.saveTFFI} type="button">Save</button>
+          </span>
+        </div>
+      </div>
+      <div className="card-body">
+        <div className="input-group" role="group">
+          <span className="input-group-btn">
+            <button className="btn btn-primary" onClick={this.reverseTrip} type="button">Reverse Trip</button>
           </span>
         </div>
       </div>
