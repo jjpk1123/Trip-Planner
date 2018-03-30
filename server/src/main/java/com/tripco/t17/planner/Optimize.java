@@ -1,29 +1,9 @@
 package com.tripco.t17.planner;
 
+import java.net.SocketPermission;
 import java.util.ArrayList;
 
 public class Optimize {
-    /**
-     *
-     * @param places a list of places to visit, in a specific order.
-     * @param start the starting location index
-     * @return same ordered ArrayList, but starting at a different location.
-     */
-    public static ArrayList<Place> changeStart(ArrayList<Place> places, int start){
-        ArrayList<Place> result = new ArrayList<>();
-
-        //Check bounds of start, right now if it's out of bounds return places
-        if (start >= places.size() || start < 0){
-            return places;
-        }
-
-        //Go through the ArrayList places, and add the places to result
-        for (int i = 0 ; i < places.size() ; i++){
-            result.add(places.get((i + start) % places.size()));
-        }
-
-        return result;
-    }
 
     /**
      * @param places a list of every place in the trip.
@@ -34,25 +14,28 @@ public class Optimize {
         int shortestDistance = 9999999;
         int placesArray [] = buildPlacesArray(places.size());
         int distanceTable [][] = buildDistanceTable(places);
-        int result [] = placesArray; //Assume it's already in the best order (yeah right).
+        int resultArray [] = new int [placesArray.length]; //Assume it's already in the best order (yeah right).
+        System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
+
 
         //Compute nearestNeighbor for each place as the start.
         for (int start = 0 ; start < placesArray.length ; start++) {
             //Compute nearest neighbor for this starting point.
             int distance = nearestNeighborHelper(start, placesArray, distanceTable);
-
             //Is the best trip from this starting point BETTER than the last one?
             if (distance < shortestDistance){
                 shortestDistance = distance; //Set new shortest distance
-                result = placesArray;        //Set new array ordering
+                System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
             }
         }
 
+
         //Build new result before returning
-        /*
-         * SPOT FOR NEW METHOD
-         */
-        return places;
+        ArrayList<Place> result = new ArrayList<>();
+        for (int i = 0 ; i < resultArray.length ; i++){
+            result.add(places.get(resultArray[i]));
+        }
+        return result;
     }
 
     /**
@@ -65,7 +48,8 @@ public class Optimize {
      */
     public static int nearestNeighborHelper(int start, int [] placesArray, int [][] distanceTable){
         //1. Swap the start position to the beginning of placesArray.
-        swap(placesArray, 0, start);
+        int startIndex = indexOf(placesArray, start);
+        swap(placesArray, 0, startIndex);
         int distance = 0;
 
         //2. Find the nearest in the subArray[start+1, length].
@@ -84,7 +68,7 @@ public class Optimize {
 
             //If we are at the end of the line
             if (i == placesArray.length - 1) {
-                smallest = distanceTable[0][placesArray[i]];
+                smallest = distanceTable[placesArray[i]][start];
             } else if (swapper < placesArray.length){
                 swap(placesArray, i+1, swapper);
             }
@@ -104,6 +88,21 @@ public class Optimize {
         int temp = array[x];
         array[x] = array[y];
         array[y] = temp;
+    }
+
+    /**
+     * I made a method for arrays to find indexOf, much like an ArrayList finds indexOf, but only for integers.
+     * @param array an array to look for the value.
+     * @param value a value to search for in the array.
+     * @return the index where it finds the value, or -1 if it doesn't exist.
+     */
+    public static int indexOf (int [] array, int value){
+        for (int i = 0 ; i < array.length ; i++){
+            if (array[i] == value){
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -150,6 +149,27 @@ public class Optimize {
         return distanceTable;
     }
 
+    /**
+     *
+     * @param places a list of places to visit, in a specific order.
+     * @param start the starting location index
+     * @return same ordered ArrayList, but starting at a different location.
+     */
+    public static ArrayList<Place> changeStart(ArrayList<Place> places, int start){
+        ArrayList<Place> result = new ArrayList<>();
+
+        //Check bounds of start, right now if it's out of bounds return places
+        if (start >= places.size() || start < 0){
+            return places;
+        }
+
+        //Go through the ArrayList places, and add the places to result
+        for (int i = 0 ; i < places.size() ; i++){
+            result.add(places.get((i + start) % places.size()));
+        }
+
+        return result;
+    }
 
 
 

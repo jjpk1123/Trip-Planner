@@ -39,16 +39,16 @@ public class TestOptimize {
   @Test
   public void testNearestNeighborSameOrder1() {
     Place A = new Place();
-    A.latitude = "0° S";
-    A.longitude = " 0° E";
+    A.latitude = "1° S";
+    A.longitude = " 1° E";
 
     Place B = new Place();
     B.latitude = "1° S";
-    B.longitude = "0° E";
+    B.longitude = "2° E";
 
     Place C = new Place();
-    C.latitude = "2° S";
-    C.longitude = "0° E";
+    C.latitude = "1° S";
+    C.longitude = "3° E";
 
     ArrayList<Place> places = new ArrayList<>();
     places.add(A);
@@ -165,11 +165,11 @@ public class TestOptimize {
     E.longitude = "1° E";
 
     ArrayList<Place> places = new ArrayList<>();
-    places.add(A);
-    places.add(B);
     places.add(C);
-    places.add(D);
+    places.add(B);
+    places.add(A);
     places.add(E);
+    places.add(D);
     trip.places.add(C);
     trip.places.add(B);
     trip.places.add(A);
@@ -556,6 +556,34 @@ public class TestOptimize {
     assertEquals(Distance.gcd(B, A, "miles", ""), actual[1][0]);
   }
 
+  @Test
+  public void testBuildDistanceTableAllValues(){
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    Place B = new Place();
+    B.latitude = "0° S";
+    B.longitude = "5° E";
+
+    Place C = new Place();
+    C.latitude = "5° S";
+    C.longitude = "0° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+    places.add(C);
+
+    int actual [][] = Optimize.buildDistanceTable(places);
+    assertEquals(Distance.gcd(A, B, "miles", ""), actual[0][1]);
+    assertEquals(Distance.gcd(B, A, "miles", ""), actual[1][0]);
+    assertEquals(Distance.gcd(A, B, "miles", ""), actual[0][1]);
+    assertEquals(Distance.gcd(B, A, "miles", ""), actual[1][0]);
+    assertEquals(Distance.gcd(A, C, "miles", ""), actual[0][2]);
+    assertEquals(Distance.gcd(B, C, "miles", ""), actual[1][2]);
+  }
+
   /**
    * Swap test "block".
    */
@@ -724,9 +752,14 @@ public class TestOptimize {
     assertEquals(15, Optimize.nearestNeighborHelper(start, placesArray, distanceTable));
   }
 
+/**
+ * indexOf test block
+ */
 
+  @Test
+  public void testIndexOf(){
 
-
+  }
 
 
 
