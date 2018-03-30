@@ -11,9 +11,9 @@ public class Optimize {
      */
     public static ArrayList<Place> nearestNeighbor(ArrayList<Place> places){
         //Initialize some good stuff
-        int shortestDistance = 9999999;
         int placesArray [] = buildPlacesArray(places.size());
         int distanceTable [][] = buildDistanceTable(places);
+        int shortestDistance = 9999999;
         int resultArray [] = new int [placesArray.length]; //Assume it's already in the best order (yeah right).
         System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
@@ -171,6 +171,18 @@ public class Optimize {
         return result;
     }
 
+  /**
+   * This calculates the default trip distance given
+   * @param distanceTable
+   * @return
+   */
+    public static int startingTripDistance(int [][] distanceTable){
+      int distance = 0;
+      for (int i = 0 ; i < distanceTable.length - 1 ; i++){
+        distance += distanceTable[i+1][i+1];
+      }
+      return distance;
+    }
 
 
 
