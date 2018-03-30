@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(JUnit4.class)
 public class TestOptimize {
-  Trip trip;
+  private Trip trip;
 
   // Setup to be done before every test in TestPlan
   @Before
@@ -117,33 +117,9 @@ public class TestOptimize {
     assertEquals(places, Optimize.nearestNeighbor(trip.places));
   }
 
+  /*
   @Test
   public void testNearestNeighborReorder1() {
-    Place A = new Place();
-    A.latitude = "0° S";
-    A.longitude = " 0° E";
-
-    Place B = new Place();
-    B.latitude = "30° S";
-    B.longitude = "0° E";
-
-    Place C = new Place();
-    C.latitude = "1° S";
-    C.longitude = "0° E";
-
-    ArrayList<Place> places = new ArrayList<>();
-    places.add(A);
-    places.add(C);
-    places.add(B);
-    trip.places.add(A);
-    trip.places.add(B);
-    trip.places.add(C);
-
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
-  }
-
-  @Test
-  public void testNearestNeighborReorder2() {
     Place A = new Place();
     A.latitude = "1° S";
     A.longitude = " 3° E";
@@ -180,7 +156,7 @@ public class TestOptimize {
   }
 
   @Test
-  public void testNearestNeighborReorder3(){
+  public void testNearestNeighborReorder2(){
 
     Place A = new Place();
     A.latitude = "0° S";
@@ -211,7 +187,7 @@ public class TestOptimize {
 
     assertEquals(places, Optimize.nearestNeighbor(trip.places));
   }
-
+  */
 
   @Test
   public void testNearestNeighborOnePlace(){
@@ -628,6 +604,7 @@ public class TestOptimize {
 
     assertEquals(2, Optimize.nearestNeighborHelper(start, placesArray, distanceTable));
   }
+
   @Test
   public void testNearestNeighborHelperSimple2(){
     int start = 0;
@@ -762,9 +739,14 @@ public class TestOptimize {
 
   }
 
+/**
+ * startingTripDistance test block
+ */
 
+  @Test
+  public void testStartingTripDistance(){
 
-
+  }
 
 
 

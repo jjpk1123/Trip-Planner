@@ -13,7 +13,7 @@ public class Optimize {
         //Initialize some good stuff
         int placesArray [] = buildPlacesArray(places.size());
         int distanceTable [][] = buildDistanceTable(places);
-        int shortestDistance = 9999999;
+        int shortestDistance = startingTripDistance(distanceTable);
         int resultArray [] = new int [placesArray.length]; //Assume it's already in the best order (yeah right).
         System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
@@ -96,7 +96,7 @@ public class Optimize {
      * @param value a value to search for in the array.
      * @return the index where it finds the value, or -1 if it doesn't exist.
      */
-    public static int indexOf (int [] array, int value){
+    private static int indexOf (int [] array, int value){
         for (int i = 0 ; i < array.length ; i++){
             if (array[i] == value){
                 return i;
@@ -172,14 +172,14 @@ public class Optimize {
     }
 
   /**
-   * This calculates the default trip distance given
-   * @param distanceTable
-   * @return
+   * This calculates the default trip distance given.
+   * @param distanceTable the table of distances.
+   * @return the total distance in regular order.
    */
-    public static int startingTripDistance(int [][] distanceTable){
+    private static int startingTripDistance(int [][] distanceTable){
       int distance = 0;
       for (int i = 0 ; i < distanceTable.length - 1 ; i++){
-        distance += distanceTable[i+1][i+1];
+        distance += distanceTable[i][i+1];
       }
       return distance;
     }
