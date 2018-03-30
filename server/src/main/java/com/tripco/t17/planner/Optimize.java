@@ -10,25 +10,30 @@ public class Optimize {
      * @return the places in the order which is the shortest travel distance from start.
      */
     public static ArrayList<Place> nearestNeighbor(ArrayList<Place> places){
-        //Initialize some good stuff
+        //Initialize the two primary data structures.
         int [] placesArray = buildPlacesArray(places.size());
         int [][] distanceTable = buildDistanceTable(places);
-        int shortestDistance = startingTripDistance(distanceTable);
-        int [] resultArray = new int [placesArray.length]; //Assume it's already in the best order (yeah right).
-        System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
+        //Assume it's already in the best order (yeah right).
+        int shortestDistance = startingTripDistance(distanceTable);
+
+        //Initialize the array to return later.
+        //We do a shallow copy here to avoid having shared references.
+        int [] resultArray = new int [placesArray.length];
+        System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
         //Compute nearestNeighbor for each place as the start.
         for (int start = 0 ; start < placesArray.length ; start++) {
+
             //Compute nearest neighbor for this starting point.
             int distance = nearestNeighborHelper(start, placesArray, distanceTable);
+
             //Is the best trip from this starting point BETTER than the last one?
             if (distance < shortestDistance){
                 shortestDistance = distance; //Set new shortest distance
                 System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
             }
         }
-
 
         //Build new result before returning
         ArrayList<Place> result = new ArrayList<>();
