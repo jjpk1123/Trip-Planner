@@ -1,8 +1,157 @@
 package com.tripco.t17.planner;
 
+import java.net.SocketPermission;
 import java.util.ArrayList;
 
 public class Optimize {
+
+    /**
+     * @param places a list of every place in the trip.
+     * @return the places in the order which is the shortest travel distance from start.
+     */
+    public static ArrayList<Place> nearestNeighbor(ArrayList<Place> places){
+        //Initialize the two primary data structures.
+        int [] placesArray = buildPlacesArray(places.size());
+        int [][] distanceTable = buildDistanceTable(places);
+
+        //Assume it's already in the best order (yeah right).
+        int shortestDistance = startingTripDistance(distanceTable);
+
+        //Initialize the array to return later.
+        //We do a shallow copy here to avoid having shared references.
+        int [] resultArray = new int [placesArray.length];
+        System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
+
+        //Compute nearestNeighbor for each place as the start.
+        for (int start = 0 ; start < placesArray.length ; start++) {
+
+            //Compute nearest neighbor for this starting point.
+            int distance = nearestNeighborHelper(start, placesArray, distanceTable);
+
+            //Is the best trip from this starting point BETTER than the last one?
+            if (distance < shortestDistance){
+                shortestDistance = distance; //Set new shortest distance
+                System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
+            }
+        }
+
+        //Build new result before returning
+        ArrayList<Place> result = new ArrayList<>();
+        for (int i = 0 ; i < resultArray.length ; i++){
+            result.add(places.get(resultArray[i]));
+        }
+        return result;
+    }
+
+    /**
+     * This method takes a starting point < n, an array of (n) indices,
+     *  and a SQUARE distance table of size (nxn).
+     * With this information it will reorder the indices in a ordering
+     *  which is a more optimized trip.
+     * @param start the current starting location.
+     * @param placesArray the current ordering of places.
+     * @param distanceTable the lookup table for distances.
+     * @return the TOTAL DISTANCE of the best trip.
+     */
+    public static int nearestNeighborHelper(int start, int [] placesArray, int [][] distanceTable){
+        //1. Swap the start value to the beginning of placesArray.
+        int startIndex = indexOf(placesArray, start);
+        swap(placesArray, 0, startIndex);
+        int distance = 0;
+
+        //2. Find the nearest in the subArray[start+1, length].
+        for (int i = 0 ; i < placesArray.length ; i++){
+            int nearest = 9999999;
+            int swapper = i+1;
+
+            //Find the nearest unvisited place.
+            for (int j = i+1 ; j < placesArray.length ; j++){
+                int temp = distanceTable[placesArray[i]][placesArray[j]];
+                if (temp < nearest){
+                    nearest = temp;
+                    swapper = j;
+                }
+            }
+
+            //If we are at the end of the line
+            if (i == placesArray.length - 1) {
+                nearest = distanceTable[placesArray[i]][start];
+            } else if (swapper < placesArray.length){
+                swap(placesArray, i+1, swapper);
+            }
+            distance += nearest;
+        }
+
+        return distance;
+    }
+
+    /**
+     * This method simply swaps two entries, given an array and two indices.
+     * @param array the array we're swapping indices in.
+     * @param swapper1 one index.
+     * @param swapper2 the other index.
+     */
+    public static void swap(int [] array, int swapper1, int swapper2){
+        int temp = array[swapper1];
+        array[swapper1] = array[swapper2];
+        array[swapper2] = temp;
+    }
+
+    /**
+     * This method works much like an ArrayList finds indexOf, but only for integers.
+     * Maybe we can put it elsewhere and turn it into a template method?
+     * @param array an array to look for the value.
+     * @param value a value to search for in the array.
+     * @return the index where it finds the value, or -1 if it doesn't exist.
+     */
+    private static int indexOf(int [] array, int value){
+        for (int i = 0 ; i < array.length ; i++){
+            if (array[i] == value){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * This method will make an array which has entries equal to its index.
+     * Like this: [0, 1, 2, 3, 4, ... length-1].
+     * @param length how long the array needs to be.
+     * @return [0, 1, 2, 3, 4, ... length-1].
+     */
+    public static int [] buildPlacesArray(int length){
+        int [] myArray = new int [length];
+        for (int i = 0 ; i < length ; i++){
+            myArray[i] = i;
+        }
+        return myArray;
+    }
+
+    /**
+     * This method takes an ArrayList type Place,
+     *  and builds a table where the following properties hold.
+     * 1. Symmetrical: distanceTable[i][j] == [distanceTable[j][i].
+     * 2. Diagonal is always 0.
+     * 3. Every entry is distance from places.get(i) to places.get(j) where i is row, j is column.
+     * @param places the array list from which we build the distance table.
+     * @return the distance table.
+     */
+    public static int [][] buildDistanceTable(ArrayList<Place> places){
+        int [][] distanceTable = new int [places.size()][places.size()];
+
+        for (int i = 0 ; i < distanceTable.length ; i++){
+            for (int j = i ; j < distanceTable[i].length ; j++){
+                //Calculate the distance, from a to a is 0 along the diagonal.
+                distanceTable[i][j] = Distance.gcd(places.get(i), places.get(j), "miles", "");;
+
+                //Table is symmetrical about the diagonal, table[i][j] always equals table[j][i].
+                distanceTable [j][i] = distanceTable[i][j];
+            }
+        }
+
+        return distanceTable;
+    }
+
     /**
      *
      * @param places a list of places to visit, in a specific order.
@@ -25,65 +174,23 @@ public class Optimize {
         return result;
     }
 
-    /**
-     * @param places a list of every place in the trip.
-     * @return the places in the order which is the shortest travel distance from start.
-     */
-    public static ArrayList<Place> nearestNeighbor(ArrayList<Place> places){
-        //Initialize result
-        ArrayList<Place> result = new ArrayList<>();
-        int shortestDistance = 9999999;
-
-        //1. Choose starting location. We do this for each place in places hi
-        //This is removed, then added, so that we will not find it again :)
-        for (int i = 0 ; i < places.size() ; i++) {
-            ArrayList<Place> unvisited = new ArrayList<>();
-            unvisited.addAll(places);
-            ArrayList<Place> temp = new ArrayList<>();
-            int distance = 0;
-
-            if (!unvisited.isEmpty()) {
-                temp.add(unvisited.remove(i));
-            }
-
-            //2. Find nearest city, add it to the result!
-            //3. If unvisited is not empty, go to step 2
-            while (!unvisited.isEmpty()) {
-                int nearestIndex = findNearest(temp.get(temp.size() - 1), unvisited);
-                distance += Distance.gcd(temp.get(temp.size() - 1),
-                        unvisited.get(nearestIndex) ,"miles", "");
-                temp.add(unvisited.remove(nearestIndex));
-            }
-            //4. If new plan is shortest, keep it!
-            if (distance < shortestDistance){
-                result = temp;
-                shortestDistance = distance;
-            }
-        }
-
-        //5. Return the arrayList! Client side takes care of round trip stuff
-        return result;
+  /**
+   * This calculates the default trip distance given.
+   * @param distanceTable the table of distances.
+   * @return the total distance in regular order.
+   */
+    private static int startingTripDistance(int [][] distanceTable){
+      int distance = 0;
+      for (int i = 0 ; i < distanceTable.length ; i++){
+        distance += distanceTable[i][(i + 1) % distanceTable.length];
+      }
+      return distance;
     }
 
-    /**
-     * @param start the starting city
-     * @param places the arrayList of comparing cities
-     * @return nearest: the INDEX OF the nearest city to the one you are at
-     */
-    public static int findNearest(Place start, ArrayList<Place> places){
-        int nearest = 0;
-        int shortestDistance = 9999999;
 
-        //Go through places, get GCD of each, return index of shortest
-        for (int i = 0 ; i < places.size() ; i++){
-            int distance = Distance.gcd(start, places.get(i), "miles", "");
-            if (distance < shortestDistance){   //If equal distance, favors previous nearest
-                shortestDistance = distance;    //New shortest distance
-                nearest = i;                    //New index to return
-            }
-        }
-        return nearest;
-    }
+
+
+
 }
 
 

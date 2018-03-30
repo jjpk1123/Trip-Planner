@@ -5,5 +5,5 @@ npm run bundle --prefix client && \
 mvn package
 
 #java -jar target/server-*.jar $*
-java -DsocksProxyHost=localhost -DsocksProxyPort=7227 -jar target/server-*.jar $*
+java -DsocksProxyHost=localhost -DsocksProxyPort=7373 -jar target/server-*.jar $*
 
