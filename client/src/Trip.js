@@ -88,22 +88,18 @@ class Trip extends Component {
     console.log("Reversing Trip");
     let tempTrip = this.props.trip;
     let size = (this.props.trip.places).length;
-    //reversePlaces
     let tempPlaces = [];
-    tempPlaces.push(tempTrip.places[0]);
-    for (let p = (size)-1; p > 0; --p) {
-      tempPlaces.push(tempTrip.places[p]);
-    }
-    tempTrip.places = tempPlaces;
-
-    //reverseDestinations
     let tempDistances = [];
-    for (let d = size-1; d > 0; --d) {
-      tempDistances.push(tempTrip.distances[d]);
+
+    tempPlaces.push(tempTrip.places[0]);
+    for (let i = (size-1); i > 0; --i) {
+      tempPlaces.push(tempTrip.places[i]);
+      tempDistances.push(tempTrip.distances[i]);
     }
     tempDistances.push(tempTrip.distances[0]);
-
+    tempTrip.places = tempPlaces;
     tempTrip.distances = tempDistances;
+
     this.props.updateTrip(tempTrip);
   }
 
@@ -120,9 +116,7 @@ class Trip extends Component {
           <span className="input-group-btn">
             <button className="btn btn-primary" onClick={this.plan} type="button">Plan</button>
           </span>
-
           <input type="text" className="form-control" placeholder="Name your Trip here" onChange={this.updateTitle}/>
-
           <span className="input-group-btn">
             <button className="btn btn-primary" onClick={this.saveTFFI} type="button">Save</button>
           </span>
