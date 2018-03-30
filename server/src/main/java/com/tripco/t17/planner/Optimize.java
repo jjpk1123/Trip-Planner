@@ -30,38 +30,80 @@ public class Optimize {
      * @return the places in the order which is the shortest travel distance from start.
      */
     public static ArrayList<Place> nearestNeighbor(ArrayList<Place> places){
-        //Initialize result
+        //Initialize some good stuff
         int shortestDistance = 9999999;
         int placesArray [] = buildPlacesArray(places.size());
         int distanceTable [][] = buildDistanceTable(places);
+        int result [] = placesArray; //Assume it's already in the best order (yeah right).
 
-        for (int i = 0 ; i < places.size() ; i++) {
-            ArrayList<Place> unvisited = new ArrayList<>();
-            unvisited.addAll(places);
-            ArrayList<Place> temp = new ArrayList<>();
-            int distance = 0;
+        //Compute nearestNeighbor for each place as the start.
+        for (int start = 0 ; start < placesArray.length ; start++) {
+            //Compute nearest neighbor for this starting point.
+            int distance = nearestNeighborHelper(start, placesArray, distanceTable);
 
-            if (!unvisited.isEmpty()) {
-                temp.add(unvisited.remove(i));
-            }
-
-            //2. Find nearest city, add it to the result!
-            //3. If unvisited is not empty, go to step 2
-            while (!unvisited.isEmpty()) {
-                int nearestIndex = findNearest(temp.get(temp.size() - 1), unvisited);
-                distance += Distance.gcd(temp.get(temp.size() - 1),
-                        unvisited.get(nearestIndex) ,"miles", "");
-                temp.add(unvisited.remove(nearestIndex));
-            }
-            //4. If new plan is shortest, keep it!
+            //Is the best trip from this starting point BETTER than the last one?
             if (distance < shortestDistance){
-                //result = temp;
-                shortestDistance = distance;
+                shortestDistance = distance; //Set new shortest distance
+                result = placesArray;        //Set new array ordering
             }
         }
 
-        //5. Return the arrayList! Client side takes care of round trip stuff
+        //Build new result before returning
+        /*
+         * SPOT FOR NEW METHOD
+         */
         return places;
+    }
+
+    /**
+     * This method takes a starting point < n, an array of (n) indices, and a SQUARE distance table of size (nxn).
+     * With this information it will reorder the indices in a ordering which is a more optimized trip.
+     * @param start the current starting location.
+     * @param placesArray the current ordering of places.
+     * @param distanceTable the lookup table for distances.
+     * @return the TOTAL DISTANCE of the best trip.
+     */
+    public static int nearestNeighborHelper(int start, int [] placesArray, int [][] distanceTable){
+        //1. Swap the start position to the beginning of placesArray.
+        swap(placesArray, 0, start);
+        int distance = 0;
+
+        //2. Find the nearest in the subArray[start+1, length].
+        for (int i = 0 ; i < placesArray.length ; i++){
+            int smallest = 9999999;
+            int swapper = i+1;
+            //Find the nearest unvisited place.
+            for (int j = i+1 ; j < placesArray.length ; j++){
+                int temp = distanceTable[placesArray[i]][placesArray[j]];
+                if (temp < smallest){
+                    smallest = temp;
+                    swapper = j;
+                }
+            }
+
+
+            //If we are at the end of the line
+            if (i == placesArray.length - 1) {
+                smallest = distanceTable[0][placesArray[i]];
+            } else if (swapper < placesArray.length){
+                swap(placesArray, i+1, swapper);
+            }
+            distance += smallest;
+        }
+
+        return distance;
+    }
+
+    /**
+     * This method simply swaps two entries, given an array and two indices.
+     * @param array the array we're swapping indices in.
+     * @param x one index.
+     * @param y the other index.
+     */
+    public static void swap (int [] array, int x, int y){
+        int temp = array[x];
+        array[x] = array[y];
+        array[y] = temp;
     }
 
     /**
@@ -108,25 +150,12 @@ public class Optimize {
         return distanceTable;
     }
 
-    /**
-     * @param start the starting city
-     * @param places the arrayList of comparing cities
-     * @return nearest: the INDEX OF the nearest city to the one you are at
-     */
-    public static int findNearest(Place start, ArrayList<Place> places){
-        int nearest = 0;
-        int shortestDistance = 9999999;
 
-        //Go through places, get GCD of each, return index of shortest
-        for (int i = 0 ; i < places.size() ; i++){
-            int distance = Distance.gcd(start, places.get(i), "miles", "");
-            if (distance < shortestDistance){   //If equal distance, favors previous nearest
-                shortestDistance = distance;    //New shortest distance
-                nearest = i;                    //New index to return
-            }
-        }
-        return nearest;
-    }
+
+
+
+
+
 }
 
 
