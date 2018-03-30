@@ -31,11 +31,10 @@ public class Optimize {
      */
     public static ArrayList<Place> nearestNeighbor(ArrayList<Place> places){
         //Initialize result
-        ArrayList<Place> result = new ArrayList<>();
         int shortestDistance = 9999999;
+        int placesArray [] = buildPlacesArray(places.size());
+        int distanceTable [][] = buildDistanceTable(places);
 
-        //1. Choose starting location. We do this for each place in places hi
-        //This is removed, then added, so that we will not find it again :)
         for (int i = 0 ; i < places.size() ; i++) {
             ArrayList<Place> unvisited = new ArrayList<>();
             unvisited.addAll(places);
@@ -56,13 +55,57 @@ public class Optimize {
             }
             //4. If new plan is shortest, keep it!
             if (distance < shortestDistance){
-                result = temp;
+                //result = temp;
                 shortestDistance = distance;
             }
         }
 
         //5. Return the arrayList! Client side takes care of round trip stuff
-        return result;
+        return places;
+    }
+
+    /**
+     * This method will make an array which has entries equal to its index.
+     * Like this: [0, 1, 2, 3, 4, ... length-1].
+     * @param length how long the array needs to be.
+     * @return [0, 1, 2, 3, 4, ... length-1].
+     */
+    public static int [] buildPlacesArray(int length){
+        int [] myArray = new int [length];
+        for (int i = 0 ; i < length ; i++){
+            myArray[i] = i;
+        }
+        return myArray;
+    }
+
+    /**
+     * This method takes an ArrayList<Place> and builds a table where the following properties hold.
+     * 1. Symmetrical: distanceTable[i][j] == [distanceTable[j][i].
+     * 2. Diagonal is always 0.
+     * 3. Every entry is distance from places.get(i) to places.get(j) where i is row, j is column.
+     * @param places the array list from which we build the distance table.
+     * @return the distance table.
+     */
+    public static int [][] buildDistanceTable(ArrayList<Place> places){
+        int [][] distanceTable = new int [places.size()][places.size()];
+
+        for (int i = 0 ; i < distanceTable.length ; i++){
+            for (int j = i ; j < distanceTable[i].length ; j++){
+
+                //The diagonal is all 0's
+                if (i == j){
+                    distanceTable[i][j] = 0;
+                } else {
+                    //Calculate distance from a to b
+                    distanceTable [i][j] = Distance.gcd(places.get(i), places.get(j), "miles", "");
+
+                    //Table is symmetrical about the diagonal, table[i][j] always equals table[j][i]
+                    distanceTable [j][i] = distanceTable[i][j];
+                }
+            }
+        }
+
+        return distanceTable;
     }
 
     /**

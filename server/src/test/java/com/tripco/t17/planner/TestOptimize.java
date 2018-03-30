@@ -254,7 +254,6 @@ public class TestOptimize {
     assertEquals(places, Optimize.nearestNeighbor(trip.places));
   }
 
-
   @Test
   public void testNearestNeighborReorder3(){
 
@@ -511,10 +510,121 @@ public class TestOptimize {
     assertEquals(places, Optimize.changeStart(trip.places, -1));
 
   }
+
+  /**
+   * buildPlacesArray test block.
+   */
+
+  @Test
+  public void testBuildPlacesArrayNormalUse(){
+    int hello [] = Optimize.buildPlacesArray(5);
+    assertEquals(0, hello[0]);
+    assertEquals(1, hello[1]);
+    assertEquals(2, hello[2]);
+    assertEquals(3, hello[3]);
+    assertEquals(4, hello[4]);
+  }
+
+  /**
+   * buildDistanceTable test block.
+   */
+
+  @Test
+  public void testBuildDistanceTableDiagonal(){
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    Place B = new Place();
+    B.latitude = "0° S";
+    B.longitude = "5° E";
+
+    Place C = new Place();
+    C.latitude = "5° S";
+    C.longitude = "0° E";
+
+    Place D = new Place();
+    D.latitude = "10° S";
+    D.longitude = "10° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    places.add(D);
+
+    int actual [][] = Optimize.buildDistanceTable(places);
+    for (int i = 0 ; i < places.size() ; i++){
+      assertEquals(0, actual[i][i]);
+    }
+  }
+
+  @Test
+  public void testBuildDistanceTableOnePlace(){
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+
+    int actual [][] = Optimize.buildDistanceTable(places);
+    assertEquals(0, actual[0][0]);
+  }
+
+  @Test
+  public void testBuildDistanceTableSymmetry(){
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    Place B = new Place();
+    B.latitude = "0° S";
+    B.longitude = "5° E";
+
+    Place C = new Place();
+    C.latitude = "5° S";
+    C.longitude = "0° E";
+
+    Place D = new Place();
+    D.latitude = "10° S";
+    D.longitude = "10° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    places.add(D);
+
+    int actual [][] = Optimize.buildDistanceTable(places);
+    for (int i = 0 ; i < places.size() ; i++){
+      for (int j = 0 ; j < places.size() ; j++) {
+        assertEquals(actual[i][j], actual[j][i]);
+      }
+    }
+  }
+
+  @Test
+  public void testBuildDistanceTableAccuracy(){
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = " 0° E";
+
+    Place B = new Place();
+    B.latitude = "0° S";
+    B.longitude = "5° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    places.add(A);
+    places.add(B);
+
+    int actual [][] = Optimize.buildDistanceTable(places);
+    assertEquals(Distance.gcd(A, B, "miles", ""), actual[0][1]);
+    assertEquals(Distance.gcd(A, B, "miles", ""), actual[1][0]);
+    assertEquals(Distance.gcd(B, A, "miles", ""), actual[0][1]);
+    assertEquals(Distance.gcd(B, A, "miles", ""), actual[1][0]);
+  }
 }
-
-
-
 
 
 
