@@ -1,28 +1,6 @@
 import React, {Component} from 'react';
 import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-
-function CustomUnits(props){
-  const usingCustomUnits = props.customUnits;
-  if (usingCustomUnits){
-    return <p>true</p>;
-  }
-  else{
-    return <p>false</p>;
-
-  }
-}
-
-
-function UseCustom(props){
-  props.customUnits = true;
-}
-
-function CustomUnitForm(props){
-
-}
-
-
 /**
  * Options allows the user to change the parameters for planning
  * and rendering the trip map and itinerary.
@@ -143,16 +121,20 @@ class Options extends Component {
           <div className="col">
             <div className="card-body">
               <h6 className="card-title">Unit of distance:</h6>
-              <Dropdown isOpen = {this.state.dropdownOpen} toggle={this.toggle}>
+              <Dropdown isOpen = {this.state.dropdownOpen} toggle={this.toggle}
+                        data-toggle="buttons" onChange={this.changeUnit}>
                 <DropdownToggle caret>
                   Unit Select
                 </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Header</DropdownItem>
-                  <DropdownItem disabled>Disabled Action</DropdownItem>
-                  <DropdownItem>Action 1</DropdownItem>
+
+                <DropdownMenu >
+                  <DropdownItem className={this.testActiveBtn("miles")}>
+                    <input type="radio" value="miles" name="distance"/>Miles
+                  </DropdownItem>
+
+
                   <DropdownItem divider />
-                  <DropdownItem>Action 2</DropdownItem>
+                  <DropdownItem>Create your own!</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
