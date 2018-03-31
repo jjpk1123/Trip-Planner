@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
 
-/**
- * Options allows the user to change the parameters for planning
- * and rendering the trip map and itinerary.
- * The options reside in the parent object so they may be shared with the Trip object.
- * Allows the user to set the options used by the application via a set of buttons.
- */
 
 function CustomUnits(props){
   const usingCustomUnits = props.customUnits;
@@ -27,6 +21,13 @@ function CustomUnitForm(props){
 
 }
 
+
+/**
+ * Options allows the user to change the parameters for planning
+ * and rendering the trip map and itinerary.
+ * The options reside in the parent object so they may be shared with the Trip object.
+ * Allows the user to set the options used by the application via a set of buttons.
+ */
 class Options extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +39,18 @@ class Options extends Component {
     this.optCardHeader = <h5 className="card-header bg-info text-white">
         Options
       </h5>;
+    this.unitsDropdown =
+      <div className="dropdown">
+        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Select Units
+        </button>
+        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <button className="dropdown-item" type="button">Miles</button>
+          <button className="dropdown-item" type="button">Kilometers</button>
+          <button className="dropdown-item" type="button">Nautical Miles</button>
+        </div>
+      </div>;
   }
 
   /**
@@ -131,23 +144,7 @@ class Options extends Component {
           <div className="col">
             <div className="card-body">
               <h6 className="card-title">Unit of distance:</h6>
-              <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
-                <label className={this.testActiveBtn("miles")}>
-                  <input type="radio" value="miles" name="distance"/> Miles
-                </label>
-                <label className={this.testActiveBtn("kilometers")}>
-                  <input type="radio" value="kilometers" name="distance"/> Kilometers
-                </label>
-                <label className={this.testActiveBtn("nautical miles")}>
-                  <input type="radio" value="nautical miles" name="distance"/> Nautical Miles
-                </label>
-              <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={UseCustom}>
-                <label className={this.testActiveBtn("custom")}>
-                  <input type="radio" value="custom" name="distance"/> Custom
-                </label>
-              </div>
-              </div>
-              <CustomUnits/>
+              {this.unitsDropdown}
             </div>
           </div>
 
