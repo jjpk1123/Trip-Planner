@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 
 function CustomUnits(props){
@@ -39,18 +40,16 @@ class Options extends Component {
     this.optCardHeader = <h5 className="card-header bg-info text-white">
         Options
       </h5>;
-    this.unitsDropdown =
-      <div className="dropdown">
-        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Select Units
-        </button>
-        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <button className="dropdown-item" type="button">Miles</button>
-          <button className="dropdown-item" type="button">Kilometers</button>
-          <button className="dropdown-item" type="button">Nautical Miles</button>
-        </div>
-      </div>;
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      dropdownOpen: false
+    };
+  }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
   }
 
   /**
@@ -144,7 +143,18 @@ class Options extends Component {
           <div className="col">
             <div className="card-body">
               <h6 className="card-title">Unit of distance:</h6>
-              {this.unitsDropdown}
+              <Dropdown isOpen = {this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle caret>
+                  Unit Select
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Header</DropdownItem>
+                  <DropdownItem disabled>Disabled Action</DropdownItem>
+                  <DropdownItem>Action 1</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>Action 2</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </div>
           </div>
 
