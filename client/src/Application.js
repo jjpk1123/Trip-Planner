@@ -94,16 +94,6 @@ class Application extends Component {
     console.log("Title:" + this.state.trip.title);
   }
 
-  /**
-   * Updates trip.options.userUnit
-   */
-  updateUserUnit(userUnit) {
-    let options = this.state.trip.options;
-    options.userUnit = userUnit;
-    this.setState({userUnit});
-    console.log("Application says userUnit:" + this.state.trip.options.userUnit);
-  }
-
   render() {
     return <div id="application" className="cardBody">
       <div className="row">
@@ -119,8 +109,7 @@ class Application extends Component {
                    distance={this.state.trip.options.distance}
                    optimization={this.state.trip.options.optimization}
                    configOptimizations={this.state.config.optimization}
-                   updateTrip={this.updateTrip}
-                   updateUserUnit={this.updateUserUnit}/>
+                   updateTrip={this.updateTrip}/>
         </div>
         <div className="col-12">
           <Trip trip={this.state.trip}

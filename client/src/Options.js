@@ -19,16 +19,16 @@ class Options extends Component {
     this.dropdownToggle = this.dropdownToggle.bind(this);
     this.modalToggle = this.modalToggle.bind(this);
     this.modalCancel = this.modalCancel.bind(this);
+    this.modalSubmit = this.modalSubmit.bind(this);
     this.updateCustomUnit = this.updateCustomUnit.bind(this);
-    this.updateUserUnit = this.updateUserUnit.bind(this);
     this.optCardHeader = <h5 className="card-header bg-info text-white">
       Options
     </h5>;
     this.state = {
       dropdownOpen: false,
       modal: false,
-      unitOption: "Select your unit",
-      customUnit: "user defined"
+      customUnit: "user defined",
+      customRadius: "123"
     };
   }
 
@@ -44,10 +44,13 @@ class Options extends Component {
     });
   }
 
-  updateUserUnit(){
-    let userUnit = this.state.customUnit;
-    console.log("Options says userUnit: " + this.state.customUnit);
-    this.props.updateUserUnit(userUnit);
+  modalSubmit(){
+    let temp = this.props.trip;
+    //TODO: GET HELP FROM MIKE LUL
+    temp.options.userUnit
+    temp.options.userRadius
+    this.props.updateTrip(temp);
+    this.modalToggle();
   }
 
   modalCancel(){
@@ -67,13 +70,8 @@ class Options extends Component {
    * Changes the value in Application.js
    */
   changeUnit(e) { // Changes the parent's (Application.js) options
-    //Easier to read or maintain if it's like this.
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
-    let unit = e.target.value;
-
-    //Do the things
-    tempTrip.options.distance = unit; //alters the distance field to reflect the newly-selected unit
-    this.state.unitOption = unit;
+    tempTrip.options.distance = e.target.value; //alters the distance field to reflect the newly-selected unit
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
   }
 
@@ -150,6 +148,7 @@ class Options extends Component {
 
   render() {
     const options = ['miles', 'kilometers', 'nautical miles', this.state.customUnit];
+    let unique = 0;
     const dropdownItems =
       <ButtonDropdown isOpen = {this.state.dropdownOpen} toggle={this.dropdownToggle}
                       data-toggle="buttons">
@@ -159,7 +158,7 @@ class Options extends Component {
         <DropdownMenu>
           {options.map((option) =>
             <DropdownItem active={this.props.trip.options.distance === option} value={option}
-              onClick={this.changeUnit} className={this.testActiveDropdown(option)}>
+              onClick={this.changeUnit} key = {unique++} className={this.testActiveDropdown(option)}>
               {option}
               </DropdownItem>)}
           </DropdownMenu>
@@ -173,6 +172,7 @@ class Options extends Component {
       <FormGroup>
         <Label for = "userEarthRadius">Earth radius</Label>
         <Input type = "text" name = "earthRadius" id="userEarthRadius" placeholder="Enter your unit's earth radius..." />
+
       </FormGroup>
     </Form>;
 
@@ -184,7 +184,7 @@ class Options extends Component {
           {customUnitForm}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.updateUserUnit}>Submit</Button>{' '}
+          <Button color="primary" onClick={this.modalSubmit}>Submit</Button>{' '}
           <Button color="secondary" onClick={this.modalCancel}>Cancel</Button>
         </ModalFooter>
       </Modal>
