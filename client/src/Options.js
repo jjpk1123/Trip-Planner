@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 /**
  * Options allows the user to change the parameters for planning
@@ -14,13 +14,14 @@ class Options extends Component {
     this.retrieveOptimizationValue = this.retrieveOptimizationValue.bind(this);
     this.changeOptimization = this.changeOptimization.bind(this);
     this.retrieveOptimizationString = this.retrieveOptimizationString.bind(this);
-    this.customUnits = false;
     this.optCardHeader = <h5 className="card-header bg-info text-white">
         Options
       </h5>;
     this.toggle = this.toggle.bind(this);
     this.state = {
-      dropdownOpen: false
+      //get option.distance by this.props.trip.options.distance
+      dropdownOpen: false,
+      unitOption: "Select your unit"
     };
   }
 
@@ -34,10 +35,11 @@ class Options extends Component {
    * Called when user clicks on the unit_of_measurement button.
    * Changes the value in Application.js
    */
-  changeUnit(userUnit) { // Changes the parent's (Application.js) options
+  changeUnit(e) { // Changes the parent's (Application.js) options
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
     //if(userUnit.target.value == "custom"){ this.customUnits = true;}
-    tempTrip.options.distance = userUnit.target.value; //alters the distance field to reflect the newly-selected unit
+    tempTrip.options.distance = e.target.value; //alters the distance field to reflect the newly-selected unit
+    this.state.unitOption = e.target.value;
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
   }
 
@@ -112,6 +114,11 @@ class Options extends Component {
   }
 
   render() {
+    const options = ['miles', 'kilometers', 'nautical miles'];
+    const dropdownItems = options.map((option) =>
+      <DropdownItem active={this.props.trip.options.distance === option} value = {option}
+                    onClick={this.changeUnit} className=''>{option}</DropdownItem>);
+
     return <div id="options" className="card">
       {this.optCardHeader}
       <div className="card-body">
@@ -122,17 +129,12 @@ class Options extends Component {
             <div className="card-body">
               <h6 className="card-title">Unit of distance:</h6>
               <Dropdown isOpen = {this.state.dropdownOpen} toggle={this.toggle}
-                        data-toggle="buttons" onChange={this.changeUnit}>
+                        data-toggle="buttons">
                 <DropdownToggle caret>
-                  Unit Select
+                  {this.state.unitOption}
                 </DropdownToggle>
-
-                <DropdownMenu >
-                  <DropdownItem className={this.testActiveBtn("miles")}>
-                    <input type="radio" value="miles" name="distance"/>Miles
-                  </DropdownItem>
-
-
+                <DropdownMenu>
+                  {dropdownItems}
                   <DropdownItem divider />
                   <DropdownItem>Create your own!</DropdownItem>
                 </DropdownMenu>
