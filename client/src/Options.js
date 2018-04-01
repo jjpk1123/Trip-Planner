@@ -16,11 +16,14 @@ class Options extends Component {
     this.retrieveOptimizationValue = this.retrieveOptimizationValue.bind(this);
     this.changeOptimization = this.changeOptimization.bind(this);
     this.retrieveOptimizationString = this.retrieveOptimizationString.bind(this);
-    this.optCardHeader = <h5 className="card-header bg-info text-white">
-        Options
-      </h5>;
     this.dropdownToggle = this.dropdownToggle.bind(this);
     this.modalToggle = this.modalToggle.bind(this);
+    this.modalCancel = this.modalCancel.bind(this);
+    this.updateCustomUnit = this.updateCustomUnit.bind(this);
+    this.updateUserUnit = this.updateUserUnit.bind(this);
+    this.optCardHeader = <h5 className="card-header bg-info text-white">
+      Options
+    </h5>;
     this.state = {
       dropdownOpen: false,
       modal: false,
@@ -38,6 +41,24 @@ class Options extends Component {
   modalToggle(){
     this.setState({
       modal: !this.state.modal
+    });
+  }
+
+  updateUserUnit(){
+    let userUnit = this.state.customUnit;
+    console.log("Options says userUnit: " + this.state.customUnit);
+    this.props.updateUserUnit(userUnit);
+  }
+
+  modalCancel(){
+    //Close the dang thang
+    this.modalToggle();
+  }
+
+  updateCustomUnit(e){
+    console.log("customUnit: " + e.target.value);
+    this.setState({
+      customUnit: e.target.value
     });
   }
 
@@ -126,6 +147,7 @@ class Options extends Component {
     //console.log("trip.options.optim== " + newValue);
   }
 
+
   render() {
     const options = ['miles', 'kilometers', 'nautical miles', this.state.customUnit];
     const dropdownItems =
@@ -146,11 +168,11 @@ class Options extends Component {
     const customUnitForm = <Form>
       <FormGroup>
         <Label for = "userUnit">Unit</Label>
-        <Input type = "unit" name = "unit" id="userUnit" placeholder="Enter your unit's name..." />
+        <Input type = "text" name = "unit" id="userUnit" onChange={this.updateCustomUnit} placeholder="Enter your unit's name..." />
       </FormGroup>
       <FormGroup>
         <Label for = "userEarthRadius">Earth radius</Label>
-        <Input type = "earthRadius" name = "earthRadius" id="userEarthRadius" placeholder="Enter your unit's earth radius..." />
+        <Input type = "text" name = "earthRadius" id="userEarthRadius" placeholder="Enter your unit's earth radius..." />
       </FormGroup>
     </Form>;
 
@@ -162,8 +184,8 @@ class Options extends Component {
           {customUnitForm}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.modalToggle}>Do something</Button>{' '}
-          <Button color="secondary" onClick={this.modalToggle}>Cancel</Button>
+          <Button color="primary" onClick={this.updateUserUnit}>Submit</Button>{' '}
+          <Button color="secondary" onClick={this.modalCancel}>Cancel</Button>
         </ModalFooter>
       </Modal>
     </div>;
