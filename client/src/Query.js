@@ -80,7 +80,7 @@ class Query extends Component {
 
     return <div id="query">
         <div className="card-body">
-          <h6 className="card-title">Search:</h6>
+          <h6 className="card-title">Search the database:</h6>
           <div className="input-group" role="group">
             <input type="text" className="form-control" placeholder="Search..." onChange={this.updateSearch}/>
             <span className="input-group-btn">

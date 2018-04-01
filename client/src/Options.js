@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 /**
  * Options allows the user to change the parameters for planning
@@ -17,17 +18,25 @@ class Options extends Component {
     this.optCardHeader = <h5 className="card-header bg-info text-white">
         Options
       </h5>;
-    this.toggle = this.toggle.bind(this);
+    this.dropdownToggle = this.dropdownToggle.bind(this);
+    this.modalToggle = this.modalToggle.bind(this);
     this.state = {
-      //get option.distance by this.props.trip.options.distance
       dropdownOpen: false,
-      unitOption: "Select your unit"
+      modal: false,
+      unitOption: "Select your unit",
+      customUnit: "user defined"
     };
   }
 
-  toggle() {
+  dropdownToggle(){
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  modalToggle(){
+    this.setState({
+      modal: !this.state.modal
     });
   }
 
@@ -37,16 +46,27 @@ class Options extends Component {
    */
   changeUnit(e) { // Changes the parent's (Application.js) options
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
-    //if(userUnit.target.value == "custom"){ this.customUnits = true;}
-    tempTrip.options.distance = e.target.value; //alters the distance field to reflect the newly-selected unit
-    this.state.unitOption = e.target.value;
+    let unit = e.target.value;
+
+    //If we are changing the user unit, we go our own way
+    if (e.target.value === this.state.customUnit){
+      //TODO: We will call another function to get the user defined unit, and to set it.
+      this.setState({
+        customUnit: "hellos and goodbyes"
+      });
+      //TODO: Try setting this to this.state.customUnit, it won't work!
+      //Even though you'd think it would
+      unit = "fArEwElL";
+    }
+    tempTrip.options.distance = unit; //alters the distance field to reflect the newly-selected unit
+    this.state.unitOption = unit;
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
   }
 
   /**
    * Highlights the correct unit_of_measurement Button "live"
    */
-  testActiveBtn(unit) {
+  testActiveDropdown(unit) {
     return "btn btn-outline-dark " + (this.props.distance === unit ? "active" : "");
   }
 
@@ -114,31 +134,26 @@ class Options extends Component {
   }
 
   render() {
-    const options = ['miles', 'kilometers', 'nautical miles'];
+    const options = ['miles', 'kilometers', 'nautical miles', this.state.customUnit];
     const dropdownItems = options.map((option) =>
       <DropdownItem active={this.props.trip.options.distance === option} value = {option}
-                    onClick={this.changeUnit} className=''>{option}</DropdownItem>);
+                    onClick={this.changeUnit} className = {this.testActiveDropdown(option)}>{option}</DropdownItem>);
 
     return <div id="options" className="card">
       {this.optCardHeader}
-      <div className="card-body">
-        <h6>Select the desired:</h6>
-
         <div className="row">
           <div className="col">
             <div className="card-body">
-              <h6 className="card-title">Unit of distance:</h6>
-              <Dropdown isOpen = {this.state.dropdownOpen} toggle={this.toggle}
+              <h6 className="card-title">Distance unit:</h6>
+              <ButtonDropdown isOpen = {this.state.dropdownOpen} toggle={this.dropdownToggle}
                         data-toggle="buttons">
-                <DropdownToggle caret>
-                  {this.state.unitOption}
+                <DropdownToggle caret color="primary">
+                  Select unit
                 </DropdownToggle>
                 <DropdownMenu>
                   {dropdownItems}
-                  <DropdownItem divider />
-                  <DropdownItem>Create your own!</DropdownItem>
                 </DropdownMenu>
-              </Dropdown>
+              </ButtonDropdown>
             </div>
           </div>
 
@@ -156,7 +171,6 @@ class Options extends Component {
         </div>
 
       </div>
-    </div>
   }
 }
 
