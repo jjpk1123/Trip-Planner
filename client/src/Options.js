@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
 
 /**
  * Options allows the user to change the parameters for planning
@@ -45,19 +46,11 @@ class Options extends Component {
    * Changes the value in Application.js
    */
   changeUnit(e) { // Changes the parent's (Application.js) options
+    //Easier to read or maintain if it's like this.
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
     let unit = e.target.value;
 
-    //If we are changing the user unit, we go our own way
-    if (e.target.value === this.state.customUnit){
-      //TODO: We will call another function to get the user defined unit, and to set it.
-      this.setState({
-        customUnit: "hellos and goodbyes"
-      });
-      //TODO: Try setting this to this.state.customUnit, it won't work!
-      //Even though you'd think it would
-      unit = "fArEwElL";
-    }
+    //Do the things
     tempTrip.options.distance = unit; //alters the distance field to reflect the newly-selected unit
     this.state.unitOption = unit;
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
@@ -67,7 +60,7 @@ class Options extends Component {
    * Highlights the correct unit_of_measurement Button "live"
    */
   testActiveDropdown(unit) {
-    return "btn btn-outline-dark " + (this.props.distance === unit ? "active" : "");
+    return "btn btn-outline-blue " + (this.props.distance === unit ? "active" : "");
   }
 
   /**
@@ -135,9 +128,46 @@ class Options extends Component {
 
   render() {
     const options = ['miles', 'kilometers', 'nautical miles', this.state.customUnit];
-    const dropdownItems = options.map((option) =>
-      <DropdownItem active={this.props.trip.options.distance === option} value = {option}
-                    onClick={this.changeUnit} className = {this.testActiveDropdown(option)}>{option}</DropdownItem>);
+    const dropdownItems =
+      <ButtonDropdown isOpen = {this.state.dropdownOpen} toggle={this.dropdownToggle}
+                      data-toggle="buttons">
+        <DropdownToggle caret color="primary">
+          Select distance unit
+        </DropdownToggle>
+        <DropdownMenu>
+          {options.map((option) =>
+            <DropdownItem active={this.props.trip.options.distance === option} value={option}
+              onClick={this.changeUnit} className={this.testActiveDropdown(option)}>
+              {option}
+              </DropdownItem>)}
+          </DropdownMenu>
+      </ButtonDropdown>;
+
+    const customUnitForm = <Form>
+      <FormGroup>
+        <Label for = "userUnit">Unit</Label>
+        <Input type = "unit" name = "unit" id="userUnit" placeholder="Enter your unit's name..." />
+      </FormGroup>
+      <FormGroup>
+        <Label for = "userEarthRadius">Earth radius</Label>
+        <Input type = "earthRadius" name = "earthRadius" id="userEarthRadius" placeholder="Enter your unit's earth radius..." />
+      </FormGroup>
+    </Form>;
+
+    const customUnitModal = <div>
+      <Button color = "secondary" onClick={this.modalToggle}>Customize a unit</Button>
+      <Modal isOpen={this.state.modal} toggle={this.modalToggle} className={this.props.className}>
+        <ModalHeader toggle = {this.modalToggle}>Set up your custom unit below.</ModalHeader>
+        <ModalBody>
+          {customUnitForm}
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.modalToggle}>Do something</Button>{' '}
+          <Button color="secondary" onClick={this.modalToggle}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+    </div>;
+
 
     return <div id="options" className="card">
       {this.optCardHeader}
@@ -145,15 +175,10 @@ class Options extends Component {
           <div className="col">
             <div className="card-body">
               <h6 className="card-title">Distance unit:</h6>
-              <ButtonDropdown isOpen = {this.state.dropdownOpen} toggle={this.dropdownToggle}
-                        data-toggle="buttons">
-                <DropdownToggle caret color="primary">
-                  Select unit
-                </DropdownToggle>
-                <DropdownMenu>
-                  {dropdownItems}
-                </DropdownMenu>
-              </ButtonDropdown>
+              <ButtonGroup vertical>
+                {dropdownItems}
+                {customUnitModal}
+              </ButtonGroup>
             </div>
           </div>
 
