@@ -31,11 +31,11 @@ public class Svg {
      */
     private String svg() throws IOException {
         //SVG formatting. Not the prettiest, but it works.
-        String map = "<svg width=\"1066.6073\" height=\"783.0824\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\">";
-        map += "<svg width=\"1066.6073\" height=\"783.0824\">";
+//        String map = "<svg width=\"1066.6073\" height=\"783.0824\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\">";
+//        map += "<svg width=\"1066.6073\" height=\"783.0824\">";
 
-        //As written in the piazza post, seems to work out.
-        InputStream is = getClass().getResourceAsStream("/CObackgroundMap.svg");
+        String map = "<svg width=\"1024\" height=\"512\">";
+        InputStream is = getClass().getResourceAsStream("/World_Map.svg");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
         //If the map isn't found, we've got trouble down here in River City.
@@ -47,22 +47,23 @@ public class Svg {
             e.printStackTrace();
         }
         br.close();
+
         //Error checking, just in case this gets called before places has anything.
         //Would it be better to print a message about no input data?
         if (places == null || places.size() == 0) {
-            return map + "</svg></svg>";
+            //System.out.println("No places==No SVG");
+            return map + "</svg>";
         }
         //Write a line for each place
-        for (int i = 0; i < places.size() - 1; i++) {
+        for (int i = 0; i < places.size()-1; i++) {
             map += svgLine(i, i + 1);
         }
         //Also include return trip to first element. (If we change how this works, look here!)
         map += svgLine(places.size() - 1, 0);
 
-        map += "</svg>\n</svg>";
         //Included for testing purposes.
         //System.out.println(map); // (This should be the map svg, including the round trip path).
-        return map;
+        return map + "</svg>";
     }
 
     /**
@@ -106,12 +107,25 @@ public class Svg {
         // Colorado East border = 37 W
         // Colorado North border = 102 N
         // Colorado South border = 109 S
-        double latToSvg = (747.0 - 37.0)/(41.0 - 37.0);
-        double longToSvg = (1030.0 - 36.0)/(109.0 - 102.0);
 
-        //So, some scaling and translation and such.
-        double x1 = (109.0 - Math.abs(lon)) * longToSvg + 37;
-        double y1 = (41.0 - Math.abs(lat)) * latToSvg + 36;
+//        double latToSvg = (747.0 - 37.0)/(41.0 - 37.0);
+//        double longToSvg = (1030.0 - 36.0)/(109.0 - 102.0);
+//
+//        //So, some scaling and translation and such.
+//        double x1 = (109.0 - Math.abs(lon)) * longToSvg + 37;
+//        double y1 = (41.0 - Math.abs(lat)) * latToSvg + 36;
+
+        // World West  X value on SVG = 0
+        // World East  X value on SVG = 1024
+        // World North Y value on SVG = 0
+        // World South Y value on SVG = 512
+
+        // West  degrees = -180
+        // East  degrees =  180
+        // North degrees =  90
+        // South degrees = -90
+        double x1 = 0;
+        double y1 = 0;
 
         return new double[]{x1, y1};
     }
