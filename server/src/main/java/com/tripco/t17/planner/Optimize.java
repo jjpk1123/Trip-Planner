@@ -142,7 +142,7 @@ public class Optimize {
         for (int i = 0 ; i < distanceTable.length ; i++){
             for (int j = i ; j < distanceTable[i].length ; j++){
                 //Calculate the distance, from a to a is 0 along the diagonal.
-                distanceTable[i][j] = Distance.gcd(places.get(i), places.get(j), "miles", "");;
+                distanceTable[i][j] = Distance.gcd(places.get(i), places.get(j), "miles", "");
 
                 //Table is symmetrical about the diagonal, table[i][j] always equals table[j][i].
                 distanceTable [j][i] = distanceTable[i][j];
@@ -187,6 +187,19 @@ public class Optimize {
       return distance;
     }
 
+
+
+    public static ArrayList<Place> twoOpt(ArrayList<Place> places){
+        ArrayList<Place> places1 = nearestNeighbor(places);
+
+        return places1;
+
+    }
+
+    private void twoOptReverse(ArrayList<Place> places, int i1, int k){
+
+
+    }
 
 
 
