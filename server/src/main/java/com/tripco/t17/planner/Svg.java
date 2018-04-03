@@ -20,7 +20,7 @@ public class Svg {
         try {
             this.map = svg();
         } catch(IOException e){
-            System.err.println(e);
+            // System.err.println(e);
         }
     }
 
@@ -31,15 +31,15 @@ public class Svg {
      */
     private String svg() throws IOException {
         //SVG formatting. Not the prettiest, but it works.
-        String map = "<svg width=\"1024\" height=\"512\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" " +
+        String map = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>";
+        map += "<svg width=\"1024\" height=\"512\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" " +
                 "xmlns:cc=\"http://web.resource.org/cc/\" " +
                 "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " +
                 "xmlns:svg=\"http://www.w3.org/2000/svg\" " +
                 "xmlns=\"http://www.w3.org/2000/svg\" " +
                 "xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\" " +
                 "xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\">\n";
-//        String map = "<svg width=\"1066.6073\" height=\"783.0824\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\">";
-//        map += "<svg width=\"1024\" height=\"512\">";
+        map += "<svg width=\"1024\" height=\"512\">";
 
         InputStream is = getClass().getResourceAsStream("/World_Map.svg");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -56,8 +56,8 @@ public class Svg {
         //Error checking, just in case this gets called before places has anything.
         //Would it be better to print a message about no input data?
         if (places == null || places.size() == 0) {
-            //System.out.println("No places==No SVG");
-            map += "\n</svg>"; // \n</svg>";
+            // System.out.println("No places==No SVG");
+            map += "\n</svg>\n</svg>";
             return map;
         }
         //Creates a line for each (place A -> place B)
@@ -67,7 +67,7 @@ public class Svg {
         //Creates the line that goes from the last place back to first place
         map += svgLine(places.size()-1, 0);
 
-        map += "\n</svg>"; // \n</svg>";
+        map += "\n</svg>\n</svg>";
 //        System.out.println(map); // debug
         return map;
     }
@@ -79,7 +79,7 @@ public class Svg {
      * @return line between one place to another.
      */
     private String svgLine(int from, int to){
-        String line = "";
+        String line;
         try{
             double[] coord1 = svgHelper(Distance.dmsToDegrees(places.get(from).latitude),
                                         Distance.dmsToDegrees(places.get(from).longitude));
@@ -92,7 +92,7 @@ public class Svg {
                                    + Double.toString(coord2[1]) + "\""
                  + " style=\"stroke:rgb(255,0,0);stroke-width:1\" />";
         } catch (Exception e) {
-            System.err.println(e);
+            //System.err.println(e);
             throw e;
         }
         return line;
@@ -105,14 +105,13 @@ public class Svg {
      * @return [0]=x; [1]=y;
      */
     private double[] svgHelper(double lat, double lon){
-        double delta_x = (lat /  90) * 512; // the x value, relative to svg pixels
-        double delta_y = (lon / 180) * 256; // the y value, relative to svg pixels
+        double delta_x = (lat /  90) * 256; // the x value, relative to svg pixels
+        double delta_y = (lon / 180) * 512; // the y value, relative to svg pixels
         double x;
         double y;
 
-        x = 512 + delta_x;
-        y = 256 + delta_y;
-
+        y = 256 - delta_x;
+        x = 512 + delta_y;
         return new double[]{x, y};
     }
 }

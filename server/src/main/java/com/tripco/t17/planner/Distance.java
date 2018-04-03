@@ -162,6 +162,7 @@ public class Distance {
      * @return degrees.
      */
     public static double dmsToDegrees(String dms) {
+//        System.out.print(dms + " -> "); // debug
         double degrees;
         //Check for °, main validator
         try {
@@ -182,7 +183,7 @@ public class Distance {
                 }
 
                 //Set the sign at the very end
-                if (result[1].trim().equals("S") || result[1].trim().equals("W")) {
+                if (dms.substring(dms.length()-1).equals("S") || dms.substring(dms.length()-1).equals("W")) {
                     degrees *= -1;
                 }
 
@@ -194,6 +195,7 @@ public class Distance {
             //Perhaps we can make a new method for error handling which stops legDistances?
             throw e;
         }
+//        System.out.println(degrees); // debug
         return degrees;
     }
 
