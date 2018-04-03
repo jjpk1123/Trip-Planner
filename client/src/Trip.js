@@ -130,7 +130,8 @@ class Trip extends Component {
         </div>
       </div>
       <div className="card-body">
-        <Itinerary trip={this.props.trip}/>
+        <Itinerary trip={this.props.trip}
+                   config={this.props.config}/>
         <Map trip={this.props.trip}/>
       </div>
     </div>

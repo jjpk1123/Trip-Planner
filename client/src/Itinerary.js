@@ -5,6 +5,7 @@ class Itinerary extends Component {
     super(props);
     this.unitsString = "";
     this.createTable = this.createTable.bind(this);
+    this.retrieveAlgorithm = this.retrieveAlgorithm.bind(this);
     this.getRoundTripDistance = this.getRoundTripDistance.bind(this);
   }
 
@@ -140,6 +141,37 @@ class Itinerary extends Component {
   }
 
   /**
+   *
+   */
+  retrieveAlgorithm() {
+    if (this.props.trip.options.optimization === "none") {
+      return this.restOfTheString(0);
+    }
+    let slider = parseFloat((this.props.trip).options.optimization);
+    let configOpt = parseFloat(this.props.config.optimizations);
+    let breakPoint = 1.0 / (configOpt + 1);
+    if (slider < breakPoint) {
+      return this.restOfTheString(0);
+    }
+    if (slider >= breakPoint && slider <= 2*breakpoint) { // 2-opt -> (slider < 2*bP)
+      return this.restOfTheString(1);
+    }
+    // else if (slider >= 2*breakPoint && slider < 3*breakPoint) {
+    //   return this.restOfTheString(2);
+    // }
+  }
+
+  /**
+   *
+   */
+  restOfTheString(index) {
+    if (index === 0) {
+      return " using the order in the file.";
+    }
+    return " with the " + ((this.props.config).optimizations[index])["description"] + " algorithm!";
+  }
+
+  /**
    * Renders the table block located under the <Map>
    */
   render() {
@@ -164,7 +196,8 @@ class Itinerary extends Component {
         </tr>
         </tbody>
       </table>
-      <h4>Round-trip distance of <b>{this.getRoundTripDistance()} {table.units}. </b></h4>
+      <h4>Round-trip distance of <b>{this.getRoundTripDistance()} {table.units}.</b></h4>
+      <h6>Computed {this.retrieveAlgorithm()}</h6>
     </div>
   }
 }
