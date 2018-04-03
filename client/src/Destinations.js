@@ -301,8 +301,6 @@ class Destinations extends Component {
   render() {
     return <div id="destinations" className="card">
       {this.destCardHeader}
-      <div className="card-body">
-        <h6>Load destinations or search our database:</h6>
         <div className="row">
           <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
             <div className="card-body">
@@ -310,6 +308,7 @@ class Destinations extends Component {
               <div className="form-group" role="group">
                 <input type="file" className="form-control-file" onChange={this.loadTFFI}/>
               </div>
+              <h5>There are <b>{(this.props.places).length}</b> destinations</h5>
             </div>
           </div>
           <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
@@ -319,9 +318,7 @@ class Destinations extends Component {
                     updateQuery={this.props.updateQuery}/>
           </div>
         </div>
-        <h5>There are <b>{(this.props.places).length}</b> destinations</h5>
       </div>
-    </div>
   }
 }
 

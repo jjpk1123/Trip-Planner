@@ -1,32 +1,14 @@
 import React, {Component} from 'react';
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
 
 /**
  * Options allows the user to change the parameters for planning
- * and rendering the trip map and itinerary.
+ * and rendering the trip map and itinerary. hello.
  * The options reside in the parent object so they may be shared with the Trip object.
  * Allows the user to set the options used by the application via a set of buttons.
  */
-
-function CustomUnits(props){
-  const usingCustomUnits = props.customUnits;
-  if (usingCustomUnits){
-    return <p>true</p>;
-  }
-  else{
-    return <p>false</p>;
-
-  }
-}
-
-
-function UseCustom(props){
-  props.customUnits = true;
-}
-
-function CustomUnitForm(props){
-
-}
-
 class Options extends Component {
   constructor(props) {
     super(props);
@@ -34,28 +16,87 @@ class Options extends Component {
     this.retrieveOptimizationValue = this.retrieveOptimizationValue.bind(this);
     this.changeOptimization = this.changeOptimization.bind(this);
     this.retrieveOptimizationString = this.retrieveOptimizationString.bind(this);
-    this.customUnits = false;
+    this.dropdownToggle = this.dropdownToggle.bind(this);
+    this.modalToggle = this.modalToggle.bind(this);
+    this.modalCancel = this.modalCancel.bind(this);
+    this.modalSubmit = this.modalSubmit.bind(this);
+    this.updateCustomUnit = this.updateCustomUnit.bind(this);
+    this.updateCustomRadius = this.updateCustomRadius.bind(this);
     this.optCardHeader = <h5 className="card-header bg-info text-white">
-        Options
-      </h5>;
+      Options
+    </h5>;
+    this.state = {
+      dropdownOpen: false,
+      modal: false,
+      customUnit: "",
+      customRadius: ""
+    };
+  }
+
+  dropdownToggle() {
+    this.setState({
+      customUnit: this.props.trip.options.userUnit,
+      customRadius: this.props.trip.options.userRadius,
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  modalToggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
+  modalSubmit() {
+    let temp = this.props.trip;
+    temp.options.userUnit = this.state.customUnit;
+    temp.options.userRadius = this.state.customRadius;
+    this.props.updateTrip(temp);
+    this.modalToggle();
+  }
+
+  modalCancel() {
+    //Close the dang thang
+    this.modalToggle();
+  }
+
+  updateCustomUnit(e) {
+    console.log("customUnit: " + e.target.value);
+    this.setState({
+      customUnit: e.target.value
+    });
+  }
+
+  updateCustomRadius(e) {
+    console.log("customRadius: " + e.target.value);
+    this.setState({
+      customRadius: e.target.value
+    });
   }
 
   /**
    * Called when user clicks on the unit_of_measurement button.
    * Changes the value in Application.js
    */
-  changeUnit(userUnit) { // Changes the parent's (Application.js) options
+  changeUnit(e) { // Changes the parent's (Application.js) options
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
-    //if(userUnit.target.value == "custom"){ this.customUnits = true;}
-    tempTrip.options.distance = userUnit.target.value; //alters the distance field to reflect the newly-selected unit
+    let unit = e.target.value;
+    console.log(unit);
+
+    if (unit !== "miles" && unit !== "kilometers" && unit !== "nautical miles") { // "bananas"
+      tempTrip.options.distance = "user defined"; // saves as "user defined"
+      //this.setState({customUnit: e.target.value});
+    } else {
+      tempTrip.options.distance = unit; //alters the distance field to reflect the newly-selected unit
+    }
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
   }
 
   /**
    * Highlights the correct unit_of_measurement Button "live"
    */
-  testActiveBtn(unit) {
-    return "btn btn-outline-dark " + (this.props.distance === unit ? "active" : "");
+  testActiveDropdown(unit) {
+    return "btn btn-outline-blue " + (this.props.distance === unit ? "active" : "");
   }
 
   /**
@@ -121,50 +162,90 @@ class Options extends Component {
     //console.log("trip.options.optim== " + newValue);
   }
 
+  /**
+   * Makes the "title" of the dropdown menu reflect the current distance unit.
+   */
+  dropdownTitle(){
+    if (this.props.trip.options.distance === "user defined"){
+      return this.props.trip.options.userUnit;
+    }
+    return this.props.trip.options.distance;
+  }
+
+
   render() {
+    const options = ['miles', 'kilometers', 'nautical miles', this.state.customUnit];
+    let unique = 0;
+    const dropdownItems =
+      <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}
+                      data-toggle="buttons">
+        <DropdownToggle caret color="primary">
+          {this.dropdownTitle()}
+        </DropdownToggle>
+        <DropdownMenu>
+          {options.map((option) =>
+            <DropdownItem active={this.props.trip.options.distance === option} value={option}
+                          onClick={this.changeUnit} key={++unique} className={this.testActiveDropdown(option)}>
+              {option}
+            </DropdownItem>)}
+        </DropdownMenu>
+      </ButtonDropdown>;
+
+    const customUnitForm = <Form>
+      <FormGroup>
+        <Label for = "userUnit">Unit</Label>
+        <Input type = "text" name = "unit" id="userUnit"
+               onChange={this.updateCustomUnit} placeholder="Enter your unit's name..." />
+      </FormGroup>
+      <FormGroup>
+        <Label for = "userEarthRadius">Earth radius</Label>
+        <Input type = "text" name = "earthRadius" id="userEarthRadius"
+               onChange={this.updateCustomRadius} placeholder="Enter your unit's earth radius..." />
+
+      </FormGroup>
+    </Form>;
+
+    const customUnitModal = <div>
+      <Button color = "secondary" onClick={this.modalToggle}>Customize a unit</Button>
+      <Modal isOpen={this.state.modal} toggle={this.modalToggle} className={this.props.className}>
+        <ModalHeader toggle = {this.modalToggle}>Set up your custom unit below.</ModalHeader>
+        <ModalBody>
+          {customUnitForm}
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.modalSubmit}>Submit</Button>{' '}
+          <Button color="secondary" onClick={this.modalCancel}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+    </div>;
+
+
     return <div id="options" className="card">
       {this.optCardHeader}
-      <div className="card-body">
-        <h6>Select the desired:</h6>
+      <div className="row">
+        <div className="col">
+          <div className="card-body">
+            <h6 className="card-title">Distance unit:</h6>
+            <ButtonGroup vertical>
+              {dropdownItems}
+              {customUnitModal}
+            </ButtonGroup>
+          </div>
+        </div>
 
-        <div className="row">
-          <div className="col">
-            <div className="card-body">
-              <h6 className="card-title">Unit of distance:</h6>
-              <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={this.changeUnit}>
-                <label className={this.testActiveBtn("miles")}>
-                  <input type="radio" value="miles" name="distance"/> Miles
-                </label>
-                <label className={this.testActiveBtn("kilometers")}>
-                  <input type="radio" value="kilometers" name="distance"/> Kilometers
-                </label>
-                <label className={this.testActiveBtn("nautical miles")}>
-                  <input type="radio" value="nautical miles" name="distance"/> Nautical Miles
-                </label>
-              <div className="btn-group btn-group-toggle" data-toggle="buttons" onChange={UseCustom}>
-                <label className={this.testActiveBtn("custom")}>
-                  <input type="radio" value="custom" name="distance"/> Custom
-                </label>
-              </div>
-              </div>
-              <CustomUnits/>
+        <div className="col">
+          <div className="card-body">
+            <h6 className="card-title">Round-Trip length:</h6>
+            <div>
+              <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
+                     value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
+              <h6>Length: <b>{this.retrieveOptimizationString()}</b></h6>
             </div>
           </div>
-
-          <div className="col">
-            <div className="card-body">
-              <h6 className="card-title">Round-Trip length:</h6>
-                <div>
-                  <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
-                         value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
-                  <h6>Length: <b>{this.retrieveOptimizationString()}</b></h6>
-                </div>
-            </div>
-          </div>
-
         </div>
 
       </div>
+
     </div>
   }
 }
