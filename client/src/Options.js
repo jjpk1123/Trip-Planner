@@ -21,47 +21,56 @@ class Options extends Component {
     this.modalCancel = this.modalCancel.bind(this);
     this.modalSubmit = this.modalSubmit.bind(this);
     this.updateCustomUnit = this.updateCustomUnit.bind(this);
+    this.updateCustomRadius = this.updateCustomRadius.bind(this);
     this.optCardHeader = <h5 className="card-header bg-info text-white">
       Options
     </h5>;
     this.state = {
       dropdownOpen: false,
       modal: false,
-      customUnit: "user defined",
-      customRadius: "123"
+      customUnit: "",
+      customRadius: ""
     };
   }
 
-  dropdownToggle(){
+  dropdownToggle() {
     this.setState({
+      customUnit: this.props.trip.options.userUnit,
+      customRadius: this.props.trip.options.userRadius,
       dropdownOpen: !this.state.dropdownOpen
     });
   }
 
-  modalToggle(){
+  modalToggle() {
     this.setState({
       modal: !this.state.modal
     });
   }
 
-  modalSubmit(){
+  modalSubmit() {
     let temp = this.props.trip;
-    //TODO: GET HELP FROM MIKE LUL
-    temp.options.userUnit
-    temp.options.userRadius
+    temp.options.userUnit = this.state.customUnit;
+    temp.options.userRadius = this.state.customRadius;
     this.props.updateTrip(temp);
     this.modalToggle();
   }
 
-  modalCancel(){
+  modalCancel() {
     //Close the dang thang
     this.modalToggle();
   }
 
-  updateCustomUnit(e){
+  updateCustomUnit(e) {
     console.log("customUnit: " + e.target.value);
     this.setState({
       customUnit: e.target.value
+    });
+  }
+
+  updateCustomRadius(e) {
+    console.log("customRadius: " + e.target.value);
+    this.setState({
+      customRadius: e.target.value
     });
   }
 
@@ -71,7 +80,15 @@ class Options extends Component {
    */
   changeUnit(e) { // Changes the parent's (Application.js) options
     let tempTrip = this.props.trip; //retrieves trip from parent (Application.js)
-    tempTrip.options.distance = e.target.value; //alters the distance field to reflect the newly-selected unit
+    let unit = e.target.value;
+    console.log(unit);
+
+    if (unit !== "miles" && unit !== "kilometers" && unit !== "nautical miles") { // "bananas"
+      tempTrip.options.distance = "user defined"; // saves as "user defined"
+      //this.setState({customUnit: e.target.value});
+    } else {
+      tempTrip.options.distance = unit; //alters the distance field to reflect the newly-selected unit
+    }
     this.props.updateTrip(tempTrip); //re-renders the client to show the changes made
   }
 
@@ -145,33 +162,45 @@ class Options extends Component {
     //console.log("trip.options.optim== " + newValue);
   }
 
+  /**
+   * Makes the "title" of the dropdown menu reflect the current distance unit.
+   */
+  dropdownTitle(){
+    if (this.props.trip.options.distance === "user defined"){
+      return this.props.trip.options.userUnit;
+    }
+    return this.props.trip.options.distance;
+  }
+
 
   render() {
     const options = ['miles', 'kilometers', 'nautical miles', this.state.customUnit];
     let unique = 0;
     const dropdownItems =
-      <ButtonDropdown isOpen = {this.state.dropdownOpen} toggle={this.dropdownToggle}
+      <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}
                       data-toggle="buttons">
         <DropdownToggle caret color="primary">
-          Select distance unit
+          {this.dropdownTitle()}
         </DropdownToggle>
         <DropdownMenu>
           {options.map((option) =>
             <DropdownItem active={this.props.trip.options.distance === option} value={option}
-              onClick={this.changeUnit} key = {unique++} className={this.testActiveDropdown(option)}>
+                          onClick={this.changeUnit} key={++unique} className={this.testActiveDropdown(option)}>
               {option}
-              </DropdownItem>)}
-          </DropdownMenu>
+            </DropdownItem>)}
+        </DropdownMenu>
       </ButtonDropdown>;
 
     const customUnitForm = <Form>
       <FormGroup>
         <Label for = "userUnit">Unit</Label>
-        <Input type = "text" name = "unit" id="userUnit" onChange={this.updateCustomUnit} placeholder="Enter your unit's name..." />
+        <Input type = "text" name = "unit" id="userUnit"
+               onChange={this.updateCustomUnit} placeholder="Enter your unit's name..." />
       </FormGroup>
       <FormGroup>
         <Label for = "userEarthRadius">Earth radius</Label>
-        <Input type = "text" name = "earthRadius" id="userEarthRadius" placeholder="Enter your unit's earth radius..." />
+        <Input type = "text" name = "earthRadius" id="userEarthRadius"
+               onChange={this.updateCustomRadius} placeholder="Enter your unit's earth radius..." />
 
       </FormGroup>
     </Form>;
@@ -193,31 +222,31 @@ class Options extends Component {
 
     return <div id="options" className="card">
       {this.optCardHeader}
-        <div className="row">
-          <div className="col">
-            <div className="card-body">
-              <h6 className="card-title">Distance unit:</h6>
-              <ButtonGroup vertical>
-                {dropdownItems}
-                {customUnitModal}
-              </ButtonGroup>
+      <div className="row">
+        <div className="col">
+          <div className="card-body">
+            <h6 className="card-title">Distance unit:</h6>
+            <ButtonGroup vertical>
+              {dropdownItems}
+              {customUnitModal}
+            </ButtonGroup>
+          </div>
+        </div>
+
+        <div className="col">
+          <div className="card-body">
+            <h6 className="card-title">Round-Trip length:</h6>
+            <div>
+              <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
+                     value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
+              <h6>Length: <b>{this.retrieveOptimizationString()}</b></h6>
             </div>
           </div>
-
-          <div className="col">
-            <div className="card-body">
-              <h6 className="card-title">Round-Trip length:</h6>
-                <div>
-                  <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
-                         value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
-                  <h6>Length: <b>{this.retrieveOptimizationString()}</b></h6>
-                </div>
-            </div>
-          </div>
-
         </div>
 
       </div>
+
+    </div>
   }
 }
 
