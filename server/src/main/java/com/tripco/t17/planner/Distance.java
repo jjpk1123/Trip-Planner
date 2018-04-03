@@ -183,7 +183,8 @@ public class Distance {
                 }
 
                 //Set the sign at the very end
-                if (dms.substring(dms.length()-1).equals("S") || dms.substring(dms.length()-1).equals("W")) {
+                if (dms.substring(dms.length()-1).equals("S")
+                        || dms.substring(dms.length()-1).equals("W")) {
                     degrees *= -1;
                 }
 

@@ -30,16 +30,7 @@ public class Svg {
      * @return map with lines on it.
      */
     private String svg() throws IOException {
-        //SVG formatting. Not the prettiest, but it works.
-        String map = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>";
-        map += "<svg width=\"1024\" height=\"512\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" " +
-                "xmlns:cc=\"http://web.resource.org/cc/\" " +
-                "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " +
-                "xmlns:svg=\"http://www.w3.org/2000/svg\" " +
-                "xmlns=\"http://www.w3.org/2000/svg\" " +
-                "xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\" " +
-                "xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\">\n";
-        map += "<svg width=\"1024\" height=\"512\">";
+        String map = retrieveSVGIntro();
 
         InputStream is = getClass().getResourceAsStream("/World_Map.svg");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -54,22 +45,47 @@ public class Svg {
         br.close();
 
         //Error checking, just in case this gets called before places has anything.
-        //Would it be better to print a message about no input data?
         if (places == null || places.size() == 0) {
             // System.out.println("No places==No SVG");
             map += "\n</svg>\n</svg>";
             return map;
         }
-        //Creates a line for each (place A -> place B)
-        for (int i = 0; i < places.size()-1; i++) {
-            map += svgLine(i, i + 1);
-        }
-        //Creates the line that goes from the last place back to first place
-        map += svgLine(places.size()-1, 0);
+
+        map += retrieveLines();
 
         map += "\n</svg>\n</svg>";
 //        System.out.println(map); // debug
         return map;
+    }
+
+    /**
+     * Only to make the svg() method shorter
+     * @return the introductory String the svg object needs
+     */
+    private String retrieveSVGIntro() {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
+                + "<svg width=\"1024\" height=\"512\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" "
+                + "xmlns:cc=\"http://web.resource.org/cc/\" "
+                + "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" "
+                + "xmlns:svg=\"http://www.w3.org/2000/svg\" "
+                + "xmlns=\"http://www.w3.org/2000/svg\" "
+                + "xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\" "
+                + "xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\">\n"
+                + "<svg width=\"1024\" height=\"512\">";
+    }
+
+    /**
+     * Creates (red) lines that connect each place (place A -> place B)
+     * return lines = all the lines needed
+     */
+    private String retrieveLines() {
+        String sendIt = "";
+        for (int i = 0; i < places.size()-1; i++) {
+            sendIt += svgLine(i, i + 1);
+        }
+        //Creates the line that goes from the last place back to first place
+        sendIt += svgLine(places.size()-1, 0);
+        return sendIt;
     }
 
     /**
@@ -105,13 +121,11 @@ public class Svg {
      * @return [0]=x; [1]=y;
      */
     private double[] svgHelper(double lat, double lon){
-        double delta_x = (lat /  90) * 256; // the x value, relative to svg pixels
-        double delta_y = (lon / 180) * 512; // the y value, relative to svg pixels
-        double x;
-        double y;
+        double deltaX = (lon / 180) * 512; // the y value, relative to svg pixels
+        double deltaY = (lat /  90) * 256; // the x value, relative to svg pixels
+        double svgX = 512 + deltaX;
+        double svgY = 256 - deltaY;
 
-        y = 256 - delta_x;
-        x = 512 + delta_y;
-        return new double[]{x, y};
+        return new double[]{svgX, svgY};
     }
 }
