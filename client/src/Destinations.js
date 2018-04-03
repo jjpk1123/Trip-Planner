@@ -96,9 +96,9 @@ class Destinations extends Component {
     } else if (this.myObj.version < 1) {
       console.log("version less than min; changing to 1");
       this.myObj.version = 1;
-    } else if (this.myObj.version > 2) {
-      console.log("version greater than max; changing to 2");
-      this.myObj.version = 2;
+    } else if (this.myObj.version > 3) {
+      console.log("version greater than max; changing to 3");
+      this.myObj.version = 3;
     }
   }
 

@@ -119,7 +119,7 @@ class Options extends Component {
       return this.optString(0);
     }
 
-    let configOpt = parseFloat(this.props.configOptimizations);
+    let configOpt = parseFloat(this.props.config.optimization);
     let opt = 1.0 / (configOpt + 1);
     let curr = parseFloat(this.props.trip.options.optimization);
     if (curr >= opt) {
@@ -139,7 +139,7 @@ class Options extends Component {
   }
 
   /**
-   * Returns whichever optimization level is in the config.optimizations field
+   * Returns whichever optimization level is in the config.optimization field
    * @param index
    * @return description = {0="Longest", 1="Short", 2="Shorter", 3="Shortest"}
    */
@@ -156,7 +156,7 @@ class Options extends Component {
       return false;
     }
     // console.log(this.props.trip.options.optimization);
-    let conOpt = parseFloat(this.props.configOptimizations);
+    let conOpt = parseFloat(this.props.config.optimization);
     let opt = 1.0 / (conOpt + 1);
     let curr = parseFloat((this.props.trip).options.optimization);
     // console.log(curr + " " + opt); // debug the string

@@ -141,19 +141,20 @@ class Itinerary extends Component {
   }
 
   /**
-   *
+   * Prints out which Algorithm is being used (if > No optimization)
    */
   retrieveAlgorithm() {
     if (this.props.trip.options.optimization === "none") {
       return this.restOfTheString(0);
     }
     let slider = parseFloat((this.props.trip).options.optimization);
-    let configOpt = parseFloat(this.props.config.optimizations);
+    let configOpt = parseInt(this.props.config.optimization);
     let breakPoint = 1.0 / (configOpt + 1);
+
     if (slider < breakPoint) {
       return this.restOfTheString(0);
     }
-    if (slider >= breakPoint && slider <= 2*breakpoint) { // 2-opt -> (slider < 2*bP)
+    else if (slider >= breakPoint && slider <= 2*breakPoint) { // for 2-opt, use: (... && slider < 2*bP)
       return this.restOfTheString(1);
     }
     // else if (slider >= 2*breakPoint && slider < 3*breakPoint) {
@@ -162,13 +163,14 @@ class Itinerary extends Component {
   }
 
   /**
-   *
+   * If No optimization, returns the default string
+   * Else, prints which algo it computed it with
    */
   restOfTheString(index) {
     if (index === 0) {
-      return " using the order in the file.";
+      return " using the order provided in the file.";
     }
-    return " with the " + ((this.props.config).optimizations[index])["description"] + " algorithm!";
+    return " with the " + ((this.props.config).optimizations[index])["label"] + " algorithm!";
   }
 
   /**
@@ -197,7 +199,7 @@ class Itinerary extends Component {
         </tbody>
       </table>
       <h4>Round-trip distance of <b>{this.getRoundTripDistance()} {table.units}.</b></h4>
-      <h6>Computed {this.retrieveAlgorithm()}</h6>
+      <h6>Computed <b>{this.retrieveAlgorithm()}</b></h6>
     </div>
   }
 }

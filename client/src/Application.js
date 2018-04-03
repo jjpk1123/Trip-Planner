@@ -112,7 +112,6 @@ class Application extends Component {
           <Options trip={this.state.trip}
                    config={this.state.config}
                    distance={this.state.trip.options.distance}
-                   configOptimizations={this.state.config.optimization}
                    updateTrip={this.updateTrip}/>
         </div>
         <div className="col-12">
