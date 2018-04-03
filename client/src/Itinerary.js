@@ -23,7 +23,9 @@ class Itinerary extends Component {
       return {units};//not all places have valid distances
     }
 
-    let dests = this.props.trip.places.map((item) => <td key={item.id}>{item.name}</td>);
+    let dests = this.props.trip.places.map((item) =>
+      <td className = " text-white" style={{backgroundColor: "#1E4D28"}}
+          key={item.id}>{item.name}</td>);
     let cumul = this.getCumulative();
 
     if (dests.length !== 0) {//if there are >1 Destination
@@ -100,7 +102,8 @@ class Itinerary extends Component {
   destsConcatFinal(dests) {
     let start = this.props.trip.places[0].name;
     let myArray = [start];
-    let endingCol = myArray.map((item) => <td key={"dest_n"}>{item}</td>);
+    let endingCol = myArray.map((item) => <td className = " text-white" style={{backgroundColor: "#1E4D28"}}
+                                              key={"dest_n"}>{item}</td>);
     return dests.concat(endingCol);//adds to the end of dests row
   }
 
