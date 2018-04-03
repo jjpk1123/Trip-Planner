@@ -85,7 +85,8 @@ class Options extends Component {
     let conOpt = parseFloat(this.props.configOptimizations);
     let opt = 1.0 / (conOpt + 1);
     let curr = parseFloat(this.props.optimization);
-    if (curr >= opt) { // if (curr >= opt && curr < 2*opt) {
+    console.log(curr);
+    if (curr >= opt && curr < 2*opt) { // if (curr >= opt && curr < 2*opt) {
       //console.log("NearestNeighbor");
       return "shorter"; // "short"
     }
