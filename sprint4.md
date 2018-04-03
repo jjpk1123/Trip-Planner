@@ -46,22 +46,22 @@ Epics planned for this release.
 
 *Include a discussion of planning decisions made based on your velocity from previous sprints.*
 
-* Based on our previous sprints, we estimated that the three of us could tackle ~40 story points for sprint4, and have adjusted our backlog/icebox configuration accordingly. Accomplishing task based on priority is important, so the epics (above) are, in fact, in order. 
+* Based on our previous sprints, we estimated that the three of us could tackle ~40 story points for sprint4, and have adjusted our backlog/icebox configuration accordingly. Accomplishing task based on priority is important, so the epics (above) are, in fact, in order.
 
 ## Metrics
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  *17*   | *2* 
-Story Points |  *39*  | *4* 
+Tasks |  *20*   | *4*
+Story Points |  *43*  | *6*
 
 ## Daily Scrums
 
-Date | Tasks done  | Tasks in progress | Impediments 
-:--- | :--- | :--- | :--- 
+Date | Tasks done  | Tasks in progress | Impediments
+:--- | :--- | :--- | :---
 *3/27* | none | *#216 #217 #223* | none
 *3/29* | *#216 #217* | *#223 #226 #220 #221 #236* | none
- | | | 
+*4/01* | *#220 #221* | *#223 #226 #249 #251* | none
  
 
 ## Review
