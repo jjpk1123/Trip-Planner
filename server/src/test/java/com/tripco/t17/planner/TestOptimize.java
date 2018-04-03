@@ -746,8 +746,18 @@ public class TestOptimize {
 
   }
 
+/**
+ * 2-opt test block
+ */
 
+    @Test
+    public void testTwoOpt(){
 
+    }
+    @Test
+    public void testTwoOptReverse(){
+
+    }
 
 }
 

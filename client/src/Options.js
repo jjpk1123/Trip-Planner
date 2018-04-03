@@ -87,12 +87,12 @@ class Options extends Component {
     let curr = parseFloat(this.props.optimization);
     if (curr >= opt) { // if (curr >= opt && curr < 2*opt) {
       //console.log("NearestNeighbor");
-      return "shortest"; // "short"
+      return "shorter"; // "short"
     }
-    // else if (curr >= 2*opt && curr < 3*opt) { // when we run 2-opt, make sure to less than or ***EQUAL*** 3*opt
-    //   console.log("2-opt");
-    //   return "shorter";
-    // }
+    else if (curr >= 2*opt && curr <= 3*opt) { // when we run 2-opt, make sure to less than or ***EQUAL*** 3*opt
+      //   console.log("2-opt");
+      return "shortest";
+    }
     // else if (curr >= 3*opt && curr <= 4*opt) {
     //   console.log("3-opt");
     //   return "shortest";

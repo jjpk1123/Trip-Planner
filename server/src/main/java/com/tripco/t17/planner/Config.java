@@ -21,7 +21,7 @@ public class Config {
     public void retrieveValues() {
         this.type = "config";
         this.version = 2;       // This value will change over time
-        this.optimization = 1;  // This value will change over time
+        this.optimization = 2;  // This value will change over time
 
         //optimization of 0 == {Nothing]
         //optimization of 1 == [Nothing, NN]
@@ -34,7 +34,7 @@ public class Config {
      * @return optLevel +1
      */
     public static int getOptimizationLevels() {
-        return (1) + 1;         // This value will change over time
+        return (2) + 1;         // This value will change over time
         // CS students start at 0
         // level+1 "normalizes"
     }
