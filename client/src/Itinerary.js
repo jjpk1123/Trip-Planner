@@ -149,17 +149,19 @@ class Itinerary extends Component {
       <table className="table table-responsive table-bordered">
         <thead>
         <tr className="table-info">
-          <th className="align-middle">Destinations</th>
+          <th className="align-middle text-white" style={{backgroundColor: "#1E4D28"}}>Destinations</th>
           {table.dests}
         </tr>
         </thead>
         <tbody>
         <tr>
-          <th className="table-info align-middle">{this.unitsString}</th>
+          <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>
+            {this.unitsString}</th>
           {table.dists}
         </tr>
         <tr>
-          <th className="table-info align-middle">Cumulative</th>
+          <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>
+            Cumulative</th>
           {table.cumul}
         </tr>
         </tbody>

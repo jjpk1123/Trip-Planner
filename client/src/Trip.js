@@ -114,18 +114,18 @@ class Trip extends Component {
         <p>Give your trip a title before planning or saving.</p>
         <div className="input-group" role="group">
           <span className="input-group-btn">
-            <button className="btn btn-primary" onClick={this.plan} type="button">Plan</button>
+            <button className="btn text-white " style={{backgroundColor: "#1E4D28"}} onClick={this.plan} type="button">Plan</button>
           </span>
           <input type="text" className="form-control" placeholder="Name your Trip here" onChange={this.updateTitle}/>
           <span className="input-group-btn">
-            <button className="btn btn-primary" onClick={this.saveTFFI} type="button">Save</button>
+            <button className="btn text-white " style={{backgroundColor: "#1E4D28"}} onClick={this.saveTFFI} type="button">Save</button>
           </span>
         </div>
       </div>
       <div className="card-body">
         <div className="input-group" role="group">
           <span className="input-group-btn">
-            <button className="btn btn-primary" onClick={this.reverseTrip} type="button">Reverse Trip</button>
+            <button className="btn text-white"  style={{backgroundColor: "#1E4D28"}} onClick={this.reverseTrip} type="button">Reverse Trip</button>
           </span>
         </div>
       </div>

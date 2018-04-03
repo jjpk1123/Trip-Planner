@@ -13,7 +13,7 @@ class App extends Component {
   }
   //style={{backgroundColor: "#1E4D28"}}
   render() {
-    return <div id="tripco" style={{backgroundColor: "#59595B"}}>
+    return <div id="tripco">
       <Header number={this.state.number} name={this.state.name}/>
       <Application/>
       <Footer number={this.state.number} name={this.state.name}/>
