@@ -96,7 +96,7 @@ class Options extends Component {
    * Highlights the correct unit_of_measurement Button "live"
    */
   testActiveDropdown(unit) {
-    return "btn " + (this.props.distance === unit ? "active" : "");
+    return "btn " + (this.props.distance === unit ? " active text-white" : "");
   }
 
   /**
@@ -182,7 +182,7 @@ class Options extends Component {
         <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
           {this.dropdownTitle()}
         </DropdownToggle>
-        <DropdownMenu style={{backgroundColor: "#1E4D28"}}>
+        <DropdownMenu>
           {options.map((option) =>
             <DropdownItem active={this.props.trip.options.distance === option} value={option}
                           onClick={this.changeUnit} key={++unique} className={this.testActiveDropdown(option)}>
@@ -206,15 +206,15 @@ class Options extends Component {
     </Form>;
 
     const customUnitModal = <div>
-      <Button color = "secondary" onClick={this.modalToggle}>Customize a unit</Button>
+      <Button style={{backgroundColor: "#c8c372"}} onClick={this.modalToggle}>Customize a unit</Button>
       <Modal isOpen={this.state.modal} toggle={this.modalToggle} className={this.props.className}>
         <ModalHeader toggle = {this.modalToggle}>Set up your custom unit below.</ModalHeader>
         <ModalBody>
           {customUnitForm}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.modalSubmit}>Submit</Button>{' '}
-          <Button color="secondary" onClick={this.modalCancel}>Cancel</Button>
+          <Button style={{backgroundColor: "#1E4D28"}} onClick={this.modalSubmit}>Submit</Button>{' '}
+          <Button style={{backgroundColor: "#59595b"}}   onClick={this.modalCancel}>Cancel</Button>
         </ModalFooter>
       </Modal>
     </div>;

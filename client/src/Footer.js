@@ -10,7 +10,7 @@ class Footer extends Component {
   }
 
   render() {
-    return <div id="footer" className="jumbotron" style={{backgroundColor: "#1E4D28"}}>
+    return <div id="footer" className="jumbotron" style={{backgroundColor: "#1E4D2B"}}>
     <div className="row text-white">
       <div className="col-12 col-sm-12 col-md-6  col-lg-7 col-xl-8">
         <h4><br/>© TripCo t{this.props.number} 2018</h4>

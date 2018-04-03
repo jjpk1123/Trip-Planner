@@ -18,7 +18,6 @@ class Header extends Component {
   /**
    * Renders the Header of the web page
    */
-  //style=background-color: #006400}
   render() {
     return <div id="header" className="jumbotron" style={{backgroundColor: "#1E4D28"}}>
       <div className="row text-white ">
