@@ -30,7 +30,7 @@ public class Svg {
      * @return map with lines on it.
      */
     private String svg() throws IOException {
-        String map = retrieveSVGIntro();
+        String map = retrieveSvgIntro();
 
         InputStream is = getClass().getResourceAsStream("/World_Map.svg");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -62,7 +62,7 @@ public class Svg {
      * Only to make the svg() method shorter
      * @return the introductory String the svg object needs
      */
-    private String retrieveSVGIntro() {
+    private String retrieveSvgIntro() {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                 + "<svg width=\"1024\" height=\"512\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" "
                 + "xmlns:cc=\"http://web.resource.org/cc/\" "
