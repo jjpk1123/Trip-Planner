@@ -15,7 +15,7 @@ class Trip extends Component {
     this.saveTFFI = this.saveTFFI.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
     this.reverseTrip = this.reverseTrip.bind(this);
-    this.tripCardHeader = <h5 className="card-header bg-info text-white">
+    this.tripCardHeader = <h5 className="card-header text-white" style={{backgroundColor: "#1E4D28"}}>
         Trip
       </h5>;
   }

@@ -20,7 +20,7 @@ class Header extends Component {
    */
   //style=background-color: #006400}
   render() {
-    return <div id="header" className="jumbotron bg-success ">
+    return <div id="header" className="jumbotron" style={{backgroundColor: "#1E4D28"}}>
       <div className="row text-white ">
         <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
           <img className="img-fluid" alt="Responsive image"

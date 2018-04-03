@@ -22,7 +22,7 @@ class Options extends Component {
     this.modalSubmit = this.modalSubmit.bind(this);
     this.updateCustomUnit = this.updateCustomUnit.bind(this);
     this.updateCustomRadius = this.updateCustomRadius.bind(this);
-    this.optCardHeader = <h5 className="card-header bg-info text-white">
+    this.optCardHeader = <h5 className="card-header text-white" style={{backgroundColor: "#1E4D28"}}>
       Options
     </h5>;
     this.state = {
@@ -96,7 +96,7 @@ class Options extends Component {
    * Highlights the correct unit_of_measurement Button "live"
    */
   testActiveDropdown(unit) {
-    return "btn btn-outline-blue " + (this.props.distance === unit ? "active" : "");
+    return "btn " + (this.props.distance === unit ? "active" : "");
   }
 
   /**
@@ -178,11 +178,11 @@ class Options extends Component {
     let unique = 0;
     const dropdownItems =
       <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}
-                      data-toggle="buttons">
-        <DropdownToggle caret color="primary">
+                      data-toggle="buttons" >
+        <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
           {this.dropdownTitle()}
         </DropdownToggle>
-        <DropdownMenu>
+        <DropdownMenu style={{backgroundColor: "#1E4D28"}}>
           {options.map((option) =>
             <DropdownItem active={this.props.trip.options.distance === option} value={option}
                           onClick={this.changeUnit} key={++unique} className={this.testActiveDropdown(option)}>
@@ -226,7 +226,7 @@ class Options extends Component {
         <div className="col">
           <div className="card-body">
             <h6 className="card-title">Distance unit:</h6>
-            <ButtonGroup vertical>
+            <ButtonGroup vertical >
               {dropdownItems}
               {customUnitModal}
             </ButtonGroup>
