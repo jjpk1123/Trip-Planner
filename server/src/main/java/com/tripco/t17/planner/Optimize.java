@@ -190,10 +190,40 @@ public class Optimize {
 
 
     public static ArrayList<Place> twoOpt(ArrayList<Place> places){
-        ArrayList<Place> places1 = nearestNeighbor(places);
+        //Build places array once size bigger than total places
+        int [] placesArray = buildPlacesArray(places.size()+1);
+        //Make the last element in the places array the same as the first
+        placesArray[places.size()] = placesArray[0];
+        //build the distance table
+        int [][] distanceTable = buildDistanceTable(places);
+        //find the shortest distance
+        int shortestDistance = startingTripDistance(distanceTable);
+        //create the resultArray and set it equal to the places array
+        int [] resultArray = new int [placesArray.length];
+        System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
-        return places1;
 
+
+        boolean improvement = true;
+        while (improvement){
+            improvement = false;
+            for(int i = 0; i <= placesArray.length; i++){
+                for (int k = i + 2; k < placesArray.length; k++){
+                    int delta;
+                }
+            }
+
+        }
+
+
+        return places;
+
+    }
+
+    private int dis(int [] placesArray, int [][] distanceTable, int i, int k){
+
+
+        
     }
 
     private void twoOptReverse(ArrayList<Place> places, int i1, int k){
