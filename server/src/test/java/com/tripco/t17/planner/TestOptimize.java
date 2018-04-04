@@ -772,29 +772,52 @@ public class TestOptimize {
     }
     @Test
     public void testDis(){
-        int [] placesArray = new int [3];
+        int [] placesArray = new int [4];
         placesArray[0] = 0;
         placesArray[1] = 1;
         placesArray[2] = 2;
-        int[][] distanceTable = new int[3][3];
+        placesArray[3] = 3;
+        int[][] distanceTable = new int[4][4];
 
         distanceTable[0][0] = 0;
         distanceTable[1][1] = 0;
         distanceTable[2][2] = 0;
+        distanceTable[3][3] = 0;
 
         //Row 1
         distanceTable[0][1] = 3;
         distanceTable[1][0] = 3;
-        distanceTable[0][2] = 4;
-        distanceTable[2][0] = 4;
+        distanceTable[0][2] = 2;
+        distanceTable[2][0] = 2;
+        distanceTable[0][3] = 1;
+        distanceTable[3][0] = 1;
 
         //Row 2
-        distanceTable[1][2] = 5;
-        distanceTable[2][1] = 5;
+        distanceTable[1][2] = 1;
+        distanceTable[2][1] = 1;
+        distanceTable[1][3] = 5;
+        distanceTable[3][1] = 5;
+
+        //Row 3
+        distanceTable[2][3] = 4;
+        distanceTable[3][2] = 4;
 
 
         int result = Optimize.dis(placesArray, distanceTable, 0, 1);
         assertEquals(3, result);
+        result = Optimize.dis(placesArray, distanceTable, 2, 3);
+        assertEquals(4, result);
+        result = Optimize.dis(placesArray, distanceTable, 0, 2);
+        assertEquals(2, result);
+        result = Optimize.dis(placesArray, distanceTable, 1, 3);
+        assertEquals(5, result);
+
+
+        //delta should be -3 -4 +2 + 5 = 0 AKA no improvement
+        int delta = -Optimize.dis(placesArray, distanceTable, 0, 1)-Optimize.dis(placesArray, distanceTable,2,3)
+                +Optimize.dis(placesArray,distanceTable,0,2)+Optimize.dis(placesArray,distanceTable,1,3);
+
+        assertEquals(0, delta);
 
     }
 
