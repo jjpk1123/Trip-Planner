@@ -14,8 +14,8 @@ import static org.junit.Assert.assertTrue;
 
 public class TestConfig {
 
-    ConfigHelper ch;
-    Config config;
+    private ConfigHelper ch;
+    private Config config;
 
     @Before
     public void initialize() {
@@ -24,34 +24,34 @@ public class TestConfig {
 
         this.config.type = "config";
         this.config.version = 3;
-        this.config.filters = new Dictionary[1];
 
-        Dictionary filterDict = new Hashtable();
+/*        this.config.filters = new Dictionary[1];
+        Dictionary<String, Object> filterDict = new Hashtable<>();
         filterDict.put("attribute", "type");
         String[] valuesArr = {"balloonport", "heliport", "airport"};
         filterDict.put("values", valuesArr);
-        this.config.filters[0] = filterDict;
+        this.config.filters[0] = filterDict; */
 
         this.config.maps = new String[]{"svg"};         // {"svg", "kml"}
         this.config.optimization = 1;                   // 2 // 3
         this.config.optimizations = new Dictionary[2];  // 3 // 4
 
-        Dictionary optDict = new Hashtable();
+        Dictionary<String, String> optDict = new Hashtable<>();
         optDict.put("label", "No optimization");
         optDict.put("description", "Longest");
         this.config.optimizations[0] = optDict;
 
-        optDict = new Hashtable();
+        optDict = new Hashtable<>();
         optDict.put("label", "Nearest Neighbor");
         optDict.put("description", "Shortest");         // 2-opt="Shorter" // 3-opt="Short"
         this.config.optimizations[1] = optDict;
 
-//        optDict = new Hashtable();
+//        optDict = new Hashtable<>();
 //        optDict.put("label", "2-opt");
 //        optDict.put("description", "Shortest");         // 3-opt = "Shorter"
 //        this.config.optimizations[2] = optDict;
 
-//        optDict = new Hashtable();
+//        optDict = new Hashtable<>();
 //        optDict.put("label", "3-opt");
 //        optDict.put("description", "Shortest");
 //        this.config.optimizations[3] = optDict;
@@ -68,12 +68,12 @@ public class TestConfig {
         assertEquals(3, this.config.version);
     }
 
-    @Test
-    public void testConfigFilters() {
-        assertEquals("type", this.config.filters[0].get("attribute"));
-        assertEquals(Arrays.toString(new String[]{"balloonport", "heliport", "airport"}),
-                Arrays.toString((String[]) this.config.filters[0].get("values")));
-    }
+//    @Test
+//    public void testConfigFilters() {
+//        assertEquals("type", this.config.filters[0].get("attribute"));
+//        assertEquals(Arrays.toString(new String[]{"balloonport", "heliport", "airport"}),
+//                Arrays.toString((String[]) this.config.filters[0].get("values")));
+//    }
 
     @Test
     public void testConfigMaps() {

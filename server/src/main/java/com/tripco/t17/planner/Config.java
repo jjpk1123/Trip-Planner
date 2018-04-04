@@ -37,7 +37,7 @@ public class Config {
     public void retrieveValues() {
         this.type = "config";
         this.version = 3;                               // This value will change over time
-        createTheFilterDictionary();
+        //createTheFilterDictionary();
         this.maps = new String[]{"svg"};//{"svg", "kml"};
         this.optimization = 1;                          // This value will change over time
         createTheOptDictionary();
@@ -54,12 +54,13 @@ public class Config {
         // level+1 "normalizes"
     }
 
-    /**
-     *
-     */
+/*
+    **
+    * Instantiates the filter field and populates it with filters the server can filter
+    *
     public void createTheFilterDictionary() {
         this.filters = new Dictionary[1];
-        Dictionary filterDict = new Hashtable();
+        Dictionary<String, Object> filterDict = new Hashtable<>();
 
         filterDict.put("attribute", "type");
 
@@ -67,14 +68,16 @@ public class Config {
         filterDict.put("values", valuesArr);
 
         this.filters[0] = filterDict;
-    }
+    }*/
 
     /**
-     *
+     * This method does exactly what you think it does.
+     * It instantiates the optimizations field and populates it with {(key: value)}
+     * I left the actual descriptions in just in case we want to display these eventually.
      */
     public void createTheOptDictionary() {
-        this.optimizations = new Dictionary[2];         // 4
-        Dictionary optDict = new Hashtable();
+        this.optimizations = new Dictionary[2];         // 3 // 4
+        Dictionary<String, String> optDict = new Hashtable<>();
 
         optDict.put("label", "No optimization");
 //        optDict.put("description", "When you click plan, we will plan your trip in the original order of "
@@ -82,19 +85,21 @@ public class Config {
         optDict.put("description", "Longest");
         this.optimizations[0] = optDict;
 
-        optDict = new Hashtable();
+        optDict = new Hashtable<>();
         optDict.put("label", "Nearest Neighbor");
 //        optDict.put("description", "When you click plan, we will use the Nearest Neighbor algorithm "
 //                + "to make a faster route, so your total round-trip distance will be a little shorter!");
         optDict.put("description", "Shortest");         //2-opt=="Shorter" //3-opt=="Short"
         this.optimizations[1] = optDict;
 
+//        optDict = new Hashtable<>();
 //        optDict.put("label", "2-opt");
 ////        optDict.put("description", "When you click plan, we will use the 2-opt algorithm to make a "
 ////                + "faster route, so your total round-trip distance will be much shorter!");
 //        optDict.put("description", "Shortest");       //3-opt=="Shorter"
 //        this.optimizations[2] = optDict;
 
+//        optDict = new Hashtable<>();
 //        optDict.put("label", "3-opt");
 ////        optDict.put("description", "When you click plan, we will use the 3-opt algorithm to compute the "
 ////                + "fastest route, so your total round-trip distance will be shortest as possible!");

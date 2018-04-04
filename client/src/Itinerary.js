@@ -147,33 +147,60 @@ class Itinerary extends Component {
    * Prints out which Algorithm is being used (if > No optimization)
    */
   retrieveAlgorithm() {
+    let highestOpt = this.higherOptimization();
+    if (highestOpt > this.props.trip.options.optimization) {
+      return this.restOfTheString(highestOpt);
+    }
+
     if (this.props.trip.options.optimization === "none") {
       return this.restOfTheString(0);
     }
     let slider = parseFloat((this.props.trip).options.optimization);
-    let configOpt = parseInt(this.props.config.optimization);
-    let breakPoint = 1.0 / (configOpt + 1);
+    let breakPoint = 1.0 / (this.props.config.optimization + 1);
 
     if (slider < breakPoint) {
-      return this.restOfTheString(0);
+      return this.restOfTheString(0); // No optimization
     }
-    else if (slider >= breakPoint && slider <= 2*breakPoint) { // for 2-opt, use: (... && slider < 2*bP)
-      return this.restOfTheString(1);
+    else if (slider >= breakPoint && slider <= 2*breakPoint) {
+    //else if (slider >= breakPoint && slider < 2*breakPoint) { // use for 2-opt
+      return this.restOfTheString(1); // NN
     }
     // else if (slider >= 2*breakPoint && slider < 3*breakPoint) {
-    //   return this.restOfTheString(2);
+    //   return this.restOfTheString(2); // 2 opt
+    // }
+    // else if (slider >= 3*breakPoint && slider < 4*breakPoint) {
+    //   return this.restOfTheString(3); // 3 opt
     // }
   }
 
   /**
    * If No optimization, returns the default string
-   * Else, prints which algo it computed it with
+   * Else, prints which algorithm it computed the trip with
    */
   restOfTheString(index) {
     if (index === 0) {
-      return " using the order provided in the file.";
+      return "order provided in the file";
     }
-    return " with the " + ((this.props.config).optimizations[index])["label"] + " algorithm!";
+    return ((this.props.config).optimizations[index])["label"] + " algorithm";
+  }
+
+  /**
+   * Returns the highest opt level computed. I only do this, because we do NOT
+   * make the trip longer once an optimization level is "planned".
+   * Ex: slider=0.1 > Plan > Feel free to upgrade
+   *     slider=0.9 > Plan > slider=0.0 > Plan (does not make the trip longer)
+   */
+  higherOptimization() {
+    // if (this.props.state.computed3opt === true) {
+    //   return 3;
+    // }
+    // if (this.props.state.computed2opt === true) {
+    //   return 2;
+    // }
+    if (this.props.state.computedNN) { // (true==true) evaluates to true
+      return 1;
+    }
+    return 0;
   }
 
   /**
@@ -204,7 +231,7 @@ class Itinerary extends Component {
         </tbody>
       </table>
       <h4>Round-trip distance of <b>{this.getRoundTripDistance()} {table.units}.</b></h4>
-      <h6>Computed <b>{this.retrieveAlgorithm()}</b></h6>
+      <p><small>Computed using the <b>{this.retrieveAlgorithm()}.</b></small></p>
     </div>
   }
 }
