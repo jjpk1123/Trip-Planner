@@ -162,39 +162,49 @@ public class Distance {
      * @return degrees.
      */
     public static double dmsToDegrees(String dms) {
+//        System.out.print(dms + " -> "); // debug
         double degrees;
-        //Check for °, main validator
+
+        //Check for °
         try {
-            if (dms.contains("°")) {
-                String[] result = dms.split("°");
-                degrees = Double.parseDouble(result[0].trim());
+            if (ifContains(dms, "°")) {
+                degrees = containsDegreesSymbol(dms);
 
-                //Check for '
-                if (result[1].contains("'")) {
-                    result = result[1].split("'");
-                    degrees += (Double.parseDouble(result[0].trim()) / 60);
-
-                    //Check for "
-                    if (result[1].contains("\"")) {
-                        result = result[1].split("\"");
-                        degrees += (Double.parseDouble(result[0].trim()) / 3600);
-                    }
-                }
-
-                //Set the sign at the very end
-                if (result[1].trim().equals("S") || result[1].trim().equals("W")) {
-                    degrees *= -1;
-                }
-
-                //Already in degrees, or another invalid input like "klajsdf"
             } else {
                 degrees = Double.parseDouble(dms);
             }
         } catch (Exception e) {
-            //Perhaps we can make a new method for error handling which stops legDistances?
             throw e;
+        }
+//        System.out.println(degrees); // debug
+        return degrees;
+    }
+
+    private static double containsDegreesSymbol(String dms) {
+        String[] result = dms.split("°");
+        double degrees = Double.parseDouble(result[0].trim());
+
+        //Check for '
+        if (ifContains(result[1], "'")) {
+            result = result[1].split("'");
+            degrees += (Double.parseDouble(result[0].trim()) / 60);
+        }
+
+        //Check for "
+        if (ifContains(result[1], "\"")) {
+            result = result[1].split("\"");
+            degrees += (Double.parseDouble(result[0].trim()) / 3600);
+        }
+
+        //Set the sign at the very end
+        if (ifContains(dms.substring(dms.length()-1), "S")
+                || ifContains(dms.substring(dms.length()-1), "W")) {
+            degrees *= -1;
         }
         return degrees;
     }
 
+    private static boolean ifContains(String compare, String character) {
+        return compare.contains(character);
+    }
 }
