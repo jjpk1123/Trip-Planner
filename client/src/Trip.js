@@ -18,6 +18,7 @@ class Trip extends Component {
     };
     this.plan = this.plan.bind(this);
     this.saveTFFI = this.saveTFFI.bind(this);
+    Trip.resetState = Trip.resetState.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
     this.reverseTrip = this.reverseTrip.bind(this);
     this.tripCardHeader = <h5 className="card-header text-white" style={{backgroundColor: "#1E4D28"}}>
@@ -85,6 +86,15 @@ class Trip extends Component {
     // if (slider >= 3*breakPoint && slider <= 4*breakPoint) { // [0.75, 1.0] = 3 opt
     //     this.setState({computed3opt: true});
     // }
+  }
+
+  static resetState() {
+    console.log("resetting");
+    this.setState({
+      computedNN: false,
+      // computed2opt: false,
+      // computed3opt: false,
+    });
   }
 
   /**
