@@ -225,17 +225,19 @@ public class Optimize {
             }
 
         }
-
-
-        return places;
+        ArrayList<Place> result = new ArrayList<>();
+        for (int i = 0 ; i < placesArray.length ; i++){
+            result.add(places.get(placesArray[i]));
+        }
+        return result;
 
     }
 
-    private static int dis(int[] placesArray, int[][] distanceTable, int i, int k){
+    public static int dis(int[] placesArray, int[][] distanceTable, int i, int k){
         return distanceTable[placesArray[i]][placesArray[k]];
     }
 
-    private static void twoOptReverse(int[] placesArray, int i1, int k){
+    public static void twoOptReverse(int[] placesArray, int i1, int k){
         while(i1 < k){
             int temp = placesArray[i1];
             placesArray[i1] = placesArray[k];

@@ -755,9 +755,50 @@ public class TestOptimize {
 
     }
     @Test
-    public void testTwoOptReverse(){
+    public void testTwoOptReverseSimple(){
+        int [] test = new int [5];
+        test[0] = 3;
+        test[1] = 5;
+        test[2] = 7;
+        test[3] = 9;
+        test[4] = 11;
+        Optimize.twoOptReverse(test, 1, 2);
+        assertEquals(7, test[1]);
+        assertEquals(5, test[2]);
+        Optimize.twoOptReverse(test, 3, 4);
+        assertEquals(11, test[3]);
+        assertEquals(9, test[4]);
 
     }
+    @Test
+    public void testDis(){
+        int [] placesArray = new int [3];
+        placesArray[0] = 0;
+        placesArray[1] = 1;
+        placesArray[2] = 2;
+        int[][] distanceTable = new int[3][3];
+
+        distanceTable[0][0] = 0;
+        distanceTable[1][1] = 0;
+        distanceTable[2][2] = 0;
+
+        //Row 1
+        distanceTable[0][1] = 3;
+        distanceTable[1][0] = 3;
+        distanceTable[0][2] = 4;
+        distanceTable[2][0] = 4;
+
+        //Row 2
+        distanceTable[1][2] = 5;
+        distanceTable[2][1] = 5;
+
+
+        int result = Optimize.dis(placesArray, distanceTable, 0, 1);
+        assertEquals(3, result);
+
+    }
+
+
 
 }
 
