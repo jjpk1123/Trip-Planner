@@ -4,12 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.tripco.t17.server.HTTP;
-import spark.Request;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import spark.Request;
+
+
 
 /**
  * Straight-forward class. Gets called for REST API "/config"
@@ -80,29 +79,33 @@ public class Config {
         Dictionary<String, String> optDict = new Hashtable<>();
 
         optDict.put("label", "No optimization");
-//        optDict.put("description", "When you click plan, we will plan your trip in the original order of "
-//                + "the file. Change the slider to see if we can make your trip shorter");
+//        optDict.put("description", "When you click plan, we will plan your trip "
+//                + "in the original order of the file provided. Change the slider "
+//                + "to see if we can make your trip shorter");
         optDict.put("description", "Longest");
         this.optimizations[0] = optDict;
 
         optDict = new Hashtable<>();
         optDict.put("label", "Nearest Neighbor");
-//        optDict.put("description", "When you click plan, we will use the Nearest Neighbor algorithm "
-//                + "to make a faster route, so your total round-trip distance will be a little shorter!");
+//        optDict.put("description", "When you click plan, we will use the "
+//                + "Nearest Neighbor algorithm to make a faster route, so your "
+//                + "total round-trip distance will be a little shorter!");
         optDict.put("description", "Shortest");         //2-opt=="Shorter" //3-opt=="Short"
         this.optimizations[1] = optDict;
 
 //        optDict = new Hashtable<>();
 //        optDict.put("label", "2-opt");
-////        optDict.put("description", "When you click plan, we will use the 2-opt algorithm to make a "
-////                + "faster route, so your total round-trip distance will be much shorter!");
+////        optDict.put("description", "When you click plan, we will use the 2-opt "
+////                + "algorithm to make a faster route, so your total round-trip "
+////                + "distance will be much shorter!");
 //        optDict.put("description", "Shortest");       //3-opt=="Shorter"
 //        this.optimizations[2] = optDict;
 
 //        optDict = new Hashtable<>();
 //        optDict.put("label", "3-opt");
-////        optDict.put("description", "When you click plan, we will use the 3-opt algorithm to compute the "
-////                + "fastest route, so your total round-trip distance will be shortest as possible!");
+////        optDict.put("description", "When you click plan, we will use the 3-opt "
+////                + "algorithm to compute the fastest route, so your total round-trip "
+////                + "distance will be shortest as possible!");
 //        optDict.put("description", "Shortest");
 //        this.optimizations[3] = optDict;
 
