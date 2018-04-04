@@ -20,7 +20,7 @@ public class Svg {
         try {
             this.map = svg();
         } catch(IOException e){
-            System.err.println(e);
+            // System.err.println(e);
         }
     }
 
@@ -30,15 +30,11 @@ public class Svg {
      * @return map with lines on it.
      */
     private String svg() throws IOException {
-        //SVG formatting. Not the prettiest, but it works.
-        String map = "<svg width=\"1066.6073\" height=\"783.0824\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\">";
-        map += "<svg width=\"1066.6073\" height=\"783.0824\">";
+        String map = retrieveSvgIntro();
 
-        //As written in the piazza post, seems to work out.
-        InputStream is = getClass().getResourceAsStream("/CObackgroundMap.svg");
+        InputStream is = getClass().getResourceAsStream("/World_Map.svg");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-        //If the map isn't found, we've got trouble down here in River City.
         try {
             while (br.ready()) {
                 map += br.readLine() + "\n";
@@ -47,22 +43,49 @@ public class Svg {
             e.printStackTrace();
         }
         br.close();
-        //Error checking, just in case this gets called before places has anything.
-        //Would it be better to print a message about no input data?
-        if (places == null || places.size() == 0) {
-            return map + "</svg></svg>";
-        }
-        //Write a line for each place
-        for (int i = 0; i < places.size() - 1; i++) {
-            map += svgLine(i, i + 1);
-        }
-        //Also include return trip to first element. (If we change how this works, look here!)
-        map += svgLine(places.size() - 1, 0);
 
-        map += "</svg>\n</svg>";
-        //Included for testing purposes.
-        //System.out.println(map); // (This should be the map svg, including the round trip path).
+        //Error checking, just in case this gets called before places has anything.
+        if (places == null || places.size() == 0) {
+            // System.out.println("No places==No SVG");
+            map += "\n</svg>\n</svg>";
+            return map;
+        }
+
+        map += retrieveLines();
+
+        map += "\n</svg>\n</svg>";
+//        System.out.println(map); // debug
         return map;
+    }
+
+    /**
+     * Only to make the svg() method shorter
+     * @return the introductory String the svg object needs
+     */
+    private String retrieveSvgIntro() {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
+                + "<svg width=\"1024\" height=\"512\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" "
+                + "xmlns:cc=\"http://web.resource.org/cc/\" "
+                + "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" "
+                + "xmlns:svg=\"http://www.w3.org/2000/svg\" "
+                + "xmlns=\"http://www.w3.org/2000/svg\" "
+                + "xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\" "
+                + "xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\">\n"
+                + "<svg width=\"1024\" height=\"512\">";
+    }
+
+    /**
+     * Creates (red) lines that connect each place (place A -> place B)
+     * return lines = all the lines needed
+     */
+    private String retrieveLines() {
+        String sendIt = "";
+        for (int i = 0; i < places.size()-1; i++) {
+            sendIt += svgLine(i, i + 1);
+        }
+        //Creates the line that goes from the last place back to first place
+        sendIt += svgLine(places.size()-1, 0);
+        return sendIt;
     }
 
     /**
@@ -72,7 +95,7 @@ public class Svg {
      * @return line between one place to another.
      */
     private String svgLine(int from, int to){
-        String line = "";
+        String line;
         try{
             double[] coord1 = svgHelper(Distance.dmsToDegrees(places.get(from).latitude),
                                         Distance.dmsToDegrees(places.get(from).longitude));
@@ -83,38 +106,26 @@ public class Svg {
                                    + Double.toString(coord1[1]) + "\" x2=\""
                                    + Double.toString(coord2[0]) + "\" y2=\""
                                    + Double.toString(coord2[1]) + "\""
-                 + " style=\"stroke:rgb(255,0,0);stroke-width:3\" />";
+                 + " style=\"stroke:rgb(255,0,0);stroke-width:1\" />";
         } catch (Exception e) {
-            System.err.println(e);
+            //System.err.println(e);
             throw e;
         }
         return line;
     }
 
     /**
-     * Returns SVG coordinates of a point.
-     * @param lat latitude
-     * @param lon longitude
-     * @return magic
+     * Returns SVG coordinates of the given point.
+     * @param lat = latitude
+     * @param lon = longitude
+     * @return [0]=x; [1]=y;
      */
     private double[] svgHelper(double lat, double lon){
-        // Colorado West X value on SVG = 1030
-        // Colorado East X value on SVG = 36
-        // Colorado North Y value on SVG = 37
-        // Colorado South Y value on SVG = 747
-        // Colorado West border = 41 W
-        // Colorado East border = 37 W
-        // Colorado North border = 102 N
-        // Colorado South border = 109 S
-        double latToSvg = (747.0 - 37.0)/(41.0 - 37.0);
-        double longToSvg = (1030.0 - 36.0)/(109.0 - 102.0);
+        double deltaX = (lon / 180) * 512; // the y value, relative to svg pixels
+        double deltaY = (lat /  90) * 256; // the x value, relative to svg pixels
+        double svgX = 512 + deltaX;
+        double svgY = 256 - deltaY;
 
-        //So, some scaling and translation and such.
-        double x1 = (109.0 - Math.abs(lon)) * longToSvg + 37;
-        double y1 = (41.0 - Math.abs(lat)) * latToSvg + 36;
-
-        return new double[]{x1, y1};
+        return new double[]{svgX, svgY};
     }
-
-
 }
