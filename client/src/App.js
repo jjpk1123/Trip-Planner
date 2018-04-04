@@ -11,7 +11,7 @@ class App extends Component {
       name: "Quixotic Quetzals"
     }
   }
-
+  //style={{backgroundColor: "#1E4D28"}}
   render() {
     return <div id="tripco">
       <Header number={this.state.number} name={this.state.name}/>

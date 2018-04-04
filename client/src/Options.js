@@ -22,7 +22,7 @@ class Options extends Component {
     this.modalSubmit = this.modalSubmit.bind(this);
     this.updateCustomUnit = this.updateCustomUnit.bind(this);
     this.updateCustomRadius = this.updateCustomRadius.bind(this);
-    this.optCardHeader = <h5 className="card-header bg-info text-white">
+    this.optCardHeader = <h5 className="card-header text-white" style={{backgroundColor: "#1E4D28"}}>
       Options
     </h5>;
     this.state = {
@@ -96,7 +96,7 @@ class Options extends Component {
    * Highlights the correct unit_of_measurement Button "live"
    */
   testActiveDropdown(unit) {
-    return "btn btn-outline-blue " + (this.props.distance === unit ? "active" : "");
+    return "btn " + (this.props.distance === unit ? " active text-white" : "");
   }
 
   /**
@@ -178,8 +178,8 @@ class Options extends Component {
     let unique = 0;
     const dropdownItems =
       <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}
-                      data-toggle="buttons">
-        <DropdownToggle caret color="primary">
+                      data-toggle="buttons" >
+        <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
           {this.dropdownTitle()}
         </DropdownToggle>
         <DropdownMenu>
@@ -206,15 +206,15 @@ class Options extends Component {
     </Form>;
 
     const customUnitModal = <div>
-      <Button color = "secondary" onClick={this.modalToggle}>Customize a unit</Button>
+      <Button style={{backgroundColor: "#c8c372"}} onClick={this.modalToggle}>Customize a unit</Button>
       <Modal isOpen={this.state.modal} toggle={this.modalToggle} className={this.props.className}>
         <ModalHeader toggle = {this.modalToggle}>Set up your custom unit below.</ModalHeader>
         <ModalBody>
           {customUnitForm}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.modalSubmit}>Submit</Button>{' '}
-          <Button color="secondary" onClick={this.modalCancel}>Cancel</Button>
+          <Button style={{backgroundColor: "#1E4D28"}} onClick={this.modalSubmit}>Submit</Button>{' '}
+          <Button style={{backgroundColor: "#59595b"}}   onClick={this.modalCancel}>Cancel</Button>
         </ModalFooter>
       </Modal>
     </div>;
@@ -226,7 +226,7 @@ class Options extends Component {
         <div className="col">
           <div className="card-body">
             <h6 className="card-title">Distance unit:</h6>
-            <ButtonGroup vertical>
+            <ButtonGroup vertical >
               {dropdownItems}
               {customUnitModal}
             </ButtonGroup>

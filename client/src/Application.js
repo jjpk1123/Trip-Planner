@@ -102,7 +102,7 @@ class Application extends Component {
                         query={this.state.query}
                         places={this.state.trip.places}
                         updateTrip={this.updateTrip}
-                        updateQuery={this.updateQuery}/>
+                        updateQuery={this.updateQuery} />
         </div>
         <div className="col-lg-4 col-xl-4">
           <Options trip={this.state.trip}

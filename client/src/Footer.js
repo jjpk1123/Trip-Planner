@@ -10,9 +10,17 @@ class Footer extends Component {
   }
 
   render() {
-    return <div id="footer" className="jumbotron">
-      <h4>© TripCo t{this.props.number} {this.props.name} 2018</h4>
+    return <div id="footer" className="jumbotron" style={{backgroundColor: "#1E4D2B"}}>
+    <div className="row text-white">
+      <div className="col-12 col-sm-12 col-md-6  col-lg-7 col-xl-8">
+        <h4><br/>© TripCo t{this.props.number} 2018</h4>
+      </div>
+      <div className="col-8 col-sm-7 col-md-6 col-lg-5 col-xl-4 align-self-right">
+        <img className="img-fluid" src="http://www.cs.colostate.edu/~davematt/logos/CSU_logos/CSU-Official-wrdmrk-357-617_Rev.png" />
+      </div>
     </div>
+    </div>
+
   }
 }
 

@@ -19,8 +19,13 @@ class Header extends Component {
    * Renders the Header of the web page
    */
   render() {
-    return <div id="header" className="jumbotron">
-      {this.retrieveTitle()}
+    return <div id="header" className="jumbotron" style={{backgroundColor: "#1E4D28"}}>
+      <div className="row text-white ">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+          <img className="img-fluid" alt="Responsive image"
+               src="http://www.cs.colostate.edu/~davematt/logos/CS_unit_identifiers/CompSci-NS-CSU-1-Hrev.png" />
+        </div>
+      </div>
     </div>
   }
 }

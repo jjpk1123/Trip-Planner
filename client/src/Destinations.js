@@ -14,7 +14,7 @@ class Destinations extends Component {
     super(props);
     this.myObj = "";
     this.loadTFFI = this.loadTFFI.bind(this);
-    this.destCardHeader = <h5 className="card-header bg-info text-white">
+    this.destCardHeader = <h5 className="card-header text-white" style={{backgroundColor: "#1E4D28"}}>
         Destinations
       </h5>;
   }
@@ -156,7 +156,7 @@ class Destinations extends Component {
         {"distance": "miles", "optimization": "none"}   //if v1: "none"
         : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
 
-  }
+  } 
 
   /**
    * Logs the optimization error message associated with the change
@@ -299,7 +299,7 @@ class Destinations extends Component {
    * Renders the Options card on the client
    */
   render() {
-    return <div id="destinations" className="card">
+    return <div id="destinations" className="card" >
       {this.destCardHeader}
         <div className="row">
           <div className="col-xs-2 col-sm-6 col-md-4 col-lg-4 col-xl-4">
