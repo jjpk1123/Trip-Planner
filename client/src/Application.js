@@ -95,7 +95,7 @@ class Application extends Component {
   }
 
   render() {
-    return <div id="application" className="cardBody">
+    return <div id="application" className="container">
       <div className="row">
         <div className="col-lg-8 col-xl-8">
           <Destinations trip={this.state.trip}

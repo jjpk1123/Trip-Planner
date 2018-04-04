@@ -156,7 +156,7 @@ class Destinations extends Component {
         {"distance": "miles", "optimization": "none"}   //if v1: "none"
         : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
 
-  } 
+  }
 
   /**
    * Logs the optimization error message associated with the change
