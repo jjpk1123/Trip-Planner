@@ -191,6 +191,10 @@ public class Optimize {
 
     public static ArrayList<Place> twoOpt(ArrayList<Place> places){
         //Build places array once size bigger than total places
+        if(places.size() < 4){
+            System.out.println("You must have more than 4 places to use 2opt");
+            return places;
+        }
         int [] placesArray = buildPlacesArray(places.size()+1);
         //Make the last element in the places array the same as the first
         placesArray[places.size()] = placesArray[0];
@@ -209,7 +213,14 @@ public class Optimize {
             improvement = false;
             for(int i = 0; i <= placesArray.length; i++){
                 for (int k = i + 2; k < placesArray.length; k++){
-                    int delta;
+                    int delta = -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
+                            +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
+
+                    if(delta < 0){
+                        twoOptReverse(placesArray, i+1, k);
+                        improvement = true;
+
+                    }
                 }
             }
 
@@ -220,14 +231,18 @@ public class Optimize {
 
     }
 
-    private int dis(int [] placesArray, int [][] distanceTable, int i, int k){
-
-
-        
+    private static int dis(int[] placesArray, int[][] distanceTable, int i, int k){
+        return distanceTable[placesArray[i]][placesArray[k]];
     }
 
-    private void twoOptReverse(ArrayList<Place> places, int i1, int k){
-
+    private static void twoOptReverse(int[] placesArray, int i1, int k){
+        while(i1 < k){
+            int temp = placesArray[i1];
+            placesArray[i1] = placesArray[k];
+            placesArray[k] = temp;
+            i1++;
+            k--;
+        }
 
     }
 
