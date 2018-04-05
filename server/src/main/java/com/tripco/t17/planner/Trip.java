@@ -56,7 +56,7 @@ public class Trip {
         }
 
         //2. Draw the map of the plan
-        this.map = new Svg(places).map;
+        this.map = new Svg(places, "/World_Map.svg").map;
 
         //3. Find distances
         this.distances = Distance.legDistances(this.places,
