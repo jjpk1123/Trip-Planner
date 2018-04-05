@@ -22,7 +22,8 @@ public class Optimize {
             twoOptFlag = true;
         }
 
-        int [] placesArray = buildPlacesArray(places.size());
+        int [] placesArray = buildPlacesArray(places.size() + 1);
+        placesArray[placesArray.length - 1] = 0;
         int [][] distanceTable = buildDistanceTable(places);
         //Assume it's already in the best order (yeah right).
         int shortestDistance = startingTripDistance(distanceTable);
@@ -40,7 +41,7 @@ public class Optimize {
             for (int start = 0 ; start < placesArray.length ; start++) {
 
                 //Compute nearest neighbor for this starting point.
-                int distance = nearestNeighborHelper(start, placesArray, distanceTable);
+                int distance = nearestNeighborHelper((start)%placesArray.length-1, placesArray, distanceTable);
                 if(twoOptFlag == true){
                     distance = twoOptRevised(placesArray, distanceTable);
 
@@ -49,7 +50,7 @@ public class Optimize {
 
                 //Is the best trip from this starting point BETTER than the last one?
                 if(distance < shortestDistance){
-                    System.out.println(distance);
+                    //System.out.println(distance);
                     shortestDistance = distance; //Set new shortest distance
                     System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
@@ -60,7 +61,7 @@ public class Optimize {
 
         //Build new result before returning
         ArrayList<Place> result = new ArrayList<>();
-        for (int i = 0 ; i < resultArray.length ; i++){
+        for (int i = 0 ; i < resultArray.length - 1; i++){
             result.add(places.get(resultArray[i]));
         }
         return result;
@@ -249,6 +250,9 @@ public class Optimize {
 
 
     public static int twoOptRevised(int[] placesArray, int[][] distanceTable){
+
+
+
         boolean improvement = true;
         while (improvement){
             improvement = false;
