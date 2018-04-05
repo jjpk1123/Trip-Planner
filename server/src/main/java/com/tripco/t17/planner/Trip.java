@@ -36,7 +36,6 @@ public class Trip {
             double optBreak = 1.0 / Config.getOptimizationLevels(); // (1) + 1
             double numOptimization = Double.parseDouble(this.options.optimization);
 
-
             if ((numOptimization >= optBreak) && (numOptimization < 2*optBreak)){
                 System.out.println("Computing NearestNeighbor");
                 Place start = this.places.get(0);
@@ -45,8 +44,7 @@ public class Trip {
             }
             else if ((numOptimization >= 2*optBreak) && (numOptimization <= 3*optBreak)) {
                 // use ^^this^^ one for 2 opt, but save the bottom one for when we get to 3-opt
-                System.out.println("Computing 2opt");
-                this.places = Optimize.twoOpt(this.places);
+                this.places = Optimize.optimize(this.places, numOptimization);
             }
             //else if ((numOptimization >= 2*optBreak) && (numOptimization < 3*optBreak)) {
             //  System.out.println("Computing 2-opt");
