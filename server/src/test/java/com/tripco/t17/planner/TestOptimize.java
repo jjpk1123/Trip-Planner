@@ -812,7 +812,6 @@ public class TestOptimize {
         result = Optimize.dis(placesArray, distanceTable, 1, 3);
         assertEquals(5, result);
 
-
         //delta should be -3 -4 +2 + 5 = 0 AKA no improvement
         int delta = -Optimize.dis(placesArray, distanceTable, 0, 1)-Optimize.dis(placesArray, distanceTable,2,3)
                 +Optimize.dis(placesArray,distanceTable,0,2)+Optimize.dis(placesArray,distanceTable,1,3);

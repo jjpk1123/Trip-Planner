@@ -211,8 +211,8 @@ public class Optimize {
         boolean improvement = true;
         while (improvement){
             improvement = false;
-            for(int i = 0; i <= placesArray.length; i++){
-                for (int k = i + 2; k < placesArray.length; k++){
+            for(int i = 0; i <= placesArray.length - 3; i++){
+                for (int k = i + 2; k < placesArray.length -1; k++){
                     int delta = -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
                             +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
 
