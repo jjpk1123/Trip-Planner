@@ -23,8 +23,7 @@ public class Optimize {
             twoOptFlag = true;
         }
 
-        int [] placesArray = buildPlacesArray(places.size() + 1);
-        placesArray[placesArray.length-1] = 0;
+        int [] placesArray = buildPlacesArray(places.size());
         int [][] distanceTable = buildDistanceTable(places);
         //Assume it's already in the best order (yeah right).
         int shortestDistance = startingTripDistance(distanceTable);
@@ -39,12 +38,17 @@ public class Optimize {
             System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
             //Compute nearestNeighbor for each place as the start.
+            int [] placesArray2 = new int[placesArray.length + 1];
             for (int start = 0 ; start < placesArray.length ; start++) {
 
                 //Compute nearest neighbor for this starting point.
-                int distance = nearestNeighborHelper((start)%(placesArray.length-1), placesArray, distanceTable);
+                int distance = nearestNeighborHelper(start, placesArray, distanceTable);
                 if(twoOptFlag){
-                    distance = twoOptRevised(placesArray, distanceTable);
+                    System.arraycopy(placesArray, 0, placesArray2, 0, placesArray.length);
+                    placesArray2[placesArray2.length - 1] = placesArray2[0];
+                    distance = twoOptRevised(placesArray2, distanceTable);
+                    System.arraycopy(placesArray2, 0, placesArray, 0, placesArray.length);
+                    //System.out.println(Arrays.toString(placesArray));
                 }
 
 
@@ -62,7 +66,7 @@ public class Optimize {
         //Build new result before returning
         //System.out.println(Arrays.toString(resultArray));
         ArrayList<Place> result = new ArrayList<>();
-        for (int i = 0 ; i < resultArray.length - 1; i++){
+        for (int i = 0 ; i < resultArray.length; i++){
             result.add(places.get(resultArray[i]));
         }
         return result;
@@ -335,6 +339,7 @@ public class Optimize {
     }
 
     public static void twoOptReverse(int[] placesArray, int i1, int k){
+
         while(i1 < k){
             int temp = placesArray[i1];
             placesArray[i1] = placesArray[k];

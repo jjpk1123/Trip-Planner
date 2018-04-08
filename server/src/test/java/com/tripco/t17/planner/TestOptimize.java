@@ -752,6 +752,56 @@ public class TestOptimize {
 
     @Test
     public void testTwoOptRevised(){
+      // [0, 1, 2, 3, 4, 5]
+      int [] placesArray = Optimize.buildPlacesArray(6);
+
+    /* [0, 6, 5, 1, 6]
+       [6, 0, 4, 6, 3]
+       [5, 4, 0, 6, 6]
+       [1, 6, 6, 0, 2]
+       [6, 3, 6, 2, 0]
+     */
+      int [][] distanceTable = new int [6][6];
+
+      //Diagonal
+      distanceTable[0][0] = 0;
+      distanceTable[1][1] = 0;
+      distanceTable[2][2] = 0;
+      distanceTable[3][3] = 0;
+      distanceTable[4][4] = 0;
+      distanceTable[5][5] = 0;
+
+      //Row 1
+      distanceTable[0][1] = 6;
+      distanceTable[1][0] = 6;
+      distanceTable[0][2] = 5;
+      distanceTable[2][0] = 5;
+      distanceTable[0][3] = 1;
+      distanceTable[3][0] = 1;
+      distanceTable[0][4] = 6;
+      distanceTable[4][0] = 6;
+      distanceTable[0][5] = 8;
+      distanceTable[5][0] = 8;
+
+      //Row 2
+      distanceTable[1][2] = 4;
+      distanceTable[2][1] = 4;
+      distanceTable[1][3] = 6;
+      distanceTable[3][1] = 6;
+      distanceTable[1][4] = 3;
+      distanceTable[4][1] = 3;
+      distanceTable[1][5] = 2;
+      distanceTable[5][1] = 2;
+
+      //Row 3
+      distanceTable[2][3] = 6;
+      distanceTable[3][2] = 6;
+      distanceTable[2][4] = 6;
+      distanceTable[4][2] = 6;
+
+      //Row 4
+      distanceTable[3][4] = 2;
+      distanceTable[4][3] = 2;
 
 
     }
