@@ -26,7 +26,7 @@ public class TestConfig {
         Config expectedConfig = new Config();
         expectedConfig.type = "config";
         expectedConfig.version = 2;
-        expectedConfig.optimization = 1;
+        expectedConfig.optimization = 2;
         Gson gson = new Gson();
         String expected = gson.toJson(expectedConfig);
 
@@ -35,6 +35,6 @@ public class TestConfig {
 
     @Test
     public void testConfigGetOptimizationLevels() {
-        assertEquals(2, Config.getOptimizationLevels());
+        assertEquals(3, Config.getOptimizationLevels());
     }
 }

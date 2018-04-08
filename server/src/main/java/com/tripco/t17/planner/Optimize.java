@@ -1,7 +1,9 @@
 package com.tripco.t17.planner;
 
+import java.lang.reflect.Array;
 import java.net.SocketPermission;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Optimize {
 
@@ -9,6 +11,69 @@ public class Optimize {
      * @param places a list of every place in the trip.
      * @return the places in the order which is the shortest travel distance from start.
      */
+
+    public static ArrayList<Place> optimize(ArrayList<Place> places, double optLevel){
+        boolean NNFlag = false;
+        boolean twoOptFlag = false;
+
+        if(optLevel > .33){
+            NNFlag = true;
+        }
+        if(optLevel > .66){
+            twoOptFlag = true;
+        }
+
+        int [] placesArray = buildPlacesArray(places.size());
+        int [][] distanceTable = buildDistanceTable(places);
+        //Assume it's already in the best order (yeah right).
+        int shortestDistance = startingTripDistance(distanceTable);
+
+        //Initialize the array to return later.
+        //We do a shallow copy here to avoid having shared references.
+        int [] resultArray = new int [placesArray.length];
+
+        if(NNFlag){
+            //Initialize the two primary data structures.
+
+            System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
+
+            //Compute nearestNeighbor for each place as the start.
+            int [] placesArray2 = new int[placesArray.length + 1];
+            for (int start = 0 ; start < placesArray.length ; start++) {
+
+                //Compute nearest neighbor for this starting point.
+                int distance = nearestNeighborHelper(start, placesArray, distanceTable);
+                if(twoOptFlag){
+                    System.arraycopy(placesArray, 0, placesArray2, 0, placesArray.length);
+                    placesArray2[placesArray2.length - 1] = placesArray2[0];
+                    distance = twoOptRevised(placesArray2, distanceTable);
+                    System.arraycopy(placesArray2, 0, placesArray, 0, placesArray.length);
+                    //System.out.println(Arrays.toString(placesArray));
+                }
+
+
+                //Is the best trip from this starting point BETTER than the last one?
+                if(distance < shortestDistance){
+                    shortestDistance = distance; //Set new shortest distance
+                    System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
+
+
+                }
+            }
+        }
+
+
+        //Build new result before returning
+        //System.out.println(Arrays.toString(resultArray));
+        ArrayList<Place> result = new ArrayList<>();
+        for (int i = 0 ; i < resultArray.length; i++){
+            result.add(places.get(resultArray[i]));
+        }
+        return result;
+
+    }
+
+
     public static ArrayList<Place> nearestNeighbor(ArrayList<Place> places){
         //Initialize the two primary data structures.
         int [] placesArray = buildPlacesArray(places.size());
@@ -32,6 +97,7 @@ public class Optimize {
             if (distance < shortestDistance){
                 shortestDistance = distance; //Set new shortest distance
                 System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
+
             }
         }
 
@@ -142,7 +208,7 @@ public class Optimize {
         for (int i = 0 ; i < distanceTable.length ; i++){
             for (int j = i ; j < distanceTable[i].length ; j++){
                 //Calculate the distance, from a to a is 0 along the diagonal.
-                distanceTable[i][j] = Distance.gcd(places.get(i), places.get(j), "miles", "");;
+                distanceTable[i][j] = Distance.gcd(places.get(i), places.get(j), "miles", "");
 
                 //Table is symmetrical about the diagonal, table[i][j] always equals table[j][i].
                 distanceTable [j][i] = distanceTable[i][j];
@@ -185,6 +251,103 @@ public class Optimize {
         distance += distanceTable[i][(i + 1) % distanceTable.length];
       }
       return distance;
+    }
+
+
+    public static int twoOptRevised(int[] placesArray, int[][] distanceTable){
+
+
+
+        boolean improvement = true;
+        while (improvement){
+            improvement = false;
+            for(int i = 0; i <= placesArray.length - 3; i++){
+                for (int k = i + 2; k < placesArray.length - 1; k++){
+                    //System.out.println("i: " + i + " k: " + k);
+
+                    int delta = -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
+                            +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
+                    if(delta < 0){
+                        twoOptReverse(placesArray, i+1, k);
+                        improvement = true;
+                    }
+                }
+            }
+
+        }
+
+
+        int distance = 0;
+        for (int i = 0; i < distanceTable.length ; i++){
+            distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
+        }
+
+        return distance;
+    }
+
+//    public static ArrayList<Place> twoOpt(ArrayList<Place> places){
+//        //Build places array once size bigger than total places
+//        places = nearestNeighbor(places);
+//        if(places.size() < 4){
+//            System.out.println("You must have more than 4 places to use 2opt");
+//            return places;
+//        }
+//        //Build the places Array
+//        int [] placesArray = buildPlacesArray(places.size()+1);
+//
+//        //Make the last element in the places array the same as the first
+//        placesArray[places.size()] = placesArray[0];
+//
+//        //build the distance table
+//        int [][] distanceTable = buildDistanceTable(places);
+//
+//        //create the resultArray and set it equal to the places array
+//        int [] resultArray = new int [placesArray.length];
+//        System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
+//
+//        //2opt bones
+//        boolean improvement = true;
+//        while (improvement){
+//            improvement = false;
+//            for(int i = 0; i <= placesArray.length - 3; i++){
+//                for (int k = i + 2; k < placesArray.length -1; k++){
+//                    int delta = -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
+//                            +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
+//                    if(delta < 0){
+//                        twoOptReverse(placesArray, i+1, k);
+//                        improvement = true;
+//
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//
+//
+//        //Build result array!
+//        ArrayList<Place> result = new ArrayList<>();
+//        for (int i = 0 ; i < placesArray.length -1; i++){
+//            result.add(places.get(placesArray[i]));
+//        }
+//        return result;
+//
+//    }
+
+    public static int dis(int[] placesArray, int[][] distanceTable, int i, int k){
+        return distanceTable[placesArray[i]][placesArray[k]];
+    }
+
+    public static void twoOptReverse(int[] placesArray, int i1, int k){
+
+        while(i1 < k){
+            int temp = placesArray[i1];
+            placesArray[i1] = placesArray[k];
+            placesArray[k] = temp;
+            i1++;
+            k--;
+        }
+
     }
 
 

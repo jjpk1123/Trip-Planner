@@ -17,6 +17,7 @@ class Itinerary extends Component {
     if (units === "user defined") units = this.props.trip.options.userUnit;
     this.setUnitsString(units);
     let distKey = 0;
+    let destKey = 0;
     let dists = this.props.trip.distances.map((item) => <td key={distKey++}>{item}</td>);
 
     if (this.validateDistance(numPlaces) === false) {
@@ -25,7 +26,7 @@ class Itinerary extends Component {
 
     let dests = this.props.trip.places.map((item) =>
       <td className = " text-white" style={{backgroundColor: "#1E4D28"}}
-          key={item.id}>{item.name}</td>);
+          key={destKey++}>{item.name}</td>);
     let cumul = this.getCumulative();
 
     if (dests.length !== 0) {//if there are >1 Destination
@@ -102,8 +103,7 @@ class Itinerary extends Component {
   destsConcatFinal(dests) {
     let start = this.props.trip.places[0].name;
     let myArray = [start];
-    let endingCol = myArray.map((item) => <td className = " text-white" style={{backgroundColor: "#1E4D28"}}
-                                              key={"dest_n"}>{item}</td>);
+    let endingCol = myArray.map((item) => <td key={"dest_n"}>{item}</td>);
     return dests.concat(endingCol);//adds to the end of dests row
   }
 
@@ -152,19 +152,17 @@ class Itinerary extends Component {
       <table className="table table-responsive table-bordered">
         <thead>
         <tr className="table-info">
-          <th className="align-middle text-white" style={{backgroundColor: "#1E4D28"}}>Destinations</th>
+          <th className="align-middle">Destinations</th>
           {table.dests}
         </tr>
         </thead>
         <tbody>
         <tr>
-          <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>
-            {this.unitsString}</th>
+          <th className="table-info align-middle">{this.unitsString}</th>
           {table.dists}
         </tr>
         <tr>
-          <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>
-            Cumulative</th>
+          <th className="table-info align-middle">Cumulative</th>
           {table.cumul}
         </tr>
         </tbody>
