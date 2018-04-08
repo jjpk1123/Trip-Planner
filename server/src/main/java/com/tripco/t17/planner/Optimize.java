@@ -285,59 +285,16 @@ public class Optimize {
         return distance;
     }
 
-//    public static ArrayList<Place> twoOpt(ArrayList<Place> places){
-//        //Build places array once size bigger than total places
-//        places = nearestNeighbor(places);
-//        if(places.size() < 4){
-//            System.out.println("You must have more than 4 places to use 2opt");
-//            return places;
-//        }
-//        //Build the places Array
-//        int [] placesArray = buildPlacesArray(places.size()+1);
-//
-//        //Make the last element in the places array the same as the first
-//        placesArray[places.size()] = placesArray[0];
-//
-//        //build the distance table
-//        int [][] distanceTable = buildDistanceTable(places);
-//
-//        //create the resultArray and set it equal to the places array
-//        int [] resultArray = new int [placesArray.length];
-//        System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
-//
-//        //2opt bones
-//        boolean improvement = true;
-//        while (improvement){
-//            improvement = false;
-//            for(int i = 0; i <= placesArray.length - 3; i++){
-//                for (int k = i + 2; k < placesArray.length -1; k++){
-//                    int delta = -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
-//                            +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
-//                    if(delta < 0){
-//                        twoOptReverse(placesArray, i+1, k);
-//                        improvement = true;
-//
-//                    }
-//                }
-//            }
-//
-//        }
-//
-//
-//
-//        //Build result array!
-//        ArrayList<Place> result = new ArrayList<>();
-//        for (int i = 0 ; i < placesArray.length -1; i++){
-//            result.add(places.get(placesArray[i]));
-//        }
-//        return result;
-//
-//    }
-
     public static int dis(int[] placesArray, int[][] distanceTable, int i, int k){
         return distanceTable[placesArray[i]][placesArray[k]];
     }
 
+    /**
+     * This reverses places array in place between two indexes.
+     * @param placesArray the table of distances.
+     * @param i1 starting index for reversal.
+     * @param k ending index for reversal.
+     */
     public static void twoOptReverse(int[] placesArray, int i1, int k){
 
         while(i1 < k){
