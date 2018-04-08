@@ -17,13 +17,16 @@ class Itinerary extends Component {
     if (units === "user defined") units = this.props.trip.options.userUnit;
     this.setUnitsString(units);
     let distKey = 0;
+    let destKey = 0;
     let dists = this.props.trip.distances.map((item) => <td key={distKey++}>{item}</td>);
 
     if (this.validateDistance(numPlaces) === false) {
       return {units};//not all places have valid distances
     }
 
-    let dests = this.props.trip.places.map((item) => <td key={item.id}>{item.name}</td>);
+    let dests = this.props.trip.places.map((item) =>
+      <td className = " text-white" style={{backgroundColor: "#1E4D28"}}
+          key={destKey++}>{item.name}</td>);
     let cumul = this.getCumulative();
 
     if (dests.length !== 0) {//if there are >1 Destination
