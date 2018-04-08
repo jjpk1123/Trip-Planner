@@ -68,7 +68,8 @@ class Query extends Component {
 
   createTable() {
     let i = 0;
-    let queryResults = this.props.query.places.map((item) => <td key = {i++}><input type="checkbox" value={item.id} onClick={this.addToTrip}/>{item.name}</td>);
+    let queryResults = this.props.query.places.map((item) => <td key = {i++}>
+      <input type="checkbox" value={item.id} onClick={this.addToTrip}/>{item.name}</td>);
 
     //console.log(this.queryArray);
     return {queryResults};
@@ -84,15 +85,16 @@ class Query extends Component {
           <div className="input-group" role="group">
             <input type="text" className="form-control" placeholder="Search..." onChange={this.updateSearch}/>
             <span className="input-group-btn">
-              <button className="btn btn-primary" onClick={this.query} type="button">Search</button>
+              <button className="btn text-white" style={{backgroundColor: "#1E4D2B"}} onClick={this.query}
+                      type="button">Search</button>
             </span>
           </div>
 
-          <div id="queryResults">
-            <table className="table table-responsive table-bordered">
+          <div id="queryResults" >
+            <table className="table table-responsive table-bordered" >
               <tbody>
               <tr>
-                <th className="table-info align-middle">Places:</th>
+                <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>Places:</th>
                 {table.queryResults}
               </tr>
               </tbody>
