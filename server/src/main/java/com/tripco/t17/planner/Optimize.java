@@ -3,6 +3,7 @@ package com.tripco.t17.planner;
 import java.lang.reflect.Array;
 import java.net.SocketPermission;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Optimize {
 
@@ -23,7 +24,7 @@ public class Optimize {
         }
 
         int [] placesArray = buildPlacesArray(places.size() + 1);
-        placesArray[placesArray.length - 1] = 0;
+        placesArray[placesArray.length-1] = 0;
         int [][] distanceTable = buildDistanceTable(places);
         //Assume it's already in the best order (yeah right).
         int shortestDistance = startingTripDistance(distanceTable);
@@ -32,7 +33,7 @@ public class Optimize {
         //We do a shallow copy here to avoid having shared references.
         int [] resultArray = new int [placesArray.length];
 
-        if(NNFlag == true){
+        if(NNFlag){
             //Initialize the two primary data structures.
 
             System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
@@ -41,18 +42,17 @@ public class Optimize {
             for (int start = 0 ; start < placesArray.length ; start++) {
 
                 //Compute nearest neighbor for this starting point.
-                int distance = nearestNeighborHelper((start)%placesArray.length-1, placesArray, distanceTable);
-                if(twoOptFlag == true){
+                int distance = nearestNeighborHelper((start)%(placesArray.length-1), placesArray, distanceTable);
+                if(twoOptFlag){
                     distance = twoOptRevised(placesArray, distanceTable);
-
                 }
 
 
                 //Is the best trip from this starting point BETTER than the last one?
                 if(distance < shortestDistance){
-                    //System.out.println(distance);
                     shortestDistance = distance; //Set new shortest distance
                     System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
+
 
                 }
             }
@@ -60,6 +60,7 @@ public class Optimize {
 
 
         //Build new result before returning
+        //System.out.println(Arrays.toString(resultArray));
         ArrayList<Place> result = new ArrayList<>();
         for (int i = 0 ; i < resultArray.length - 1; i++){
             result.add(places.get(resultArray[i]));
@@ -257,18 +258,21 @@ public class Optimize {
         while (improvement){
             improvement = false;
             for(int i = 0; i <= placesArray.length - 3; i++){
-                for (int k = i + 2; k < placesArray.length -1; k++){
+                for (int k = i + 2; k < placesArray.length - 1; k++){
+                    //System.out.println("i: " + i + " k: " + k);
+
                     int delta = -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
                             +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
                     if(delta < 0){
                         twoOptReverse(placesArray, i+1, k);
                         improvement = true;
-
                     }
                 }
             }
 
         }
+
+
         int distance = 0;
         for (int i = 0; i < distanceTable.length ; i++){
             distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
