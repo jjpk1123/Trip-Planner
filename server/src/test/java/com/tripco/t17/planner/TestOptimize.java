@@ -58,7 +58,7 @@ public class TestOptimize {
     trip.places.add(B);
     trip.places.add(C);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -83,7 +83,7 @@ public class TestOptimize {
     trip.places.add(B);
     trip.places.add(C);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -114,7 +114,7 @@ public class TestOptimize {
     trip.places.add(C);
     trip.places.add(D);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -151,7 +151,7 @@ public class TestOptimize {
     trip.places.add(D);
     trip.places.add(E);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -184,7 +184,7 @@ public class TestOptimize {
     places.add(C);
     places.add(D);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -198,13 +198,13 @@ public class TestOptimize {
     places.add(A);
     trip.places.add(A);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
   public void testNearestNeighborNoPlaces(){
     ArrayList<Place> places = new ArrayList<>();
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -259,7 +259,7 @@ public class TestOptimize {
     trip.places.add(G);
     trip.places.add(H);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   /**
