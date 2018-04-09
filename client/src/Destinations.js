@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Query from './Query';
+import Trip from './Trip';
 
 /**
  * Destinations reside in the parent object so they may be shared
@@ -40,13 +41,15 @@ class Destinations extends Component {
         return;
       }
 
-      if (this.validateTFFI() === false) {
+      if (!this.validateTFFI()) {
         return; //File does not contain 1 or more of the necessary fields.
       }
       //File validation complete
 
       //Update the trip
       this.props.updateTrip(this.myObj); //Check Application.updateTrip, there's another
+
+      Trip.resetState();
 
       //console.log("loadTFFI, myObj: " + JSON.stringify(this.myObj));   //Sanity check, check console for JSON string
       //alert(file.name + " is loaded");                            //You did it!
@@ -96,9 +99,9 @@ class Destinations extends Component {
     } else if (this.myObj.version < 1) {
       console.log("version less than min; changing to 1");
       this.myObj.version = 1;
-    } else if (this.myObj.version > 2) {
-      console.log("version greater than max; changing to 2");
-      this.myObj.version = 2;
+    } else if (this.myObj.version > 3) {
+      console.log("version greater than max; changing to 3");
+      this.myObj.version = 3;
     }
   }
 

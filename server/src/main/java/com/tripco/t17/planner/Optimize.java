@@ -127,7 +127,7 @@ public class Optimize {
      * @param value a value to search for in the array.
      * @return the index where it finds the value, or -1 if it doesn't exist.
      */
-    private static int indexOf(int [] array, int value){
+    public static int indexOf(int [] array, int value){
         for (int i = 0 ; i < array.length ; i++){
             if (array[i] == value){
                 return i;

@@ -18,7 +18,7 @@ class Query extends Component {
 
   fetchQueryResponse() {
     let requestBody = {
-      "version" : 2,
+      "version" : 3,
       "type"    : "query",
       "query"   : this.search,
       "places"  : []
