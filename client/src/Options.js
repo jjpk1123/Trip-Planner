@@ -119,14 +119,14 @@ class Options extends Component {
       return this.optString(0);
     }
 
-    let configOpt = parseFloat(this.props.config.optimization);
+    let configOpt = this.props.config.optimization;
     let opt = 1.0 / (configOpt + 1);
     let curr = parseFloat(this.props.trip.options.optimization);
     if (curr >= opt && curr < 2*opt) {
       //console.log("Nearest Neighbor");
       return this.optString(1);
     }
-    else if (curr >= 2*opt && curr <= 3*opt) { // when we run 2-opt, make sure to less than or ***EQUAL*** 3*opt
+    else if (curr >= 2*opt && curr <= 3*opt) {
       // else if (curr >= 2*opt && curr < 3*opt) {  // use for 3-opt
       // console.log("2-opt");
       return this.optString(2);

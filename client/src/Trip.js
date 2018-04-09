@@ -13,7 +13,7 @@ class Trip extends Component {
     super(props);
     this.state = {
       computedNN   : false,
-      // computed2opt : false,
+      computed2opt : false,
       // computed3opt : false
     };
     this.plan = this.plan.bind(this);
@@ -74,15 +74,15 @@ class Trip extends Component {
     let slider = parseFloat(this.props.trip.options.optimization);
     let breakPoint = 1.0 / (this.props.config.optimization + 1);
 
-    if (slider < breakPoint) { // [0.0, 0.5) = No Opt
+    if (slider < breakPoint) { // [0.0, 0.3333) = No Opt
       // do nothing
     }
-    if (slider >= breakPoint) { // [0.5, 1.0] = NN
+    if (slider >= breakPoint) { // [0.3333, 0.6666) = NN
       this.setState({computedNN : true});
     }
-    // if (slider >= 2*breakPoint && slider <= 3*breakPoint) { // [.6666, 1.0] = 2-opt
-    //   this.setState({computed2opt : true});
-    // }
+    if (slider >= 2*breakPoint && slider <= 3*breakPoint) { // [.6666, 1.0] = 2-opt
+      this.setState({computed2opt : true});
+    }
     // if (slider >= 3*breakPoint && slider <= 4*breakPoint) { // [0.75, 1.0] = 3 opt
     //     this.setState({computed3opt: true});
     // }
@@ -92,7 +92,7 @@ class Trip extends Component {
     console.log("resetting");
     this.setState({
       computedNN: false,
-      // computed2opt: false,
+      computed2opt: false,
       // computed3opt: false,
     });
   }

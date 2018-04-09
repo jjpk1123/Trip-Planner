@@ -161,13 +161,12 @@ class Itinerary extends Component {
     if (slider < breakPoint) {
       return this.restOfTheString(0); // No optimization
     }
-    else if (slider >= breakPoint && slider <= 2*breakPoint) {
-    //else if (slider >= breakPoint && slider < 2*breakPoint) { // use for 2-opt
+    else if (slider >= breakPoint && slider < 2*breakPoint) {
       return this.restOfTheString(1); // NN
     }
-    // else if (slider >= 2*breakPoint && slider < 3*breakPoint) {
-    //   return this.restOfTheString(2); // 2 opt
-    // }
+    else if (slider >= 2*breakPoint && slider <= 3*breakPoint) {
+      return this.restOfTheString(2); // 2 opt
+    }
     // else if (slider >= 3*breakPoint && slider < 4*breakPoint) {
     //   return this.restOfTheString(3); // 3 opt
     // }
@@ -194,13 +193,15 @@ class Itinerary extends Component {
     // if (this.props.state.computed3opt === true) {
     //   return 3;
     // }
-    // if (this.props.state.computed2opt === true) {
-    //   return 2;
-    // }
-    if (this.props.state.computedNN) { // (true==true) evaluates to true
+    if (this.props.state.computed2opt === true) {
+      return 2;
+    }
+    else if (this.props.state.computedNN) { // (true==true) evaluates to true
       return 1;
     }
-    return 0;
+    else {
+      return 0;
+    }
   }
 
   /**

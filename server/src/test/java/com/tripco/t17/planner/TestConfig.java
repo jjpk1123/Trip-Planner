@@ -33,8 +33,8 @@ public class TestConfig {
         this.config.filters[0] = filterDict; */
 
         this.config.maps = new String[]{"svg"};         // {"svg", "kml"}
-        this.config.optimization = 1;                   // 2 // 3
-        this.config.optimizations = new Dictionary[2];  // 3 // 4
+        this.config.optimization = 2;                   // 2 // 3
+        this.config.optimizations = new Dictionary[3];  // 3 // 4
 
         Dictionary<String, String> optDict = new Hashtable<>();
         optDict.put("label", "No optimization");
@@ -43,13 +43,13 @@ public class TestConfig {
 
         optDict = new Hashtable<>();
         optDict.put("label", "Nearest Neighbor");
-        optDict.put("description", "Shortest");         // 2-opt="Shorter" // 3-opt="Short"
+        optDict.put("description", "Shorter");          // 3-opt="Short"
         this.config.optimizations[1] = optDict;
 
-//        optDict = new Hashtable<>();
-//        optDict.put("label", "2-opt");
-//        optDict.put("description", "Shortest");         // 3-opt = "Shorter"
-//        this.config.optimizations[2] = optDict;
+        optDict = new Hashtable<>();
+        optDict.put("label", "2-opt");
+        optDict.put("description", "Shortest");         // 3-opt = "Shorter"
+        this.config.optimizations[2] = optDict;
 
 //        optDict = new Hashtable<>();
 //        optDict.put("label", "3-opt");
@@ -85,7 +85,7 @@ public class TestConfig {
 
     @Test
     public void testConfigOptimization() {
-        assertEquals(1, this.config.optimization);
+        assertEquals(2, this.config.optimization);
     }
 
     @Test
@@ -94,11 +94,11 @@ public class TestConfig {
         assertEquals("Longest", this.config.optimizations[0].get("description"));
 
         assertEquals("Nearest Neighbor", this.config.optimizations[1].get("label"));
-        assertEquals("Shortest", this.config.optimizations[1].get("description"));
+        assertEquals("Shorter", this.config.optimizations[1].get("description"));
 
-//        assertEquals("2-opt", this.config.optimizations[2].get("label"));
-//        assertEquals("2-opt=Shortest ***||*** 3-opt=Shorter", this.config.optimizations[2].get("description"));
-//
+        assertEquals("2-opt", this.config.optimizations[2].get("label"));
+        assertEquals("Shortest", this.config.optimizations[2].get("description"));
+
 //        assertEquals("3-opt", this.config.optimizations[3].get("label"));
 //        assertEquals("Shortest", this.config.optimizations[3].get("description"));
 
@@ -115,19 +115,12 @@ public class TestConfig {
         assertEquals(Arrays.toString(expected), Arrays.toString(this.config.units));
     }
 
-    /**
-     * Tests the standalone method that return the "normalized" optimization levels
-     */
-    @Test
-    public void testConfigGetOptimizationLevels() {
-        assertEquals(2, Config.getOptimizationLevels());
-    }
 
     @Test
     public void testGetConfig() {
         Config expectedConfig = new Config();
         expectedConfig.type = "config";
-        expectedConfig.version = 2;
+        expectedConfig.version = 3;
         expectedConfig.optimization = 2;
         Gson gson = new Gson();
         String expected = gson.toJson(this.config);
@@ -135,6 +128,9 @@ public class TestConfig {
         assertEquals(expected, ch.getConfig());
     }
 
+    /**
+     * Tests the standalone method that return the "normalized" optimization levels
+     */
     @Test
     public void testConfigGetOptimizationLevels() {
         assertEquals(3, Config.getOptimizationLevels());
