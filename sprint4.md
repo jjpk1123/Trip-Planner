@@ -52,8 +52,8 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  *20*   | *4*
-Story Points |  *43*  | *6*
+Tasks |  *20*   | *10*
+Story Points |  *43*  | *19*
 
 ## Daily Scrums
 
@@ -62,12 +62,15 @@ Date | Tasks done  | Tasks in progress | Impediments
 *3/27* | none | *#216 #217 #223* | none
 *3/29* | *#216 #217* | *#223 #226 #220 #221 #236* | none
 *4/01* | *#220 #221* | *#223 #226 #249 #251* | none
+*4/03* | *#137 #226 #251* | *#211 #223 #249* | Waited to PR #211 until #223 is merged. The team decided we would rather let him focus on 2-opt, instead of sorting through some confusing merge conflicts.
+*4/05* | *#222 #249 #250* | *#223 #249 #251* | none
+*4/08* | *#223* | *#208 #224 #225* | none
  
 
 ## Review
 
 #### Completed epics in Sprint Backlog 
-* *user story*:  *comments*
+* #141:  Client is now CSU branded
 * 
 
 #### Incomplete epics in Sprint Backlog 
