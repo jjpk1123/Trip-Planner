@@ -125,9 +125,18 @@ public class TestConfig {
 
     @Test
     public void testGetConfig() {
+        Config expectedConfig = new Config();
+        expectedConfig.type = "config";
+        expectedConfig.version = 2;
+        expectedConfig.optimization = 2;
         Gson gson = new Gson();
         String expected = gson.toJson(this.config);
 
         assertEquals(expected, ch.getConfig());
+    }
+
+    @Test
+    public void testConfigGetOptimizationLevels() {
+        assertEquals(3, Config.getOptimizationLevels());
     }
 }

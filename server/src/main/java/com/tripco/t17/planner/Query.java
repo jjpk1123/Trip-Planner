@@ -16,20 +16,18 @@ public class Query{
     private final static String myUrl = "jdbc:mysql://faure.cs.colostate.edu/cs314";
 
     // The variables in this class should reflect TFFI.
+    public int version;
     public String type;
     public String query;
     public ArrayList<Place> places;
-
-    public String count = "";
-    public String searchName = "";
 
     /**
      * The top level method that does searching.
      */
     public void searchDatabase() {
         //This will do something one day :)
-        count = "select count(*) from airports where name like '%" + query + "%' or municipality like '%" + query + "%' or id  = '" + query + "';";
-        searchName = "select id,name,latitude,longitude from airports where name like '%" + query + "%' or municipality like '%" + query + "%' or id = '" + query + "' order by name;";
+        String count = "select count(*) from airports where name like '%" + query + "%' or municipality like '%" + query + "%' or id  = '" + query + "';";
+        String searchName = "select id,name,latitude,longitude from airports where name like '%" + query + "%' or municipality like '%" + query + "%' or id = '" + query + "' order by name;";
         try {
             Class.forName(myDriver);
             // connect to the database and query

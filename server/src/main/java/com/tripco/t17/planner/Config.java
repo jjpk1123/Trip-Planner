@@ -47,8 +47,8 @@ public class Config {
      * Returns many Optimization levels are available to choose from "normalized"
      * @return optLevel +1
      */
-    public static int getOptimizationLevels() {
-        return (1) + 1;                                 // This value will change over time
+    public static int getOptimizationLevels() {                               // This value will change over time
+        return (2) + 1;         // This value will change over time
         // CS students start at 0
         // level+1 "normalizes"
     }
