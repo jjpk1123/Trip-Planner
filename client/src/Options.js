@@ -103,37 +103,47 @@ class Options extends Component {
    * Returns a value between 0 and 100 for the slider to render.
    */
   retrieveOptimizationValue() {
-    if (this.props.optimization === "none") {
+    if (this.props.trip.options.optimization === "none") {
       return 0;
     }
-    return (100 * parseFloat(this.props.optimization));
+    return (100 * parseFloat(this.props.trip.options.optimization));
   }
 
   /**
    * Returns which optimization level the slider is currently at
+   * More information is found in optString()'s summary
    */
   retrieveOptimizationString() {
     if (!this.checkOptimize()) {
-      //console.log("No-opt");
-      return "longest";
+      //console.log("No optimization");
+      return this.optString(0);
     }
-    //console.log("(" + this.props.configOptimizations + ") + 1");
-    let conOpt = parseFloat(this.props.configOptimizations);
-    let opt = 1.0 / (conOpt + 1);
-    let curr = parseFloat(this.props.optimization);
-    //console.log(curr);
-    if (curr >= opt && curr < 2*opt) { // if (curr >= opt && curr < 2*opt) {
-      //console.log("NearestNeighbor");
-      return "shorter"; // "short"
+
+    let configOpt = this.props.config.optimization;
+    let opt = 1.0 / (configOpt + 1);
+    let curr = parseFloat(this.props.trip.options.optimization);
+    if (curr >= opt && curr < 2*opt) {
+      //console.log("Nearest Neighbor");
+      return this.optString(1);
     }
-    else if (curr >= 2*opt && curr <= 3*opt) { // when we run 2-opt, make sure to less than or ***EQUAL*** 3*opt
-      //   console.log("2-opt");
-      return "shortest";
+    else if (curr >= 2*opt && curr <= 3*opt) {
+      // else if (curr >= 2*opt && curr < 3*opt) {  // use for 3-opt
+      // console.log("2-opt");
+      return this.optString(2);
     }
     // else if (curr >= 3*opt && curr <= 4*opt) {
     //   console.log("3-opt");
-    //   return "shortest";
+    //   return this.optString(3);
     // }
+  }
+
+  /**
+   * Returns whichever optimization level is in the config.optimization field
+   * @param index
+   * @return description = {0="Longest", 1="Short", 2="Shorter", 3="Shortest"}
+   */
+  optString(index) {
+    return ((this.props.config).optimizations[index])["description"];
   }
 
   /**
@@ -141,13 +151,14 @@ class Options extends Component {
    * @return false = do not optimize path
    */
   checkOptimize() {
-    if (this.props.optimization === "none") {
+    if ((this.props.trip).options.optimization === "none") {
       return false;
     }
-    let conOpt = parseFloat(this.props.configOptimizations);
+    // console.log(this.props.trip.options.optimization);
+    let conOpt = parseFloat(this.props.config.optimization);
     let opt = 1.0 / (conOpt + 1);
-    let curr = parseFloat(this.props.optimization);
-    //console.log(curr + " " + opt); // debug the string
+    let curr = parseFloat((this.props.trip).options.optimization);
+    // console.log(curr + " " + opt); // debug the string
     return (curr >= opt);
   }
 

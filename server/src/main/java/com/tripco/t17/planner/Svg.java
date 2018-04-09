@@ -15,11 +15,12 @@ public class Svg {
      * Create Svg object.
      * @param places populates places for the svg() method
      */
-    public Svg(ArrayList<Place> places){
+    public Svg(ArrayList<Place> places, String mapDirectory){
         this.places = places;
         try {
-            this.map = svg();
-        } catch(IOException e){
+            this.map = svg(mapDirectory);
+        }
+        catch(Exception e) {
             // System.err.println(e);
         }
     }
@@ -29,19 +30,15 @@ public class Svg {
      *
      * @return map with lines on it.
      */
-    private String svg() throws IOException {
+    private String svg(String mapDirectory) throws IOException {
         String map = retrieveSvgIntro();
 
-        InputStream is = getClass().getResourceAsStream("/World_Map.svg");
+        InputStream is = getClass().getResourceAsStream(mapDirectory);
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-        try {
             while (br.ready()) {
                 map += br.readLine() + "\n";
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         br.close();
 
         //Error checking, just in case this gets called before places has anything.

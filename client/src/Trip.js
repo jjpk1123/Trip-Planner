@@ -11,8 +11,14 @@ import Itinerary from './Itinerary';
 class Trip extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      computedNN   : false,
+      computed2opt : false,
+      // computed3opt : false
+    };
     this.plan = this.plan.bind(this);
     this.saveTFFI = this.saveTFFI.bind(this);
+    Trip.resetState = Trip.resetState.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
     this.reverseTrip = this.reverseTrip.bind(this);
     this.tripCardHeader = <h5 className="card-header text-white" style={{backgroundColor: "#1E4D28"}}>
@@ -44,11 +50,51 @@ class Trip extends Component {
       let tffi = await serverResponse.json();
       //console.log(tffi);
       this.props.updateTrip(tffi);
+      this.updateAlgorithm();
       //console.log("async plan(): fetchResponse is done");
     } catch (err) {
       console.error("You hit an error in async plan()");
       console.error(err);
     }
+  }
+
+  /**
+   * Once a shorter trip has been rendered, it can't be changed back to a longer trip.
+   * This method stops Itinerary.js from displaying a shorter algorithm, when the
+   * trip has been computed using a higher optimization level.
+   * The comments such as [0.0, 0.5) give the range[inclusive, exclusive) on optimization
+   * values, so it's easier for teammates to follow along.
+   * The (if <) will need to be adjusted to (if <=), as to capture the "1.0" level.
+   */
+  updateAlgorithm() {
+    if (this.props.trip.options.optimization === "none") {
+      return;
+    }
+
+    let slider = parseFloat(this.props.trip.options.optimization);
+    let breakPoint = 1.0 / (this.props.config.optimization + 1);
+
+    if (slider < breakPoint) { // [0.0, 0.3333) = No Opt
+      // do nothing
+    }
+    if (slider >= breakPoint) { // [0.3333, 0.6666) = NN
+      this.setState({computedNN : true});
+    }
+    if (slider >= 2*breakPoint && slider <= 3*breakPoint) { // [.6666, 1.0] = 2-opt
+      this.setState({computed2opt : true});
+    }
+    // if (slider >= 3*breakPoint && slider <= 4*breakPoint) { // [0.75, 1.0] = 3 opt
+    //     this.setState({computed3opt: true});
+    // }
+  }
+
+  static resetState() {
+    console.log("resetting");
+    this.setState({
+      computedNN: false,
+      computed2opt: false,
+      // computed3opt: false,
+    });
   }
 
   /**
@@ -130,7 +176,9 @@ class Trip extends Component {
         </div>
       </div>
       <div className="card-body">
-        <Itinerary trip={this.props.trip}/>
+        <Itinerary trip={this.props.trip}
+                   state={this.state}
+                   config={this.props.config}/>
         <Map trip={this.props.trip}/>
       </div>
     </div>

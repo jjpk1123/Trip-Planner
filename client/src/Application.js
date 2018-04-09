@@ -11,7 +11,7 @@ class Application extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trip: { //trip TFFI
+      trip: { // trip TFFI
         version: 1,
         type: "",
         title: "",
@@ -25,15 +25,19 @@ class Application extends Component {
         distances: [],
         map: "<svg width=\"1920\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><g></g></svg>"
       },
-      query: { //query TFFI
+      query: { // query TFFI
         type: "",
         query: "",
         places: []
       },
-      config: {
+      config: { // config TFFI
         type: "",
         version: 0,
-        optimization: 0
+        filters: [],
+        maps: [],
+        optimization: 0,
+        optimizations: [{label: "No optimization", description: "Longest"}],
+        units: []
       }
     };
     this.doTheConfig();
@@ -76,8 +80,8 @@ class Application extends Component {
 
       //console.log(configTFFI);
       this.setState({config});
-      console.log("Config=={v" + this.state.config.version + ", opt:" + this.state.config.optimization + "}");
-      //console.log("Application.js::async doTheConfig(): fetchConfigResponse is done");
+//      console.log("Config:{\nversion=" + this.state.config.version + ", maps=[" + this.state.config.maps
+//          + "], opt=" + this.state.config.optimization + ", units=[" + this.state.config.units + "]\n}"); // debug
     } catch(err) {
       console.error("You hit an error in Application.js::async doTheConfig()");
       console.error(err);
@@ -106,14 +110,14 @@ class Application extends Component {
         </div>
         <div className="col-lg-4 col-xl-4">
           <Options trip={this.state.trip}
+                   config={this.state.config}
                    distance={this.state.trip.options.distance}
-                   optimization={this.state.trip.options.optimization}
-                   configOptimizations={this.state.config.optimization}
                    updateTrip={this.updateTrip}/>
         </div>
         <div className="col-12">
           <Trip trip={this.state.trip}
                 title={this.state.trip.title}
+                config={this.state.config}
                 updateTrip={this.updateTrip}
                 updateTitle={this.updateTitle}/>
         </div>

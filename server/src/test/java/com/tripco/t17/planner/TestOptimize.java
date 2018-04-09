@@ -8,7 +8,9 @@ import org.junit.runners.JUnit4;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /*
@@ -734,7 +736,13 @@ public class TestOptimize {
 
   @Test
   public void testIndexOf(){
+    int[] array = {0, 1, 2, 3, 4};
 
+    int actualReturn = Optimize.indexOf(array, -1);
+    assertEquals(-1, actualReturn);
+
+    actualReturn = Optimize.indexOf(array, 4);
+    assertEquals(4, actualReturn);
   }
 
 /**
