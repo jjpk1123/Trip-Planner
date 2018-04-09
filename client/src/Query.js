@@ -9,6 +9,7 @@ class Query extends Component {
     this.addToTrip = this.addToTrip.bind(this);
     this.createTable = this.createTable.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
+    this.removeFromTrip = this.removeFromTrip.bind(this);
     this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
   }
 
@@ -19,7 +20,7 @@ class Query extends Component {
 
   fetchQueryResponse() {
     let requestBody = {
-      "version" : 2,
+      "version" : 3,
       "type"    : "query",
       "query"   : this.search,
       "places"  : []
@@ -48,6 +49,7 @@ class Query extends Component {
   }
 
   addToTrip(event) {
+    console.log(event.target);
     console.log("Appending [" + event.target.value + "] to end of trip");
 
     for (let i = 0; i < this.props.query.places.length; ++i) {
@@ -63,13 +65,28 @@ class Query extends Component {
         return;
       }
     }
-
   }
 
-  createTable(){
+  removeFromTrip(event) {
+    console.log(event.target);
+    console.log("Removing  [" + event.target.value + "] from the trip");
+
+    for (let i = 0; i < this.props.trip.places; ++i) {
+      if (this.props.query.places[i].id === event.target.value) {
+        console.log("Removing " + this.props.query.places[i].id + " from trip.");
+        console.log("Still need to implement remove!");
+        return;
+      }
+    }
+  }
+
+  createTable() {
     let i = 0;
     let queryResults = this.props.query.places.map((item) =>
-        <tr key = {i++} onClick={this.addToTrip}>
+        <tr key={i++} value={item.id}>
+          {console.log(i)}
+          <td value={i} type="button" onClick={this.addToTrip}>+</td>
+          <td value={i} type="button" onClick={this.removeFromTrip}>-</td>
           <td>{item.name}</td>
           <td>{item.latitude}</td>
           <td>{item.longitude}</td>
@@ -78,6 +95,7 @@ class Query extends Component {
     return <Table responsive hover size="sm">
       <thead>
       <tr>
+        <th key={0} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Add</th>
         <th key={1} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Name</th>
         <th key={2} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Lat</th>
         <th key={3} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Long</th>
@@ -89,16 +107,6 @@ class Query extends Component {
     </Table>;
   }
 
-  /* createTable() {
-     let i = 0;
-     let queryResults = this.props.query.places.map((item) => <button key = {i++}>
-       <Button onClick={this.addToTrip} value = {item.name}/>{"Add to trip!"}</button>);
-
-     //console.log(this.queryArray);
-     return {queryResults};
-
-   } */
-
   render() {
     let table = this.createTable();
 
@@ -106,7 +114,7 @@ class Query extends Component {
       <div className="card-body">
         <div className="input-group" role="group">
           <input type="text" className="form-control" placeholder="Search the database..."
-                 onChange={this.updateSearch}/>
+                 onChange={this.updateSearch} />
           <span className="input-group-btn">
               <button className="btn text-white" style={{backgroundColor: "#1E4D2B"}} onClick={this.query}
                       type="button">Search</button>
