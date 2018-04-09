@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Button, Table } from 'reactstrap';
 
 class Query extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class Query extends Component {
 
   fetchQueryResponse() {
     let requestBody = {
-      "version" : 3,
+      "version" : 2,
       "type"    : "query",
       "query"   : this.search,
       "places"  : []
@@ -47,61 +48,74 @@ class Query extends Component {
   }
 
   addToTrip(event) {
-    if (event.target.checked) {
-      console.log("Appending [" + event.target.value + "] to end of trip");
+    console.log("Appending [" + event.target.value + "] to end of trip");
 
-      for (let i = 0; i < this.props.query.places.length; ++i) {
+    for (let i = 0; i < this.props.query.places.length; ++i) {
+      if (this.props.query.places[i].id === event.target.value) {
         console.log("Adding " + this.props.query.places[i].id + " to trip.");
-        if (this.props.query.places[i].id === event.target.value) {
-          let tempTrip = this.props.trip;
-          let tempArray = tempTrip.places;
-          let newPlace = this.props.query.places[i];
-          tempArray.push(newPlace);
+        let tempTrip = this.props.trip;
+        let tempArray = tempTrip.places;
+        let newPlace = this.props.query.places[i];
+        tempArray.push(newPlace);
 
-          tempTrip.places = tempArray;
-          this.props.updateTrip(tempTrip);
-          return;
-        }
+        tempTrip.places = tempArray;
+        this.props.updateTrip(tempTrip);
+        return;
       }
     }
+
   }
 
-  createTable() {
+  createTable(){
     let i = 0;
-    let queryResults = this.props.query.places.map((item) => <td key = {i++}>
-      <input type="checkbox" value={item.id} onClick={this.addToTrip}/>{item.name}</td>);
+    let queryResults = this.props.query.places.map((item) =>
+        <tr key = {i++} onClick={this.addToTrip}>
+          <td>{item.name}</td>
+          <td>{item.latitude}</td>
+          <td>{item.longitude}</td>
+        </tr>);
 
-    //console.log(this.queryArray);
-    return {queryResults};
-
+    return <Table responsive hover size="sm">
+      <thead>
+      <tr>
+        <th key={1} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Name</th>
+        <th key={2} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Lat</th>
+        <th key={3} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Long</th>
+      </tr>
+      </thead>
+      <tbody>
+      {queryResults}
+      </tbody>
+    </Table>;
   }
+
+  /* createTable() {
+     let i = 0;
+     let queryResults = this.props.query.places.map((item) => <button key = {i++}>
+       <Button onClick={this.addToTrip} value = {item.name}/>{"Add to trip!"}</button>);
+
+     //console.log(this.queryArray);
+     return {queryResults};
+
+   } */
 
   render() {
     let table = this.createTable();
 
     return <div id="query">
-        <div className="card-body">
-          <h6 className="card-title">Search the database:</h6>
-          <div className="input-group" role="group">
-            <input type="text" className="form-control" placeholder="Search..." onChange={this.updateSearch}/>
-            <span className="input-group-btn">
+      <div className="card-body">
+        <div className="input-group" role="group">
+          <input type="text" className="form-control" placeholder="Search the database..."
+                 onChange={this.updateSearch}/>
+          <span className="input-group-btn">
               <button className="btn text-white" style={{backgroundColor: "#1E4D2B"}} onClick={this.query}
                       type="button">Search</button>
             </span>
-          </div>
-
-          <div id="queryResults" >
-            <table className="table table-responsive table-bordered" >
-              <tbody>
-              <tr>
-                <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>Places:</th>
-                {table.queryResults}
-              </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
+
+        {table}
       </div>
+    </div>
   }
 }
 
