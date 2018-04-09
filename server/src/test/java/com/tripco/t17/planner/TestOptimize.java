@@ -60,7 +60,7 @@ public class TestOptimize {
     trip.places.add(B);
     trip.places.add(C);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -85,7 +85,7 @@ public class TestOptimize {
     trip.places.add(B);
     trip.places.add(C);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -116,7 +116,7 @@ public class TestOptimize {
     trip.places.add(C);
     trip.places.add(D);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -153,7 +153,7 @@ public class TestOptimize {
     trip.places.add(D);
     trip.places.add(E);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -186,7 +186,7 @@ public class TestOptimize {
     places.add(C);
     places.add(D);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -200,13 +200,13 @@ public class TestOptimize {
     places.add(A);
     trip.places.add(A);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
   public void testNearestNeighborNoPlaces(){
     ArrayList<Place> places = new ArrayList<>();
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   @Test
@@ -261,7 +261,7 @@ public class TestOptimize {
     trip.places.add(G);
     trip.places.add(H);
 
-    assertEquals(places, Optimize.nearestNeighbor(trip.places));
+    assertEquals(places, Optimize.optimize(trip.places, .5));
   }
 
   /**
@@ -759,9 +759,9 @@ public class TestOptimize {
  */
 
     @Test
-    public void testTwoOptRevised(){
-      // [0, 1, 2, 3, 4, 5]
-      int [] placesArray = Optimize.buildPlacesArray(6);
+    public void testTwoOpt(){
+      // [0, 1, 2, 3, 4]
+      int [] placesArray = Optimize.buildPlacesArray(5);
 
     /* [0, 6, 5, 1, 6]
        [6, 0, 4, 6, 3]
@@ -769,7 +769,7 @@ public class TestOptimize {
        [1, 6, 6, 0, 2]
        [6, 3, 6, 2, 0]
      */
-      int [][] distanceTable = new int [6][6];
+      int [][] distanceTable = new int [5][5];
 
       //Diagonal
       distanceTable[0][0] = 0;
@@ -777,7 +777,6 @@ public class TestOptimize {
       distanceTable[2][2] = 0;
       distanceTable[3][3] = 0;
       distanceTable[4][4] = 0;
-      distanceTable[5][5] = 0;
 
       //Row 1
       distanceTable[0][1] = 6;
@@ -788,8 +787,6 @@ public class TestOptimize {
       distanceTable[3][0] = 1;
       distanceTable[0][4] = 6;
       distanceTable[4][0] = 6;
-      distanceTable[0][5] = 8;
-      distanceTable[5][0] = 8;
 
       //Row 2
       distanceTable[1][2] = 4;
@@ -798,8 +795,6 @@ public class TestOptimize {
       distanceTable[3][1] = 6;
       distanceTable[1][4] = 3;
       distanceTable[4][1] = 3;
-      distanceTable[1][5] = 2;
-      distanceTable[5][1] = 2;
 
       //Row 3
       distanceTable[2][3] = 6;
@@ -811,8 +806,11 @@ public class TestOptimize {
       distanceTable[3][4] = 2;
       distanceTable[4][3] = 2;
 
-
+      //Should grab 1, 4, 1, 3 = 9
+      assertEquals(23, Optimize.twoOpt(placesArray, distanceTable));
     }
+
+
     @Test
     public void testTwoOptReverseSimple(){
         int [] test = new int [5];
