@@ -39,7 +39,6 @@ Epics planned for this release.
 * *#140 Shorter trips (2-opt)*
 * *#209 Filter Query searches*
 * *#79  Let the user choose a new starting location*
-* *#137 Let the user reverse the order of the trip*
 * *#141 Branding*
 * *#134 Clean code*
 * *#135 Code coverage*
@@ -52,8 +51,8 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  *20*   | *10*
-Story Points |  *43*  | *19*
+Tasks |  *16*   | *13*
+Story Points |  *32*  | *25*
 
 ## Daily Scrums
 
@@ -63,27 +62,27 @@ Date | Tasks done  | Tasks in progress | Impediments
 *3/29* | *#216 #217* | *#223 #226 #220 #221 #236* | none
 *4/01* | *#220 #221* | *#223 #226 #249 #251* | none
 *4/03* | *#137 #226 #251* | *#211 #223 #249* | Waited to PR #211 until #223 is merged. The team decided we would rather let him focus on 2-opt, instead of sorting through some confusing merge conflicts.
-*4/05* | *#222 #249 #250* | *#223 #249 #251* | none
-*4/08* | *#223* | *#208 #224 #225* | none
+*4/05* | *#222 #249 #250* | *#211 #223 #249 #251* | none
+*4/08* | *#223 #211 #224 #225* | *#208 #227* | none
  
 
 ## Review
 
 #### Completed epics in Sprint Backlog 
-* #141:  Client is now CSU branded
-* 
+* #142: Client now supports "user defined" distance units
+* #212: Server now responds (Config) with supported distance units
+* #140: Client now supports 2-opt
+* #141: Client is now fully branded CSU style
+* #206: Client now renders SVG of the world map
 
 #### Incomplete epics in Sprint Backlog 
 * *user story*: *explanation...*
-*
 
 #### What went well
-* *something*
-*
+* 
 
 #### Problems encountered and resolutions
-* *something*
-*
+* 
 
 ## Retrospective
 
