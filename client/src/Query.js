@@ -6,6 +6,7 @@ class Query extends Component {
     super(props);
     this.search = "";
     this.query = this.query.bind(this);
+    this.addAll = this.addAll.bind(this);
     this.addToTrip = this.addToTrip.bind(this);
     this.createTable = this.createTable.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
@@ -45,6 +46,32 @@ class Query extends Component {
     } catch(err) {
       console.error("You hit an error in async query()");
       console.error(err);
+    }
+  }
+
+  /**
+   * Adds all in query.places[] into trip.places[]
+   */
+  addAll(event) {
+    for (let i = 0; i < this.props.query.places.length; ++i) {
+      let temp = this.props.query.places[i];
+      let add = true;
+
+      for (let j = 0; j < this.props.trip.places.length; ++j) {
+        if (temp.id === this.props.trip.places[j].id) {
+          console.log(temp.name + " is already in trip.places");
+          add = false;
+        }
+      }
+      if (add === true) {
+        console.log("Adding " + temp.name + " to the trip");
+        let tempTrip = this.props.trip;
+        let tempArray = tempTrip.places;
+        tempArray.push(temp);
+
+        tempTrip.places = tempArray;
+        this.props.updateTrip(tempTrip);
+      }
     }
   }
 
@@ -111,7 +138,7 @@ class Query extends Component {
     return <Table responsive hover size="sm" style={{height: "20%", overflow: "scroll", display: "inline-block"}}>
       <thead>
       <tr>
-        <th key={0} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Add</th>
+        <th key={0} type="button" onClick={this.addAll}>Add All</th>
         <th key={1} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Name</th>
         <th key={2} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>City</th>
         <th key={3} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>State</th>
