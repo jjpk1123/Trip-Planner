@@ -9,5 +9,9 @@ public class Place {
   public String name;
   public String latitude;
   public String longitude;
+  public String country;
+  public String state;
+  public String city;
+  public String continent;
 
 }

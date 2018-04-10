@@ -48,61 +48,79 @@ class Query extends Component {
     }
   }
 
+  /**
+   * Appends the query.places element to trip.places array.
+   * @param event = event.id == which index to add in query.places[]
+   */
   addToTrip(event) {
-    console.log(event.target);
-    console.log("Appending [" + event.target.value + "] to end of trip");
+    let placeToAdd = this.props.query.places[event.target.id];
 
-    for (let i = 0; i < this.props.query.places.length; ++i) {
-      if (this.props.query.places[i].id === event.target.value) {
-        console.log("Adding " + this.props.query.places[i].id + " to trip.");
+    for (let i = 0; i < this.props.trip.places.length; ++i) {
+      if (this.props.trip.places[i].id === placeToAdd.id) {
+        console.log(placeToAdd.name + " is already in the trip!");
+        return;
+      }
+    }
+
+    console.log("Appending \"" + placeToAdd.name + "\" to end of trip");
+    let tempTrip = this.props.trip;
+    let tempArray = tempTrip.places;
+    tempArray.push(placeToAdd);
+
+    tempTrip.places = tempArray;
+    this.props.updateTrip(tempTrip);
+  }
+
+  /**
+   * Searches trip.places[] to see which place it needs to remove.
+   * After it finds it via the unique places.id), it creates temp variables,
+   * removes the place, and updates the Application's trip via tempTrip.
+   * @param event = event.id == which index it is in query.places[]
+   */
+  removeFromTrip(event) {
+    let placeToRem = this.props.query.places[event.target.id];
+
+    for (let i = 0; i < this.props.trip.places.length; ++i) {
+      if (this.props.trip.places[i].id === placeToRem.id) {
+        console.log("Removing " + this.props.query.places[i].id + " from trip.");
         let tempTrip = this.props.trip;
         let tempArray = tempTrip.places;
-        let newPlace = this.props.query.places[i];
-        tempArray.push(newPlace);
+        tempArray.splice(i, 1);
 
         tempTrip.places = tempArray;
         this.props.updateTrip(tempTrip);
         return;
       }
     }
-  }
-
-  removeFromTrip(event) {
-    console.log(event.target);
-    console.log("Removing  [" + event.target.value + "] from the trip");
-
-    for (let i = 0; i < this.props.trip.places; ++i) {
-      if (this.props.query.places[i].id === event.target.value) {
-        console.log("Removing " + this.props.query.places[i].id + " from trip.");
-        console.log("Still need to implement remove!");
-        return;
-      }
-    }
+    console.log(placeToRem.name + " isn't even in the trip!");
   }
 
   createTable() {
-    let i = 0;
+    let i = -1;
     let queryResults = this.props.query.places.map((item) =>
-        <tr key={i++} value={item.id}>
-          {console.log(i)}
-          <td value={i} type="button" onClick={this.addToTrip}>+</td>
-          <td value={i} type="button" onClick={this.removeFromTrip}>-</td>
+        <tr key={++i}>
+          <td id={i} type="button" onClick={this.addToTrip}>+</td>
+          <td id={i} type="button" onClick={this.removeFromTrip}>-</td>
           <td>{item.name}</td>
-          <td>{item.latitude}</td>
-          <td>{item.longitude}</td>
+          <td>{item.city}</td>
+          <td>{item.state}</td>
+          <td>{item.country}</td>
+          <td>{item.continent}</td>
         </tr>);
 
-    return <Table responsive hover size="sm">
+    return <Table responsive hover size="sm" style={{height: "20%", overflow: "scroll", display: "inline-block"}}>
       <thead>
       <tr>
         <th key={0} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Add</th>
         <th key={1} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Name</th>
-        <th key={2} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Lat</th>
-        <th key={3} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Long</th>
+        <th key={2} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>City</th>
+        <th key={3} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>State</th>
+        <th key={4} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Country</th>
+        <th key={5} className="text-white align-self-center" style={{backgroundColor: "#1E4D28"}}>Continent</th>
       </tr>
       </thead>
-      <tbody>
-      {queryResults}
+      <tbody >
+        {queryResults}
       </tbody>
     </Table>;
   }
@@ -121,7 +139,10 @@ class Query extends Component {
             </span>
         </div>
 
-        {table}
+        {
+          this.props.query.places.length > 0 &&
+            table
+        }
       </div>
     </div>
   }
