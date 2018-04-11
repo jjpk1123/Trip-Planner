@@ -218,7 +218,7 @@ class Options extends Component {
     </Form>;
 
     const customUnitModal = <div>
-      <Button style={{backgroundColor: "#c8c372"}} onClick={this.modalToggle}>Customize a unit</Button>
+      <Button style={{backgroundColor: "#c8c372"}} onClick={this.modalToggle}>Custom unit</Button>
       <Modal isOpen={this.state.modal} toggle={this.modalToggle} className={this.props.className}>
         <ModalHeader toggle = {this.modalToggle}>Set up your custom unit below.</ModalHeader>
         <ModalBody>
