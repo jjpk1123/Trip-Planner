@@ -1,22 +1,72 @@
 import React, {Component} from 'react';
-import { Button, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
 
 class Query extends Component {
   constructor(props) {
     super(props);
-    this.search = "";
     this.query = this.query.bind(this);
+    //this.dropdownToggle = this.dropdownToggle.bind(this);
+    //this.modalSubmit = this.modalSubmit.bind(this);
+    this.modalToggle = this.modalToggle.bind(this);
+    this.modalCancel = this.modalCancel.bind(this);
     this.addAll = this.addAll.bind(this);
     this.addToTrip = this.addToTrip.bind(this);
     this.createTable = this.createTable.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
     this.removeFromTrip = this.removeFromTrip.bind(this);
     this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
+    this.airportDropdownToggle = this.airportDropdownToggle.bind(this);
+    this.continentDropdownToggle = this.continentDropdownToggle.bind(this);
+    this.search = "";
+    this.state = {
+      airportDropdownOpen: false,
+      continentDropdownOpen: false,
+      dropdownOpen: false,
+      modal: false
+    };
+  }
+
+  airportDropdownToggle() {
+    this.setState({
+      //customUnit: this.props.trip.options.userUnit,
+      //customRadius: this.props.trip.options.userRadius,
+      airportDropdownOpen: !this.state.airportDropdownOpen
+    });
+  }
+
+  continentDropdownToggle() {
+    this.setState({
+      //customUnit: this.props.trip.options.userUnit,
+      //customRadius: this.props.trip.options.userRadius,
+      continentDropdownOpen: !this.state.continentDropdownOpen
+    });
+  }
+
+  modalToggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
   }
 
   updateSearch(event) {
     this.search = event.target.value;
     console.log("Search: " + this.search);
+  }
+
+  modalSubmit() {
+    let temp = this.props.query;
+    temp.options.userUnit = this.state.customUnit;
+    temp.options.userRadius = this.state.customRadius;
+    this.props.updateTrip(temp);
+    this.modalToggle();
+  }
+
+  modalCancel() {
+    //Close the dang thang
+    this.modalToggle();
   }
 
   fetchQueryResponse() {
@@ -154,6 +204,61 @@ class Query extends Component {
 
   render() {
     let table = this.createTable();
+    //Hard coded start
+    const airportFilters = ["balloonport", "heliport", "small_airport",
+      "seaplane_base", "closed", "medium_airport", "large_airport"];
+    const continentFilters = ["Africa", "Antarctica", "Asia",
+      "Europe", "North America", "Oceania", "South America"];
+
+    let unique = 0;
+
+    const filterForm = <Form>
+      <ButtonGroup>
+        <ButtonDropdown isOpen={this.state.airportDropdownOpen} toggle={this.airportDropdownToggle}
+                        data-toggle="buttons" >
+          <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
+            Airport
+          </DropdownToggle>
+          <DropdownMenu>
+            {airportFilters.map((filter) =>
+              <DropdownItem active={this.props.config.filters === filter} value={filter}
+                            key={++unique} >
+                {filter}
+              </DropdownItem>)}
+          </DropdownMenu>
+        </ButtonDropdown>
+      </ButtonGroup>
+        {' '}
+      <ButtonGroup>
+        <ButtonDropdown isOpen={this.state.continentDropdownOpen} toggle={this.continentDropdownToggle}
+                        data-toggle="buttons" >
+          <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
+            Continent
+          </DropdownToggle>
+          <DropdownMenu>
+            {continentFilters.map((filter) =>
+              <DropdownItem active={this.props.config.filters === filter} value={filter}
+                            key={++unique}>
+                {filter}
+              </DropdownItem>)}
+          </DropdownMenu>
+        </ButtonDropdown>
+      </ButtonGroup>
+    </Form>;
+
+    const filterModal = <div>
+      <Button style={{backgroundColor: "#c8c372"}} onClick={this.modalToggle}>Filters</Button>
+      <Modal isOpen={this.state.modal} toggle={this.modalToggle} className={this.props.className}>
+        <ModalHeader toggle = {this.modalToggle}>Apply your desired filters below.</ModalHeader>
+        <ModalBody>
+          {filterForm}
+        </ModalBody>
+        <ModalFooter>
+          <Button style={{backgroundColor: "#1E4D28"}} onClick={this.modalSubmit}>Submit</Button>{' '}
+          <Button style={{backgroundColor: "#59595b"}} onClick={this.modalCancel}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+    </div>;
 
     return <div id="query">
       <div className="card-body">
@@ -164,6 +269,7 @@ class Query extends Component {
               <button className="btn text-white" style={{backgroundColor: "#1E4D2B"}} onClick={this.query}
                       type="button">Search</button>
             </span>
+          {filterModal}
         </div>
 
         {

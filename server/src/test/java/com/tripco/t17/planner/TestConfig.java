@@ -116,7 +116,7 @@ public class TestConfig {
     }
 
 
-    @Test
+   /* @Test
     public void testGetConfig() {
         Config expectedConfig = new Config();
         expectedConfig.type = "config";
@@ -126,7 +126,7 @@ public class TestConfig {
         String expected = gson.toJson(this.config);
 
         assertEquals(expected, ch.getConfig());
-    }
+    }*/
 
     /**
      * Tests the standalone method that return the "normalized" optimization levels

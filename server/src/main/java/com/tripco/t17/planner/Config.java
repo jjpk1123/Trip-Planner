@@ -36,7 +36,7 @@ public class Config {
     public void retrieveValues() {
         this.type = "config";
         this.version = 3;                               // This value will change over time
-        //createTheFilterDictionary();
+        createTheFilterDictionary();
         this.maps = new String[]{"svg"};//{"svg", "kml"};
         this.optimization = 2;                          // This value will change over time
         createTheOptDictionary();
@@ -53,21 +53,32 @@ public class Config {
         // level+1 "normalizes"
     }
 
-/*
-    **
+
+    /**
     * Instantiates the filter field and populates it with filters the server can filter
-    *
+    */
     public void createTheFilterDictionary() {
-        this.filters = new Dictionary[1];
+        this.filters = new Dictionary[2];
         Dictionary<String, Object> filterDict = new Hashtable<>();
 
         filterDict.put("attribute", "type");
 
-        String[] valuesArr = new String[]{"balloonport", "heliport", "airport"};
-        filterDict.put("values", valuesArr);
+        String[] typeArr = new String[]{"balloonport", "heliport", "small_airport",
+          "seaplane_base", "closed", "medium_airport", "large_airport"};
+        filterDict.put("values", typeArr);
 
         this.filters[0] = filterDict;
-    }*/
+
+        filterDict = new Hashtable<>();
+
+        filterDict.put("attribute", "continents");
+        String[] contArr = new String[]{"Africa", "Antarctica", "Asia",
+        "Europe", "North America", "Oceania", "South America"};
+
+        filterDict.put("values", contArr);
+
+        this.filters[1] = filterDict;
+    }
 
     /**
      * This method does exactly what you think it does.

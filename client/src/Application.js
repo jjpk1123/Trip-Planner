@@ -26,8 +26,10 @@ class Application extends Component {
         map: "<svg width=\"1920\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><g></g></svg>"
       },
       query: { // query TFFI
+        version: 3,
         type: "",
         query: "",
+        filters: [],
         places: []
       },
       config: { // config TFFI
@@ -99,11 +101,12 @@ class Application extends Component {
   }
 
   render() {
-    return <div id="application" className="container">
+    return <div id="application" className="card-body">
       <div className="row">
         <div className="col-lg-8 col-xl-8">
           <Destinations trip={this.state.trip}
                         query={this.state.query}
+                        config={this.state.config}
                         places={this.state.trip.places}
                         updateTrip={this.updateTrip}
                         updateQuery={this.updateQuery} />

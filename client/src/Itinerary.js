@@ -103,7 +103,8 @@ class Itinerary extends Component {
   destsConcatFinal(dests) {
     let start = this.props.trip.places[0].name;
     let myArray = [start];
-    let endingCol = myArray.map((item) => <td key={"dest_n"}>{item}</td>);
+    let endingCol = myArray.map((item) => <td key={"dest_n"} className={"text-white"}
+                                              style={{backgroundColor: "#1E4D28"}}>{item}</td>);
     return dests.concat(endingCol);//adds to the end of dests row
   }
 
