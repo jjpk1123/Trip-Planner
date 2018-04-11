@@ -36,9 +36,9 @@ public class Svg {
         InputStream is = getClass().getResourceAsStream(mapDirectory);
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            while (br.ready()) {
-                map += br.readLine() + "\n";
-            }
+        while (br.ready()) {
+            map += br.readLine() + "\n";
+        }
         br.close();
 
         //Error checking, just in case this gets called before places has anything.
@@ -91,24 +91,28 @@ public class Svg {
      * @param to ending location
      * @return line between one place to another.
      */
-    private String svgLine(int from, int to){
-        String line;
-        try{
-            double[] coord1 = svgHelper(Distance.dmsToDegrees(places.get(from).latitude),
-                                        Distance.dmsToDegrees(places.get(from).longitude));
-            double[] coord2 = svgHelper(Distance.dmsToDegrees(places.get(to).latitude),
-                                        Distance.dmsToDegrees(places.get(to).longitude));
+    private String svgLine(int from, int to) {
+        try {
+            double latA = Distance.dmsToDegrees(places.get(from).latitude);
+            double lonA = Distance.dmsToDegrees(places.get(from).longitude);
+            double latB = Distance.dmsToDegrees(places.get(to).latitude);
+            double lonB = Distance.dmsToDegrees(places.get(to).longitude);
 
-            line = "\n<line x1=\"" + Double.toString(coord1[0]) + "\" y1=\""
-                                   + Double.toString(coord1[1]) + "\" x2=\""
-                                   + Double.toString(coord2[0]) + "\" y2=\""
-                                   + Double.toString(coord2[1]) + "\""
-                 + " style=\"stroke:rgb(255,0,0);stroke-width:1\" />";
-        } catch (Exception e) {
+            int whichDirection = crossingTheEdge(lonA, lonB); // checks if it crosses the edge
+
+            if (whichDirection != 0) {
+                System.out.println("Daft Punk - Around the world");
+                return clipTheEdge(whichDirection, latA, lonA, latB, lonB);
+            }
+            else {
+                double[] coordA = svgHelper(latA, lonA);
+                double[] coordB = svgHelper(latB, lonB);
+                return drawTheLine(coordA[0], coordA[1], coordB[0], coordB[1]);
+            }
+        } catch(Exception e){
             //System.err.println(e);
             throw e;
         }
-        return line;
     }
 
     /**
@@ -125,4 +129,65 @@ public class Svg {
 
         return new double[]{svgX, svgY};
     }
+
+    private String drawTheLine(double latA, double lonA, double latB, double lonB) {
+        return "\n<line x1=\"" + Double.toString(latA)
+                + "\" y1=\"" + Double.toString(lonA)
+                + "\" x2=\"" + Double.toString(latB)
+                + "\" y2=\"" + Double.toString(lonB)
+                + "\" style=\"stroke:rgb(255,0,0);stroke-width:1\" />";
+    }
+
+
+
+    private int crossingTheEdge(double lonA, double lonB) {
+        if (Math.abs(lonA - lonB) > 180) { // if they are > half a world away
+            System.out.println("A:" + lonA + " B:" + lonB);
+            if (lonA > 0 && lonB < 0) {
+                return 1; // if we need to draw a line left->right (right border)
+            }
+            return -1;  // else we need to draw a line right->left (left border)
+        }
+        return 0; // else (normal) they are < half a world away
+    }
+
+    private String clipTheEdge(int whichDirection, double latA, double lonA, double latB, double lonB) {
+        String line;
+        double difference = calculateDifference(whichDirection, lonA, lonB); // right->left
+
+        line =  drawFirstLine(difference, latA, lonA, latB);
+        line += drawSecondLine(difference, latA, latB, lonB);
+
+        return line;
+    }
+
+    private double calculateDifference(double whichDirection, double lonA, double lonB) {
+        double diff;
+        if (whichDirection > 0) {
+            diff = 180 - lonA;
+            diff += 180 + lonB;
+        }
+        else {
+            diff = -180 - lonA;
+            diff -= 180 - lonB;
+        }
+
+        System.out.println(diff);
+        return diff;
+    }
+
+    private String drawFirstLine(double difference, double latA, double lonA, double latB) {
+        double[] coordA = svgHelper(latA, lonA);
+        double[] coordB = svgHelper(latB, lonA + difference);
+
+        return drawTheLine(coordA[0], coordA[1], coordB[0], coordB[1]);
+    }
+
+    private String drawSecondLine(double difference, double latA, double latB, double lonB) {
+        double[] coordA = svgHelper(latA, lonB - difference);
+        double[] coordB = svgHelper(latB, lonB);
+
+        return drawTheLine(coordA[0], coordA[1], coordB[0], coordB[1]);
+    }
 }
+

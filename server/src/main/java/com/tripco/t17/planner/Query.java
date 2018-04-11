@@ -21,13 +21,49 @@ public class Query{
     public String query;
     public ArrayList<Place> places;
 
+/*
+SELECT count(*)
+FROM continents
+INNER JOIN country ON continents.id = country.continent
+INNER JOIN region ON country.id = region.iso_country
+INNER JOIN airports ON region.id = airports.iso_region
+WHERE (country.name like '%Denver%')
+OR (region.name like '%Denver%')
+OR (airports.name like '%Denver%')
+OR (airports.municipality like '%Denver%')
+ORDER BY continents.name, country.name, region.name, airports.municipality, airports.name ASC;
+
+ */
+
     /**
      * The top level method that does searching.
      */
     public void searchDatabase() {
-        //This will do something one day :)
-        String count = "select count(*) from airports where name like '%" + query + "%' or municipality like '%" + query + "%' or id  = '" + query + "';";
-        String searchName = "select id,name,latitude,longitude from airports where name like '%" + query + "%' or municipality like '%" + query + "%' or id = '" + query + "' order by name;";
+        String count =
+                "SELECT count(*) "
+                + "FROM continents "
+                + "INNER JOIN country ON continents.id = country.continent "
+                + "INNER JOIN region ON country.id = region.iso_country "
+                + "INNER JOIN airports ON region.id = airports.iso_region "
+                + "WHERE (country.name like '%" + query + "%') "
+                + "OR (region.name like '%" + query + "%') "
+                + "OR (airports.name like '%" + query + "%') "
+                + "OR (airports.municipality like '%" + query + "%') "
+                + "OR (airports.id = '" + query + "');";
+
+        String searchName =
+                "SELECT airports.id, airports.name, airports.municipality, airports.type, airports.latitude, airports.longitude, region.name, country.name, continents.name "
+                + "FROM continents "
+                + "INNER JOIN country ON continents.id = country.continent "
+                + "INNER JOIN region ON country.id = region.iso_country "
+                + "INNER JOIN airports ON region.id = airports.iso_region "
+                + "WHERE (country.name like '%" + query + "%') "
+                + "OR (region.name like '%" + query + "%') "
+                + "OR (airports.name like '%" + query + "%') "
+                + "OR (airports.municipality like '%" + query + "%') "
+                + "OR (airports.id = '" + query + "') "
+                + "ORDER BY continents.name, country.name, region.name, airports.municipality, airports.name ASC;";
+
         try {
             Class.forName(myDriver);
             // connect to the database and query
@@ -52,10 +88,15 @@ public class Query{
         // iterate through query results and print out the airport codes
         while (query1.next()) {
             Place a = new Place();
-            a.name = query1.getString("name");
-            a.id = query1.getString("id");
-            a.latitude = query1.getString("latitude");
-            a.longitude = query1.getString("longitude");
+            a.name = query1.getString("airports.name");
+            a.id = query1.getString("airports.id");
+            a.latitude = query1.getString("airports.latitude");
+            a.longitude = query1.getString("airports.longitude");
+            a.city = query1.getString("airports.municipality");
+            a.state = query1.getString("region.name");
+            a.country = query1.getString("country.name");
+            a.continent = query1.getString("continents.name");
+
             places.add(a);
 
 
