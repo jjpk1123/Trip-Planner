@@ -109,7 +109,7 @@ class Query extends Component {
 
     for (let i = 0; i < this.props.trip.places.length; ++i) {
       if (this.props.trip.places[i].id === placeToRem.id) {
-        console.log("Removing " + this.props.query.places[i].id + " from trip.");
+        console.log("Removing from trip.");
         let tempTrip = this.props.trip;
         let tempArray = tempTrip.places;
         tempArray.splice(i, 1);
