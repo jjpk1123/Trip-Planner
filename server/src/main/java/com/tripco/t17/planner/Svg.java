@@ -101,7 +101,6 @@ public class Svg {
             int whichDirection = crossingTheEdge(lonA, lonB); // checks if it crosses the edge
 
             if (whichDirection != 0) {
-                System.out.println("Daft Punk - Around the world");
                 return clipTheEdge(whichDirection, latA, lonA, latB, lonB);
             }
             else {
@@ -130,6 +129,15 @@ public class Svg {
         return new double[]{svgX, svgY};
     }
 
+    /**
+     * Simply draws the line from pointA->pointB.
+     * Can be called with regular points and with points that cross the boundaries.
+     * @param latA the latitude of pointA
+     * @param lonA the longitude of pointA
+     * @param latB the latitude of pointB
+     * @param lonB the longitude of pointB
+     * @return line = the SVG line drawn from pointA(latA, lonA)->pointB(latB, lonB)
+     */
     private String drawTheLine(double latA, double lonA, double latB, double lonB) {
         return "\n<line x1=\"" + Double.toString(latA)
                 + "\" y1=\"" + Double.toString(lonA)
@@ -138,11 +146,19 @@ public class Svg {
                 + "\" style=\"stroke:rgb(255,0,0);stroke-width:1\" />";
     }
 
+    /*From here on deals with Svg points that cross the left/right borders of the map*/
 
-
+    /**
+     * Does it cross the edge of the SVG map?
+     *  0=="no"
+     *  1=="Yes; right->left"
+     * -1=="Yes; left->right"
+     * @param lonA the longitude of pointA
+     * @param lonB the longitude of pointB
+     * @return the number described 3-5 lines above
+     */
     private int crossingTheEdge(double lonA, double lonB) {
-        if (Math.abs(lonA - lonB) > 180) { // if they are > half a world away
-            System.out.println("A:" + lonA + " B:" + lonB);
+        if (Math.abs(lonA - lonB) > 180.0) { // if they are > half a world away
             if (lonA > 0 && lonB < 0) {
                 return 1; // if we need to draw a line left->right (right border)
             }
@@ -151,6 +167,17 @@ public class Svg {
         return 0; // else (normal) they are < half a world away
     }
 
+    /**
+     * Draws both sides of the line; "Clipping" as Dave calls it
+     *  1=="Yes; right->left"
+     * -1=="Yes; left->right"
+     * @param whichDirection -1|1 as described 1-2 lines above
+     * @param latA the latitude of pointA
+     * @param lonA the longitude of pointA
+     * @param latB the latitude of pointB
+     * @param lonB the longitude of pointB
+     * @return both lines that will be appended to the end of the SVG
+     */
     private String clipTheEdge(int whichDirection, double latA, double lonA, double latB, double lonB) {
         String line;
         double difference = calculateDifference(whichDirection, lonA, lonB); // right->left
@@ -161,6 +188,16 @@ public class Svg {
         return line;
     }
 
+    /**
+     * Calculates the difference between pointA and pointB's longitude.
+     *  1=="Yes; right->left"
+     * -1=="Yes; left->right"
+     * Returns the difference. If (left->right) -diff; Else +diff
+     * @param whichDirection -1|1 as described 2-3 lines above
+     * @param lonA the longitude of pointA
+     * @param lonB the longitude of pointB
+     * @return the difference.
+     */
     private double calculateDifference(double whichDirection, double lonA, double lonB) {
         double diff;
         if (whichDirection > 0) {
@@ -171,11 +208,13 @@ public class Svg {
             diff = -180 - lonA;
             diff -= 180 - lonB;
         }
-
-        System.out.println(diff);
         return diff;
     }
 
+    /**
+     * Draws the first line from pointA->(pointA+difference).
+     * @return the Svg line
+     */
     private String drawFirstLine(double difference, double latA, double lonA, double latB) {
         double[] coordA = svgHelper(latA, lonA);
         double[] coordB = svgHelper(latB, lonA + difference);
@@ -183,6 +222,10 @@ public class Svg {
         return drawTheLine(coordA[0], coordA[1], coordB[0], coordB[1]);
     }
 
+    /**
+     * Draws the second line from (pointB-difference) -> pointB
+     * @return the Svg line
+     */
     private String drawSecondLine(double difference, double latA, double latB, double lonB) {
         double[] coordA = svgHelper(latA, lonB - difference);
         double[] coordB = svgHelper(latB, lonB);
