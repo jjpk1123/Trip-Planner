@@ -9,10 +9,9 @@
 
 * Web application deployed on the production server (kiwis.cs.colostate.edu).
 * Sprint Review and Restrospectives completed (sprint.md).
-* Product Increment release `v4.0` created on GitHub with appropriate version number and name, a description based on the Release Notes template, and the archived files.
-* Version in pom.xml should be `<version>4.0</version>`.
+* Product Increment release `v5.0` created on GitHub with appropriate version number and name, a description based on the Release Notes template, and the archived files.
+* Version in pom.xml should be `<version>5.0</version>`.
 * Javadoc and unit tests for public methods.
-* Tests for database and REST APIs.
 * Coverage at least (60%) overall and for each class.
 * Keep code maintainability at an (B) average.
 
@@ -40,8 +39,6 @@ Epics planned for this release.
 * #275 Staff page
 * #278 Update the User Interface
 
-*Include a discussion of planning decisions made based on your velocity from previous sprints.*
-
 * Our last two sprints we have completed around 35-40 storypoints as a team, and we believe this is a good estimation of our ability. However, we believe that previously we were overestimating our ability, thus underestimating our storypoints. I believe we are probably doing more like 50 storypoints but underestimating how long things take and not adjusting it. For this sprint, we decided to go with the strategy of promising less than we think we can do, and adding things if our velocity is faster than expected.
 
 ## Metrics
@@ -55,6 +52,7 @@ Story Points |  *39*  | *0*
 
 Date | Tasks done  | Tasks in progress | Impediments
 :--- | :--- | :--- | :---
+4/17/2018 | | #293, #213, #208 | 
  
 ## Review
 
