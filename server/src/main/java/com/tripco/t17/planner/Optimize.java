@@ -19,12 +19,16 @@ public class Optimize {
     public static ArrayList<Place> optimize(ArrayList<Place> places, double optLevel){
         boolean nearestNeighborFlag = false;
         boolean twoOptFlag = false;
+        boolean threeOptFlag = false;
 
-        if(optLevel > .33){
-            nearestNeighborFlag = true;
+        if (optLevel > .75){
+            threeOptFlag = true;
         }
-        if(optLevel > .66){
+        else if(optLevel > .50){
             twoOptFlag = true;
+        }
+        if(optLevel > .25){
+            nearestNeighborFlag = true;
         }
 
         int [] placesArray = buildPlacesArray(places.size());
@@ -39,6 +43,7 @@ public class Optimize {
         if(nearestNeighborFlag){
             //Initialize the two primary data structures.
             System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
+
             //make a new placesArray for 2opt
             for (int start = 0 ; start < placesArray.length ; start++) {
 
@@ -195,8 +200,7 @@ public class Optimize {
         return result;
     }
 
-
-  /**
+    /**
    * This calculates the default trip distance given.
    * @param distanceTable the table of distances.
    * @return the total distance in regular order.
@@ -238,7 +242,6 @@ public class Optimize {
         return distance;
     }
 
-
     /**
      * This finds distances between two places.
      * @param placesArray the current ordering of places.
@@ -250,7 +253,6 @@ public class Optimize {
     public static int dis(int[] placesArray, int[][] distanceTable, int place1, int place2){
         return distanceTable[placesArray[place1]][placesArray[place2]];
     }
-
 
     /**
      * This reverses places array in place between two indexes.

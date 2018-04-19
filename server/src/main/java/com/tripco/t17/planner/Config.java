@@ -38,7 +38,7 @@ public class Config {
         this.version = 3;                               // This value will change over time
         //createTheFilterDictionary();
         this.maps = new String[]{"svg"};//{"svg", "kml"};
-        this.optimization = 2;                          // This value will change over time
+        this.optimization = 3;                          // This value will change over time
         createTheOptDictionary();
         this.units = new String[]{"kilometers", "miles", "nautical miles", "user defined"};
     }
@@ -48,9 +48,7 @@ public class Config {
      * @return optLevel +1
      */
     public static int getOptimizationLevels() {
-        return (2) + 1;         // This value will change over time
-        // CS students start at 0
-        // level+1 "normalizes"
+        return (3) + 1;         // This value will change over time
     }
 
 /*
@@ -75,7 +73,7 @@ public class Config {
      * I left the actual descriptions in just in case we want to display these eventually.
      */
     public void createTheOptDictionary() {
-        this.optimizations = new Dictionary[3];         // 3 // 4
+        this.optimizations = new Dictionary[4];         // 3 // 4
         Dictionary<String, String> optDict = new Hashtable<>();
 
         optDict.put("label", "No optimization");
@@ -90,7 +88,7 @@ public class Config {
 //        optDict.put("description", "When you click plan, we will use the "
 //                + "Nearest Neighbor algorithm to make a faster route, so your "
 //                + "total round-trip distance will be a little shorter!");
-        optDict.put("description", "Shorter");         //3-opt=="Short"
+        optDict.put("description", "Short");         //3-opt=="Short"
         this.optimizations[1] = optDict;
 
         optDict = new Hashtable<>();
@@ -98,16 +96,16 @@ public class Config {
 //        optDict.put("description", "When you click plan, we will use the 2-opt "
 //                + "algorithm to make a faster route, so your total round-trip "
 //                + "distance will be much shorter!");
-        optDict.put("description", "Shortest");       //3-opt=="Shorter"
+        optDict.put("description", "Shorter");       //3-opt=="Shorter"
         this.optimizations[2] = optDict;
 
-//        optDict = new Hashtable<>();
-//        optDict.put("label", "3-opt");
-////        optDict.put("description", "When you click plan, we will use the 3-opt "
-////                + "algorithm to compute the fastest route, so your total round-trip "
-////                + "distance will be shortest as possible!");
-//        optDict.put("description", "Shortest");
-//        this.optimizations[3] = optDict;
+        optDict = new Hashtable<>();
+        optDict.put("label", "3-opt");
+//        optDict.put("description", "When you click plan, we will use the 3-opt "
+//                + "algorithm to compute the fastest route, so your total round-trip "
+//                + "distance will be shortest as possible!");
+        optDict.put("description", "Shortest");
+        this.optimizations[3] = optDict;
 
     }
 }
