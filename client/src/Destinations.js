@@ -290,7 +290,7 @@ class Destinations extends Component {
 
   /**
    * If the field exists, and is populated, returns true
-   * @param item
+   * @param item    
    * @return false = the String was not defined or empty string in loaded file
    */
   static checkIfStringExists(item) {
