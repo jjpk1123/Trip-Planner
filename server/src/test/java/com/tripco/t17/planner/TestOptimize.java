@@ -950,7 +950,6 @@ public class TestOptimize {
     assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
     assertArrayEquals(resultArray, placesArray);
 
-    System.out.println();
 
     /*
      * Case 2
@@ -963,8 +962,6 @@ public class TestOptimize {
     assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
     assertArrayEquals(resultArray, placesArray);
 
-    System.out.println();
-
     /*
      * Case 3
      */
@@ -975,8 +972,6 @@ public class TestOptimize {
 
     assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
     assertArrayEquals(resultArray, placesArray);
-
-    System.out.println();
 
     /*
      * Case 4
@@ -990,7 +985,6 @@ public class TestOptimize {
     assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
     assertArrayEquals(resultArray, placesArray);
 
-    System.out.println();
 
     /*
      * Case 5
@@ -1003,8 +997,6 @@ public class TestOptimize {
 
     assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
     assertArrayEquals(resultArray, placesArray);
-
-    System.out.println();
 
     /*
      * Case 6
@@ -1019,7 +1011,6 @@ public class TestOptimize {
     assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
     assertArrayEquals(resultArray, placesArray);
 
-    System.out.println();
 
     /*
      * Case 7
@@ -1032,7 +1023,6 @@ public class TestOptimize {
     assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
     assertArrayEquals(resultArray, placesArray);
 
-    System.out.println();
 
 
 

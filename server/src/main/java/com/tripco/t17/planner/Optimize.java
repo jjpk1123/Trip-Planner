@@ -55,7 +55,7 @@ public class Optimize {
                 //If we are doing 2opt OR 3opt
                 if(twoOptFlag || threeOptFlag){
 
-                    //Make twoOptArray == resultArray, diff references
+                    //Make twoOptArray == placesArray, diff references
                     System.arraycopy(placesArray, 0, optArray, 0, placesArray.length);
 
                     //Add starting place to end of array
