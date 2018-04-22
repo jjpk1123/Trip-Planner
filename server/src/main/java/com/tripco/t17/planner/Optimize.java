@@ -48,7 +48,6 @@ public class Optimize {
 
             //make a new placesArray for 2opt
             for (int start = 0 ; start < placesArray.length ; start++) {
-                System.out.println("start: " + start);
 
                 //Compute nearest neighbor for this starting point.
                 int distance = nearestNeighbor(start, placesArray, distanceTable);
@@ -174,7 +173,6 @@ public class Optimize {
     public static int threeOpt(int[] placesArray, int[][] distanceTable){
         boolean improvement = true;
         while (improvement) {
-            System.out.println("--------------");
             improvement = false;
             for (int i = 0; i < placesArray.length - 3; i++) {
                 for (int j = i + 1; j < placesArray.length - 2; j++) {
