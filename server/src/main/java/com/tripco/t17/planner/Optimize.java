@@ -278,7 +278,6 @@ public class Optimize {
         for (int i = 0; i < distanceTable.length ; i++){
             distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
         }
-        System.out.println("3opt done");
         return distance;
     }
 
