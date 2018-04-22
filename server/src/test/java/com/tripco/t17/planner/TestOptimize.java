@@ -879,7 +879,7 @@ public class TestOptimize {
  */
 
   @Test
-  public void testThreeOptCase1(){
+  public void testThreeOpt(){
     int [][] distanceTable = new int [6][6];
 
     //Diagonal
@@ -991,6 +991,51 @@ public class TestOptimize {
     assertArrayEquals(resultArray, placesArray);
 
     System.out.println();
+
+    /*
+     * Case 5
+     */
+    // [0, 3, 4, 2, 1, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 1, 2);
+    Optimize.swapBlocks(placesArray, 1, 2, 3, 4);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+    System.out.println();
+
+    /*
+     * Case 6
+     */
+    // [0, 2, 1, 4, 3, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 1, 2);
+    Optimize.reversePlaces(placesArray, 3, 4);
+    Optimize.swapBlocks(placesArray, 1, 2, 3, 4);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+    System.out.println();
+
+    /*
+     * Case 7
+     */
+    // [0, 3, 4, 1, 2, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.swapBlocks(placesArray, 1, 2, 3, 4);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+    System.out.println();
+
+
+
   }
 
   /**
