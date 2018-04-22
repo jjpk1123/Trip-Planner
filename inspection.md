@@ -9,9 +9,9 @@ Checklist | _To be filled in later_
 ## Roles
 Name | Role | Preparation Time
 --- | ---: | ---: 
-Julien||
-Mike||
-Ezra||
+Julien|Moderator|30 minutes
+Mike|Maintainer| _Mike, update when you are finished with pre-inspection_
+Ezra|Tester| _Ezra, update when you are finished with pre-inspection_
 
 ## Log
 file:line | defect | high/med/low | who found it | github issue#
