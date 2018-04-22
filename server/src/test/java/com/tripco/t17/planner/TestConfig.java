@@ -25,12 +25,12 @@ public class TestConfig {
         this.config.type = "config";
         this.config.version = 3;
 
-/*        this.config.filters = new Dictionary[1];
+        this.config.filters = new Dictionary[1];
         Dictionary<String, Object> filterDict = new Hashtable<>();
-        filterDict.put("attribute", "type");
-        String[] valuesArr = {"balloonport", "heliport", "airport"};
-        filterDict.put("values", valuesArr);
-        this.config.filters[0] = filterDict; */
+        //filterDict.put("attribute", "type");
+        //String[] valuesArr = {"balloonport", "heliport", "airport"};
+        //filterDict.put("values", valuesArr);
+        this.config.filters[0] = filterDict;
 
         this.config.maps = new String[]{"svg"};         // {"svg", "kml"}
         this.config.optimization = 2;                   // 2 // 3

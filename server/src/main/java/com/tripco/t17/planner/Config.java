@@ -36,7 +36,7 @@ public class Config {
     public void retrieveValues() {
         this.type = "config";
         this.version = 3;                               // This value will change over time
-        //createTheFilterDictionary();
+        createTheFilterDictionary();
         this.maps = new String[]{"svg"};//{"svg", "kml"};
         this.optimization = 2;                          // This value will change over time
         createTheOptDictionary();
@@ -48,26 +48,25 @@ public class Config {
      * @return optLevel +1
      */
     public static int getOptimizationLevels() {
-        return (2) + 1;         // This value will change over time
+        return (2) + 1;                                 // This value will change over time
         // CS students start at 0
         // level+1 "normalizes"
     }
 
-/*
-    **
-    * Instantiates the filter field and populates it with filters the server can filter
-    *
+
+    /**
+     * Instantiates the filter field and populates it with filters the server can filter
+     */
     public void createTheFilterDictionary() {
         this.filters = new Dictionary[1];
         Dictionary<String, Object> filterDict = new Hashtable<>();
 
-        filterDict.put("attribute", "type");
-
-        String[] valuesArr = new String[]{"balloonport", "heliport", "airport"};
-        filterDict.put("values", valuesArr);
+        //filterDict.put("attribute", "type");
+        //String[] valuesArr = new String[]{"balloonport", "heliport", "airport"};
+        //filterDict.put("values", valuesArr);
 
         this.filters[0] = filterDict;
-    }*/
+    }
 
     /**
      * This method does exactly what you think it does.
@@ -79,25 +78,16 @@ public class Config {
         Dictionary<String, String> optDict = new Hashtable<>();
 
         optDict.put("label", "No optimization");
-//        optDict.put("description", "When you click plan, we will plan your trip "
-//                + "in the original order of the file provided. Change the slider "
-//                + "to see if we can make your trip shorter");
         optDict.put("description", "Longest");
         this.optimizations[0] = optDict;
 
         optDict = new Hashtable<>();
         optDict.put("label", "Nearest Neighbor");
-//        optDict.put("description", "When you click plan, we will use the "
-//                + "Nearest Neighbor algorithm to make a faster route, so your "
-//                + "total round-trip distance will be a little shorter!");
         optDict.put("description", "Shorter");         //3-opt=="Short"
         this.optimizations[1] = optDict;
 
         optDict = new Hashtable<>();
         optDict.put("label", "2-opt");
-//        optDict.put("description", "When you click plan, we will use the 2-opt "
-//                + "algorithm to make a faster route, so your total round-trip "
-//                + "distance will be much shorter!");
         optDict.put("description", "Shortest");       //3-opt=="Shorter"
         this.optimizations[2] = optDict;
 
