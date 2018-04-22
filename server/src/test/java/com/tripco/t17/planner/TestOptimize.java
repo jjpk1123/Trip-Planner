@@ -8,10 +8,7 @@ import org.junit.runners.JUnit4;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /*
   This class contains tests for the Trip class.
@@ -818,10 +815,10 @@ public class TestOptimize {
       test[2] = 7;
       test[3] = 9;
       test[4] = 11;
-      Optimize.twoOptReverse(test, 1, 2);
+      Optimize.reversePlaces(test, 1, 2);
       assertEquals(7, test[1]);
       assertEquals(5, test[2]);
-      Optimize.twoOptReverse(test, 3, 4);
+      Optimize.reversePlaces(test, 3, 4);
       assertEquals(11, test[3]);
       assertEquals(9, test[4]);
 
@@ -883,13 +880,6 @@ public class TestOptimize {
 
   @Test
   public void testThreeOptCase1(){
-    // [0, 1, 2, 3, 4, 5, 0]
-    int [] placesArray = Optimize.buildPlacesArray(7);
-    placesArray[6] = 0;
-    System.out.println();
-
-  /* [0, 1]
-     [1, 0] */
     int [][] distanceTable = new int [6][6];
 
     //Diagonal
@@ -945,9 +935,144 @@ public class TestOptimize {
 
     distanceTable[5][4] = 1;
 
+    /*
+     * Case 1
+     */
+    // [0, 1, 2, 3, 4, 5, 0]
+    int [] resultArray = Optimize.buildPlacesArray(7);
+    resultArray[6] = 0;
+
+    // [0, 4, 3, 2, 1, 5, 0]
+    int [] placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 1, 4);
 
     assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+    System.out.println();
+
+    /*
+     * Case 2
+     */
+    // [0, 2, 1, 3, 4, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 1, 2);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+    System.out.println();
+
+    /*
+     * Case 3
+     */
+    // [0, 1, 2, 3, 5, 4, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 4, 5);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+    System.out.println();
+
+    /*
+     * Case 4
+     */
+    // [0, 4, 3, 1, 2, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 3, 4);
+    Optimize.swapBlocks(placesArray, 1, 2, 3, 4);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+    System.out.println();
   }
+
+  /**
+   * Swap block test block of swapping.
+   */
+
+  @Test
+  public void testSwapBlocks1(){
+    //[0,1,2,3,4]
+    int [] testArray = Optimize.buildPlacesArray(5);
+
+    //[2,3,0,1,4]
+    int [] resultArray = new int [5];
+    resultArray[0] = 2;
+    resultArray[1] = 3;
+    resultArray[2] = 0;
+    resultArray[3] = 1;
+    resultArray[4] = 4;
+
+    Optimize.swapBlocks(testArray, 0, 1, 2, 3);
+    assertArrayEquals(resultArray, testArray);
+//----------
+    //[0,1,2,3,4]
+    testArray = Optimize.buildPlacesArray(5);
+    //[1,2,0,3,4]
+    resultArray[0] = 1;
+    resultArray[1] = 2;
+    resultArray[2] = 0;
+    resultArray[3] = 3;
+    resultArray[4] = 4;
+
+    Optimize.swapBlocks(testArray, 0, 0, 1, 2);
+    assertArrayEquals(resultArray, testArray);
+//----------
+    //[0,1,2,3,4]
+    testArray = Optimize.buildPlacesArray(5);
+    //[2,0,1,3,4]
+    resultArray[0] = 2;
+    resultArray[1] = 0;
+    resultArray[2] = 1;
+    resultArray[3] = 3;
+    resultArray[4] = 4;
+
+    Optimize.swapBlocks(testArray, 0, 1, 2, 2);
+    assertArrayEquals(resultArray, testArray);
+//----------
+    //[0,1,2,3,4]
+    testArray = Optimize.buildPlacesArray(5);
+    //[3,4,2,0,1]
+    resultArray[0] = 3;
+    resultArray[1] = 4;
+    resultArray[2] = 2;
+    resultArray[3] = 0;
+    resultArray[4] = 1;
+
+    Optimize.swapBlocks(testArray, 0, 1, 3, 4);
+    assertArrayEquals(resultArray, testArray);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+
+
 }
 
 

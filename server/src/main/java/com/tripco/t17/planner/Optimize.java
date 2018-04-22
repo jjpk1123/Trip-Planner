@@ -152,7 +152,7 @@ public class Optimize {
                     delta = -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
                             +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
                     if(delta < 0){
-                        twoOptReverse(placesArray, i+1, k);
+                        reversePlaces(placesArray, i+1, k);
                         improvement = true;
                     }
                 }
@@ -174,20 +174,101 @@ public class Optimize {
         boolean improvement = true;
         while (improvement) {
             improvement = false;
-            for (int i = 0; i <= placesArray.length - 3; i++) {
+            for (int i = 0; i < placesArray.length - 3; i++) {
                 for (int j = i + 1; j < placesArray.length - 2; j++) {
                     for (int k = j + 1; k < placesArray.length - 1 ; k++) {
                         //Current trip
-                        int currentDistance = currentTripDistance(distanceTable, placesArray);
-                        System.out.println("currentDistance: " + currentDistance);
+                        int currentDistance = dis(placesArray, distanceTable, i, i+1) +
+                          dis(placesArray, distanceTable, j, j+1) +
+                          dis(placesArray, distanceTable, k, k+1);
+                        //System.out.println("currentDistance: " + currentDistance);
+
                         //Case 1
-                        int caseOneDistance = dis(placesArray, distanceTable, i, k) +
+                        int caseDistance = dis(placesArray, distanceTable, i, k) +
                           dis(placesArray, distanceTable, j+1, j) +
                           dis(placesArray, distanceTable, i+1, k+1);
-                        System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseOneDistance < currentDistance) {
-                            twoOptReverse(placesArray, i+1, k);
+                        //System.out.println("caseOneDistance: " + caseOneDistance);
+                        if (caseDistance < currentDistance) {
+                            reversePlaces(placesArray, i+1, k);
                             improvement = true;
+                            //System.out.println("Case 1");
+                            continue;
+                        }
+
+                        //Case 2
+                        caseDistance = dis(placesArray, distanceTable, i, j) +
+                          dis(placesArray, distanceTable, i+1, j+1) +
+                          dis(placesArray, distanceTable, k, k+1);
+                        //System.out.println("caseOneDistance: " + caseOneDistance);
+                        if (caseDistance < currentDistance) {
+                            reversePlaces(placesArray, i+1, j);
+                            improvement = true;
+                            //System.out.println("Case 2");
+                            continue;
+                        }
+
+                        //Case 3
+                        caseDistance = dis(placesArray, distanceTable, i, i+1) +
+                          dis(placesArray, distanceTable, j, k) +
+                          dis(placesArray, distanceTable, j+1, k+1);
+                        //System.out.println("caseOneDistance: " + caseOneDistance);
+                        if (caseDistance < currentDistance) {
+                            reversePlaces(placesArray, j+1, k);
+                            improvement = true;
+                            //System.out.println("Case 3");
+                            continue;
+                        }
+
+                        //Case 4
+                        caseDistance = dis(placesArray, distanceTable, i, j) +
+                          dis(placesArray, distanceTable, i+1, k) +
+                          dis(placesArray, distanceTable, j+1, k+1);
+                        //System.out.println("caseOneDistance: " + caseOneDistance);
+                        if (caseDistance < currentDistance) {
+                            reversePlaces(placesArray, i+1, j);
+                            reversePlaces(placesArray, j+1, k);
+                            swapBlocks(placesArray, i+1, j, j+1, k);
+                            improvement = true;
+                            //System.out.println("Case 4");
+                            continue;
+                        }
+
+                        //Case 5
+                        caseDistance = dis(placesArray, distanceTable, i, k) +
+                          dis(placesArray, distanceTable, j+1, i+1) +
+                          dis(placesArray, distanceTable, j, k+1);
+                        //System.out.println("caseOneDistance: " + caseOneDistance);
+                        if (caseDistance < currentDistance) {
+                            reversePlaces(placesArray, j+1, k);
+                            swapBlocks(placesArray, i+1, j, j+1, k);
+                            improvement = true;
+                            //System.out.println("Case 5");
+                            continue;
+                        }
+
+                        //Case 6
+                        caseDistance = dis(placesArray, distanceTable, i, j+1) +
+                          dis(placesArray, distanceTable, k, j) +
+                          dis(placesArray, distanceTable, i+1, k+1);
+                        //System.out.println("caseOneDistance: " + caseOneDistance);
+                        if (caseDistance < currentDistance) {
+                            reversePlaces(placesArray, i+1, j);
+                            swapBlocks(placesArray, i+1, j, j+1, k);
+                            improvement = true;
+                            //System.out.println("Case 6");
+                            continue;
+                        }
+
+                        //Case 7
+                        caseDistance = dis(placesArray, distanceTable, i, j+1) +
+                          dis(placesArray, distanceTable, k, i+1) +
+                          dis(placesArray, distanceTable, j, k+1);
+                        //System.out.println("caseOneDistance: " + caseOneDistance);
+                        if (caseDistance < currentDistance) {
+                            swapBlocks(placesArray, i+1, j, j+1, k);
+                            improvement = true;
+                            //System.out.println("Case 7");
+                            continue;
                         }
                     }
                 }
@@ -197,6 +278,7 @@ public class Optimize {
         for (int i = 0; i < distanceTable.length ; i++){
             distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
         }
+        System.out.println("3opt done");
         return distance;
     }
 
@@ -206,13 +288,40 @@ public class Optimize {
      * @param startIndex starting index for reversal.
      * @param endIndex ending index for reversal.
      */
-    public static void twoOptReverse(int[] placesArray, int startIndex, int endIndex){
+    public static void reversePlaces(int[] placesArray, int startIndex, int endIndex){
         while(startIndex < endIndex){
             int temp = placesArray[startIndex];
             placesArray[startIndex] = placesArray[endIndex];
             placesArray[endIndex] = temp;
             startIndex++;
             endIndex--;
+        }
+    }
+
+    /**
+     *
+     * @param placesArray The array where we will be swapping blocks.
+     * @param startIndex1 Index of start of block 1.
+     * @param endIndex1 Index of end of block 1.
+     * @param startIndex2 Index of start of block 2.
+     * @param endIndex2 Index of end of block 2.
+     */
+    public static void swapBlocks(int[] placesArray, int startIndex1, int endIndex1, int startIndex2, int endIndex2){
+        int [] tempArray = new int [endIndex1 - startIndex1 + 1];
+
+        //Hold the first block in a temp array
+        for (int i = 0 ; i < (endIndex1 - startIndex1 + 1) ; i++){
+            tempArray[i] = placesArray[startIndex1 + i];
+        }
+
+        //Overwrite first block with second block
+        for (int i = 0 ; i < (endIndex2 - startIndex2 + 1) ; i++){
+            placesArray[startIndex1 + i] = placesArray[startIndex2 + i];
+        }
+
+        //Overwrite second block with temp array
+        for (int i = 0 ; i < tempArray.length ; i++){
+            placesArray[endIndex2 - tempArray.length + 1 + i] = tempArray[i];
         }
     }
 
@@ -326,15 +435,6 @@ public class Optimize {
             distance += distanceTable[i][(i + 1) % distanceTable.length];
         }
         return distance;
-    }
-
-    private static int currentTripDistance(int [][] distanceTable, int [] placesArray){
-        int distance = 0;
-        for (int i = 0; i < placesArray.length ; i++){
-            distance += distanceTable[placesArray[i]][placesArray[(i + 1) % placesArray.length]];
-        }
-        return distance;
-
     }
 
 }
