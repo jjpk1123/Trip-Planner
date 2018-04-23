@@ -126,15 +126,14 @@ class Options extends Component {
       //console.log("Nearest Neighbor");
       return this.optString(1);
     }
-    else if (curr >= 2*opt && curr <= 3*opt) {
-    //else if (curr >= 2*opt && curr < 3*opt) {  // use for 3-opt
+    else if (curr >= 2*opt && curr < 3*opt) {
       // console.log("2-opt");
       return this.optString(2);
     }
-    // else if (curr >= 3*opt && curr <= 4*opt) {
-    //   console.log("3-opt");
-    //   return this.optString(3);
-    // }
+    else if (curr >= 3*opt && curr <= 4*opt) {
+      // console.log("3-opt");
+      return this.optString(3);
+    }
   }
 
   /**

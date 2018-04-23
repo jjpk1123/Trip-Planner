@@ -26,8 +26,11 @@ class Application extends Component {
         map: "<svg width=\"1920\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><g></g></svg>"
       },
       query: { // query TFFI
+        version: 0,
         type: "",
+        limit: 0,
         query: "",
+        filters: [],
         places: []
       },
       config: { // config TFFI

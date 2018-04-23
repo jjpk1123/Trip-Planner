@@ -109,7 +109,7 @@ class Itinerary extends Component {
           key={"dest_n"}>{item}</td>);
     return dests.concat(endingCol);//adds to the end of dests row
   }
-S
+
   /**
    * Concatenates a zero to the beginning of dists/cumul rows
    */
@@ -166,12 +166,12 @@ S
     else if (slider >= breakPoint && slider < 2*breakPoint) {
       return this.restOfTheString(1); // NN
     }
-    else if (slider >= 2*breakPoint && slider <= 3*breakPoint) {
+    else if (slider >= 2*breakPoint && slider < 3*breakPoint) {
       return this.restOfTheString(2); // 2 opt
     }
-    // else if (slider >= 3*breakPoint && slider < 4*breakPoint) {
-    //   return this.restOfTheString(3); // 3 opt
-    // }
+    else if (slider >= 3*breakPoint && slider < 4*breakPoint) {
+      return this.restOfTheString(3); // 3 opt
+    }
   }
 
   /**
@@ -192,9 +192,9 @@ S
    *     slider=0.9 > Plan > slider=0.0 > Plan (does not make the trip longer)
    */
   higherOptimization() {
-    // if (this.props.state.computed3opt === true) {
-    //   return 3;
-    // }
+    if (this.props.state.computed3opt === true) {
+      return 3;
+    }
     if (this.props.state.computed2opt === true) {
       return 2;
     }

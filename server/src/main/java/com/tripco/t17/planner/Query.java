@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.List;
 
 /**
  * The Query class supports TFFI so it can easily be converted to/from Json by Gson.
@@ -18,7 +20,10 @@ public class Query{
     // The variables in this class should reflect TFFI.
     public int version;
     public String type;
+    public int limit;
     public String query;
+    public Dictionary[] filters;
+//    public List<Dictionary> filters;
     public ArrayList<Place> places;
 
 /*
@@ -39,30 +44,49 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
      * The top level method that does searching.
      */
     public void searchDatabase() {
-        String count =
-                "SELECT count(*) "
-                + "FROM continents "
+        String count = "SELECT count(*) ";
+        String searchName = "SELECT airports.id, airports.name, airports.municipality, airports.type, "
+                + "airports.latitude, airports.longitude, region.name, country.name, continents.name ";
+        String tableFormat = "FROM continents "
                 + "INNER JOIN country ON continents.id = country.continent "
                 + "INNER JOIN region ON country.id = region.iso_country "
-                + "INNER JOIN airports ON region.id = airports.iso_region "
-                + "WHERE (country.name like '%" + query + "%') "
-                + "OR (region.name like '%" + query + "%') "
-                + "OR (airports.name like '%" + query + "%') "
-                + "OR (airports.municipality like '%" + query + "%') "
-                + "OR (airports.id = '" + query + "');";
+                + "INNER JOIN airports ON region.id = airports.iso_region ";
+        count      += tableFormat;
+        searchName += tableFormat;
 
-        String searchName =
-                "SELECT airports.id, airports.name, airports.municipality, airports.type, airports.latitude, airports.longitude, region.name, country.name, continents.name "
-                + "FROM continents "
-                + "INNER JOIN country ON continents.id = country.continent "
-                + "INNER JOIN region ON country.id = region.iso_country "
-                + "INNER JOIN airports ON region.id = airports.iso_region "
-                + "WHERE (country.name like '%" + query + "%') "
-                + "OR (region.name like '%" + query + "%') "
-                + "OR (airports.name like '%" + query + "%') "
-                + "OR (airports.municipality like '%" + query + "%') "
-                + "OR (airports.id = '" + query + "') "
-                + "ORDER BY continents.name, country.name, region.name, airports.municipality, airports.name ASC;";
+//        if (filters.size() == 0) {
+//        if (filters.length == 0) {
+            String search = "WHERE (country.name like '%" + query + "%') "
+                    + "OR (region.name like '%" + query + "%') "
+                    + "OR (airports.name like '%" + query + "%') "
+                    + "OR (airports.municipality like '%" + query + "%') "
+                    + "OR (airports.id = '" + query + "')";
+
+            count      += search;
+            searchName += search;
+//        }
+//        else {
+//            for (int i = 0; i < filters.size(); ++i) {
+//                String where = "";
+//                Dictionary dict = filters.get(i);
+////                Object values = dict.get("value");
+//                List<String> values = dict.get("value");
+//
+//                if (dict.get("attribute") == "type") {
+//                    //where = retrieveWhere("airports.type", values, i);
+//                }
+//                else if (dict.get("attribute") == "continent") {
+//                    //where = retrieveWhere("continents.name", values, i);
+//                }
+//                else if (dict.get("attribute") == "")
+//                count      += where;
+//                searchName += where;
+//            }
+//        }
+
+        count += ";";
+        searchName += " ORDER BY continents.name, country.name, region.name, airports.municipality,"
+                + " airports.name ASC;";
 
         try {
             Class.forName(myDriver);
@@ -78,6 +102,23 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
         } catch (Exception e) {
             System.err.println("Exception: " + e.getMessage());
         }
+    }
+
+    private String retrieveWhere(String attrib, String[] values, int index) {
+        String where;
+        if (index == 0)
+            where = "WHERE ";
+        else
+            where = "OR ";
+
+        for (int i = 0; i < values.length; ++i) {
+            String add = values[i];
+            if (i > 0) {
+                where += " OR ";
+            }
+            where += "(" + attrib + " = '" + add + "')";
+        }
+        return where;
     }
 
     private void printJSON(ResultSet count, ResultSet query1) throws SQLException {
