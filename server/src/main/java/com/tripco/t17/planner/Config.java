@@ -53,7 +53,7 @@ public class Config {
      * @return optLevel +1
      */
     public static int getOptimizationLevels() {
-        return (2) + 1;                                 // This value will change over time
+        return (3) + 1;                                 // This value will change over time
         // CS students start at 0
         // level+1 "normalizes"
     }
@@ -83,6 +83,7 @@ public class Config {
      * I left the actual descriptions in just in case we want to display these eventually.
      */
     public void createTheOptDictionary() {
+        this.optimizations = new Dictionary[4];
         this.optimizations = new Dictionary[4];
         Dictionary<String, String> optDict = new Hashtable<>();
 

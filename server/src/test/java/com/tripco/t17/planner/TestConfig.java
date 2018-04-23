@@ -55,7 +55,7 @@ public class TestConfig {
         optDict.put("label", "3-opt");
         optDict.put("description", "Shortest");
         this.config.optimizations[3] = optDict;
-
+      
         this.config.units = new String[]{"kilometers", "miles", "nautical miles", "user defined"};
     }
 
@@ -122,7 +122,7 @@ public class TestConfig {
         Config expectedConfig = new Config();
         expectedConfig.type = "config";
         expectedConfig.version = 3;
-        expectedConfig.optimization = 2;
+        expectedConfig.optimization = 3;
         Gson gson = new Gson();
         String expected = gson.toJson(this.config);
 
@@ -134,6 +134,6 @@ public class TestConfig {
      */
     @Test
     public void testConfigGetOptimizationLevels() {
-        assertEquals(3, Config.getOptimizationLevels());
+        assertEquals(4, Config.getOptimizationLevels());
     }
 }

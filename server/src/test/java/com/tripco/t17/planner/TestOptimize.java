@@ -8,10 +8,7 @@ import org.junit.runners.JUnit4;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /*
   This class contains tests for the Trip class.
@@ -34,7 +31,6 @@ public class TestOptimize {
     Optimize o = new Optimize();
     //That's it...
   }
-
 
   /** nearestNeighbor test block
    */
@@ -267,6 +263,7 @@ public class TestOptimize {
   /**
    * changeStart test block
    */
+
   @Test
   public void testChangeStartNormalCase1(){
     Place A = new Place();
@@ -584,7 +581,7 @@ public class TestOptimize {
    */
 
   @Test
-  public void testNearestNeighborHelperSimple1(){
+  public void testNearestNeighborSimple1(){
     int start = 0;
 
     // [0, 1]
@@ -602,11 +599,11 @@ public class TestOptimize {
     distanceTable[0][1] = 1;
     distanceTable[1][0] = 1;
 
-    assertEquals(2, Optimize.nearestNeighborHelper(start, placesArray, distanceTable));
+    assertEquals(2, Optimize.nearestNeighbor(start, placesArray, distanceTable));
   }
 
   @Test
-  public void testNearestNeighborHelperSimple2(){
+  public void testNearestNeighborSimple2(){
     int start = 0;
 
     // [0, 1, 2, 3]
@@ -632,11 +629,11 @@ public class TestOptimize {
     distanceTable[1][2] = 5;
     distanceTable[2][1] = 5;
 
-    assertEquals(12, Optimize.nearestNeighborHelper(start, placesArray, distanceTable));
+    assertEquals(12, Optimize.nearestNeighbor(start, placesArray, distanceTable));
   }
 
   @Test
-  public void testNearestNeighborHelperProblem1(){
+  public void testNearestNeighborProblem1(){
     int start = 0;
 
     // [0, 1, 2, 3]
@@ -673,11 +670,11 @@ public class TestOptimize {
     distanceTable[3][2] = 4;
 
     //Should grab 1, 4, 1, 3 = 9
-    assertEquals(9, Optimize.nearestNeighborHelper(start, placesArray, distanceTable));
+    assertEquals(9, Optimize.nearestNeighbor(start, placesArray, distanceTable));
   }
 
   @Test
-  public void testNearestNeighborHelperProblem2(){
+  public void testNearestNeighborProblem2(){
     int start = 0;
 
     // [0, 1, 2, 3, 4]
@@ -727,7 +724,7 @@ public class TestOptimize {
     distanceTable[4][3] = 2;
 
     //Should grab 1, 4, 1, 3 = 9
-    assertEquals(15, Optimize.nearestNeighborHelper(start, placesArray, distanceTable));
+    assertEquals(15, Optimize.nearestNeighbor(start, placesArray, distanceTable));
   }
 
 /**
@@ -758,124 +755,356 @@ public class TestOptimize {
  * 2-opt test block
  */
 
-    @Test
-    public void testTwoOpt(){
-      // [0, 1, 2, 3, 4]
-      int [] placesArray = Optimize.buildPlacesArray(5);
+  @Test
+  public void testTwoOpt(){
+    // [0, 1, 2, 3, 4]
+    int [] placesArray = Optimize.buildPlacesArray(5);
 
-    /* [0, 6, 5, 1, 6]
-       [6, 0, 4, 6, 3]
-       [5, 4, 0, 6, 6]
-       [1, 6, 6, 0, 2]
-       [6, 3, 6, 2, 0]
-     */
-      int [][] distanceTable = new int [5][5];
+  /* [0, 6, 5, 1, 6]
+     [6, 0, 4, 6, 3]
+     [5, 4, 0, 6, 6]
+     [1, 6, 6, 0, 2]
+     [6, 3, 6, 2, 0]
+   */
+    int [][] distanceTable = new int [5][5];
 
-      //Diagonal
+    //Diagonal
+    distanceTable[0][0] = 0;
+    distanceTable[1][1] = 0;
+    distanceTable[2][2] = 0;
+    distanceTable[3][3] = 0;
+    distanceTable[4][4] = 0;
+
+    //Row 1
+    distanceTable[0][1] = 6;
+    distanceTable[1][0] = 6;
+    distanceTable[0][2] = 5;
+    distanceTable[2][0] = 5;
+    distanceTable[0][3] = 1;
+    distanceTable[3][0] = 1;
+    distanceTable[0][4] = 6;
+    distanceTable[4][0] = 6;
+
+    //Row 2
+    distanceTable[1][2] = 4;
+    distanceTable[2][1] = 4;
+    distanceTable[1][3] = 6;
+    distanceTable[3][1] = 6;
+    distanceTable[1][4] = 3;
+    distanceTable[4][1] = 3;
+
+    //Row 3
+    distanceTable[2][3] = 6;
+    distanceTable[3][2] = 6;
+    distanceTable[2][4] = 6;
+    distanceTable[4][2] = 6;
+
+    //Row 4
+    distanceTable[3][4] = 2;
+    distanceTable[4][3] = 2;
+
+    //Should grab 1, 4, 1, 3 = 9
+    assertEquals(23, Optimize.twoOpt(placesArray, distanceTable));
+  }
+
+  @Test
+  public void testTwoOptReverseSimple(){
+      int [] test = new int [5];
+      test[0] = 3;
+      test[1] = 5;
+      test[2] = 7;
+      test[3] = 9;
+      test[4] = 11;
+      Optimize.reversePlaces(test, 1, 2);
+      assertEquals(7, test[1]);
+      assertEquals(5, test[2]);
+      Optimize.reversePlaces(test, 3, 4);
+      assertEquals(11, test[3]);
+      assertEquals(9, test[4]);
+
+  }
+
+  @Test
+  public void testDis(){
+      int [] placesArray = new int [4];
+      placesArray[0] = 0;
+      placesArray[1] = 1;
+      placesArray[2] = 2;
+      placesArray[3] = 3;
+      int[][] distanceTable = new int[4][4];
+
       distanceTable[0][0] = 0;
       distanceTable[1][1] = 0;
       distanceTable[2][2] = 0;
       distanceTable[3][3] = 0;
-      distanceTable[4][4] = 0;
 
       //Row 1
-      distanceTable[0][1] = 6;
-      distanceTable[1][0] = 6;
-      distanceTable[0][2] = 5;
-      distanceTable[2][0] = 5;
+      distanceTable[0][1] = 3;
+      distanceTable[1][0] = 3;
+      distanceTable[0][2] = 2;
+      distanceTable[2][0] = 2;
       distanceTable[0][3] = 1;
       distanceTable[3][0] = 1;
-      distanceTable[0][4] = 6;
-      distanceTable[4][0] = 6;
 
       //Row 2
-      distanceTable[1][2] = 4;
-      distanceTable[2][1] = 4;
-      distanceTable[1][3] = 6;
-      distanceTable[3][1] = 6;
-      distanceTable[1][4] = 3;
-      distanceTable[4][1] = 3;
+      distanceTable[1][2] = 1;
+      distanceTable[2][1] = 1;
+      distanceTable[1][3] = 5;
+      distanceTable[3][1] = 5;
 
       //Row 3
-      distanceTable[2][3] = 6;
-      distanceTable[3][2] = 6;
-      distanceTable[2][4] = 6;
-      distanceTable[4][2] = 6;
-
-      //Row 4
-      distanceTable[3][4] = 2;
-      distanceTable[4][3] = 2;
-
-      //Should grab 1, 4, 1, 3 = 9
-      assertEquals(23, Optimize.twoOpt(placesArray, distanceTable));
-    }
+      distanceTable[2][3] = 4;
+      distanceTable[3][2] = 4;
 
 
-    @Test
-    public void testTwoOptReverseSimple(){
-        int [] test = new int [5];
-        test[0] = 3;
-        test[1] = 5;
-        test[2] = 7;
-        test[3] = 9;
-        test[4] = 11;
-        Optimize.twoOptReverse(test, 1, 2);
-        assertEquals(7, test[1]);
-        assertEquals(5, test[2]);
-        Optimize.twoOptReverse(test, 3, 4);
-        assertEquals(11, test[3]);
-        assertEquals(9, test[4]);
+      int result = Optimize.dis(placesArray, distanceTable, 0, 1);
+      assertEquals(3, result);
+      result = Optimize.dis(placesArray, distanceTable, 2, 3);
+      assertEquals(4, result);
+      result = Optimize.dis(placesArray, distanceTable, 0, 2);
+      assertEquals(2, result);
+      result = Optimize.dis(placesArray, distanceTable, 1, 3);
+      assertEquals(5, result);
 
-    }
-    @Test
-    public void testDis(){
-        int [] placesArray = new int [4];
-        placesArray[0] = 0;
-        placesArray[1] = 1;
-        placesArray[2] = 2;
-        placesArray[3] = 3;
-        int[][] distanceTable = new int[4][4];
+      //delta should be -3 -4 +2 + 5 = 0 AKA no improvement
+      int delta = -Optimize.dis(placesArray, distanceTable, 0, 1)-Optimize.dis(placesArray, distanceTable,2,3)
+              +Optimize.dis(placesArray,distanceTable,0,2)+Optimize.dis(placesArray,distanceTable,1,3);
 
-        distanceTable[0][0] = 0;
-        distanceTable[1][1] = 0;
-        distanceTable[2][2] = 0;
-        distanceTable[3][3] = 0;
+      assertEquals(0, delta);
 
-        //Row 1
-        distanceTable[0][1] = 3;
-        distanceTable[1][0] = 3;
-        distanceTable[0][2] = 2;
-        distanceTable[2][0] = 2;
-        distanceTable[0][3] = 1;
-        distanceTable[3][0] = 1;
+  }
 
-        //Row 2
-        distanceTable[1][2] = 1;
-        distanceTable[2][1] = 1;
-        distanceTable[1][3] = 5;
-        distanceTable[3][1] = 5;
+/**
+ * 3opt Test Block
+ */
 
-        //Row 3
-        distanceTable[2][3] = 4;
-        distanceTable[3][2] = 4;
+  @Test
+  public void testThreeOpt(){
+    int [][] distanceTable = new int [6][6];
+
+    //Diagonal
+    distanceTable[0][0] = 0;
+    distanceTable[1][1] = 0;
+    distanceTable[2][2] = 0;
+    distanceTable[3][3] = 0;
+    distanceTable[4][4] = 0;
+    distanceTable[5][5] = 0;
+
+    //Row 1
+    distanceTable[0][1] = 1;
+    distanceTable[0][2] = 2;
+    distanceTable[0][3] = 3;
+    distanceTable[0][4] = 2;
+    distanceTable[0][5] = 1;
+
+    distanceTable[1][0] = 1;
+    distanceTable[2][0] = 2;
+    distanceTable[3][0] = 3;
+    distanceTable[4][0] = 2;
+    distanceTable[5][0] = 1;
+
+    //Row 2
+    distanceTable[1][2] = 1;
+    distanceTable[1][3] = 2;
+    distanceTable[1][4] = 3;
+    distanceTable[1][5] = 2;
+
+    distanceTable[2][1] = 1;
+    distanceTable[3][1] = 2;
+    distanceTable[4][1] = 3;
+    distanceTable[5][1] = 2;
+
+    //Row 3
+    distanceTable[2][3] = 1;
+    distanceTable[2][4] = 2;
+    distanceTable[2][5] = 3;
+
+    distanceTable[3][2] = 1;
+    distanceTable[4][2] = 2;
+    distanceTable[5][2] = 3;
+
+    //Row 4
+    distanceTable[4][3] = 1;
+    distanceTable[5][3] = 2;
+
+    distanceTable[3][4] = 1;
+    distanceTable[3][5] = 2;
+
+    //Row 5
+    distanceTable[4][5] = 1;
+
+    distanceTable[5][4] = 1;
+
+    /*
+     * Case 1
+     */
+    // [0, 1, 2, 3, 4, 5, 0]
+    int [] resultArray = Optimize.buildPlacesArray(7);
+    resultArray[6] = 0;
+
+    // [0, 4, 3, 2, 1, 5, 0]
+    int [] placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 1, 4);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
 
 
-        int result = Optimize.dis(placesArray, distanceTable, 0, 1);
-        assertEquals(3, result);
-        result = Optimize.dis(placesArray, distanceTable, 2, 3);
-        assertEquals(4, result);
-        result = Optimize.dis(placesArray, distanceTable, 0, 2);
-        assertEquals(2, result);
-        result = Optimize.dis(placesArray, distanceTable, 1, 3);
-        assertEquals(5, result);
+    /*
+     * Case 2
+     */
+    // [0, 2, 1, 3, 4, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 1, 2);
 
-        //delta should be -3 -4 +2 + 5 = 0 AKA no improvement
-        int delta = -Optimize.dis(placesArray, distanceTable, 0, 1)-Optimize.dis(placesArray, distanceTable,2,3)
-                +Optimize.dis(placesArray,distanceTable,0,2)+Optimize.dis(placesArray,distanceTable,1,3);
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
 
-        assertEquals(0, delta);
+    /*
+     * Case 3
+     */
+    // [0, 1, 2, 3, 5, 4, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 4, 5);
 
-    }
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+    /*
+     * Case 4
+     */
+    // [0, 4, 3, 1, 2, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 3, 4);
+    Optimize.swapBlocks(placesArray, 1, 2, 3, 4);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+
+    /*
+     * Case 5
+     */
+    // [0, 3, 4, 2, 1, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 1, 2);
+    Optimize.swapBlocks(placesArray, 1, 2, 3, 4);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+    /*
+     * Case 6
+     */
+    // [0, 2, 1, 4, 3, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.reversePlaces(placesArray, 1, 2);
+    Optimize.reversePlaces(placesArray, 3, 4);
+    Optimize.swapBlocks(placesArray, 1, 2, 3, 4);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+
+    /*
+     * Case 7
+     */
+    // [0, 3, 4, 1, 2, 5, 0]
+    placesArray = Optimize.buildPlacesArray(7);
+    placesArray[6] = 0;
+    Optimize.swapBlocks(placesArray, 1, 2, 3, 4);
+
+    assertEquals(6, Optimize.threeOpt(placesArray, distanceTable));
+    assertArrayEquals(resultArray, placesArray);
+
+
+
+
+  }
+
+  /**
+   * Swap block test block of swapping.
+   */
+
+  @Test
+  public void testSwapBlocks1(){
+    //[0,1,2,3,4]
+    int [] testArray = Optimize.buildPlacesArray(5);
+
+    //[2,3,0,1,4]
+    int [] resultArray = new int [5];
+    resultArray[0] = 2;
+    resultArray[1] = 3;
+    resultArray[2] = 0;
+    resultArray[3] = 1;
+    resultArray[4] = 4;
+
+    Optimize.swapBlocks(testArray, 0, 1, 2, 3);
+    assertArrayEquals(resultArray, testArray);
+//----------
+    //[0,1,2,3,4]
+    testArray = Optimize.buildPlacesArray(5);
+    //[1,2,0,3,4]
+    resultArray[0] = 1;
+    resultArray[1] = 2;
+    resultArray[2] = 0;
+    resultArray[3] = 3;
+    resultArray[4] = 4;
+
+    Optimize.swapBlocks(testArray, 0, 0, 1, 2);
+    assertArrayEquals(resultArray, testArray);
+//----------
+    //[0,1,2,3,4]
+    testArray = Optimize.buildPlacesArray(5);
+    //[2,0,1,3,4]
+    resultArray[0] = 2;
+    resultArray[1] = 0;
+    resultArray[2] = 1;
+    resultArray[3] = 3;
+    resultArray[4] = 4;
+
+    Optimize.swapBlocks(testArray, 0, 1, 2, 2);
+    assertArrayEquals(resultArray, testArray);
+//----------
+    //[0,1,2,3,4]
+    testArray = Optimize.buildPlacesArray(5);
+    //[3,4,2,0,1]
+    resultArray[0] = 3;
+    resultArray[1] = 4;
+    resultArray[2] = 2;
+    resultArray[3] = 0;
+    resultArray[4] = 1;
+
+    Optimize.swapBlocks(testArray, 0, 1, 3, 4);
+    assertArrayEquals(resultArray, testArray);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
 
 
 
