@@ -287,7 +287,7 @@ public class TestDistance {
         assertEquals(expectedNM, actualNM);
     }
 
-    /*
+
     @Test
     public void testLegDistances() {
         Place Telluride = new Place();
@@ -315,9 +315,9 @@ public class TestDistance {
         trip.plan();
 
         ArrayList<Integer> expectedDistances = new ArrayList<>();
-        Collections.addAll(expectedDistances, 149, 158, 148, 61);
+        Collections.addAll(expectedDistances, 61, 148, 158, 149);
         ArrayList<Integer> actualDistances = Distance.legDistances(trip.places, trip.options.distance, "");
         assertEquals(expectedDistances, actualDistances);
     }
-    */
+
 }

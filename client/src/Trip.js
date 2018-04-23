@@ -14,7 +14,7 @@ class Trip extends Component {
     this.state = {
       computedNN   : false,
       computed2opt : false,
-      // computed3opt : false
+      computed3opt : false
     };
     this.plan = this.plan.bind(this);
     this.saveTFFI = this.saveTFFI.bind(this);
@@ -83,9 +83,9 @@ class Trip extends Component {
     if (slider >= 2*breakPoint && slider <= 3*breakPoint) { // [.6666, 1.0] = 2-opt
       this.setState({computed2opt : true});
     }
-    // if (slider >= 3*breakPoint && slider <= 4*breakPoint) { // [0.75, 1.0] = 3 opt
-    //     this.setState({computed3opt: true});
-    // }
+    if (slider >= 3*breakPoint && slider <= 4*breakPoint) { // [0.75, 1.0] = 3 opt
+         this.setState({computed3opt: true});
+    }
   }
 
   static resetState() {
@@ -93,7 +93,7 @@ class Trip extends Component {
     this.setState({
       computedNN: false,
       computed2opt: false,
-      // computed3opt: false,
+      computed3opt: false,
     });
   }
 
