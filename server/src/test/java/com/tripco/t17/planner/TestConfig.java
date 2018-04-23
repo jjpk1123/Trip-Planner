@@ -25,16 +25,16 @@ public class TestConfig {
         this.config.type = "config";
         this.config.version = 3;
 
-/*        this.config.filters = new Dictionary[1];
+        this.config.filters = new Dictionary[1];
         Dictionary<String, Object> filterDict = new Hashtable<>();
-        filterDict.put("attribute", "type");
-        String[] valuesArr = {"balloonport", "heliport", "airport"};
-        filterDict.put("values", valuesArr);
-        this.config.filters[0] = filterDict; */
+        //filterDict.put("attribute", "type");
+        //String[] valuesArr = {"balloonport", "heliport", "airport"};
+        //filterDict.put("values", valuesArr);
+        this.config.filters[0] = filterDict;
 
         this.config.maps = new String[]{"svg"};         // {"svg", "kml"}
-        this.config.optimization = 3;                   // 2 // 3
-        this.config.optimizations = new Dictionary[4];  // 3 // 4
+        this.config.optimization = 3;
+        this.config.optimizations = new Dictionary[4];
 
         Dictionary<String, String> optDict = new Hashtable<>();
         optDict.put("label", "No optimization");
@@ -43,18 +43,19 @@ public class TestConfig {
 
         optDict = new Hashtable<>();
         optDict.put("label", "Nearest Neighbor");
-        optDict.put("description", "Short");          // 3-opt="Short"
+        optDict.put("description", "Short");
         this.config.optimizations[1] = optDict;
 
         optDict = new Hashtable<>();
         optDict.put("label", "2-opt");
-        optDict.put("description", "Shorter");         // 3-opt = "Shorter"
+        optDict.put("description", "Shorter");
         this.config.optimizations[2] = optDict;
 
         optDict = new Hashtable<>();
         optDict.put("label", "3-opt");
         optDict.put("description", "Shortest");
         this.config.optimizations[3] = optDict;
+      
         this.config.units = new String[]{"kilometers", "miles", "nautical miles", "user defined"};
     }
 
