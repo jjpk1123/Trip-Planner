@@ -10,7 +10,7 @@ Checklist | _To be filled in later_
 Name | Role | Preparation Time
 --- | ---: | ---: 
 Julien|Moderator|30 minutes
-Mike|Maintainer| _Mike, update when you are finished with pre-inspection_
+Mike|Maintainer| 45 minutes
 Ezra|Tester|30 minutes
 
 ## Log
@@ -32,3 +32,7 @@ Optimize.java:146|'Delta' variable name could be more descriptive|low|Ezra|
 Optimize.java:270|'continue' statement does nothing as it is last in loop|low|Ezra|
 Optimize.java:335|Global variables would make this method take less params|medium|Ezra|
 Optimize.java:358|Is there a built in indexOf that could do the same?|low|Ezra|
+Optimize.java:25,28,31|(Incorrect & Hardcoded) values used in conditionals.|low|Mike|
+Optimize.java:187-270|Reverse cases, start from 7, work down to 1.|low|Mike|
+Optimize.java:312,317,322|Manual array copies -> System.arraycopy().|med|Mike|
+Optimize.java:9|Make global variable of places.size() and use it instead of computing it in every for loop. (places.size() / distanceArray.length is cited > 30 times, and is re-computed n*30 times in the file).|med|Mike|
