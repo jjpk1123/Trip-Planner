@@ -11,7 +11,7 @@ Name | Role | Preparation Time
 --- | ---: | ---: 
 Julien|Moderator|30 minutes
 Mike|Maintainer| _Mike, update when you are finished with pre-inspection_
-Ezra|Tester| _Ezra, update when you are finished with pre-inspection_
+Ezra|Tester|30 minutes
 
 ## Log
 file:line | defect | high/med/low | who found it | github issue#
@@ -27,3 +27,8 @@ Optimize.java:187-270|Too cognitively complex, impossible to ensure testing line
 Optimize.java:308|Too many variables|low|Julien
 Optimize.java:313,318,323 | Manual array copy should be System.arraycopy | low | Julien | 
 Optimize.java:335|Too many variables|low|Julien|
+Optimize.java:47|Do we need to make resultArray equal to places here?|low|Ezra|
+Optimize.java:146|'Delta' variable name could be more descriptive|low|Ezra|
+Optimize.java:270|'continue' statement does nothing as it is last in loop|low|Ezra|
+Optimize.java:335|Global variables would make this method take less params|medium|Ezra|
+Optimize.java:358|Is there a built in indexOf that could do the same?|low|Ezra|
