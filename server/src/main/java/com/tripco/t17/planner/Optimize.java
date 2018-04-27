@@ -143,26 +143,25 @@ public class Optimize {
      * @return the total distance of a 2opt optimized trip.
      */
     public static int twoOpt(int[] placesArray, int[][] distanceTable){
-        int delta;
         boolean improvement = true;
         while (improvement){
             improvement = false;
             for(int i = 0; i <= placesArray.length - 3; i++){
                 for (int k = i + 2; k < placesArray.length - 1; k++){
-                    delta = -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
-                            +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
-                    if(delta < 0){
+                    if(deltaDistance(placesArray, distanceTable, i, k) < 0){
                         reversePlaces(placesArray, i+1, k);
                         improvement = true;
                     }
                 }
             }
         }
-        int distance = 0;
-        for (int i = 0; i < distanceTable.length ; i++){
-            distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
-        }
-        return distance;
+
+        return totalDistance(placesArray, distanceTable);
+    }
+
+    private static int deltaDistance(int [] placesArray, int [][] distanceTable, int i, int k){
+        return -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
+          +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
     }
 
     /**
@@ -229,25 +228,29 @@ public class Optimize {
                 }
             }
         }
-        int distance = 0;
-        for (int i = 0; i < distanceTable.length ; i++){
-            distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
-        }
-        return distance;
+
+        return totalDistance(placesArray, distanceTable);
     }
 
+    /**
+     * ThreeOpt Helpers
+     * @param placesArray the array of places.
+     * @param distanceTable the table of distances.
+     * @param i leg one.
+     * @param j leg two.
+     * @param k leg three.
+     * @return distance of the legs added.
+     */
     private static int currentDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k) {
         return dis(placesArray, distanceTable, i, i+1) +
           dis(placesArray, distanceTable, j, j+1) +
           dis(placesArray, distanceTable, k, k+1);
     }
-
     private static int caseOneDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k){
         return dis(placesArray, distanceTable, i, k) +
           dis(placesArray, distanceTable, j+1, j) +
           dis(placesArray, distanceTable, i+1, k+1);
     }
-
     private static int caseTwoDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k){
         return dis(placesArray, distanceTable, i, j) +
           dis(placesArray, distanceTable, i+1, j+1) +
@@ -277,6 +280,20 @@ public class Optimize {
         return dis(placesArray, distanceTable, i, j+1) +
           dis(placesArray, distanceTable, k, i+1) +
           dis(placesArray, distanceTable, j, k+1);
+    }
+
+    /**
+     * Returns the total distance of your trip in the order prescribed by placesArray.
+     * @param placesArray array of places.
+     * @param distanceTable table of distances.
+     * @return the total distance of your trip in the order prescribed by placesArray.
+     */
+    private static int totalDistance (int [] placesArray, int [][] distanceTable){
+        int distance = 0;
+        for (int i = 0; i < distanceTable.length ; i++){
+            distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
+        }
+        return distance;
     }
 
     /**
