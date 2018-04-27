@@ -178,96 +178,51 @@ public class Optimize {
                 for (int j = i + 1; j < placesArray.length - 2; j++) {
                     for (int k = j + 1; k < placesArray.length - 1 ; k++) {
                         //Current trip
-                        int currentDistance = dis(placesArray, distanceTable, i, i+1) +
-                          dis(placesArray, distanceTable, j, j+1) +
-                          dis(placesArray, distanceTable, k, k+1);
-                        //System.out.println("currentDistance: " + currentDistance);
+                        int currentDistance = currentDistance(placesArray, distanceTable, i, j, k);
 
                         //Case 1
-                        int caseDistance = dis(placesArray, distanceTable, i, k) +
-                          dis(placesArray, distanceTable, j+1, j) +
-                          dis(placesArray, distanceTable, i+1, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
+                        if (caseOneDistance(placesArray, distanceTable, i, j, k) < currentDistance) {
                             reversePlaces(placesArray, i+1, k);
                             improvement = true;
-                            //System.out.println("Case 1");
-                            continue;
                         }
 
                         //Case 2
-                        caseDistance = dis(placesArray, distanceTable, i, j) +
-                          dis(placesArray, distanceTable, i+1, j+1) +
-                          dis(placesArray, distanceTable, k, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
+                        else if (caseTwoDistance(placesArray, distanceTable, i, j, k) < currentDistance) {
                             reversePlaces(placesArray, i+1, j);
                             improvement = true;
-                            //System.out.println("Case 2");
-                            continue;
                         }
 
                         //Case 3
-                        caseDistance = dis(placesArray, distanceTable, i, i+1) +
-                          dis(placesArray, distanceTable, j, k) +
-                          dis(placesArray, distanceTable, j+1, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
+                        else if (caseThreeDistance(placesArray, distanceTable, i, j, k) < currentDistance) {
                             reversePlaces(placesArray, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 3");
-                            continue;
                         }
 
                         //Case 4
-                        caseDistance = dis(placesArray, distanceTable, i, j) +
-                          dis(placesArray, distanceTable, i+1, k) +
-                          dis(placesArray, distanceTable, j+1, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
+                        else if (caseFourDistance(placesArray, distanceTable, i, j, k) < currentDistance) {
                             reversePlaces(placesArray, i+1, j);
                             reversePlaces(placesArray, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 4");
-                            continue;
                         }
 
                         //Case 5
-                        caseDistance = dis(placesArray, distanceTable, i, k) +
-                          dis(placesArray, distanceTable, j+1, i+1) +
-                          dis(placesArray, distanceTable, j, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
+                        else if (caseFiveDistance(placesArray, distanceTable, i, j, k) < currentDistance) {
                             reversePlaces(placesArray, j+1, k);
                             swapBlocks(placesArray, i+1, j, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 5");
-                            continue;
                         }
 
                         //Case 6
-                        caseDistance = dis(placesArray, distanceTable, i, j+1) +
-                          dis(placesArray, distanceTable, k, j) +
-                          dis(placesArray, distanceTable, i+1, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
+                        else if (caseSixDistance(placesArray, distanceTable, i, j, k) < currentDistance) {
                             reversePlaces(placesArray, i+1, j);
                             swapBlocks(placesArray, i+1, j, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 6");
-                            continue;
                         }
 
                         //Case 7
-                        caseDistance = dis(placesArray, distanceTable, i, j+1) +
-                          dis(placesArray, distanceTable, k, i+1) +
-                          dis(placesArray, distanceTable, j, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
+                        else if (caseSevenDistance(placesArray, distanceTable, i, j, k) < currentDistance) {
                             swapBlocks(placesArray, i+1, j, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 7");
-                            continue;
                         }
 
                     }
@@ -279,6 +234,49 @@ public class Optimize {
             distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
         }
         return distance;
+    }
+
+    private static int currentDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k) {
+        return dis(placesArray, distanceTable, i, i+1) +
+          dis(placesArray, distanceTable, j, j+1) +
+          dis(placesArray, distanceTable, k, k+1);
+    }
+
+    private static int caseOneDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k){
+        return dis(placesArray, distanceTable, i, k) +
+          dis(placesArray, distanceTable, j+1, j) +
+          dis(placesArray, distanceTable, i+1, k+1);
+    }
+
+    private static int caseTwoDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k){
+        return dis(placesArray, distanceTable, i, j) +
+          dis(placesArray, distanceTable, i+1, j+1) +
+          dis(placesArray, distanceTable, k, k+1);
+    }
+    private static int caseThreeDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k){
+        return dis(placesArray, distanceTable, i, i+1) +
+          dis(placesArray, distanceTable, j, k) +
+          dis(placesArray, distanceTable, j+1, k+1);
+    }
+    private static int caseFourDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k){
+        return dis(placesArray, distanceTable, i, j) +
+          dis(placesArray, distanceTable, i+1, k) +
+          dis(placesArray, distanceTable, j+1, k+1);
+    }
+    private static int caseFiveDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k){
+        return dis(placesArray, distanceTable, i, k) +
+          dis(placesArray, distanceTable, j+1, i+1) +
+          dis(placesArray, distanceTable, j, k+1);
+    }
+    private static int caseSixDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k){
+        return dis(placesArray, distanceTable, i, j+1) +
+          dis(placesArray, distanceTable, k, j) +
+          dis(placesArray, distanceTable, i+1, k+1);
+    }
+    private static int caseSevenDistance(int [] placesArray, int [][] distanceTable, int i, int j, int k){
+        return dis(placesArray, distanceTable, i, j+1) +
+          dis(placesArray, distanceTable, k, i+1) +
+          dis(placesArray, distanceTable, j, k+1);
     }
 
     /**
