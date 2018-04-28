@@ -1,12 +1,11 @@
 package com.tripco.t17.planner;
 
-import java.lang.reflect.Array;
-import java.net.SocketPermission;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Optimize {
-
+    private static int [] placesArray;
+    private static int [] optArray;
+    private static int [][] distanceTable;
     /**
      * This method optimizes a trip order based on the level of optimization passed
      * by the client. It calls either nearestNeighbor or 2opt. For 2opt, it calls
@@ -17,32 +16,17 @@ public class Optimize {
      */
 
     public static ArrayList<Place> optimize(ArrayList<Place> places, double optLevel){
-        boolean nearestNeighborFlag = false;
-        boolean twoOptFlag = false;
-        boolean threeOptFlag = false;
-
-        //If we do threeOpt, we don't redundantly do twoOpt
-        if (optLevel > .75){
-            threeOptFlag = true;
-        }
-        else if(optLevel > .50){
-            twoOptFlag = true;
-        }
-        if(optLevel > .25){
-            nearestNeighborFlag = true;
-        }
-
         //Initialize places array, two opt array, distance table, and initial total distance.
-        int [] placesArray = buildPlacesArray(places.size());
-        int [] optArray = new int[placesArray.length + 1];
-        int [][] distanceTable = buildDistanceTable(places);
+        Optimize.placesArray = buildPlacesArray(places.size());
+        Optimize.optArray = new int[placesArray.length + 1];
+        Optimize.distanceTable = buildDistanceTable(places);
         int shortestDistance = startingTripDistance(distanceTable);
 
         //Initialize the final array to return later.
         int [] resultArray = new int [placesArray.length];
 
         //If we are optimizing...
-        if(nearestNeighborFlag){
+        if(optLevel >= .25){
             //Start by making resultArray == placesArray, but with different references
             System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
@@ -50,10 +34,10 @@ public class Optimize {
             for (int start = 0 ; start < placesArray.length ; start++) {
 
                 //Compute nearest neighbor for this starting point.
-                int distance = nearestNeighbor(start, placesArray, distanceTable);
+                int distance = nearestNeighbor(start);
 
                 //If we are doing 2opt OR 3opt
-                if(twoOptFlag || threeOptFlag){
+                if(optLevel >= .50){
 
                     //Make twoOptArray == placesArray, diff references
                     System.arraycopy(placesArray, 0, optArray, 0, placesArray.length);
@@ -61,15 +45,11 @@ public class Optimize {
                     //Add starting place to end of array
                     optArray[optArray.length - 1] = optArray[0];
 
-                    //If we are only doing 2opt
-                    if (twoOptFlag) {
-                        //Get distance and reorder twoOptArray
-                        distance = twoOpt(optArray, distanceTable);
-                    }
-
-                    //Optimizing up to 3opt
-                    if (threeOptFlag){
-                        distance = threeOpt(optArray, distanceTable);
+                    //3opt
+                    if (optLevel >= .75){
+                      distance = threeOpt();
+                    } else { //2opt
+                      distance = twoOpt();
                     }
                     //Copy all but the last location into placesArray
                     System.arraycopy(optArray, 0, placesArray, 0, placesArray.length);
@@ -100,11 +80,9 @@ public class Optimize {
      * With this information it will reorder the indices in a ordering
      *  which is a more optimized trip.
      * @param start the current starting location.
-     * @param placesArray the current ordering of places.
-     * @param distanceTable the lookup table for distances.
      * @return the TOTAL DISTANCE of the best trip.
      */
-    public static int nearestNeighbor(int start, int [] placesArray, int [][] distanceTable){
+    private static int nearestNeighbor(int start){
         //1. Swap the start value to the beginning of placesArray.
         int startIndex = indexOf(placesArray, start);
         swap(placesArray, 0, startIndex);
@@ -138,142 +116,159 @@ public class Optimize {
 
     /**
      * This finds distances between two places.
-     * @param placesArray the current ordering of places.
-     * @param distanceTable the table of distances between places.
      * @return the total distance of a 2opt optimized trip.
      */
-    public static int twoOpt(int[] placesArray, int[][] distanceTable){
-        int delta;
+    private static int twoOpt(){
         boolean improvement = true;
         while (improvement){
             improvement = false;
-            for(int i = 0; i <= placesArray.length - 3; i++){
-                for (int k = i + 2; k < placesArray.length - 1; k++){
-                    delta = -dis(placesArray, distanceTable, i, i+1)-dis(placesArray, distanceTable,k,k+1)
-                            +dis(placesArray,distanceTable,i,k)+dis(placesArray,distanceTable,i+1,k+1);
-                    if(delta < 0){
-                        reversePlaces(placesArray, i+1, k);
+            for(int i = 0; i <= optArray.length - 3; i++){
+                for (int k = i + 2; k < optArray.length - 1; k++){
+                    if(deltaDistance(i, k) < 0){
+                        reversePlaces(optArray, i+1, k);
                         improvement = true;
                     }
                 }
             }
         }
-        int distance = 0;
-        for (int i = 0; i < distanceTable.length ; i++){
-            distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
-        }
-        return distance;
+
+        return totalDistance(optArray, distanceTable);
+    }
+
+    private static int deltaDistance(int i, int k){
+        return -dis(optArray, i, i+1) - dis(optArray, k,k+1)
+          + dis(optArray, i,k) + dis(optArray,i+1,k+1);
     }
 
     /**
-     * @param placesArray the original ordering (after nearest neighbor usually) of places in the trip
-     * @param distanceTable quick lookup for distances between places
      * @return the shortest distance via the 3opt algorithm
      */
-    public static int threeOpt(int[] placesArray, int[][] distanceTable){
+    private static int threeOpt(){
         boolean improvement = true;
         while (improvement) {
             improvement = false;
-            for (int i = 0; i < placesArray.length - 3; i++) {
-                for (int j = i + 1; j < placesArray.length - 2; j++) {
-                    for (int k = j + 1; k < placesArray.length - 1 ; k++) {
+            for (int i = 0; i < optArray.length - 3; i++) {
+                for (int j = i + 1; j < optArray.length - 2; j++) {
+                    for (int k = j + 1; k < optArray.length - 1 ; k++) {
                         //Current trip
-                        int currentDistance = dis(placesArray, distanceTable, i, i+1) +
-                          dis(placesArray, distanceTable, j, j+1) +
-                          dis(placesArray, distanceTable, k, k+1);
-                        //System.out.println("currentDistance: " + currentDistance);
+                        int currentDistance = currentDistance(optArray, i, j, k);
 
                         //Case 1
-                        int caseDistance = dis(placesArray, distanceTable, i, k) +
-                          dis(placesArray, distanceTable, j+1, j) +
-                          dis(placesArray, distanceTable, i+1, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
-                            reversePlaces(placesArray, i+1, k);
+                        if (caseOneDistance(optArray, i, j, k) < currentDistance) {
+                            reversePlaces(optArray, i+1, k);
                             improvement = true;
-                            //System.out.println("Case 1");
-                            continue;
                         }
 
                         //Case 2
-                        caseDistance = dis(placesArray, distanceTable, i, j) +
-                          dis(placesArray, distanceTable, i+1, j+1) +
-                          dis(placesArray, distanceTable, k, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
-                            reversePlaces(placesArray, i+1, j);
+                        else if (caseTwoDistance(optArray, i, j, k) < currentDistance) {
+                            reversePlaces(optArray, i+1, j);
                             improvement = true;
-                            //System.out.println("Case 2");
-                            continue;
                         }
 
                         //Case 3
-                        caseDistance = dis(placesArray, distanceTable, i, i+1) +
-                          dis(placesArray, distanceTable, j, k) +
-                          dis(placesArray, distanceTable, j+1, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
-                            reversePlaces(placesArray, j+1, k);
+                        else if (caseThreeDistance(optArray, i, j, k) < currentDistance) {
+                            reversePlaces(optArray, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 3");
-                            continue;
                         }
 
                         //Case 4
-                        caseDistance = dis(placesArray, distanceTable, i, j) +
-                          dis(placesArray, distanceTable, i+1, k) +
-                          dis(placesArray, distanceTable, j+1, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
-                            reversePlaces(placesArray, i+1, j);
-                            reversePlaces(placesArray, j+1, k);
+                        else if (caseFourDistance(optArray, i, j, k) < currentDistance) {
+                            reversePlaces(optArray, i+1, j);
+                            reversePlaces(optArray, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 4");
-                            continue;
                         }
 
                         //Case 5
-                        caseDistance = dis(placesArray, distanceTable, i, k) +
-                          dis(placesArray, distanceTable, j+1, i+1) +
-                          dis(placesArray, distanceTable, j, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
-                            reversePlaces(placesArray, j+1, k);
-                            swapBlocks(placesArray, i+1, j, j+1, k);
+                        else if (caseFiveDistance(optArray, i, j, k) < currentDistance) {
+                            reversePlaces(optArray, j+1, k);
+                            swapBlocks(optArray, i+1, j, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 5");
-                            continue;
                         }
 
                         //Case 6
-                        caseDistance = dis(placesArray, distanceTable, i, j+1) +
-                          dis(placesArray, distanceTable, k, j) +
-                          dis(placesArray, distanceTable, i+1, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
-                            reversePlaces(placesArray, i+1, j);
-                            swapBlocks(placesArray, i+1, j, j+1, k);
+                        else if (caseSixDistance(optArray, i, j, k) < currentDistance) {
+                            reversePlaces(optArray, i+1, j);
+                            swapBlocks(optArray, i+1, j, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 6");
-                            continue;
                         }
 
                         //Case 7
-                        caseDistance = dis(placesArray, distanceTable, i, j+1) +
-                          dis(placesArray, distanceTable, k, i+1) +
-                          dis(placesArray, distanceTable, j, k+1);
-                        //System.out.println("caseOneDistance: " + caseOneDistance);
-                        if (caseDistance < currentDistance) {
-                            swapBlocks(placesArray, i+1, j, j+1, k);
+                        else if (caseSevenDistance(optArray, i, j, k) < currentDistance) {
+                            swapBlocks(optArray, i+1, j, j+1, k);
                             improvement = true;
-                            //System.out.println("Case 7");
-                            continue;
                         }
 
                     }
                 }
             }
         }
+
+        return totalDistance(optArray, distanceTable);
+    }
+
+    /**
+     * ThreeOpt Helpers
+     * @param optArray the array of places to be optimized.
+     * @param i leg one.
+     * @param j leg two.
+     * @param k leg three.
+     * @return distance of the legs added.
+     */
+    private static int currentDistance(int [] optArray, int i, int j, int k) {
+        return dis(optArray, i, i+1)
+          + dis(optArray, j, j+1)
+          + dis(optArray, k, k+1);
+    }
+
+    private static int caseOneDistance(int [] optArray, int i, int j, int k){
+        return dis(optArray, i, k)
+          + dis(optArray, j+1, j)
+          + dis(optArray, i+1, k+1);
+    }
+
+    private static int caseTwoDistance(int [] optArray, int i, int j, int k){
+        return dis(optArray, i, j)
+          + dis(optArray, i+1, j+1)
+          + dis(optArray, k, k+1);
+    }
+
+    private static int caseThreeDistance(int [] optArray, int i, int j, int k){
+        return dis(optArray, i, i+1)
+          + dis(optArray, j, k)
+          + dis(optArray, j+1, k+1);
+    }
+
+    private static int caseFourDistance(int [] optArray, int i, int j, int k){
+        return dis(optArray, i, j)
+          + dis(optArray, i+1, k)
+          + dis(optArray, j+1, k+1);
+    }
+
+    private static int caseFiveDistance(int [] optArray, int i, int j, int k){
+        return dis(optArray, i, k)
+          + dis(optArray, j+1, i+1)
+          + dis(optArray, j, k+1);
+    }
+
+    private static int caseSixDistance(int [] optArray, int i, int j, int k){
+        return dis(optArray, i, j+1)
+          + dis(optArray, k, j)
+          + dis(optArray, i+1, k+1);
+    }
+
+    private static int caseSevenDistance(int [] optArray, int i, int j, int k){
+        return dis(optArray, i, j+1)
+          + dis(optArray, k, i+1)
+          + dis(optArray, j, k+1);
+    }
+
+    /**
+     * Returns the total distance of your trip in the order prescribed by placesArray.
+     * @param placesArray array of places.
+     * @param distanceTable table of distances.
+     * @return the total distance of your trip in the order prescribed by placesArray.
+     */
+    private static int totalDistance(int [] placesArray, int [][] distanceTable){
         int distance = 0;
         for (int i = 0; i < distanceTable.length ; i++){
             distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
@@ -283,15 +278,15 @@ public class Optimize {
 
     /**
      * This reverses places array in place between two indexes.
-     * @param placesArray the current ordering of places.
+     * @param optArray the current ordering of places.
      * @param startIndex starting index for reversal.
      * @param endIndex ending index for reversal.
      */
-    public static void reversePlaces(int[] placesArray, int startIndex, int endIndex){
+    private static void reversePlaces(int[] optArray, int startIndex, int endIndex){
         while(startIndex < endIndex){
-            int temp = placesArray[startIndex];
-            placesArray[startIndex] = placesArray[endIndex];
-            placesArray[endIndex] = temp;
+            int temp = optArray[startIndex];
+            optArray[startIndex] = optArray[endIndex];
+            optArray[endIndex] = temp;
             startIndex++;
             endIndex--;
         }
@@ -299,41 +294,34 @@ public class Optimize {
 
     /**
      *
-     * @param placesArray The array where we will be swapping blocks.
      * @param startIndex1 Index of start of block 1.
      * @param endIndex1 Index of end of block 1.
      * @param startIndex2 Index of start of block 2.
      * @param endIndex2 Index of end of block 2.
      */
-    public static void swapBlocks(int[] placesArray, int startIndex1, int endIndex1, int startIndex2, int endIndex2){
+    private static void swapBlocks(int [] array, int startIndex1, int endIndex1,
+                                  int startIndex2, int endIndex2){
         int [] tempArray = new int [endIndex1 - startIndex1 + 1];
 
         //Hold the first block in a temp array
-        for (int i = 0 ; i < (endIndex1 - startIndex1 + 1) ; i++){
-            tempArray[i] = placesArray[startIndex1 + i];
-        }
+        System.arraycopy(array, startIndex1, tempArray, 0, (endIndex1 - startIndex1 + 1));
 
         //Overwrite first block with second block
-        for (int i = 0 ; i < (endIndex2 - startIndex2 + 1) ; i++){
-            placesArray[startIndex1 + i] = placesArray[startIndex2 + i];
-        }
+        System.arraycopy(array, startIndex2, array, startIndex1, (endIndex2 - startIndex2 + 1));
 
         //Overwrite second block with temp array
-        for (int i = 0 ; i < tempArray.length ; i++){
-            placesArray[endIndex2 - tempArray.length + 1 + i] = tempArray[i];
-        }
+        System.arraycopy(tempArray, 0, array, endIndex2 - tempArray.length + 1, tempArray.length);
     }
 
     /**
      * This finds distances between two places.
-     * @param placesArray the current ordering of places.
-     * @param distanceTable the table of distances between places.
+     * @param optArray the current ordering of places.
      * @param place1 the index for the first place in placesArray.
      * @param place2 the index for the second place in placesArray.
      * @return the distance between two places.
      */
-    public static int dis(int[] placesArray, int[][] distanceTable, int place1, int place2){
-        return distanceTable[placesArray[place1]][placesArray[place2]];
+    private static int dis(int[] optArray, int place1, int place2){
+        return distanceTable[optArray[place1]][optArray[place2]];
     }
 
     /**
@@ -342,7 +330,7 @@ public class Optimize {
      * @param swapper1 one index.
      * @param swapper2 the other index.
      */
-    public static void swap(int [] array, int swapper1, int swapper2){
+    private static void swap(int [] array, int swapper1, int swapper2){
         int temp = array[swapper1];
         array[swapper1] = array[swapper2];
         array[swapper2] = temp;
@@ -355,13 +343,14 @@ public class Optimize {
      * @param value a value to search for in the array.
      * @return the index where it finds the value, or -1 if it doesn't exist.
      */
-    public static int indexOf(int [] array, int value){
-        for (int i = 0 ; i < array.length ; i++){
-            if (array[i] == value){
-                return i;
+    private static int indexOf(int [] array, int value){
+      int index = 0;
+      for (; index < array.length ; index++){
+            if (array[index] == value){
+              break;
             }
-        }
-        return -1;
+      }
+      return index;
     }
 
     /**
@@ -370,7 +359,7 @@ public class Optimize {
      * @param length how long the array needs to be.
      * @return [0, 1, 2, 3, 4, ... length-1].
      */
-    public static int [] buildPlacesArray(int length){
+    private static int [] buildPlacesArray(int length){
         int [] myArray = new int [length];
         for (int i = 0 ; i < length ; i++){
             myArray[i] = i;
@@ -387,7 +376,7 @@ public class Optimize {
      * @param places the array list from which we build the distance table.
      * @return the distance table.
      */
-    public static int [][] buildDistanceTable(ArrayList<Place> places){
+    private static int [][] buildDistanceTable(ArrayList<Place> places){
         int [][] distanceTable = new int [places.size()][places.size()];
 
         for (int i = 0 ; i < distanceTable.length ; i++){
