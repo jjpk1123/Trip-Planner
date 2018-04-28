@@ -19,21 +19,6 @@ public class Optimize {
      */
 
     public static ArrayList<Place> optimize(ArrayList<Place> places, double optLevel){
-        boolean nearestNeighborFlag = false;
-        boolean twoOptFlag = false;
-        boolean threeOptFlag = false;
-
-        //If we do threeOpt, we don't redundantly do twoOpt
-        if (optLevel > .75){
-            threeOptFlag = true;
-        }
-        else if(optLevel > .50){
-            twoOptFlag = true;
-        }
-        if(optLevel > .25){
-            nearestNeighborFlag = true;
-        }
-
         //Initialize places array, two opt array, distance table, and initial total distance.
         Optimize.placesArray = buildPlacesArray(places.size());
         Optimize.optArray = new int[placesArray.length + 1];
@@ -44,7 +29,7 @@ public class Optimize {
         int [] resultArray = new int [placesArray.length];
 
         //If we are optimizing...
-        if(nearestNeighborFlag){
+        if(optLevel >= .25){
             //Start by making resultArray == placesArray, but with different references
             System.arraycopy(placesArray, 0, resultArray, 0, placesArray.length);
 
@@ -55,7 +40,7 @@ public class Optimize {
                 int distance = nearestNeighbor(start);
 
                 //If we are doing 2opt OR 3opt
-                if(twoOptFlag || threeOptFlag){
+                if(optLevel >= .50){
 
                     //Make twoOptArray == placesArray, diff references
                     System.arraycopy(placesArray, 0, optArray, 0, placesArray.length);
@@ -63,15 +48,11 @@ public class Optimize {
                     //Add starting place to end of array
                     optArray[optArray.length - 1] = optArray[0];
 
-                    //If we are only doing 2opt
-                    if (twoOptFlag) {
-                        //Get distance and reorder twoOptArray
-                        distance = twoOpt();
-                    }
-
-                    //Optimizing up to 3opt
-                    if (threeOptFlag){
-                        distance = threeOpt();
+                    //3opt
+                    if (optLevel >= .75){
+                      distance = threeOpt();
+                    } else { //2opt
+                      distance = twoOpt();
                     }
                     //Copy all but the last location into placesArray
                     System.arraycopy(optArray, 0, placesArray, 0, placesArray.length);
@@ -358,7 +339,7 @@ public class Optimize {
      * @param swapper1 one index.
      * @param swapper2 the other index.
      */
-    public static void swap(int [] array, int swapper1, int swapper2){
+    private static void swap(int [] array, int swapper1, int swapper2){
         int temp = array[swapper1];
         array[swapper1] = array[swapper2];
         array[swapper2] = temp;
@@ -371,13 +352,14 @@ public class Optimize {
      * @param value a value to search for in the array.
      * @return the index where it finds the value, or -1 if it doesn't exist.
      */
-    public static int indexOf(int [] array, int value){
-        for (int i = 0 ; i < array.length ; i++){
-            if (array[i] == value){
-                return i;
+    private static int indexOf(int [] array, int value){
+      int index = 0;
+      for (; index < array.length ; index++){
+            if (array[index] == value){
+              break;
             }
-        }
-        return -1;
+      }
+      return index;
     }
 
     /**
