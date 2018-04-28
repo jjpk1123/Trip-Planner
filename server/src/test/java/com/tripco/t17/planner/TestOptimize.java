@@ -1,5 +1,8 @@
 package com.tripco.t17.planner;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -265,7 +268,6 @@ public class TestOptimize {
   /**
    * 2-opt test block
    */
-
   @Test
   public void testTwoOpt(){
     Place A = new Place();
@@ -293,29 +295,28 @@ public class TestOptimize {
     F.longitude = "0° E";
 
     ArrayList<Place> places = new ArrayList<>();
+    trip.places.add(F);
     trip.places.add(A);
+    trip.places.add(E);
     trip.places.add(D);
     trip.places.add(C);
     trip.places.add(B);
-    trip.places.add(E);
-    trip.places.add(F);
 
-    places.add(A);
     places.add(F);
-    places.add(E);
-    places.add(D);
-    places.add(C);
+    places.add(A);
     places.add(B);
+    places.add(C);
+    places.add(D);
+    places.add(E);
 
     assertEquals(places, Optimize.optimize(trip.places, .5));
   }
-
   /**
    * 3opt Test Block
    */
 
   @Test
-  public void testThreeOpt(){
+  public void testThreeOptCaseThree(){
     Place A = new Place();
     A.latitude = "0° S";
     A.longitude = "2.5° E";
@@ -341,19 +342,132 @@ public class TestOptimize {
     F.longitude = "0° E";
 
     ArrayList<Place> places = new ArrayList<>();
+    trip.places.add(F);
     trip.places.add(A);
+    trip.places.add(E);
+    trip.places.add(D);
+    trip.places.add(C);
+    trip.places.add(B);
+
+    places.add(F);
+    places.add(A);
+    places.add(B);
+    places.add(C);
+    places.add(D);
+    places.add(E);
+
+    assertEquals(places, Optimize.optimize(trip.places, .75));
+  }
+
+  @Test
+  public void testThreeOptCaseOneFiveSix(){
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = "2.5° E";
+
+    Place B = new Place();
+    B.latitude = "0° S";
+    B.longitude = "7.5° E";
+
+    Place C = new Place();
+    C.latitude = "2.5° S";
+    C.longitude = "10° E";
+
+    Place D = new Place();
+    D.latitude = "5° S";
+    D.longitude = "7.5° E";
+
+    Place E = new Place();
+    E.latitude = "5° S";
+    E.longitude = "2.5° E";
+
+    Place F = new Place();
+    F.latitude = "2.5° S";
+    F.longitude = "0° E";
+
+    Place G = new Place();
+    G.latitude = "2.5° S";
+    G.longitude = "5° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    trip.places.add(A);
+    trip.places.add(G);
     trip.places.add(D);
     trip.places.add(C);
     trip.places.add(B);
     trip.places.add(E);
     trip.places.add(F);
 
+
     places.add(A);
-    places.add(F);
-    places.add(E);
-    places.add(D);
-    places.add(C);
+    places.add(G);
     places.add(B);
+    places.add(C);
+    places.add(D);
+    places.add(E);
+    places.add(F);
+
+    assertEquals(places, Optimize.optimize(trip.places, .75));
+  }
+
+  @Test
+  public void testThreeOptCaseFour(){
+    Place A = new Place();
+    A.latitude = "0° S";
+    A.longitude = "2.5° E";
+
+    Place B = new Place();
+    B.latitude = "0° S";
+    B.longitude = "7.5° E";
+
+    Place C = new Place();
+    C.latitude = "2.5° S";
+    C.longitude = "10° E";
+
+    Place D = new Place();
+    D.latitude = "5° S";
+    D.longitude = "7.5° E";
+
+    Place E = new Place();
+    E.latitude = "5° S";
+    E.longitude = "2.5° E";
+
+    Place F = new Place();
+    F.latitude = "2.5° S";
+    F.longitude = "0° E";
+
+    Place G = new Place();
+    G.latitude = "2° S";
+    G.longitude = "5° E";
+
+    Place H = new Place();
+    H.latitude = "2.5° S";
+    H.longitude = "6° E";
+
+    Place I = new Place();
+    I.latitude = "2.5° S";
+    I.longitude = "8° E";
+
+    ArrayList<Place> places = new ArrayList<>();
+    trip.places.add(A);
+    trip.places.add(G);
+    trip.places.add(H);
+    trip.places.add(I);
+    trip.places.add(C);
+    trip.places.add(B);
+    trip.places.add(D);
+    trip.places.add(E);
+    trip.places.add(F);
+
+    places.add(A);
+    places.add(G);
+    places.add(H);
+    places.add(B);
+    places.add(C);
+    places.add(I);
+    places.add(D);
+    places.add(E);
+    places.add(F);
 
     assertEquals(places, Optimize.optimize(trip.places, .75));
   }

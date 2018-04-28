@@ -1,9 +1,6 @@
 package com.tripco.t17.planner;
 
-import java.lang.reflect.Array;
-import java.net.SocketPermission;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Optimize {
     private static int [] placesArray;
@@ -307,19 +304,13 @@ public class Optimize {
         int [] tempArray = new int [endIndex1 - startIndex1 + 1];
 
         //Hold the first block in a temp array
-        for (int i = 0 ; i < (endIndex1 - startIndex1 + 1) ; i++){
-            tempArray[i] = array[startIndex1 + i];
-        }
+        System.arraycopy(array, startIndex1, tempArray, 0, (endIndex1 - startIndex1 + 1));
 
         //Overwrite first block with second block
-        for (int i = 0 ; i < (endIndex2 - startIndex2 + 1) ; i++){
-            array[startIndex1 + i] = array[startIndex2 + i];
-        }
+        System.arraycopy(array, startIndex2, array, startIndex1, (endIndex2 - startIndex2 + 1));
 
         //Overwrite second block with temp array
-        for (int i = 0 ; i < tempArray.length ; i++){
-            array[endIndex2 - tempArray.length + 1 + i] = tempArray[i];
-        }
+        System.arraycopy(tempArray, 0, array, endIndex2 - tempArray.length + 1, tempArray.length);
     }
 
     /**
