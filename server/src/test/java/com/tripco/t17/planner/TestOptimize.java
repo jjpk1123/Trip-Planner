@@ -642,9 +642,9 @@ public class TestOptimize {
     /* [0, 3, 2, 1]
        [3, 0, 1, 5]
        [2, 1, 0, 4]
-       [1, 5, 4, 0] */
+       [1, 5, 4, 0] *//*
     int [][] distanceTable = new int [4][4];
-/*
+
     //Diagonal
     distanceTable[0][0] = 0;
     distanceTable[1][1] = 0;

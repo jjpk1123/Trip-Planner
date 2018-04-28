@@ -249,7 +249,7 @@ public class Optimize {
     }
 
     private static int caseTwoDistance(int [] optArray, int i, int j, int k){
-        return dis(optArray, i, j) 
+        return dis(optArray, i, j)
           + dis(optArray, i+1, j+1)
           + dis(optArray, k, k+1);
     }
@@ -290,7 +290,7 @@ public class Optimize {
      * @param distanceTable table of distances.
      * @return the total distance of your trip in the order prescribed by placesArray.
      */
-    private static int totalDistance (int [] placesArray, int [][] distanceTable){
+    private static int totalDistance(int [] placesArray, int [][] distanceTable){
         int distance = 0;
         for (int i = 0; i < distanceTable.length ; i++){
             distance += distanceTable[placesArray[i]][placesArray[(i + 1) % distanceTable.length]];
@@ -321,7 +321,8 @@ public class Optimize {
      * @param startIndex2 Index of start of block 2.
      * @param endIndex2 Index of end of block 2.
      */
-    public static void swapBlocks(int [] array, int startIndex1, int endIndex1, int startIndex2, int endIndex2){
+    private static void swapBlocks(int [] array, int startIndex1, int endIndex1,
+                                  int startIndex2, int endIndex2){
         int [] tempArray = new int [endIndex1 - startIndex1 + 1];
 
         //Hold the first block in a temp array
