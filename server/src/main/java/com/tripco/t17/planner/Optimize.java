@@ -158,8 +158,8 @@ public class Optimize {
     }
 
     private static int deltaDistance(int i, int k){
-        return -dis(optArray, i, i+1)-dis(optArray, k,k+1)+
-          dis(optArray, i,k)+dis(optArray,i+1,k+1);
+        return -dis(optArray, i, i+1) - dis(optArray, k,k+1)
+          + dis(optArray, i,k) + dis(optArray,i+1,k+1);
     }
 
     /**
@@ -237,51 +237,51 @@ public class Optimize {
      * @return distance of the legs added.
      */
     private static int currentDistance(int [] optArray, int i, int j, int k) {
-        return dis(optArray, i, i+1) +
-          dis(optArray, j, j+1) +
-          dis(optArray, k, k+1);
+        return dis(optArray, i, i+1)
+          + dis(optArray, j, j+1)
+          + dis(optArray, k, k+1);
     }
 
     private static int caseOneDistance(int [] optArray, int i, int j, int k){
-        return dis(optArray, i, k) +
-          dis(optArray, j+1, j) +
-          dis(optArray, i+1, k+1);
+        return dis(optArray, i, k)
+          + dis(optArray, j+1, j)
+          + dis(optArray, i+1, k+1);
     }
 
     private static int caseTwoDistance(int [] optArray, int i, int j, int k){
-        return dis(optArray, i, j) +
-          dis(optArray, i+1, j+1) +
-          dis(optArray, k, k+1);
+        return dis(optArray, i, j) 
+          + dis(optArray, i+1, j+1)
+          + dis(optArray, k, k+1);
     }
 
     private static int caseThreeDistance(int [] optArray, int i, int j, int k){
-        return dis(optArray, i, i+1) +
-          dis(optArray, j, k) +
-          dis(optArray, j+1, k+1);
+        return dis(optArray, i, i+1)
+          + dis(optArray, j, k)
+          + dis(optArray, j+1, k+1);
     }
 
     private static int caseFourDistance(int [] optArray, int i, int j, int k){
-        return dis(optArray, i, j) +
-          dis(optArray, i+1, k) +
-          dis(optArray, j+1, k+1);
+        return dis(optArray, i, j)
+          + dis(optArray, i+1, k)
+          + dis(optArray, j+1, k+1);
     }
 
     private static int caseFiveDistance(int [] optArray, int i, int j, int k){
-        return dis(optArray, i, k) +
-          dis(optArray, j+1, i+1) +
-          dis(optArray, j, k+1);
+        return dis(optArray, i, k)
+          + dis(optArray, j+1, i+1)
+          + dis(optArray, j, k+1);
     }
 
     private static int caseSixDistance(int [] optArray, int i, int j, int k){
-        return dis(optArray, i, j+1) +
-          dis(optArray, k, j) +
-          dis(optArray, i+1, k+1);
+        return dis(optArray, i, j+1)
+          + dis(optArray, k, j)
+          + dis(optArray, i+1, k+1);
     }
 
     private static int caseSevenDistance(int [] optArray, int i, int j, int k){
-        return dis(optArray, i, j+1) +
-          dis(optArray, k, i+1) +
-          dis(optArray, j, k+1);
+        return dis(optArray, i, j+1)
+          + dis(optArray, k, i+1)
+          + dis(optArray, j, k+1);
     }
 
     /**
