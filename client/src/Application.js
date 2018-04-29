@@ -46,6 +46,7 @@ class Application extends Component {
       }
     };
     this.doTheConfig();
+    this.updateHostAndPort = this.updateHostAndPort.bind(this);
     this.updateTrip = this.updateTrip.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
@@ -63,6 +64,30 @@ class Application extends Component {
    */
   updateQuery(query) {
     this.setState({query});
+  }
+
+  /**
+   * Updates trip.title
+   */
+  updateTitle(title) {
+    let trip = this.state.trip;
+    trip.title = title;
+    this.setState({trip});
+    console.log("Title:" + this.state.trip.title);
+  }
+
+  updateHostAndPort(host, port){
+    console.log("\nApplication.js is updating host and portname...");
+    console.log("hostname will be: " + host);
+    console.log("port will be: " + port);
+
+    this.setState({
+      hostname: host,
+      port: port});
+
+    console.log("\nApplication.js has updated...");
+    console.log("hostname is: " + this.state.hostname);
+    console.log("port is: " + this.state.port);
   }
 
   /**
@@ -94,16 +119,6 @@ class Application extends Component {
     }
   }
 
-  /**
-   * Updates trip.title
-   */
-  updateTitle(title) {
-    let trip = this.state.trip;
-    trip.title = title;
-    this.setState({trip});
-    console.log("Title:" + this.state.trip.title);
-  }
-
   render() {
     return <div id="application" className="cardBody">
       <div className="row">
@@ -120,6 +135,7 @@ class Application extends Component {
                    distance={this.state.trip.options.distance}
                    hostname={this.state.hostname}
                    port={this.state.port}
+                   updateHostAndPort={this.updateHostAndPort}
                    updateTrip={this.updateTrip}/>
         </div>
         <div className="col-12">

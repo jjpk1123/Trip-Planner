@@ -22,6 +22,7 @@ class Options extends Component {
     this.modalSubmit = this.modalSubmit.bind(this);
     this.updateCustomUnit = this.updateCustomUnit.bind(this);
     this.updateCustomRadius = this.updateCustomRadius.bind(this);
+    this.formSubmit = this.formSubmit.bind(this);
     this.optCardHeader = <h5 className="card-header text-white" style={{backgroundColor: "#1E4D28"}}>
       Options
     </h5>;
@@ -48,7 +49,11 @@ class Options extends Component {
   }
 
   formSubmit(e){
-    console.log(e.target.value);
+    console.log("hostname will be: " + e.target.form[0].value);
+    console.log("port will be: " + e.target.form[1].value);
+    let host = e.target.form[0].value;
+    let port = e.target.form[1].value;
+    this.props.updateHostAndPort(host, port);
   }
 
   modalSubmit() {
@@ -244,7 +249,7 @@ class Options extends Component {
         <Input type = "text" name = "port" id="port" defaultValue={this.props.port}  />
 
       </FormGroup>
-      <Button style={{backgroundColor: "#59595b"}} onClick={this.formSubmit}>Submit</Button>
+      <Button style={{backgroundColor: "#1E4D28"}} onClick={this.formSubmit}>Submit</Button>
     </Form>;
 
 
