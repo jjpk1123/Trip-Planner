@@ -46,10 +46,10 @@ class Application extends Component {
       }
     };
     this.doTheConfig();
-    this.updateHostAndPort = this.updateHostAndPort.bind(this);
     this.updateTrip = this.updateTrip.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
+    this.updateHostAndPort = this.updateHostAndPort.bind(this);
   }
 
   /**
@@ -80,21 +80,23 @@ class Application extends Component {
     console.log("\nApplication.js is updating host and portname...");
     console.log("hostname will be: " + host);
     console.log("port will be: " + port);
-
     this.setState({
       hostname: host,
-      port: port});
-
+      port: port
+    }, function(){
     console.log("\nApplication.js has updated...");
     console.log("hostname is: " + this.state.hostname);
     console.log("port is: " + this.state.port);
+    }, this.doTheConfig() //After changing the port/host need to config again
+    );
   }
 
   /**
    * Sends a request file to server.
    */
   fetchConfigResponse() {
-    return fetch('http://' + location.host + '/config', {
+    return fetch('http://' + this.state.props.hostname + ':' + this.state.props.port
+      + '/config', {
       method: "GET",
       header: {'Access-Control-Allow-Origin': '*'}
     });
@@ -126,6 +128,8 @@ class Application extends Component {
           <Destinations trip={this.state.trip}
                         query={this.state.query}
                         places={this.state.trip.places}
+                        hostname={this.state.hostname}
+                        port={this.state.port}
                         updateTrip={this.updateTrip}
                         updateQuery={this.updateQuery} />
         </div>
@@ -142,6 +146,8 @@ class Application extends Component {
           <Trip trip={this.state.trip}
                 title={this.state.trip.title}
                 config={this.state.config}
+                hostname={this.state.hostname}
+                port={this.state.port}
                 updateTrip={this.updateTrip}
                 updateTitle={this.updateTitle}/>
         </div>

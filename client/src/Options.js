@@ -279,7 +279,6 @@ class Options extends Component {
 
         <div className="col">
           <div className="card-body">
-            <h6 className="card-title">Change host or port name:</h6>
             <div>
               {portForm}
             </div>

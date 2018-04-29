@@ -29,7 +29,7 @@ class Query extends Component {
     console.log(process.env.SERVICE_URL);
     console.log(requestBody);
 
-    return fetch('http://' + location.host + '/query', {
+    return fetch('http://' +  this.props.hostname + ':' + this.props.port  + '/query', {
       method:"POST",
       body: JSON.stringify(requestBody)
     });

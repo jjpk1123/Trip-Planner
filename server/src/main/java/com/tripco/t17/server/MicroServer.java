@@ -133,7 +133,7 @@ public class MicroServer {
     private String query(Request request, Response response){
 
     response.type("application/json");
-      response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Origin", "*");
     return (new Search(request)).getQuery();
   }
 }
