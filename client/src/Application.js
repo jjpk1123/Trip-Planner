@@ -95,7 +95,7 @@ class Application extends Component {
    * Sends a request file to server.
    */
   fetchConfigResponse() {
-    return fetch('http://' + this.state.props.hostname + ':' + this.state.props.port
+    return fetch('http://' + this.state.hostname + ':' + this.state.port
       + '/config', {
       method: "GET",
       header: {'Access-Control-Allow-Origin': '*'}
@@ -128,8 +128,8 @@ class Application extends Component {
           <Destinations trip={this.state.trip}
                         query={this.state.query}
                         places={this.state.trip.places}
-                        hostname={this.state.hostname}
-                        port={this.state.port}
+                       // hostname={this.state.hostname}
+                       // port={this.state.port}
                         updateTrip={this.updateTrip}
                         updateQuery={this.updateQuery} />
         </div>
