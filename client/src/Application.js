@@ -11,6 +11,8 @@ class Application extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      hostname: location.hostname,
+      port: location.port,
       trip: { // trip TFFI
         version: 1,
         type: "",
@@ -68,7 +70,8 @@ class Application extends Component {
    */
   fetchConfigResponse() {
     return fetch('http://' + location.host + '/config', {
-      method: "GET"
+      method: "GET",
+      header: {'Access-Control-Allow-Origin': '*'}
     });
   }
 
@@ -115,6 +118,8 @@ class Application extends Component {
           <Options trip={this.state.trip}
                    config={this.state.config}
                    distance={this.state.trip.options.distance}
+                   hostname={this.state.hostname}
+                   port={this.state.port}
                    updateTrip={this.updateTrip}/>
         </div>
         <div className="col-12">

@@ -47,6 +47,10 @@ class Options extends Component {
     });
   }
 
+  formSubmit(e){
+    console.log(e.target.value);
+  }
+
   modalSubmit() {
     let temp = this.props.trip;
     temp.options.userUnit = this.state.customUnit;
@@ -225,10 +229,23 @@ class Options extends Component {
         </ModalBody>
         <ModalFooter>
           <Button style={{backgroundColor: "#1E4D28"}} onClick={this.modalSubmit}>Submit</Button>{' '}
-          <Button style={{backgroundColor: "#59595b"}}   onClick={this.modalCancel}>Cancel</Button>
+          <Button style={{backgroundColor: "#59595b"}} onClick={this.modalCancel}>Cancel</Button>
         </ModalFooter>
       </Modal>
     </div>;
+
+    const portForm = <Form>
+      <FormGroup>
+        <Label for = "hostName">Change host name</Label>
+        <Input type = "text" name = "hostName" id="hostName" defaultValue={this.props.hostname} />
+      </FormGroup>
+      <FormGroup>
+        <Label for = "port">Change port number</Label>
+        <Input type = "text" name = "port" id="port" defaultValue={this.props.port}  />
+
+      </FormGroup>
+      <Button style={{backgroundColor: "#59595b"}} onClick={this.formSubmit}>Submit</Button>
+    </Form>;
 
 
     return <div id="options" className="card">
@@ -251,6 +268,15 @@ class Options extends Component {
               <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
                      value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
               <h6>Length: <b>{this.retrieveOptimizationString()}</b></h6>
+            </div>
+          </div>
+        </div>
+
+        <div className="col">
+          <div className="card-body">
+            <h6 className="card-title">Change host or port name:</h6>
+            <div>
+              {portForm}
             </div>
           </div>
         </div>
