@@ -77,17 +77,16 @@ class Application extends Component {
   }
 
   updateHostAndPort(host, port){
-    console.log("\nApplication.js is updating host and portname...");
-    console.log("hostname will be: " + host);
-    console.log("port will be: " + port);
     this.setState({
       hostname: host,
       port: port
-    }, function(){
-    console.log("\nApplication.js has updated...");
-    console.log("hostname is: " + this.state.hostname);
-    console.log("port is: " + this.state.port);
-    }, this.doTheConfig() //After changing the port/host need to config again
+    }, this.doTheConfig(), //After changing the port/host need to config again
+      function() {
+        console.log("\nApplication.js has updated...");
+        console.log("hostname is: " + this.state.hostname);
+        console.log("port is: " + this.state.port);
+        console.log("config: " + this.state.config);
+      }
     );
   }
 
@@ -128,8 +127,8 @@ class Application extends Component {
           <Destinations trip={this.state.trip}
                         query={this.state.query}
                         places={this.state.trip.places}
-                       // hostname={this.state.hostname}
-                       // port={this.state.port}
+                        hostname={this.state.hostname}
+                        port={this.state.port}
                         updateTrip={this.updateTrip}
                         updateQuery={this.updateQuery} />
         </div>
