@@ -12,7 +12,7 @@
 * Product Increment release `v5.0` created on GitHub with appropriate version number and name, a description based on the Release Notes template, and the archived files.
 * Version in pom.xml should be `<version>5.0</version>`.
 * Javadoc and unit tests for public methods.
-* Coverage at least (60%) overall and for each class.
+* Coverage at least (60%) overall.
 * Keep code maintainability at an (B) average.
 
 ## Policies
@@ -31,12 +31,8 @@
 
 Epics planned for this release.
 
-* #210 Zoom and Pan the maps
-* #279 View trip in other tools
-* #209 Filtered searches
 * #273 Interop
 * #274 Shorter trips
-* #275 Staff page
 * #278 Update the User Interface
 
 * Our last two sprints we have completed around 35-40 storypoints as a team, and we believe this is a good estimation of our ability. However, we believe that previously we were overestimating our ability, thus underestimating our storypoints. I believe we are probably doing more like 50 storypoints but underestimating how long things take and not adjusting it. For this sprint, we decided to go with the strategy of promising less than we think we can do, and adding things if our velocity is faster than expected.
@@ -45,16 +41,20 @@ Epics planned for this release.
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  *20*   | *0*
-Story Points |  *41*  | *0*
+Tasks |  *10*   | *9*
+Story Points |  *21*  | *19*
 
 ## Daily Scrums
 
 Date | Tasks done  | Tasks in progress | Impediments
 :--- | :--- | :--- | :---
 4/17/2018 | | #293, #213, #208 | 
-4/19/2018 | #293 | #213, #208, #294, #295, #300 | 
-4/22/2018 | #294, #295, #300 | #213, #208, #282 | 
+4/19/2018 | #293, #208 | #213, #208, #294, #295, #300 | 
+4/22/2018 | #294, #295, #300 | #312, #208, #282 | 
+4/24/2018 | #282 | #312, #208,  #296 | 
+4/26/2018 | #312, #296  | #285, #286 | 
+4/29/2018 | #285, #286  | #287 | 
+5/01/2018 |  |  | 
  
 ## Review
 
