@@ -11,6 +11,8 @@ class Application extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      hostname: location.hostname,
+      port: location.port,
       trip: { // trip TFFI
         version: 1,
         type: "",
@@ -47,6 +49,7 @@ class Application extends Component {
     this.updateTrip = this.updateTrip.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
+    this.updateHostAndPort = this.updateHostAndPort.bind(this);
   }
 
   /**
@@ -64,11 +67,38 @@ class Application extends Component {
   }
 
   /**
+   * Updates trip.title
+   */
+  updateTitle(title) {
+    let trip = this.state.trip;
+    trip.title = title;
+    this.setState({trip});
+    console.log("Title:" + this.state.trip.title);
+  }
+
+  updateHostAndPort(host, port){
+    this.setState({
+      hostname: host,
+      port: port
+    }, function() {
+        console.log("\nApplication.js has updated...");
+        console.log("hostname is: " + this.state.hostname);
+        console.log("port is: " + this.state.port);
+      }
+    );
+    this.doTheConfig(); //After changing the port/host need to config again
+    console.log("config: ");
+    console.log(this.state.config);
+  }
+
+  /**
    * Sends a request file to server.
    */
   fetchConfigResponse() {
-    return fetch('http://' + location.host + '/config', {
-      method: "GET"
+    return fetch('http://' + this.state.hostname + ':' + this.state.port
+      + '/config', {
+      method: "GET",
+      header: {'Access-Control-Allow-Origin': '*'}
     });
   }
 
@@ -91,16 +121,6 @@ class Application extends Component {
     }
   }
 
-  /**
-   * Updates trip.title
-   */
-  updateTitle(title) {
-    let trip = this.state.trip;
-    trip.title = title;
-    this.setState({trip});
-    console.log("Title:" + this.state.trip.title);
-  }
-
   render() {
     return <div id="application" className="cardBody">
       <div className="row">
@@ -108,6 +128,8 @@ class Application extends Component {
           <Destinations trip={this.state.trip}
                         query={this.state.query}
                         places={this.state.trip.places}
+                        hostname={this.state.hostname}
+                        port={this.state.port}
                         updateTrip={this.updateTrip}
                         updateQuery={this.updateQuery} />
         </div>
@@ -115,12 +137,17 @@ class Application extends Component {
           <Options trip={this.state.trip}
                    config={this.state.config}
                    distance={this.state.trip.options.distance}
+                   hostname={this.state.hostname}
+                   port={this.state.port}
+                   updateHostAndPort={this.updateHostAndPort}
                    updateTrip={this.updateTrip}/>
         </div>
         <div className="col-12">
           <Trip trip={this.state.trip}
                 title={this.state.trip.title}
                 config={this.state.config}
+                hostname={this.state.hostname}
+                port={this.state.port}
                 updateTrip={this.updateTrip}
                 updateTitle={this.updateTitle}/>
         </div>

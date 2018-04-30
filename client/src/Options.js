@@ -22,6 +22,7 @@ class Options extends Component {
     this.modalSubmit = this.modalSubmit.bind(this);
     this.updateCustomUnit = this.updateCustomUnit.bind(this);
     this.updateCustomRadius = this.updateCustomRadius.bind(this);
+    this.formSubmit = this.formSubmit.bind(this);
     this.optCardHeader = <h5 className="card-header text-white" style={{backgroundColor: "#1E4D28"}}>
       Options
     </h5>;
@@ -45,6 +46,14 @@ class Options extends Component {
     this.setState({
       modal: !this.state.modal
     });
+  }
+
+  formSubmit(e){
+    console.log("hostname will be: " + e.target.form[0].value);
+    console.log("port will be: " + e.target.form[1].value);
+    let host = e.target.form[0].value;
+    let port = e.target.form[1].value;
+    this.props.updateHostAndPort(host, port);
   }
 
   modalSubmit() {
@@ -225,10 +234,23 @@ class Options extends Component {
         </ModalBody>
         <ModalFooter>
           <Button style={{backgroundColor: "#1E4D28"}} onClick={this.modalSubmit}>Submit</Button>{' '}
-          <Button style={{backgroundColor: "#59595b"}}   onClick={this.modalCancel}>Cancel</Button>
+          <Button style={{backgroundColor: "#59595b"}} onClick={this.modalCancel}>Cancel</Button>
         </ModalFooter>
       </Modal>
     </div>;
+
+    const portForm = <Form>
+      <FormGroup>
+        <Label for = "hostName">Change host name</Label>
+        <Input type = "text" name = "hostName" id="hostName" defaultValue={this.props.hostname} />
+      </FormGroup>
+      <FormGroup>
+        <Label for = "port">Change port number</Label>
+        <Input type = "text" name = "port" id="port" defaultValue={this.props.port}  />
+
+      </FormGroup>
+      <Button style={{backgroundColor: "#1E4D28"}} onClick={this.formSubmit}>Submit</Button>
+    </Form>;
 
 
     return <div id="options" className="card">
@@ -251,6 +273,14 @@ class Options extends Component {
               <input type="range" className="slider" min="0" max="99" step="1" id="myRange"
                      value={this.retrieveOptimizationValue()} onChange={this.changeOptimization}/>
               <h6>Length: <b>{this.retrieveOptimizationString()}</b></h6>
+            </div>
+          </div>
+        </div>
+
+        <div className="col">
+          <div className="card-body">
+            <div>
+              {portForm}
             </div>
           </div>
         </div>

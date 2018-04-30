@@ -37,8 +37,9 @@ class Trip extends Component {
     //console.log(process.env.SERVICE_URL);
     //console.log("RQ:" + requestBody);
 
-    return fetch('http://' + location.host + '/plan', {
+    return fetch('http://' + this.props.hostname + ':' + this.props.port + '/plan', {
       method: "POST",
+      header: {'Access-Control-Allow-Origin': '*'},
       body: JSON.stringify(requestBody)
     });
   }
