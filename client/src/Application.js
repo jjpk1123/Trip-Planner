@@ -80,14 +80,15 @@ class Application extends Component {
     this.setState({
       hostname: host,
       port: port
-    }, this.doTheConfig(), //After changing the port/host need to config again
-      function() {
+    }, function() {
         console.log("\nApplication.js has updated...");
         console.log("hostname is: " + this.state.hostname);
         console.log("port is: " + this.state.port);
-        console.log("config: " + this.state.config);
       }
     );
+    this.doTheConfig(); //After changing the port/host need to config again
+    console.log("config: ");
+    console.log(this.state.config);
   }
 
   /**
