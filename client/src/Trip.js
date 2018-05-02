@@ -14,7 +14,7 @@ class Trip extends Component {
     this.state = {
       computedNN   : false,
       computed2opt : false,
-      // computed3opt : false
+      computed3opt : false
     };
     this.plan = this.plan.bind(this);
     this.saveTFFI = this.saveTFFI.bind(this);
@@ -37,8 +37,9 @@ class Trip extends Component {
     //console.log(process.env.SERVICE_URL);
     //console.log("RQ:" + requestBody);
 
-    return fetch('http://' + location.host + '/plan', {
+    return fetch('http://' + this.props.hostname + ':' + this.props.port + '/plan', {
       method: "POST",
+      header: {'Access-Control-Allow-Origin': '*'},
       body: JSON.stringify(requestBody)
     });
   }
@@ -74,18 +75,18 @@ class Trip extends Component {
     let slider = parseFloat(this.props.trip.options.optimization);
     let breakPoint = 1.0 / (this.props.config.optimization + 1);
 
-    if (slider < breakPoint) { // [0.0, 0.3333) = No Opt
+    if (slider < breakPoint) { // [0.0, 0.25) = No Opt
       // do nothing
     }
-    if (slider >= breakPoint) { // [0.3333, 0.6666) = NN
+    if (slider >= breakPoint) { // [0.25, 0.5) = NN
       this.setState({computedNN : true});
     }
-    if (slider >= 2*breakPoint && slider <= 3*breakPoint) { // [.6666, 1.0] = 2-opt
+    if (slider >= 2*breakPoint && slider < 3*breakPoint) { // [0.5, 0.75] = 2-opt
       this.setState({computed2opt : true});
     }
-    // if (slider >= 3*breakPoint && slider <= 4*breakPoint) { // [0.75, 1.0] = 3 opt
-    //     this.setState({computed3opt: true});
-    // }
+    if (slider >= 3*breakPoint && slider <= 4*breakPoint) { // [0.75, 1.0] = 3 opt
+        this.setState({computed3opt: true});
+    }
   }
 
   static resetState() {
@@ -93,7 +94,7 @@ class Trip extends Component {
     this.setState({
       computedNN: false,
       computed2opt: false,
-      // computed3opt: false,
+      computed3opt: false,
     });
   }
 

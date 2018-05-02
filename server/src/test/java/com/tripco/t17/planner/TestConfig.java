@@ -25,16 +25,16 @@ public class TestConfig {
         this.config.type = "config";
         this.config.version = 3;
 
-/*        this.config.filters = new Dictionary[1];
+        this.config.filters = new Dictionary[1];
         Dictionary<String, Object> filterDict = new Hashtable<>();
-        filterDict.put("attribute", "type");
-        String[] valuesArr = {"balloonport", "heliport", "airport"};
-        filterDict.put("values", valuesArr);
-        this.config.filters[0] = filterDict; */
+        //filterDict.put("attribute", "type");
+        //String[] valuesArr = {"balloonport", "heliport", "airport"};
+        //filterDict.put("values", valuesArr);
+        this.config.filters[0] = filterDict;
 
         this.config.maps = new String[]{"svg"};         // {"svg", "kml"}
-        this.config.optimization = 2;                   // 2 // 3
-        this.config.optimizations = new Dictionary[3];  // 3 // 4
+        this.config.optimization = 3;
+        this.config.optimizations = new Dictionary[4];
 
         Dictionary<String, String> optDict = new Hashtable<>();
         optDict.put("label", "No optimization");
@@ -43,18 +43,19 @@ public class TestConfig {
 
         optDict = new Hashtable<>();
         optDict.put("label", "Nearest Neighbor");
-        optDict.put("description", "Shorter");          // 3-opt="Short"
+        optDict.put("description", "Short");
         this.config.optimizations[1] = optDict;
 
         optDict = new Hashtable<>();
         optDict.put("label", "2-opt");
-        optDict.put("description", "Shortest");         // 3-opt = "Shorter"
+        optDict.put("description", "Shorter");
         this.config.optimizations[2] = optDict;
 
-//        optDict = new Hashtable<>();
-//        optDict.put("label", "3-opt");
-//        optDict.put("description", "Shortest");
-//        this.config.optimizations[3] = optDict;
+        optDict = new Hashtable<>();
+        optDict.put("label", "3-opt");
+        optDict.put("description", "Shortest");
+        this.config.optimizations[3] = optDict;
+      
         this.config.units = new String[]{"kilometers", "miles", "nautical miles", "user defined"};
     }
 
@@ -85,7 +86,7 @@ public class TestConfig {
 
     @Test
     public void testConfigOptimization() {
-        assertEquals(2, this.config.optimization);
+        assertEquals(3, this.config.optimization);
     }
 
     @Test
@@ -94,13 +95,13 @@ public class TestConfig {
         assertEquals("Longest", this.config.optimizations[0].get("description"));
 
         assertEquals("Nearest Neighbor", this.config.optimizations[1].get("label"));
-        assertEquals("Shorter", this.config.optimizations[1].get("description"));
+        assertEquals("Short", this.config.optimizations[1].get("description"));
 
         assertEquals("2-opt", this.config.optimizations[2].get("label"));
-        assertEquals("Shortest", this.config.optimizations[2].get("description"));
+        assertEquals("Shorter", this.config.optimizations[2].get("description"));
 
-//        assertEquals("3-opt", this.config.optimizations[3].get("label"));
-//        assertEquals("Shortest", this.config.optimizations[3].get("description"));
+        assertEquals("3-opt", this.config.optimizations[3].get("label"));
+        assertEquals("Shortest", this.config.optimizations[3].get("description"));
 
     }
 
@@ -121,7 +122,7 @@ public class TestConfig {
         Config expectedConfig = new Config();
         expectedConfig.type = "config";
         expectedConfig.version = 3;
-        expectedConfig.optimization = 2;
+        expectedConfig.optimization = 3;
         Gson gson = new Gson();
         String expected = gson.toJson(this.config);
 
@@ -133,6 +134,6 @@ public class TestConfig {
      */
     @Test
     public void testConfigGetOptimizationLevels() {
-        assertEquals(3, Config.getOptimizationLevels());
+        assertEquals(4, Config.getOptimizationLevels());
     }
 }

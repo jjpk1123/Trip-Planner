@@ -103,8 +103,9 @@ class Itinerary extends Component {
   destsConcatFinal(dests) {
     let start = this.props.trip.places[0].name;
     let myArray = [start];
-    let endingCol = myArray.map((item) => <td key={"dest_n"} className={"text-white"}
-                                              style={{backgroundColor: "#1E4D28"}}>{item}</td>);
+    let endingCol = myArray.map((item) =>
+      <td className = " text-white" style={{backgroundColor: "#1E4D28"}}
+          key={"dest_n"}>{item}</td>);
     return dests.concat(endingCol);//adds to the end of dests row
   }
 
@@ -144,6 +145,67 @@ class Itinerary extends Component {
   }
 
   /**
+   * Prints out which Algorithm is being used (if > No optimization)
+   */
+  retrieveAlgorithm() {
+    let highestOpt = this.higherOptimization();
+    if (highestOpt > this.props.trip.options.optimization) {
+      return this.restOfTheString(highestOpt);
+    }
+
+    if (this.props.trip.options.optimization === "none") {
+      return this.restOfTheString(0);
+    }
+    let slider = parseFloat((this.props.trip).options.optimization);
+    let breakPoint = 1.0 / (this.props.config.optimization + 1);
+
+    if (slider < breakPoint) {
+      return this.restOfTheString(0); // No optimization
+    }
+    else if (slider >= breakPoint && slider < 2*breakPoint) {
+      return this.restOfTheString(1); // NN
+    }
+    else if (slider >= 2*breakPoint && slider < 3*breakPoint) {
+      return this.restOfTheString(2); // 2 opt
+    }
+    else if (slider >= 3*breakPoint && slider < 4*breakPoint) {
+      return this.restOfTheString(3); // 3 opt
+    }
+  }
+
+  /**
+   * If No optimization, returns the default string
+   * Else, prints which algorithm it computed the trip with
+   */
+  restOfTheString(index) {
+    if (index === 0) {
+      return "order provided in the file";
+    }
+    return ((this.props.config).optimizations[index])["label"] + " algorithm";
+  }
+
+  /**
+   * Returns the highest opt level computed. I only do this, because we do NOT
+   * make the trip longer once an optimization level is "planned".
+   * Ex: slider=0.1 > Plan > Feel free to upgrade
+   *     slider=0.9 > Plan > slider=0.0 > Plan (does not make the trip longer)
+   */
+  higherOptimization() {
+    if (this.props.state.computed3opt === true) {
+      return 3;
+    }
+    if (this.props.state.computed2opt === true) {
+      return 2;
+    }
+    else if (this.props.state.computedNN) { // (true==true) evaluates to true
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }
+
+  /**
    * Renders the table block located under the <Map>
    */
   render() {
@@ -159,16 +221,19 @@ class Itinerary extends Component {
         </thead>
         <tbody>
         <tr>
-          <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>{this.unitsString}</th>
+          <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>
+            {this.unitsString}</th>
           {table.dists}
         </tr>
         <tr>
-          <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>Cumulative</th>
+          <th className="table-info align-middle text-white" style={{backgroundColor: "#1E4D28"}}>
+            Cumulative</th>
           {table.cumul}
         </tr>
         </tbody>
       </table>
-      <h4>Round-trip distance of <b>{this.getRoundTripDistance()} {table.units}. </b></h4>
+      <h4>Round-trip distance of <b>{this.getRoundTripDistance()} {table.units}.</b></h4>
+      <p><small>Computed using the <b>{this.retrieveAlgorithm()}.</b></small></p>
     </div>
   }
 }

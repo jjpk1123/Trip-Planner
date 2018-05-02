@@ -107,7 +107,7 @@ public class MicroServer {
   private String config(Request request, Response response) {
 
     response.type("application/json");
-
+    response.header("Access-Control-Allow-Origin", "*");
     return (new ConfigHelper()).getConfig();
   }
 
@@ -120,7 +120,7 @@ public class MicroServer {
   private String plan(Request request, Response response) {
 
     response.type("application/json");
-
+    response.header("Access-Control-Allow-Origin", "*");
     return (new Plan(request)).getTrip();
   }
 
@@ -133,7 +133,7 @@ public class MicroServer {
     private String query(Request request, Response response){
 
     response.type("application/json");
-
+    response.header("Access-Control-Allow-Origin", "*");
     return (new Search(request)).getQuery();
   }
 }

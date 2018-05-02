@@ -266,8 +266,6 @@ class Destinations extends Component {
     return retBool;
   }
 
-
-
   /**
    * Inserts {"distances": []} if distances element is not provided in file
    */
@@ -317,7 +315,8 @@ class Destinations extends Component {
           <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
             <Query  trip={this.props.trip}
                     query={this.props.query}
-                    config={this.props.config}
+                    hostname={this.props.hostname}
+                    port={this.props.port}
                     updateTrip={this.props.updateTrip}
                     updateQuery={this.props.updateQuery}/>
           </div>
