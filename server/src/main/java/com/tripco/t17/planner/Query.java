@@ -22,7 +22,7 @@ public class Query{
     public String type;
     public int limit;
     public String query;
-    public ArrayList<Filter> filters;
+    public Filter[] filters;
     public ArrayList<Place> places;
 
 /*
@@ -49,10 +49,11 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
                 + "INNER JOIN country ON continents.id = country.continent "
                 + "INNER JOIN region ON country.id = region.iso_country "
                 + "INNER JOIN airports ON region.id = airports.iso_region ";
+
         count      += tableFormat;
         searchName += tableFormat;
 
-//        if (filters.size() == 0) {
+        if (filters.length == 0) {
             String search = "WHERE (country.name like '%" + query + "%') "
                     + "OR (region.name like '%" + query + "%') "
                     + "OR (airports.name like '%" + query + "%') "
@@ -61,29 +62,28 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
 
             count      += search;
             searchName += search;
-//        }
-//        else {
-//            for (int i = 0; i < filters.size(); ++i) {
-//                String where = "";
-//                Dictionary dict = filters.get(i);
-////                Object values = dict.get("value");
-//                List<String> values = dict.get("value");
-//
-//                if (dict.get("attribute") == "type") {
-//                    //where = retrieveWhere("airports.type", values, i);
-//                }
-//                else if (dict.get("attribute") == "continent") {
-//                    //where = retrieveWhere("continents.name", values, i);
-//                }
-//                else if (dict.get("attribute") == "")
-//                count      += where;
-//                searchName += where;
-//            }
-//        }
+        }
+        else {
+            for (int i = 0; i < filters.length; ++i) {
+                String where = "";
+                Filter f = filters[i];
+                String a = f.attribute;
+                String[] v = f.values;
+
+                if (a.equals("type")) {
+                    where = retrieveWhere("airports.type", v, i);
+                }
+                else if (a.equals("continent")) {
+                    where = retrieveWhere("continents.name", v, i);
+                }
+                count      += where;
+                searchName += where;
+            }
+        }
 
         count += ";";
-        searchName += " ORDER BY continents.name, country.name, region.name, airports.municipality,"
-                + " airports.name ASC;";
+        searchName += " ORDER BY continents.name, country.name, region.name,"
+            + " airports.municipality, airports.name ASC;";
 
         try {
             Class.forName(myDriver);

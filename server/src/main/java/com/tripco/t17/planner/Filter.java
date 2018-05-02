@@ -4,6 +4,6 @@ import java.util.ArrayList;
 
 public class Filter {
     String attribute;
-    ArrayList<String> values;
+    String[] values;
 
 }

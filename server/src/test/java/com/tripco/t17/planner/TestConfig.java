@@ -23,12 +23,18 @@ public class TestConfig {
         this.config.type = "config";
         this.config.version = 3;
 
-        this.config.filters = new ArrayList<>();
+        this.config.filters = new Filter[1];
         Filter fDict = new Filter();
         fDict.attribute = "type";
-        fDict.values = new ArrayList<> (Arrays.asList("balloonport", "heliport", "small_airport",
-                "seaplane_base", "closed", "medium_airport", "large_airport"));
-        this.config.filters.add(fDict);
+        fDict.values = new String[7];
+        fDict.values[0] = "balloonport";
+        fDict.values[1] = "heliport";
+        fDict.values[2] = "small_airport";
+        fDict.values[3] = "seaplane_base";
+        fDict.values[4] = "closed";
+        fDict.values[5] = "medium_airport";
+        fDict.values[6] = "large_airport";
+        this.config.filters[0] = fDict;
 
         this.config.maps = new String[]{"svg"};         // {"svg", "kml"}
         this.config.optimization = 3;

@@ -7,9 +7,9 @@ import { Form, FormGroup, Label, Input } from 'reactstrap';
 class Query extends Component {
   constructor(props) {
     super(props);
-    this.query = this.query.bind(this);
+    this.fetchQuery = this.fetchQuery.bind(this);
     //this.dropdownToggle = this.dropdownToggle.bind(this);
-    //this.modalSubmit = this.modalSubmit.bind(this);
+    this.modalSubmit = this.modalSubmit.bind(this);
     this.modalToggle = this.modalToggle.bind(this);
     this.modalCancel = this.modalCancel.bind(this);
     this.addAll = this.addAll.bind(this);
@@ -31,24 +31,18 @@ class Query extends Component {
 
   airportDropdownToggle() {
     this.setState({
-      //customUnit: this.props.trip.options.userUnit,
-      //customRadius: this.props.trip.options.userRadius,
       airportDropdownOpen: !this.state.airportDropdownOpen
     });
   }
 
   continentDropdownToggle() {
     this.setState({
-      //customUnit: this.props.trip.options.userUnit,
-      //customRadius: this.props.trip.options.userRadius,
       continentDropdownOpen: !this.state.continentDropdownOpen
     });
   }
 
   modalToggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
+    this.setState({modal: !this.state.modal});
   }
 
   updateSearch(event) {
@@ -56,11 +50,8 @@ class Query extends Component {
     console.log("Search: " + this.search);
   }
 
-  modalSubmit() {
-    let temp = this.props.query;
-    temp.options.userUnit = this.state.customUnit;
-    temp.options.userRadius = this.state.customRadius;
-    this.props.updateTrip(temp);
+  modalSubmit(event) {
+    let tempTrip = this.props.query;
     this.modalToggle();
   }
 
@@ -85,16 +76,16 @@ class Query extends Component {
     });
   }
 
-  async query() {
+  async fetchQuery() {
     try {
       console.log("Awaiting response from server: Query");
       let serverResponse = await this.fetchQueryResponse();
       let tffi = await serverResponse.json();
       console.log(tffi);
       this.props.updateQuery(tffi);
-      console.log("async query(): fetchResponse is done");
+      console.log("async fetchQuery(): fetchResponse is done");
     } catch(err) {
-      console.error("You hit an error in async query()");
+      console.error("You hit an error in async fetchQuery()");
       console.error(err);
     }
   }
@@ -204,52 +195,30 @@ class Query extends Component {
 
   render() {
     let table = this.createTable();
-
     let unique = 0;
 
-    const filterForm = <Form>
-      <ButtonGroup>
-        <ButtonDropdown isOpen={this.state.airportDropdownOpen} toggle={this.airportDropdownToggle}
-                        data-toggle="buttons" >
-          <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
-            Airport
-          </DropdownToggle>
-          <DropdownMenu>
-            {airportFilters.map((filter) =>
-              <DropdownItem active={this.props.config.filters === filter} value={filter}
-                            key={++unique} >
-                {filter}
-              </DropdownItem>)}
-          </DropdownMenu>
-        </ButtonDropdown>
-      </ButtonGroup>
-        {' '}
-      <ButtonGroup>
-        <ButtonDropdown isOpen={this.state.continentDropdownOpen} toggle={this.continentDropdownToggle}
-                        data-toggle="buttons" >
-          <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
-            Continent
-          </DropdownToggle>
-          <DropdownMenu>
-            {continentFilters.map((filter) =>
-              <DropdownItem active={this.props.config.filters === filter} value={filter}
-                            key={++unique}>
-                {filter}
-              </DropdownItem>)}
-          </DropdownMenu>
-        </ButtonDropdown>
-      </ButtonGroup>
-    </Form>;
+    // const filterForm = <form>
+    //   {this.props.config.filters.map((filter, index) =>
+    //       {<h6> {filter["attribute"]} </h6>},
+    //       {filter.get("values").map((val, index) =>
+    //         <div>
+    //           <input type="checkbox" id={unique++} />
+    //           <label>{filter.get("attribute")}</label>
+    //         </div>)}
+    //   )}
+    // </form>;
+
 
     const filterModal = <div>
       <Button style={{backgroundColor: "#c8c372"}} onClick={this.modalToggle}>Filters</Button>
       <Modal isOpen={this.state.modal} toggle={this.modalToggle} className={this.props.className}>
         <ModalHeader toggle = {this.modalToggle}>Apply your desired filters below.</ModalHeader>
         <ModalBody>
-          {filterForm}
+          {/*{filterForm}*/}
         </ModalBody>
         <ModalFooter>
-          <Button style={{backgroundColor: "#1E4D28"}} onClick={this.modalSubmit}>Submit</Button>{' '}
+          <Button style={{backgroundColor: "#1E4D28"}} onClick={this.modalSubmit}>Submit</Button>
+          {' '}
           <Button style={{backgroundColor: "#59595b"}} onClick={this.modalCancel}>Cancel</Button>
         </ModalFooter>
       </Modal>
@@ -261,7 +230,7 @@ class Query extends Component {
           <input type="text" className="form-control" placeholder="Search the database..."
                  onChange={this.updateSearch} />
           <span className="input-group-btn">
-              <button className="btn text-white" style={{backgroundColor: "#1E4D2B"}} onClick={this.query}
+              <button className="btn text-white" style={{backgroundColor: "#1E4D2B"}} onClick={this.fetchQuery}
                       type="button">Search</button>
             </span>
           {filterModal}
@@ -277,3 +246,36 @@ class Query extends Component {
 }
 
 export default Query;
+
+/*
+    <Form>
+      <ButtonGroup>
+        <ButtonDropdown isOpen={this.state.airportDropdownOpen} toggle={this.airportDropdownToggle} data-toggle="buttons" >
+          <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
+            Airport
+          </DropdownToggle>
+          <DropdownMenu>
+            {f0.map((filter, index) =>
+              <DropdownItem active={this.props.config.filters === filter} value={filter} key={index.toString()}>
+                {filter}
+              </DropdownItem>)}
+          </DropdownMenu>
+        </ButtonDropdown>
+      </ButtonGroup>
+    </Form>;
+      {' '}
+
+      <ButtonGroup>
+        <ButtonDropdown isOpen={this.state.continentDropdownOpen} toggle={this.continentDropdownToggle} data-toggle="buttons" >
+          <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
+            Continent
+          </DropdownToggle>
+          <DropdownMenu>
+            {this.props.config.filters[1].map((filter, index) =>
+              <DropdownItem active={this.props.config.filters === filter} value={filter} key={index}>
+                {filter}
+              </DropdownItem>)}
+          </DropdownMenu>
+        </ButtonDropdown>
+      </ButtonGroup>
+ */

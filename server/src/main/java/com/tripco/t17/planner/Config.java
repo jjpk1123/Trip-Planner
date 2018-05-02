@@ -21,7 +21,7 @@ public class Config {
     // The variables in this class should reflect TFFI.
     public String type;
     public int version;
-    public ArrayList<Filter> filters;
+    public Filter[] filters;
     public String[] maps;
     public int optimization;
     public Dictionary[] optimizations;
@@ -53,31 +53,30 @@ public class Config {
      * Instantiates the filter field and populates it with filters the server can filter
      */
     public void createTheFilterDictionary() {
-        this.filters = new ArrayList<>();
+        this.filters = new Filter[1];
 
         Filter f1 = new Filter();
         f1.attribute = "type";
-        f1.values = new ArrayList<>();
-        f1.values.add("balloonport");
-        f1.values.add("heliport");
-        f1.values.add("small_airport");
-        f1.values.add("seaplane_base");
-        f1.values.add("closed");
-        f1.values.add("medium_airport");
-        f1.values.add("large_airport");
-        this.filters.add(f1);
+        f1.values = new String[7];
+        f1.values[0] = "balloonport";
+        f1.values[1] = "heliport";
+        f1.values[2] = "small_airport";
+        f1.values[3] = "seaplane_base";
+        f1.values[4] = "closed";
+        f1.values[5] = "medium_airport";
+        f1.values[6] = "large_airport";
 
-        Filter f2 = new Filter();
-        f2.attribute = "continents";
-        f2.values = new ArrayList<>();
-        f2.values.add("Africa");
-        f2.values.add("Antarctica");
-        f2.values.add("Asia");
-        f2.values.add("Europe");
-        f2.values.add("North America");
-        f2.values.add("Oceania");
-        f2.values.add("South America");
-        this.filters.add(f2);
+//        Filter f2 = new Filter();
+//        f2.attribute = "continents";
+//        f2.values = new ArrayList<>();
+//        f2.values.add("Africa");
+//        f2.values.add("Antarctica");
+//        f2.values.add("Asia");
+//        f2.values.add("Europe");
+//        f2.values.add("North America");
+//        f2.values.add("Oceania");
+//        f2.values.add("South America");
+//        this.filters.add(f2);
     }
 
     /**
@@ -87,9 +86,9 @@ public class Config {
      */
     public void createTheOptDictionary() {
         this.optimizations = new Dictionary[4];
-        this.optimizations = new Dictionary[4];
-        Dictionary<String, String> optDict = new Hashtable<>();
+        Dictionary<String, String> optDict;
 
+        optDict = new Hashtable<>();
         optDict.put("label", "No optimization");
         optDict.put("description", "Longest");
         this.optimizations[0] = optDict;
