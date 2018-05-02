@@ -204,11 +204,6 @@ class Query extends Component {
 
   render() {
     let table = this.createTable();
-    //Hard coded start
-    const airportFilters = ["balloonport", "heliport", "small_airport",
-      "seaplane_base", "closed", "medium_airport", "large_airport"];
-    const continentFilters = ["Africa", "Antarctica", "Asia",
-      "Europe", "North America", "Oceania", "South America"];
 
     let unique = 0;
 

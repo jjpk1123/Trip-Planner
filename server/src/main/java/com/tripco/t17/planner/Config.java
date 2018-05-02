@@ -55,28 +55,29 @@ public class Config {
     public void createTheFilterDictionary() {
         this.filters = new ArrayList<>();
 
-        Filter f = new Filter();
-        f.attribute = "type";
-        f.values = new ArrayList<>();
-        f.values.add("balloonport");
-        f.values.add("heliport");
-        f.values.add("small_airport");
-        f.values.add("seaplane_base");
-        f.values.add("closed");
-        f.values.add("medium_airport");
-        f.values.add("large_airport");
-        this.filters.add(f);
+        Filter f1 = new Filter();
+        f1.attribute = "type";
+        f1.values = new ArrayList<>();
+        f1.values.add("balloonport");
+        f1.values.add("heliport");
+        f1.values.add("small_airport");
+        f1.values.add("seaplane_base");
+        f1.values.add("closed");
+        f1.values.add("medium_airport");
+        f1.values.add("large_airport");
+        this.filters.add(f1);
 
-        f = new Filter();
-        f.attribute = "continents";
-        f.values.add("Africa");
-        f.values.add("Antarctica");
-        f.values.add("Asia");
-        f.values.add("Europe");
-        f.values.add("North America");
-        f.values.add("Oceania");
-        f.values.add("South America");
-        this.filters.add(f);
+        Filter f2 = new Filter();
+        f2.attribute = "continents";
+        f2.values = new ArrayList<>();
+        f2.values.add("Africa");
+        f2.values.add("Antarctica");
+        f2.values.add("Asia");
+        f2.values.add("Europe");
+        f2.values.add("North America");
+        f2.values.add("Oceania");
+        f2.values.add("South America");
+        this.filters.add(f2);
     }
 
     /**
