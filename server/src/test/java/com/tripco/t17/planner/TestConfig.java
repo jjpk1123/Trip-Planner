@@ -14,23 +14,21 @@ import static org.junit.Assert.assertTrue;
 
 public class TestConfig {
 
-    private ConfigHelper ch;
     private Config config;
 
     @Before
     public void initialize() {
-        this.ch = new ConfigHelper();
         this.config = new Config();
 
         this.config.type = "config";
         this.config.version = 3;
 
-        this.config.filters = new Dictionary[1];
-        Dictionary<String, Object> filterDict = new Hashtable<>();
-        //filterDict.put("attribute", "type");
-        //String[] valuesArr = {"balloonport", "heliport", "airport"};
-        //filterDict.put("values", valuesArr);
-        this.config.filters[0] = filterDict;
+        this.config.filters = new ArrayList<>();
+        Filter fDict = new Filter();
+        fDict.attribute = "type";
+        fDict.values = new ArrayList<> (Arrays.asList("balloonport", "heliport", "small_airport",
+                "seaplane_base", "closed", "medium_airport", "large_airport"));
+        this.config.filters.add(fDict);
 
         this.config.maps = new String[]{"svg"};         // {"svg", "kml"}
         this.config.optimization = 3;

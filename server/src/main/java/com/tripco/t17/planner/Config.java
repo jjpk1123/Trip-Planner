@@ -21,29 +21,21 @@ public class Config {
     // The variables in this class should reflect TFFI.
     public String type;
     public int version;
-    public Dictionary[] filters;
-//    public List<Dictionary> filters;
+    public ArrayList<Filter> filters;
     public String[] maps;
-    public int optimization;
+    static public int optimization;
     public Dictionary[] optimizations;
     public String[] units;
-
-
-    //    optimization of 0 == {No opt]
-    //    optimization of 1 == [No opt, NN]
-    //    optimization of 2 == [No opt, NN, 2-opt]
-    //    optimization of 3 == [No opt, NN, 2-opt, 3-opt]
-
 
     /**
      * Called from REST API. Updates values of the server's configuration file
      */
     public void retrieveValues() {
         this.type = "config";
-        this.version = 3;                               // This value will change over time
+        this.version = 3;
         createTheFilterDictionary();
         this.maps = new String[]{"svg"};//{"svg", "kml"};
-        this.optimization = 3;                          // This value will change over time
+        this.optimization = 3;
         createTheOptDictionary();
         this.units = new String[]{"kilometers", "miles", "nautical miles", "user defined"};
     }
@@ -53,9 +45,7 @@ public class Config {
      * @return optLevel +1
      */
     public static int getOptimizationLevels() {
-        return (3) + 1;                                 // This value will change over time
-        // CS students start at 0
-        // level+1 "normalizes"
+        return Config.optimization + 1;
     }
 
 
@@ -63,25 +53,30 @@ public class Config {
      * Instantiates the filter field and populates it with filters the server can filter
      */
     public void createTheFilterDictionary() {
-        this.filters = new Dictionary[1];//ArrayList<Dictionary>();
-        this.filters = new Dictionary[2];
-        Dictionary<String, Object> filterDict = new Hashtable<>();
+        this.filters = new ArrayList<Filter>();
 
-        String[] typeArr = new String[]{"balloonport", "heliport", "small_airport",
-          "seaplane_base", "closed", "medium_airport", "large_airport"};
-        filterDict.put("values", typeArr);
+        Filter f = new Filter();
+        f.attribute = "type";
+        f.values = new ArrayList<String>();
+        f.values.add("balloonport");
+        f.values.add("heliport");
+        f.values.add("small_airport");
+        f.values.add("seaplane_base");
+        f.values.add("closed");
+        f.values.add("medium_airport");
+        f.values.add("large_airport");
+        this.filters.add(f);
 
-        this.filters[0] = filterDict;
-
-        filterDict = new Hashtable<>();
-
-        filterDict.put("attribute", "continents");
-        String[] contArr = new String[]{"Africa", "Antarctica", "Asia",
-        "Europe", "North America", "Oceania", "South America"};
-
-        filterDict.put("values", contArr);
-
-        this.filters[1] = filterDict;
+        f = new Filter();
+        f.attribute = "continents";
+        f.values.add("Africa");
+        f.values.add("Antarctica");
+        f.values.add("Asia");
+        f.values.add("Europe");
+        f.values.add("North America");
+        f.values.add("Oceania");
+        f.values.add("South America");
+        this.filters.add(f);
     }
 
     /**

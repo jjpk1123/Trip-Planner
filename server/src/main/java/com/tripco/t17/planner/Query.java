@@ -22,8 +22,7 @@ public class Query{
     public String type;
     public int limit;
     public String query;
-    public Dictionary[] filters;
-//    public List<Dictionary> filters;
+    public ArrayList<Filter> filters;
     public ArrayList<Place> places;
 
 /*
@@ -37,8 +36,7 @@ OR (region.name like '%Denver%')
 OR (airports.name like '%Denver%')
 OR (airports.municipality like '%Denver%')
 ORDER BY continents.name, country.name, region.name, airports.municipality, airports.name ASC;
-
- */
+*/
 
     /**
      * The top level method that does searching.
@@ -54,8 +52,7 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
         count      += tableFormat;
         searchName += tableFormat;
 
-//        if (filters.size() == 0) {
-//        if (filters.length == 0) {
+        if (filters.size() == 0) {
             String search = "WHERE (country.name like '%" + query + "%') "
                     + "OR (region.name like '%" + query + "%') "
                     + "OR (airports.name like '%" + query + "%') "
@@ -64,7 +61,7 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
 
             count      += search;
             searchName += search;
-//        }
+        }
 //        else {
 //            for (int i = 0; i < filters.size(); ++i) {
 //                String where = "";
