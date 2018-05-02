@@ -315,7 +315,7 @@ public class TestDistance {
         trip.plan();
 
         ArrayList<Integer> expectedDistances = new ArrayList<>();
-        Collections.addAll(expectedDistances, 195, 158, 157, 61);
+        Collections.addAll(expectedDistances, 61, 148, 158, 149);
         ArrayList<Integer> actualDistances = Distance.legDistances(trip.places, trip.options.distance, "");
         assertEquals(expectedDistances, actualDistances);
     }

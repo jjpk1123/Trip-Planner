@@ -23,7 +23,7 @@ public class Config {
     public int version;
     public ArrayList<Filter> filters;
     public String[] maps;
-    static public int optimization;
+    public int optimization;
     public Dictionary[] optimizations;
     public String[] units;
 
@@ -45,7 +45,7 @@ public class Config {
      * @return optLevel +1
      */
     public static int getOptimizationLevels() {
-        return Config.optimization + 1;
+        return (3) + 1;
     }
 
 
@@ -53,11 +53,11 @@ public class Config {
      * Instantiates the filter field and populates it with filters the server can filter
      */
     public void createTheFilterDictionary() {
-        this.filters = new ArrayList<Filter>();
+        this.filters = new ArrayList<>();
 
         Filter f = new Filter();
         f.attribute = "type";
-        f.values = new ArrayList<String>();
+        f.values = new ArrayList<>();
         f.values.add("balloonport");
         f.values.add("heliport");
         f.values.add("small_airport");
