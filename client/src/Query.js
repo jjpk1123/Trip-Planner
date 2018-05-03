@@ -190,8 +190,8 @@ class Query extends Component {
             }
             else {
               console.log("Removing " + this.state.filters[i]["values"][j] + " from filters['" + att + "'].");
-              delete this.state.filters[i]["values"][j];
-              console.log("filter(s)[" + i + "]['values'] length = " + this.state.filters[i]["values"].length);
+              this.state.filters[i]["values"].splice(j, 1);
+              console.log("filters[" + i + "]['values'] length = " + this.state.filters[i]["values"].length);
             }
             console.log("After deleting, filter(s) length = " + this.state.filters.length);
             return;
@@ -203,8 +203,8 @@ class Query extends Component {
         let valArr = this.state.filters[i]["values"];
         valArr.push(val);
         this.state.filters[i] = {"attribute": att, "values": valArr};
-        console.log("filter(s)[" + i + "]['values'] length = " + this.state.filters[i]["values"].length);
-        console.log("filter(s) length = " + this.state.filters.length);
+        console.log("filters[" + i + "]['values'] length = " + this.state.filters[i]["values"].length);
+        console.log("filters length = " + this.state.filters.length);
         return;
       }
     } // end outer for loop
@@ -213,8 +213,7 @@ class Query extends Component {
     let tempValArray = new Array(val);
     let dict = {"attribute": att, "values": tempValArray};
     this.state.filters.push(dict);
-    console.log("filter(s) length = " + this.state.filters.length);
-    //this.state.filters[index]["values"] = val;
+    console.log("filters length = " + this.state.filters.length);
   }
 
   createTable() {
@@ -307,36 +306,3 @@ class Query extends Component {
 }
 
 export default Query;
-
-/*
-    <Form>
-      <ButtonGroup>
-        <ButtonDropdown isOpen={this.state.airportDropdownOpen} toggle={this.airportDropdownToggle} data-toggle="buttons" >
-          <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
-            Airport
-          </DropdownToggle>
-          <DropdownMenu>
-            {f0.map((filter, index) =>
-              <DropdownItem active={this.props.config.filters === filter} value={filter} key={index.toString()}>
-                {filter}
-              </DropdownItem>)}
-          </DropdownMenu>
-        </ButtonDropdown>
-      </ButtonGroup>
-    </Form>;
-      {' '}
-
-      <ButtonGroup>
-        <ButtonDropdown isOpen={this.state.continentDropdownOpen} toggle={this.continentDropdownToggle} data-toggle="buttons" >
-          <DropdownToggle caret style={{backgroundColor: "#1E4D28"}}>
-            Continent
-          </DropdownToggle>
-          <DropdownMenu>
-            {this.props.config.filters[1].map((filter, index) =>
-              <DropdownItem active={this.props.config.filters === filter} value={filter} key={index}>
-                {filter}
-              </DropdownItem>)}
-          </DropdownMenu>
-        </ButtonDropdown>
-      </ButtonGroup>
- */

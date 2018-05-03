@@ -56,7 +56,7 @@ public class Config {
         this.filters = new Filter[1];
 
         Filter f1 = new Filter();
-        f1.attribute = "type";
+        f1.attribute = "airports.type";
         f1.values = new String[7];
         f1.values[0] = "balloonport";
         f1.values[1] = "heliport";
