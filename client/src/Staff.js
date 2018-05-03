@@ -60,7 +60,7 @@ class Staff extends Component{
         <div className="row">
           <div className="col">
             <div className="card-body">
-              Ezra is a junior at Colorado State University studying Computer Science.
+              Ezra is a senior at Colorado State University studying Computer Science.
               He likes cars, gaming, and motocross.
             </div>
           </div>
