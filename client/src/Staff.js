@@ -38,7 +38,7 @@ class Staff extends Component{
             <div className="card-body">
                 Julien is a senior at Colorado State University studying
               Computer Science with a math minor. He loves gaming,
-              bicycles, and Avogadro's number.
+              bicycles, and Avogadros number.
             </div>
           </div>
         </div>
