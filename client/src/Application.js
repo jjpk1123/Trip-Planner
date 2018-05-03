@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Options from './Options';
 import Destinations from './Destinations';
 import Trip from './Trip';
+import Staff from './Staff';
 
 /**
  * Renders the application.
@@ -146,6 +147,9 @@ class Application extends Component {
                 port={this.state.port}
                 updateTrip={this.updateTrip}
                 updateTitle={this.updateTitle}/>
+        </div>
+        <div className="col-12">
+          <Staff/>
         </div>
       </div>
     </div>
