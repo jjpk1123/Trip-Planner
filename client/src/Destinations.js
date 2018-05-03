@@ -159,7 +159,7 @@ class Destinations extends Component {
         {"distance": "miles", "optimization": "none"}   //if v1: "none"
         : {"distance": "miles", "optimization": "0.0"}; //if v2: "0.0"
 
-  } 
+  }
 
   /**
    * Logs the optimization error message associated with the change
@@ -315,6 +315,7 @@ class Destinations extends Component {
           <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
             <Query  trip={this.props.trip}
                     query={this.props.query}
+                    config={this.props.config}
                     hostname={this.props.hostname}
                     port={this.props.port}
                     updateTrip={this.props.updateTrip}

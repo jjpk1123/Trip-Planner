@@ -21,29 +21,21 @@ public class Config {
     // The variables in this class should reflect TFFI.
     public String type;
     public int version;
-    public Dictionary[] filters;
-//    public List<Dictionary> filters;
+    public Filter[] filters;
     public String[] maps;
     public int optimization;
     public Dictionary[] optimizations;
     public String[] units;
-
-
-    //    optimization of 0 == {No opt]
-    //    optimization of 1 == [No opt, NN]
-    //    optimization of 2 == [No opt, NN, 2-opt]
-    //    optimization of 3 == [No opt, NN, 2-opt, 3-opt]
-
 
     /**
      * Called from REST API. Updates values of the server's configuration file
      */
     public void retrieveValues() {
         this.type = "config";
-        this.version = 3;                               // This value will change over time
+        this.version = 3;
         createTheFilterDictionary();
         this.maps = new String[]{"svg"};//{"svg", "kml"};
-        this.optimization = 3;                          // This value will change over time
+        this.optimization = 3;
         createTheOptDictionary();
         this.units = new String[]{"kilometers", "miles", "nautical miles", "user defined"};
     }
@@ -53,9 +45,7 @@ public class Config {
      * @return optLevel +1
      */
     public static int getOptimizationLevels() {
-        return (3) + 1;                                 // This value will change over time
-        // CS students start at 0
-        // level+1 "normalizes"
+        return (3) + 1;
     }
 
 
@@ -63,18 +53,31 @@ public class Config {
      * Instantiates the filter field and populates it with filters the server can filter
      */
     public void createTheFilterDictionary() {
-        this.filters = new Dictionary[1];//ArrayList<Dictionary>();
-        Dictionary<String, Object> filterDict = new Hashtable<>();
+        this.filters = new Filter[1];
 
-//        filterDict.put("attribute", "type");
-//        List<String> valuesArr = new ArrayList<String>();
-//        valuesArr.add("balloonport");
-//        valuesArr.add("heliport");
-//        valuesArr.add("airport");
-//        filterDict.put("values", valuesArr);
+        Filter f1 = new Filter();
+        f1.attribute = "airports.type";
+        f1.values = new String[7];
+        f1.values[0] = "balloonport";
+        f1.values[1] = "heliport";
+        f1.values[2] = "small_airport";
+        f1.values[3] = "seaplane_base";
+        f1.values[4] = "closed";
+        f1.values[5] = "medium_airport";
+        f1.values[6] = "large_airport";
+        this.filters[0] = f1;
 
-//        this.filters.add(filterDict);
-        this.filters[0] = filterDict;
+//        Filter f2 = new Filter();
+//        f2.attribute = "continents";
+//        f2.values = new ArrayList<>();
+//        f2.values.add("Africa");
+//        f2.values.add("Antarctica");
+//        f2.values.add("Asia");
+//        f2.values.add("Europe");
+//        f2.values.add("North America");
+//        f2.values.add("Oceania");
+//        f2.values.add("South America");
+//        this.filters.add(f2);
     }
 
     /**
@@ -84,9 +87,9 @@ public class Config {
      */
     public void createTheOptDictionary() {
         this.optimizations = new Dictionary[4];
-        this.optimizations = new Dictionary[4];
-        Dictionary<String, String> optDict = new Hashtable<>();
+        Dictionary<String, String> optDict;
 
+        optDict = new Hashtable<>();
         optDict.put("label", "No optimization");
         optDict.put("description", "Longest");
         this.optimizations[0] = optDict;

@@ -107,14 +107,9 @@ class Application extends Component {
    */
   async doTheConfig() {
     try {
-      //console.log("Awaiting response from server: Config");
       let serverResponse = await this.fetchConfigResponse();
       let config = await serverResponse.json();
-
-      //console.log(configTFFI);
       this.setState({config});
-//      console.log("Config:{\nversion=" + this.state.config.version + ", maps=[" + this.state.config.maps
-//          + "], opt=" + this.state.config.optimization + ", units=[" + this.state.config.units + "]\n}"); // debug
     } catch(err) {
       console.error("You hit an error in Application.js::async doTheConfig()");
       console.error(err);
@@ -127,6 +122,7 @@ class Application extends Component {
         <div className="col-lg-8 col-xl-8">
           <Destinations trip={this.state.trip}
                         query={this.state.query}
+                        config={this.state.config}
                         places={this.state.trip.places}
                         hostname={this.state.hostname}
                         port={this.state.port}

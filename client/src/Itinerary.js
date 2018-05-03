@@ -5,7 +5,6 @@ class Itinerary extends Component {
     super(props);
     this.unitsString = "";
     this.createTable = this.createTable.bind(this);
-    this.retrieveAlgorithm = this.retrieveAlgorithm.bind(this);
     this.getRoundTripDistance = this.getRoundTripDistance.bind(this);
   }
 
@@ -238,6 +237,5 @@ class Itinerary extends Component {
     </div>
   }
 }
-
 
 export default Itinerary;

@@ -22,8 +22,7 @@ public class Query{
     public String type;
     public int limit;
     public String query;
-    public Dictionary[] filters;
-//    public List<Dictionary> filters;
+    public Filter[] filters;
     public ArrayList<Place> places;
 
 /*
@@ -37,56 +36,104 @@ OR (region.name like '%Denver%')
 OR (airports.name like '%Denver%')
 OR (airports.municipality like '%Denver%')
 ORDER BY continents.name, country.name, region.name, airports.municipality, airports.name ASC;
-
- */
+*/
 
     /**
      * The top level method that does searching.
      */
     public void searchDatabase() {
         String count = "SELECT count(*) ";
-        String searchName = "SELECT airports.id, airports.name, airports.municipality, airports.type, "
+        String searchName =
+                "SELECT airports.id, airports.name, airports.municipality, airports.type, "
                 + "airports.latitude, airports.longitude, region.name, country.name, continents.name ";
-        String tableFormat = "FROM continents "
+        String tableFormat =
+                "FROM continents "
                 + "INNER JOIN country ON continents.id = country.continent "
                 + "INNER JOIN region ON country.id = region.iso_country "
                 + "INNER JOIN airports ON region.id = airports.iso_region ";
+
         count      += tableFormat;
         searchName += tableFormat;
 
-//        if (filters.size() == 0) {
-//        if (filters.length == 0) {
-            String search = "WHERE (country.name like '%" + query + "%') "
-                    + "OR (region.name like '%" + query + "%') "
-                    + "OR (airports.name like '%" + query + "%') "
-                    + "OR (airports.municipality like '%" + query + "%') "
-                    + "OR (airports.id = '" + query + "')";
+        if (this.filters.length != 0) {
+            String where = retrieveWhere(filters[0].attribute, filters[0].values, 0);
+            count += where;
+            searchName += where;
+        }
+        String search =
+                "WHERE (country.name like '%" + query + "%') "
+                        + "OR (region.name like '%" + query + "%') "
+                        + "OR (airports.name like '%" + query + "%') "
+                        + "OR (airports.municipality like '%" + query + "%') "
+                        + "OR (airports.id = '" + query + "')";
 
-            count      += search;
-            searchName += search;
-//        }
+        count      += search + " ";
+        searchName += search;
+
 //        else {
-//            for (int i = 0; i < filters.size(); ++i) {
-//                String where = "";
-//                Dictionary dict = filters.get(i);
-////                Object values = dict.get("value");
-//                List<String> values = dict.get("value");
+//            String extra = "";
+//            boolean countryName = false;
+//            boolean regionName = false;
+//            boolean airportsName = false;
+//            boolean airportsMunic = false;
+//            boolean airportsId = false;
 //
-//                if (dict.get("attribute") == "type") {
-//                    //where = retrieveWhere("airports.type", values, i);
+//            for (int i = 0; i < this.filters.length; ++i) {
+//                String where = "";
+//                Filter f1 = filters[i];
+//                String a1 = f1.attribute;
+//                String[] v1 = f1.values;
+//
+//                if (a1.equals("country.name")){
+//                    countryName = true;
 //                }
-//                else if (dict.get("attribute") == "continent") {
-//                    //where = retrieveWhere("continents.name", values, i);
+//                if (a1.equals("region.name")){
+//                    regionName = true;
 //                }
-//                else if (dict.get("attribute") == "")
+//                if (a1.equals("airports.name")){
+//                    airportsName = true;
+//                }
+//                if (a1.equals("airports.municipality")){
+//                    airportsMunic = true;
+//                }
+//                if (a1.equals("airports.id")){
+//                    airportsId = true;
+//                }
+//
+//                where = retrieveWhere(a1, v1, i);
+//
 //                count      += where;
 //                searchName += where;
 //            }
+//
+//            if (countryName) {
+//                extra += "AND (country.name like '%" + query + "%') ";
+//            }
+//            if (!regionName) {
+//                extra += "AND (region.name like '%" + query + "%') ";
+//            }
+//            if (!airportsName) {
+//                extra += "AND (airports.name like '%" + query + "%') ";
+//            }
+//            if (!airportsMunic) {
+//                extra += "AND (airports.municipality like '%" + query + "%') ";
+//            }
+//            if (!airportsId) {
+//                extra += "AND (airports.id = '" + query + "') ";
+//            }
+//
+//            count += extra;
+//            searchName += extra;
 //        }
 
-        count += ";";
-        searchName += " ORDER BY continents.name, country.name, region.name, airports.municipality,"
-                + " airports.name ASC;";
+        String limit = "LIMIT 31;";
+
+        count += limit;
+        searchName += " ORDER BY continents.name, country.name, region.name,"
+                + " airports.municipality, airports.name ASC " + limit;
+
+        System.out.println("count: " + count);
+        System.out.println("searN: " + searchName);
 
         try {
             Class.forName(myDriver);
@@ -105,20 +152,21 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
     }
 
     private String retrieveWhere(String attrib, String[] values, int index) {
-        String where;
-        if (index == 0)
-            where = "WHERE ";
-        else
-            where = "OR ";
+        String where = "";
+//        if (index == 0)
+//            where = "WHERE ";
+//        else
+//            where = "AND ";
 
         for (int i = 0; i < values.length; ++i) {
             String add = values[i];
-            if (i > 0) {
-                where += " OR ";
-            }
-            where += "(" + attrib + " = '" + add + "')";
+//            if (i > 0) {
+//                where += " AND ";
+//            }
+            where += "AND (" + attrib + " = '" + add + "')";
         }
-        return where;
+        System.out.println(where);
+        return " " + where;
     }
 
     private void printJSON(ResultSet count, ResultSet query1) throws SQLException {
