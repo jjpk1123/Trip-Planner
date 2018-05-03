@@ -64,6 +64,7 @@ class Query extends Component {
     let temp = this.props.query;
     temp.version = 3;
     temp.type = "query";
+    temp.limit = 31;
     temp.query = this.state.search;
     temp.places = [];
     this.props.updateQuery(temp);
@@ -157,7 +158,6 @@ class Query extends Component {
 
       for (let j = 0; j < this.props.config.filters[i]["values"].length; ++j) {
         let val = this.props.config.filters[i]["values"][j];
-        // console.log(val);
 
         if (val === event.target.id) {
           this.addToFilter(att, val);
@@ -178,22 +178,20 @@ class Query extends Component {
 
         for (let j = 0; j < this.state.filters[i]["values"].length; ++j) {
           let currVal = this.state.filters[i]["values"][j];
-          console.log("Maybe it's " + currVal + " ?");
 
           if (currVal === val) {
-            // console.log(this.state.filters[i]["values"]);
 
             if (this.state.filters[i]["values"].length === 1) {
-              console.log("Nothing left in '" + att + "', so I'm deleting it");
+              console.log("Nothing left in '" + att + "', so I'm deleting the entire entry");
               this.state.filters.splice(i, 1);
-
             }
             else {
               console.log("Removing " + this.state.filters[i]["values"][j] + " from filters['" + att + "'].");
               this.state.filters[i]["values"].splice(j, 1);
               console.log("filters[" + i + "]['values'] length = " + this.state.filters[i]["values"].length);
             }
-            console.log("After deleting, filter(s) length = " + this.state.filters.length);
+
+            // console.log("After deleting, filter(s) length = " + this.state.filters.length);
             return;
           }
         } // end inner for loop
@@ -203,8 +201,8 @@ class Query extends Component {
         let valArr = this.state.filters[i]["values"];
         valArr.push(val);
         this.state.filters[i] = {"attribute": att, "values": valArr};
-        console.log("filters[" + i + "]['values'] length = " + this.state.filters[i]["values"].length);
-        console.log("filters length = " + this.state.filters.length);
+        // console.log("filters[" + i + "]['values'] length = " + this.state.filters[i]["values"].length);
+        // console.log("filters length = " + this.state.filters.length);
         return;
       }
     } // end outer for loop
@@ -248,16 +246,16 @@ class Query extends Component {
 
   render() {
     let table = this.createTable();
-    let unique = 0;
+    let unique = 0; // not using the key, just makes the warning/errors disappear
 
     const filterForm =
     <div className="filters">
       <form>
           {this.props.config.filters.map((filter) =>
-            <div>
-              <label> {filter["attribute"]} </label>
+            <div key={unique++}>
+              <label> [{filter["attribute"]}] </label>
               {filter.values.map((val) =>
-                <div>
+                <div key={unique++}>
                   <input className="checkbox" type="checkbox" key={val} id={val} onClick={this.addFilter}/>
                   <label key={unique++}> {val} </label>
                 </div>)}

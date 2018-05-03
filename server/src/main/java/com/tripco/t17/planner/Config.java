@@ -53,7 +53,7 @@ public class Config {
      * Instantiates the filter field and populates it with filters the server can filter
      */
     public void createTheFilterDictionary() {
-        this.filters = new Filter[1];
+        this.filters = new Filter[2];
 
         Filter f1 = new Filter();
         f1.attribute = "airports.type";
@@ -67,17 +67,17 @@ public class Config {
         f1.values[6] = "large_airport";
         this.filters[0] = f1;
 
-//        Filter f2 = new Filter();
-//        f2.attribute = "continents";
-//        f2.values = new ArrayList<>();
-//        f2.values.add("Africa");
-//        f2.values.add("Antarctica");
-//        f2.values.add("Asia");
-//        f2.values.add("Europe");
-//        f2.values.add("North America");
-//        f2.values.add("Oceania");
-//        f2.values.add("South America");
-//        this.filters.add(f2);
+        Filter f2 = new Filter();
+        f2.attribute = "continents.name";
+        f2.values = new String[7];
+        f2.values[0] = "Africa";
+        f2.values[1] = "Antarctica";
+        f2.values[2] = "Asia";
+        f2.values[3] = "Europe";
+        f2.values[4] = "North America";
+        f2.values[5] = "Oceania";
+        f2.values[6] = "South America";
+        this.filters[1] = f2;
     }
 
     /**
