@@ -53,8 +53,9 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
         count      += tableFormat;
         searchName += tableFormat;
 
-        if (filters.length == 0) {
-            String search = "WHERE (country.name like '%" + query + "%') "
+        if (this.filters.length == 0) {
+            String search =
+                    "WHERE (country.name like '%" + query + "%') "
                     + "OR (region.name like '%" + query + "%') "
                     + "OR (airports.name like '%" + query + "%') "
                     + "OR (airports.municipality like '%" + query + "%') "
@@ -62,9 +63,13 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
 
             count      += search;
             searchName += search;
+
+            count += ";";
+            searchName += " ORDER BY continents.name, country.name, region.name,"
+                    + " airports.municipality, airports.name ASC;";
         }
         else {
-            for (int i = 0; i < filters.length; ++i) {
+            for (int i = 0; i < this.filters.length; ++i) {
                 String where = "";
                 Filter f = filters[i];
                 String a = f.attribute;
@@ -79,11 +84,13 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
                 count      += where;
                 searchName += where;
             }
+
+            count += ";";
+            searchName += ";";
         }
 
-        count += ";";
-        searchName += " ORDER BY continents.name, country.name, region.name,"
-            + " airports.municipality, airports.name ASC;";
+        System.out.println("count: " + count);
+        System.out.println("searN: " + searchName);
 
         try {
             Class.forName(myDriver);

@@ -1,79 +1,49 @@
 import React, {Component} from 'react';
-import { Table } from 'reactstrap';
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Table, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 class Query extends Component {
   constructor(props) {
     super(props);
-    this.fetchQuery = this.fetchQuery.bind(this);
-    //this.dropdownToggle = this.dropdownToggle.bind(this);
     this.modalSubmit = this.modalSubmit.bind(this);
     this.modalToggle = this.modalToggle.bind(this);
     this.modalCancel = this.modalCancel.bind(this);
+    this.state = {
+      search: "",
+      dropdownOpen: false,
+      modal: false,
+      filters: []
+    };
+    this.fetchQuery = this.fetchQuery.bind(this);
+    this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
     this.addAll = this.addAll.bind(this);
     this.addToTrip = this.addToTrip.bind(this);
     this.createTable = this.createTable.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
     this.removeFromTrip = this.removeFromTrip.bind(this);
-    this.fetchQueryResponse = this.fetchQueryResponse.bind(this);
-    this.airportDropdownToggle = this.airportDropdownToggle.bind(this);
-    this.continentDropdownToggle = this.continentDropdownToggle.bind(this);
-    this.search = "";
-    this.state = {
-      airportDropdownOpen: false,
-      continentDropdownOpen: false,
-      dropdownOpen: false,
-      modal: false
-    };
-  }
-
-  airportDropdownToggle() {
-    this.setState({
-      airportDropdownOpen: !this.state.airportDropdownOpen
-    });
-  }
-
-  continentDropdownToggle() {
-    this.setState({
-      continentDropdownOpen: !this.state.continentDropdownOpen
-    });
+    this.addFilter = this.addFilter.bind(this);
+    this.addToFilter = this.addToFilter.bind(this);
   }
 
   modalToggle() {
     this.setState({modal: !this.state.modal});
   }
 
-  updateSearch(event) {
-    this.search = event.target.value;
-    console.log("Search: " + this.search);
-  }
+  modalSubmit() {
+    let temp = this.props.query;
+    temp.filters = this.state.filters;
 
-  modalSubmit(event) {
-    let tempTrip = this.props.query;
+    this.props.updateQuery(temp);
     this.modalToggle();
   }
 
   modalCancel() {
-    //Close the dang thang
     this.modalToggle();
   }
 
-  fetchQueryResponse() {
-    let requestBody = {
-      "version" : 3,
-      "type"    : "query",
-      "query"   : this.search,
-      "places"  : []
-    };
-    console.log(process.env.SERVICE_URL);
-    console.log(requestBody);
-
-    return fetch('http://' +  this.props.hostname + ':' + this.props.port  + '/query', {
-      method:"POST",
-      body: JSON.stringify(requestBody)
-    });
+  updateSearch(event) {
+    this.state.search = event.target.value;
+    console.log("Search: " + this.state.search);
   }
 
   async fetchQuery() {
@@ -90,10 +60,26 @@ class Query extends Component {
     }
   }
 
+  fetchQueryResponse() {
+    let temp = this.props.query;
+    temp.version = 3;
+    temp.type = "query";
+    temp.query = this.state.search;
+    temp.places = [];
+    this.props.updateQuery(temp);
+    console.log(process.env.SERVICE_URL);
+    console.log(this.props.query);
+
+    return fetch('http://' +  this.props.hostname + ':' + this.props.port  + '/query', {
+      method:"POST",
+      body: JSON.stringify(this.props.query)
+    });
+  }
+
   /**
    * Adds all in query.places[] into trip.places[]
    */
-  addAll(event) {
+  addAll() {
     for (let i = 0; i < this.props.query.places.length; ++i) {
       let temp = this.props.query.places[i];
       let add = true;
@@ -163,6 +149,74 @@ class Query extends Component {
     console.log(placeToRem.name + " isn't even in the trip!");
   }
 
+  addFilter(event) {
+    // console.log("Finding " + event.target.id);
+
+    for (let i = 0; i < this.props.config.filters.length; ++i) {
+      let att = this.props.config.filters[i]["attribute"];
+
+      for (let j = 0; j < this.props.config.filters[i]["values"].length; ++j) {
+        let val = this.props.config.filters[i]["values"][j];
+        // console.log(val);
+
+        if (val === event.target.id) {
+          this.addToFilter(att, val);
+          return;
+        }
+      }
+    }
+  }
+
+  addToFilter(att, val) {
+    let index = -1;
+    let attributeExists = false;
+    for (let i = 0; i < this.state.filters.length; ++i) {
+
+      if (this.state.filters[i]["attribute"] === att) {
+        index = i;
+        attributeExists = true;
+
+        for (let j = 0; j < this.state.filters[i]["values"].length; ++j) {
+          let currVal = this.state.filters[i]["values"][j];
+          console.log("Maybe it's " + currVal + " ?");
+
+          if (currVal === val) {
+            // console.log(this.state.filters[i]["values"]);
+
+            if (this.state.filters[i]["values"].length === 1) {
+              console.log("Nothing left in '" + att + "', so I'm deleting it");
+              this.state.filters.splice(i, 1);
+
+            }
+            else {
+              console.log("Removing " + this.state.filters[i]["values"][j] + " from filters['" + att + "'].");
+              delete this.state.filters[i]["values"][j];
+              console.log("filter(s)[" + i + "]['values'] length = " + this.state.filters[i]["values"].length);
+            }
+            console.log("After deleting, filter(s) length = " + this.state.filters.length);
+            return;
+          }
+        } // end inner for loop
+
+        //the attribute exists, but the target value is not in there
+
+        let valArr = this.state.filters[i]["values"];
+        valArr.push(val);
+        this.state.filters[i] = {"attribute": att, "values": valArr};
+        console.log("filter(s)[" + i + "]['values'] length = " + this.state.filters[i]["values"].length);
+        console.log("filter(s) length = " + this.state.filters.length);
+        return;
+      }
+    } // end outer for loop
+    console.log("Making new Array for " + att);
+
+    let tempValArray = new Array(val);
+    let dict = {"attribute": att, "values": tempValArray};
+    this.state.filters.push(dict);
+    console.log("filter(s) length = " + this.state.filters.length);
+    //this.state.filters[index]["values"] = val;
+  }
+
   createTable() {
     let i = -1;
     let queryResults = this.props.query.places.map((item) =>
@@ -197,16 +251,23 @@ class Query extends Component {
     let table = this.createTable();
     let unique = 0;
 
-    // const filterForm = <form>
-    //   {this.props.config.filters.map((filter, index) =>
-    //       {<h6> {filter["attribute"]} </h6>},
-    //       {filter.get("values").map((val, index) =>
-    //         <div>
-    //           <input type="checkbox" id={unique++} />
-    //           <label>{filter.get("attribute")}</label>
-    //         </div>)}
-    //   )}
-    // </form>;
+    const filterForm =
+    <div className="filters">
+      <form>
+          {this.props.config.filters.map((filter) =>
+            <div>
+              <label> {filter["attribute"]} </label>
+              {filter.values.map((val) =>
+                <div>
+                  <input className="checkbox" type="checkbox" key={val} id={val} onClick={this.addFilter}/>
+                  <label key={unique++}> {val} </label>
+                </div>)}
+
+              <br />
+            </div>
+          )}
+      </form>
+    </div>;
 
 
     const filterModal = <div>
@@ -214,7 +275,7 @@ class Query extends Component {
       <Modal isOpen={this.state.modal} toggle={this.modalToggle} className={this.props.className}>
         <ModalHeader toggle = {this.modalToggle}>Apply your desired filters below.</ModalHeader>
         <ModalBody>
-          {/*{filterForm}*/}
+          {filterForm}
         </ModalBody>
         <ModalFooter>
           <Button style={{backgroundColor: "#1E4D28"}} onClick={this.modalSubmit}>Submit</Button>

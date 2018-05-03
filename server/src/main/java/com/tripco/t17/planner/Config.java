@@ -65,6 +65,7 @@ public class Config {
         f1.values[4] = "closed";
         f1.values[5] = "medium_airport";
         f1.values[6] = "large_airport";
+        this.filters[0] = f1;
 
 //        Filter f2 = new Filter();
 //        f2.attribute = "continents";
