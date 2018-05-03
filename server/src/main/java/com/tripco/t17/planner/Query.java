@@ -35,6 +35,10 @@ WHERE (country.name like '%Denver%')
 OR (region.name like '%Denver%')
 OR (airports.name like '%Denver%')
 OR (airports.municipality like '%Denver%')
+<//optional elements//
+    AND airports.type = ___value___
+    AND ...
+>
 ORDER BY continents.name, country.name, region.name, airports.municipality, airports.name ASC;
 */
 
@@ -56,10 +60,13 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
         searchName += tableFormat;
 
         if (this.filters.length != 0) {
-            String where = retrieveWhere(filters[0].attribute, filters[0].values, 0);
-            count += where;
-            searchName += where;
+            for (int i = 0; i < this.filters.length; ++i) {
+                String where = retrieveWhere(filters[i].attribute, filters[i].values);
+                count += where;
+                searchName += where;
+            }
         }
+
         String search =
                 "WHERE (country.name like '%" + query + "%') "
                         + "OR (region.name like '%" + query + "%') "
@@ -70,63 +77,7 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
         count      += search + " ";
         searchName += search;
 
-//        else {
-//            String extra = "";
-//            boolean countryName = false;
-//            boolean regionName = false;
-//            boolean airportsName = false;
-//            boolean airportsMunic = false;
-//            boolean airportsId = false;
-//
-//            for (int i = 0; i < this.filters.length; ++i) {
-//                String where = "";
-//                Filter f1 = filters[i];
-//                String a1 = f1.attribute;
-//                String[] v1 = f1.values;
-//
-//                if (a1.equals("country.name")){
-//                    countryName = true;
-//                }
-//                if (a1.equals("region.name")){
-//                    regionName = true;
-//                }
-//                if (a1.equals("airports.name")){
-//                    airportsName = true;
-//                }
-//                if (a1.equals("airports.municipality")){
-//                    airportsMunic = true;
-//                }
-//                if (a1.equals("airports.id")){
-//                    airportsId = true;
-//                }
-//
-//                where = retrieveWhere(a1, v1, i);
-//
-//                count      += where;
-//                searchName += where;
-//            }
-//
-//            if (countryName) {
-//                extra += "AND (country.name like '%" + query + "%') ";
-//            }
-//            if (!regionName) {
-//                extra += "AND (region.name like '%" + query + "%') ";
-//            }
-//            if (!airportsName) {
-//                extra += "AND (airports.name like '%" + query + "%') ";
-//            }
-//            if (!airportsMunic) {
-//                extra += "AND (airports.municipality like '%" + query + "%') ";
-//            }
-//            if (!airportsId) {
-//                extra += "AND (airports.id = '" + query + "') ";
-//            }
-//
-//            count += extra;
-//            searchName += extra;
-//        }
-
-        String limit = "LIMIT 31;";
+        String limit = "LIMIT " + this.limit + ";";
 
         count += limit;
         searchName += " ORDER BY continents.name, country.name, region.name,"
@@ -151,19 +102,11 @@ ORDER BY continents.name, country.name, region.name, airports.municipality, airp
         }
     }
 
-    private String retrieveWhere(String attrib, String[] values, int index) {
+    private String retrieveWhere(String attrib, String[] values) {
         String where = "";
-//        if (index == 0)
-//            where = "WHERE ";
-//        else
-//            where = "AND ";
-
         for (int i = 0; i < values.length; ++i) {
             String add = values[i];
-//            if (i > 0) {
-//                where += " AND ";
-//            }
-            where += "AND (" + attrib + " = '" + add + "')";
+            where += "AND (" + attrib + " = '" + add + "') ";
         }
         System.out.println(where);
         return " " + where;
